@@ -1097,6 +1097,7 @@
 <ref refid="5778517d-f04c-11ef-9c7a-b42e994920f6"/>
 <ref refid="b2d99376-f04c-11ef-a175-b42e994920f6"/>
 <ref refid="bc7bf61a-f04c-11ef-adc1-b42e994920f6"/>
+<ref refid="1122472e-f220-11ef-8622-b42e994920f6"/>
 <ref refid="52b20c93-f04c-11ef-8bd1-b42e994920f6"/>
 <ref refid="612ffa57-f04c-11ef-bb2b-b42e994920f6"/>
 <ref refid="63443bc8-f04c-11ef-8da5-b42e994920f6"/>
@@ -1107,6 +1108,8 @@
 <ref refid="f26c9e4c-f04c-11ef-a221-b42e994920f6"/>
 <ref refid="f5196f53-f04c-11ef-b223-b42e994920f6"/>
 <ref refid="f732355d-f04c-11ef-8def-b42e994920f6"/>
+<ref refid="1807debc-f220-11ef-aafc-b42e994920f6"/>
+<ref refid="1a580908-f220-11ef-927d-b42e994920f6"/>
 </reflist>
 </ownedPresentation>
 </UML:UseCaseDiagram>
@@ -1624,6 +1627,70 @@
 </matrix>
 <points>
 <val>[(0.0, 0.0), (268.0, 143.0)]</val>
+</points>
+</general:Line>
+<UML:UseCase id="111e8bd7-f220-11ef-a5ce-b42e994920f6">
+<name>
+<val>Action Pontok Visszatöltése</val>
+</name>
+<presentation>
+<reflist>
+<ref refid="1122472e-f220-11ef-8622-b42e994920f6"/>
+</reflist>
+</presentation>
+</UML:UseCase>
+<UML:UseCaseItem id="1122472e-f220-11ef-8622-b42e994920f6">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 211.91947565543072, 547.5)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>100.0</val>
+</width>
+<height>
+<val>62.0</val>
+</height>
+<diagram>
+<ref refid="1990c325-f04c-11ef-933c-b42e994920f6"/>
+</diagram>
+<subject>
+<ref refid="111e8bd7-f220-11ef-a5ce-b42e994920f6"/>
+</subject>
+</UML:UseCaseItem>
+<general:Line id="1807debc-f220-11ef-aafc-b42e994920f6">
+<diagram>
+<ref refid="1990c325-f04c-11ef-933c-b42e994920f6"/>
+</diagram>
+<horizontal>
+<val>0</val>
+</horizontal>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 42.919475655430716, 302.5)</val>
+</matrix>
+<points>
+<val>[(0.0, 0.0), (169.0, 276.0)]</val>
+</points>
+</general:Line>
+<general:Line id="1a580908-f220-11ef-927d-b42e994920f6">
+<diagram>
+<ref refid="1990c325-f04c-11ef-933c-b42e994920f6"/>
+</diagram>
+<horizontal>
+<val>0</val>
+</horizontal>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 310.9194756554307, 579.5)</val>
+</matrix>
+<points>
+<val>[(0.0, 0.0), (271.0805243445693, -302.5)]</val>
 </points>
 </general:Line>
 </model>
