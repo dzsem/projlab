@@ -1,0 +1,44 @@
+@startuml Insect
+title Insect
+
+title "Insect"
+
+participant "i: Insect" as insect
+participant "i.tecton: Tecton" as t1
+participant "to: Tecton" as t2
+
+-> insect: moveToTecton(to)
+activate insect
+
+insect -> t1: hasThreadTo(to)
+deactivate insect
+activate t1
+
+t1 --> insect: bool
+deactivate t1
+activate insect
+
+opt van fonál a két tekton között
+	insect -> t1: unregisterInsect(i)
+	deactivate insect
+	activate t1
+
+	t1 --> insect
+	deactivate t1
+	activate insect
+
+	insect -> t2: registerInsect(i)
+	deactivate insect
+	activate t2
+
+	t2 --> insect
+	deactivate t2
+	activate insect
+
+	insect -> insect: i.tecton = to
+end
+
+<-- insect
+deactivate insect
+
+@enduml
