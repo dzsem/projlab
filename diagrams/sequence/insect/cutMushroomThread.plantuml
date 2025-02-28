@@ -1,0 +1,32 @@
+@startuml Insect.cutMushroomThread
+
+participant "i: Insect" as insect
+participant "cmt: ConnectingMushroomThread" as cmt
+
+-> insect: cutMushroomThread(cmt)
+activate insect
+
+insect -> cmt: isConnectingTecton(i.tecton)
+deactivate insect
+activate cmt
+
+insect <-- cmt: bool
+deactivate cmt
+activate insect
+
+alt van ilyen gombafonál
+	' itt a destroy feladata az is, hogy eltávolítsa magát
+	' a MT-k listáiból
+	insect -> cmt: destroy()
+	deactivate insect
+	activate cmt
+
+	insect <-- cmt
+	destroy cmt
+	activate insect
+
+	<-- insect
+else
+	<-- insect: exception
+end
+@enduml
