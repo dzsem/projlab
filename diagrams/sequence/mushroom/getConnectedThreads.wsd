@@ -15,22 +15,6 @@ deactivate parent
 body -> connectedThreads : instantiate
 activate connectedThreads
 
-    loop for each thread in threads
-        body -> thread: getConnections()
-
-        activate thread
-        thread --> body : connections: MushroomThread[0..*]
-        deactivate thread
-
-        loop for each connection in connections
-            opt connectedThreads does not have connection
-                body -> connectedThreads : add(connection)
-                connectedThreads --> body
-                deactivate connectedThreads
-            end
-
-        end
-    end
 
 <-- body : connectedThreads
 deactivate body

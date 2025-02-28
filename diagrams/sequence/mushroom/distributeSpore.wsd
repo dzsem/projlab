@@ -2,6 +2,7 @@
 participant "body: MushroomBody" as body
 participant "tecton: Tecton" as tecton
 participant "neighbour: Tecton" as neighbour
+participant "parent: Mushroom" as parent
 
 -> body : distributeSpores()
 activate body
@@ -18,6 +19,17 @@ deactivate tecton
         neighbour --> body 
         deactivate neighbour
 
+    end
+
+    opt if body.remainingSpore == 0
+        body -> parent : removeBody(body)
+        activate parent
+        parent --> body
+        deactivate parent
+        body -> tecton : removeBody(body)
+        activate tecton
+        tecton --> body
+        deactivate tecton
     end
 
 <-- body
