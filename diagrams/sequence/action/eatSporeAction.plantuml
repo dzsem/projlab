@@ -1,0 +1,18 @@
+@startuml EatSporeAction.perform
+
+participant "action: EatSporeAction" as mi_action
+participant "action.i: Insect" as insect
+
+-> mi_action: perform()
+activate mi_action
+
+mi_action -> insect: eatMushroomSpore()
+activate insect
+
+mi_action <-- insect
+deactivate insect
+
+<-- mi_action
+deactivate mi_action
+
+@enduml
