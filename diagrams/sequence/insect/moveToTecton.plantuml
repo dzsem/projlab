@@ -1,4 +1,4 @@
-@startuml Insect
+@startuml Insect.moveToTecton
 
 participant "i: Insect" as insect
 participant "i.tecton: Tecton" as t1
