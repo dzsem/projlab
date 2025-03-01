@@ -23,7 +23,7 @@ loop for each thread
 	deactivate insect
 	activate mi_action
 
-	insect <-- mi_action
+	insect <-- mi_action: moveInsectActionResult
 	deactivate mi_action
 	activate insect
 
@@ -31,9 +31,11 @@ loop for each thread
 	deactivate insect
 	activate ct_action
 
-	insect <-- ct_action
+	insect <-- ct_action: cutThreadActionResult
 	deactivate ct_action
 	activate insect
+
+	insect -> insect: result += moveInsectActionResult + cutThreadActionResult
 
 end
 
@@ -41,21 +43,23 @@ insect -> tecton: getSpores()
 deactivate insect
 activate tecton
 
-insect <-- tecton: MushroomSpore[]
+insect <-- tecton: spores
 deactivate tecton
 activate insect
 
-opt tecton has spores
+opt spores is not empty
 	insect -> es_action: Instantiate(i, i.tecton)
 	deactivate insect
 	activate es_action
 
-	insect <-- es_action
+	insect <-- es_action: eatSporeAction
 	deactivate es_action
 	activate insect
+
+	insect -> insect: result += eatSporeAction
 end
 
-<-- insect: Action[]
+<-- insect: result: Action[]
 deactivate insect
 
 @enduml
