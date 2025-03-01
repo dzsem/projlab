@@ -1,0 +1,28 @@
+@startuml hasMoreActionsInsectologist
+
+participant "p: Player" as p
+collections "insects: Insect" as ins
+
+-> p : hasMoreActions()
+activate p
+    
+loop for insect in insects
+    alt no action
+        p -> ins : getActions()
+        activate ins
+
+        p <-- ins : result |= false
+    else 
+        p <-- ins : result |= true
+        deactivate ins
+    end
+end
+
+
+
+
+
+<-- p : result
+deactivate p
+
+@enduml

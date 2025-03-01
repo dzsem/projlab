@@ -1,0 +1,42 @@
+@startuml hasMoreActionsMycologist
+
+participant "p: Player" as p
+participant "m: Mushroom" as m
+collections "mt: MushroomThread" as mt
+collections "mb: MushroomBody" as mb
+
+-> p : hasMoreActions()
+activate p
+    
+p -> m : getThreadActions()
+activate m
+
+loop foreach thread in m.threads
+    m -> mt : getActions()
+    activate mt
+
+    m <-- mt : threadActions
+    deactivate mt
+end
+
+loop foreach body in m.bodies
+    m -> mb : getActions()
+    activate mb
+
+    m <-- mb : bodyActions
+    deactivate mb
+end
+
+p <-- m: allActions = threadActions + bodyActions
+deactivate m
+
+alt no actions
+    p -> p : result = false
+else
+    p -> p : result = true
+end
+
+<-- p : result
+deactivate p
+
+@enduml

@@ -1,0 +1,11 @@
+@startuml passRound
+
+participant "p: Player" as p
+
+-> p
+activate p
+
+<-- p
+deactivate p
+
+@enduml
