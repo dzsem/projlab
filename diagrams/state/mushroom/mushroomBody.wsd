@@ -1,6 +1,8 @@
 @startuml Mushroom Body Statechart
 hide empty description
 
+state Alive {
+
 state NewMushroomBody
 state NormalMushroomBody
 state AdvancedMushroomBody
@@ -8,6 +10,13 @@ state AdvancedMushroomBody
 [*] -> NewMushroomBody
 NewMushroomBody -down-> NormalMushroomBody : [age >= normalAge]
 NormalMushroomBody -down-> AdvancedMushroomBody : [age >= advancedAge]
-AdvancedMushroomBody -> [*]
+}
+
+state Dead
+
+Alive -> Alive: distibuteSpore() / sporesRemaining--;
+Alive -down-> Dead: [sporesRemaining <= 0]
+
+Dead -> [*]
 
 @enduml
