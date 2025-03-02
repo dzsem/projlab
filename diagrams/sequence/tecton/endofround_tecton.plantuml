@@ -5,9 +5,9 @@ participant "t: Tecton" as tecton
 -> tecton: onEndOfTheRound()
 activate tecton
 
-
+opt random generated number lower than splitchance
 tecton -> tecton: split()
-
+end
 <-- tecton
 deactivate tecton
 @enduml
