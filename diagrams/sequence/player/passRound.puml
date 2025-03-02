@@ -1,9 +1,16 @@
-@startuml passRound
+@startuml Player.passRound
 
 participant "p: Player" as p
+participant "p.game: Game" as g
 
--> p
+-> p: passRound()
 activate p
+
+p -> g: nextSmallRound()
+activate g
+
+p <-- g
+deactivate g
 
 <-- p
 deactivate p
