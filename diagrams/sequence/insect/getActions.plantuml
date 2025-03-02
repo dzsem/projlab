@@ -48,7 +48,7 @@ deactivate tecton
 activate insect
 
 opt spores is not empty
-	insect -> es_action: Instantiate(i, i.tecton)
+	insect -> es_action: Instantiate(i)
 	deactivate insect
 	activate es_action
 
