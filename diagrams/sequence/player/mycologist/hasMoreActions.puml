@@ -19,6 +19,8 @@ loop foreach thread in m.threads
     deactivate mt
 end
 
+p -> m : getBodyActions()
+
 loop foreach body in m.bodies
     m -> mb : getActions()
     activate mb
