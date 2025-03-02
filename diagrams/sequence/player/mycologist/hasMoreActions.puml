@@ -2,43 +2,21 @@
 
 participant "p: Player" as p
 participant "m: Mushroom" as m
-collections "mt: MushroomThread" as mt
-collections "mb: MushroomBody" as mb
 
 -> p : hasMoreActions()
 activate p
     
-p -> m : getThreadActions()
+p -> m : getActions()
 activate m
 
-loop foreach thread in m.threads
-    m -> mt : getActions()
-    activate mt
-
-    m <-- mt : threadActions
-    deactivate mt
-end
-
-p -> m : getBodyActions()
-
-loop foreach body in m.bodies
-    m -> mb : getActions()
-    activate mb
-
-    m <-- mb : bodyActions
-    deactivate mb
-end
-
-p <-- m: allActions = threadActions + bodyActions
+p <-- m : actions
 deactivate m
 
 alt no actions
-    p -> p : result = false
-else
-    p -> p : result = true
+    <-- p : false
 end
 
-<-- p : result
+<-- p : true
 deactivate p
 
 @enduml
