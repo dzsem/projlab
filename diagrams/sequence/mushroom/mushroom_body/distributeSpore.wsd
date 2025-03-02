@@ -1,27 +1,52 @@
 @startuml DistributeSpore
 participant "body: MushroomBody" as body
-participant "tecton: Tecton" as tecton
-participant "neighbour: Tecton" as neighbour
+participant "body.tecton: Tecton" as tecton
+participant "tectonToSpore: Tecton" as tectonToSpore
 participant "parent: Mushroom" as parent
+collections "tectonsToSpore: Tecton[0..*]" as tectons
 
 -> body : distributeSpores()
 activate body
 
 body -> tecton : getNeighbours()
 
+
 activate tecton
 tecton --> body : neighbours: Tecton[0..*]
 deactivate tecton
 
-    loop for each neighbour in neighbours
-        body -> neighbour : addSpore(spore: Spore)
-        activate neighbour
-        neighbour --> body 
-        deactivate neighbour
+    opt age >= normalAge
+        body -> tectons: addAll(neighbours);
+        activate tectons
+        tectons --> body
+        deactivate tectons
+    end 
+
+    opt age >= advancedAge
+        loop for each neighbour in neighbours
+            opt !tectonsToSpore.contains(neighbour)
+                body -> tectons: tectonsToSpore.add(neighbour)
+                activate tectons
+                tectons --> body
+                deactivate tectons
+            end
+        end
+    end
+
+    body -> tectons: add(body.tecton)
+    activate tectons
+    tectons --> body
+    deactivate tectons
+
+    loop for each tectonToSpore in tectonsToSpore
+        body -> tectonToSpore : addSpore(spore: Spore)
+        activate tectonToSpore
+        tectonToSpore --> body 
+        deactivate tectonToSpore
 
     end
 
-    opt if body.remainingSpore == 0
+    opt body.remainingSpore == 0
         body -> parent : removeBody(body)
         activate parent
         parent --> body
