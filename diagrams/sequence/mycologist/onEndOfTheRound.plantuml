@@ -11,8 +11,22 @@ activate m
 
 loop for each thread
 	create participant Thread
-	m -> Thread: dieIfUnconnected()
+	m -> Thread: isConnectedToBody()
 	activate Thread
+	m <-- Thread: result
+
+	alt is not connected to body
+		m -> Thread: decreaseTurnsToDie()
+		m <-- Thread
+	else
+		m -> Thread: resetTurnsToDie()
+		m <-- Thread
+
+		m -> Thread: grow()
+		m <-- Thread
+	end
+
+	m -> Thread: dieIfUnconnected()
 	m <-- Thread
 	deactivate Thread
 end
