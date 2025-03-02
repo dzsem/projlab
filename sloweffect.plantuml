@@ -1,0 +1,25 @@
+@startuml Insect.eatMeatMushroomSpore
+
+participant "SlowEffect" as effect
+
+participant "Insect" as insect
+
+
+
+
+-> effect : applyEffect(Insect)
+activate effect
+
+effect->insect:subRemainingActionPoints()
+activate insect
+
+effect<--insect
+deactivate insect
+
+<--effect
+deactivate effect
+
+
+
+
+@enduml
