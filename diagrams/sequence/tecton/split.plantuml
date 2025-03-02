@@ -1,0 +1,29 @@
+@startuml split_sequence
+
+participant "t: Tecton" as tecton
+participant "nt: New Tecton" as newtecton
+participant "mt: Mushroom Thread" as thread
+
+-> tecton: split()
+activate tecton
+
+tecton -> newtecton: Instantiate()
+activate newtecton
+
+newtecton --> tecton
+deactivate newtecton
+
+loop for each MushroomThread in mushroomThreads[]
+
+tecton -> thread: cut()
+activate thread
+
+thread --> tecton
+deactivate thread
+
+end
+
+<-- tecton
+deactivate tecton
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml Game.nextRound
+
+participant "g: Game" as g
+participant "t: Tecton" as t
+participant "p: Player" as p
+
+-> g: nextRound()
+activate g
+note right: a nagy körök végén
+
+loop for each tecton
+	g -> t: onEndOfTheRound()
+	activate t
+
+	g <-- t
+	deactivate t
+end
+
+loop for each player
+	g -> p: onEndOfTheRound()
+	activate p
+
+	g <-- p
+	deactivate p
+end
+
+g -> g: increment bigRoundsPlayed
+
+opt bigRoundsPlayed is greater than maxRounds
+	g -> g: gameOver()
+	activate g
+	deactivate g
+end
+
+<-- g
+deactivate g
+
+@enduml

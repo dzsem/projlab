@@ -1,0 +1,22 @@
+@startuml GetConectedThreads
+participant "body: MushroomBody" as body
+participant "parent: Mushroom" as parent
+participant "thread: MushroomThread" as thread
+collections "connectedThreads: MushroomThread[0..*]" as connectedThreads
+
+-> body : getConnnectedThreads()
+activate body
+
+body -> parent : getThreads()
+activate parent
+parent --> body : threads: MushroomThread[0..*]
+deactivate parent
+
+body -> connectedThreads : instantiate
+activate connectedThreads
+
+
+<-- body : connectedThreads
+deactivate body
+
+@enduml
