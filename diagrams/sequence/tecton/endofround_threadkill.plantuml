@@ -1,0 +1,34 @@
+@startuml endofround_threadkill
+
+participant "t: ThreadKillingTecton" as tecton
+participant "mt: MushroomThread" as thread
+
+-> tecton: onEndOfTheRound()
+activate tecton
+
+alt random generated number lower then splitChance
+
+tecton -> tecton: split()
+
+else
+
+loop for every mt: MushrromThread in mushroomThreads[]
+opt random generated number lower than killChance
+
+tecton -> tecton: killMushroomThread(mt)
+activate tecton
+
+tecton -> thread: cut()
+activate thread
+
+thread --> tecton
+deactivate thread
+deactivate tecton
+
+end
+end
+end
+
+<-- tecton
+deactivate tecton
+@enduml
