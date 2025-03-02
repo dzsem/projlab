@@ -10,10 +10,14 @@ activate body
 
 body -> tecton : getNeighbours()
 
-
 activate tecton
 tecton --> body : neighbours: Tecton[0..*]
 deactivate tecton
+
+body -> tectons: Instantiate
+activate tectons
+tectons --> body
+deactivate tectons
 
     opt age >= normalAge
         body -> tectons: addAll(neighbours);
