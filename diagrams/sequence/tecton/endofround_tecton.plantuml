@@ -1,0 +1,13 @@
+@startuml endofround_tecton
+
+participant "t: Tecton" as tecton
+
+-> tecton: onEndOfTheRound()
+activate tecton
+
+
+tecton -> tecton: split()
+
+<-- tecton
+deactivate tecton
+@enduml
