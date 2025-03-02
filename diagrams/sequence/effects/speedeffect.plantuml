@@ -1,0 +1,24 @@
+@startuml SpeedEffect
+
+participant "SpeedEffect" as effect
+
+participant "Insect" as insect
+
+
+
+
+-> effect : applyEffect(Insect)
+activate effect
+
+effect->insect: addActionPoints()
+activate insect
+
+effect<--insect
+deactivate insect
+
+<--effect
+deactivate effect
+
+
+
+@enduml
