@@ -21,14 +21,15 @@ else
 			tecton -> tecton: killMushroomThread(thread)
 			activate tecton
 
-			tecton --> tecton
-			deactivate tecton
 
 			tecton -> thread: cut()
 			activate thread
 
 			thread --> tecton
 			deactivate thread
+
+			tecton --> tecton
+			deactivate tecton
 
 		end
 	end
