@@ -16,18 +16,19 @@ deactivate to
     opt if t is neighbour to "to"
         mt -> newMT : Instantiate
         activate newMT
-        newMT --> mt
-        deactivate newMT
 
-        mt -> to: addConnection(newMT)
+        newMT -> to: addConnection(newMT)
         activate to
-        to --> mt
+        to --> newMT
         deactivate to
 
-        mt -> t : addConnection(newMT)
+        newMT -> t : addConnection(newMT)
         activate t
-        t --> mt
+        t --> newMT
         deactivate t
+
+        newMT --> mt
+        deactivate newMT
 
         mt -> parent: addThread(newMT)
         activate parent
