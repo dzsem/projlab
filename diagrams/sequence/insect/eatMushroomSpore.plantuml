@@ -1,39 +1,29 @@
-@startuml SporeEating
+@startuml Insect.eatMushroomSporeAt
 
-participant "Insect" as insect
-participant "Spore" as spore
-participant "effect: Effect" as effect
+participant "i: Insect" as insect
+participant "i.tecton: Tecton" as tecton
+participant "s: MushroomSpore" as spore
 
-
-->insect: eatMushroomSpore(Spore)
+-> insect: eatMushroomSporeAt(t)
 activate insect
 
-    
-insect->spore : applyEffect(insect)
+insect -> tecton: getRandomSpore()
+deactivate insect
+activate tecton
 
+insect <-- tecton: s: MushroomSpore
+deactivate tecton
+activate insect
+
+insect -> spore: applyEffect(i)
+deactivate insect
 activate spore
-
-
-
-spore->spore : generateEffect()
-activate spore
-
-spore --> spore: effect
-deactivate spore
-
-
-spore ->effect : applyEffect(insect)
-activate effect
-
-spore <-- effect
-deactivate effect
 
 insect <-- spore
 deactivate spore
+activate insect
 
 <-- insect
 deactivate insect
-
-
 
 @enduml
