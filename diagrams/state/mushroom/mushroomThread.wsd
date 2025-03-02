@@ -1,0 +1,23 @@
+@startuml Mushrooom Thread States
+hide empty description
+
+[*] --> Alive
+
+state Alive {
+    state Sporut
+    state Grown
+
+    [*] -> Sporut
+    Sporut -> Sporut: grow() / turnsToGrow--
+    Sporut -down-> Grown: [turnsToGrow == 0]
+}
+
+state Dead
+
+Alive -> Alive: decreaseTurnsToDie() / turnsToDie--
+Alive -down-> Dead: dieIfUnconnected() 
+
+Dead -> [*]
+
+
+@enduml
