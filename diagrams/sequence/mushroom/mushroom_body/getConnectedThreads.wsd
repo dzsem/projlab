@@ -1,22 +1,27 @@
-@startuml GetConectedThreads
-participant "body: MushroomBody" as body
-participant "parent: Mushroom" as parent
-participant "thread: MushroomThread" as thread
-collections "connectedThreads: MushroomThread[0..*]" as connectedThreads
+@startuml Get Conected Threads
+participant "mb: MushroomBody" as mb
+participant "mb.tecton: Tecton" as tecton
+participant "mt: MushroomThread" as mt
+collections "queue: Tecton" as q
+collections "visited: Tecton" as visited
+collections "result: MushroomThreads" as result
 
--> body : getConnnectedThreads()
-activate body
+-> mb: getConnectedThreads()
+mb -> tecton: getThreads(mb.parent)
+tecton --> mb: threads: MushroomThreads[0..*]
 
-body -> parent : getThreads()
-activate parent
-parent --> body : threads: MushroomThread[0..*]
-deactivate parent
+    loop for each thread in threads 
+        opt !queue.contains(thread.getTo()) && visited.get
+            mb -> q: add(thread.getTo())
+            q --> mb
+        end
+        opt !queue.contains(thread.getTo())
+            mb -> q: add(thread.getTo())
+        end
+    end
 
-body -> connectedThreads : instantiate
-activate connectedThreads
+    loop while queue is not empty
 
-
-<-- body : connectedThreads
-deactivate body
+    end
 
 @enduml
