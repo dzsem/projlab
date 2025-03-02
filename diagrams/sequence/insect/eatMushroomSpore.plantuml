@@ -1,10 +1,10 @@
-@startuml Insect.eatMushroomSporeAt
+@startuml Insect.eatMushroomSpore
 
 participant "i: Insect" as insect
 participant "i.tecton: Tecton" as tecton
 participant "s: MushroomSpore" as spore
 
--> insect: eatMushroomSporeAt(t)
+-> insect: eatMushroomSpore()
 activate insect
 
 insect -> tecton: getRandomSpore()
