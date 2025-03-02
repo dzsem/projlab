@@ -1,0 +1,30 @@
+@startuml Mycologist.onEndOfTheRound
+
+participant "myc: Mycologist" as myc
+participant "myc.mushroom: Mushroom" as m
+
+-> myc: onEndOfTheRound()
+activate myc
+
+myc -> m: onEndOfTheRound()
+activate m
+
+loop for each thread
+	create participant Thread
+	m -> Thread: dieIfUnconnected()
+	activate Thread
+	m <-- Thread
+	deactivate Thread
+end
+
+m -> m: refreshActionPoints()
+activate m
+deactivate m
+
+myc <-- m
+deactivate m
+
+<-- myc
+deactivate myc
+
+@enduml
