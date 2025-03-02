@@ -1,0 +1,15 @@
+@startuml Distribute Spore Action
+participant "dsa: DistributeSporeAction" as dsa
+participant "dsa.body: MushroomBody" as mb
+
+-> dsa: perform()
+activate dsa
+dsa -> mb: distibuteSpore()
+activate mb
+mb --> dsa 
+deactivate mb
+<-- dsa
+deactivate dsa
+
+
+@enduml
