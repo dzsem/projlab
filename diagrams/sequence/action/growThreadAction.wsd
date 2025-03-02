@@ -1,0 +1,14 @@
+@startuml Grow Thread Action
+participant "gta: GrowThreadAction" as gta
+participant "gta.thread: MushroomThread" as mt
+
+-> gta: perform()
+activate gta
+gta -> mt: createConnection(gta.tecton)
+activate mt
+mt --> gta
+deactivate mt
+<-- gta
+deactivate gta
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml Insectologist.onEndOfTheRound
+
+participant "ins: Insectologist" as ins
+participant "i: Insect" as i
+
+-> ins: onEndOfTheRound()
+activate ins
+
+loop for each insect
+
+	ins -> i: onEndOfTheRound()
+	activate i
+
+	i -> i: refreshActionPoints()
+	activate i
+	deactivate i
+
+	ins <-- i
+	deactivate i
+
+end
+
+<-- ins
+deactivate ins
+
+@enduml

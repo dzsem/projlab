@@ -1,0 +1,42 @@
+@startuml Create Connection
+participant "mt: MushroomThread" as mt
+participant "to: Tecton" as to
+participant "newMT: MushroomThread" as newMT 
+participant "t: Tecton" as t
+participant "parent: Mushroom" as parent
+
+-> mt : createConnection(t)
+activate mt
+
+mt -> to : isNeghbour(t) 
+activate to
+to --> mt : isNeighbour
+deactivate to
+
+    opt if t is neighbour to "to"
+        mt -> newMT : Instantiate
+        activate newMT
+        newMT --> mt
+        deactivate newMT
+
+        mt -> to: addConnection(newMT)
+        activate to
+        to --> mt
+        deactivate to
+
+        mt -> t : addConnection(newMT)
+        activate t
+        t --> mt
+        deactivate t
+
+        mt -> parent: addThread(newMT)
+        activate parent
+        parent --> mt
+        deactivate parent
+
+    end
+
+<-- mt
+deactivate mt
+
+@enduml

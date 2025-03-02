@@ -1,0 +1,6 @@
+@startuml
+
+participant "mt: MushroomThread" as mt
+
+
+@enduml

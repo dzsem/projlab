@@ -1,0 +1,38 @@
+@startuml DistributeSpore
+participant "body: MushroomBody" as body
+participant "tecton: Tecton" as tecton
+participant "neighbour: Tecton" as neighbour
+participant "parent: Mushroom" as parent
+
+-> body : distributeSpores()
+activate body
+
+body -> tecton : getNeighbours()
+
+activate tecton
+tecton --> body : neighbours: Tecton[0..*]
+deactivate tecton
+
+    loop for each neighbour in neighbours
+        body -> neighbour : addSpore(spore: Spore)
+        activate neighbour
+        neighbour --> body 
+        deactivate neighbour
+
+    end
+
+    opt if body.remainingSpore == 0
+        body -> parent : removeBody(body)
+        activate parent
+        parent --> body
+        deactivate parent
+        body -> tecton : removeBody(body)
+        activate tecton
+        tecton --> body
+        deactivate tecton
+    end
+
+<-- body
+deactivate body
+
+@enduml
