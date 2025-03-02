@@ -1,0 +1,25 @@
+@startuml insect_state
+
+state Active {
+	hide empty description
+
+	state CuttingAllowed
+	state CuttingDisabled
+	CuttingDisabled --> CuttingAllowed: enableCutting
+	CuttingDisabled <-- CuttingAllowed: disableCutting
+	[*] --> CuttingAllowed
+
+	--
+
+	state MovementAllowed
+	state MovementDisabled
+
+	MovementDisabled --> MovementAllowed: enableMovement
+	MovementDisabled <-- MovementAllowed: disableMovement
+	[*] --> MovementAllowed
+}
+
+[*] -> Active
+
+
+@enduml
