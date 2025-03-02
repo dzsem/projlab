@@ -5,7 +5,7 @@ participant "newMT: MushroomThread" as newMT
 participant "t: Tecton" as t
 participant "parent: Mushroom" as parent
 
--> mt : createConnection()
+-> mt : createConnection(t)
 activate mt
 
 mt -> to : isNeghbour(t) 
