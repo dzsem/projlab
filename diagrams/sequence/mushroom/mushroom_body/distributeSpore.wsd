@@ -3,7 +3,7 @@ participant "body: MushroomBody" as body
 participant "body.tecton: Tecton" as tecton
 participant "tectonToSpore: Tecton" as tectonToSpore
 participant "parent: Mushroom" as parent
-collections "tectonsToSpore: Tecton[0..*]" as tectons
+collections "tectonsToSpore: Tecton[0..*]" as tectons 
 
 -> body : distributeSpores()
 activate body
@@ -15,6 +15,7 @@ tecton --> body : neighbours: Tecton[0..*]
 deactivate tecton
 
 body -> tectons: Instantiate
+note right: belso lista
 activate tectons
 tectons --> body
 deactivate tectons
