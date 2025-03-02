@@ -20,7 +20,7 @@ deactivate t
         opt sporeCount > m.sporesNeeded
             m -> t: hasThreadFromMushroom(m)
             activate t
-            t --> m: hasthreadFromMushroom: boolean
+            t --> m: hasThreadFromMushroom: boolean
             deactivate t
 
             opt hasThreadFromMushroom

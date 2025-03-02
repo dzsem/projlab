@@ -33,6 +33,8 @@ end
 
 m -> m: refreshActionPoints()
 activate m
+
+m --> m
 deactivate m
 
 myc <-- m

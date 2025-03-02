@@ -15,7 +15,7 @@ activate insect
 
 effect<--insect
 
-effect->insect:setCanMove()
+effect->insect:setCanMove(false)
 effect<--insect
 deactivate insect
 

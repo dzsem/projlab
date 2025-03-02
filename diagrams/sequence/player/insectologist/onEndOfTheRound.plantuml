@@ -18,7 +18,7 @@ loop for each insect
 		i --> i
 		deactivate i
 	else
-		i -> i: setCanMove()
+		i -> i: setCanMove(true)
 		activate i
 
 		i --> i
@@ -26,7 +26,7 @@ loop for each insect
 	end
 
 	opt not canCut && actionPointsToWait == 0
-		i -> i: setCanCut()
+		i -> i: setCanCut(true)
 		activate i
 
 		i --> i

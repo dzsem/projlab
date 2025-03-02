@@ -29,6 +29,8 @@ g -> g: increment bigRoundsPlayed
 opt bigRoundsPlayed is greater than maxRounds
 	g -> g: gameOver()
 	activate g
+
+	g --> g
 	deactivate g
 end
 

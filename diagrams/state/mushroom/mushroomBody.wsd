@@ -4,13 +4,14 @@ hide empty description
 
 state Alive {
 
-state NewMushroomBody
-state NormalMushroomBody
-state AdvancedMushroomBody
+	state NewMushroomBody
+	state NormalMushroomBody
+	state AdvancedMushroomBody
 
-[*] -> NewMushroomBody
-NewMushroomBody -down-> NormalMushroomBody : [age >= normalAge]
-NormalMushroomBody -down-> AdvancedMushroomBody : [age >= advancedAge]
+	[*] -> NewMushroomBody
+	NewMushroomBody -down-> NormalMushroomBody : [age >= normalAge]
+	NormalMushroomBody -down-> AdvancedMushroomBody : [age >= advancedAge]
+
 }
 
 state Dead

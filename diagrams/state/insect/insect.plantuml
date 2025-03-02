@@ -1,0 +1,25 @@
+@startuml insect_state
+
+state Active {
+	hide empty description
+
+	state CuttingAllowed
+	state CuttingDisabled
+	CuttingDisabled -> CuttingAllowed: onEndOfTheRound [actionPointsToWait == 0]
+	CuttingDisabled <- CuttingAllowed: setCanCut(false)
+	[*] --> CuttingAllowed
+
+	--
+
+	state MovementAllowed
+	state MovementDisabled
+
+	MovementDisabled -> MovementAllowed: onEndOfTheRound
+	MovementDisabled <- MovementAllowed: setCanMove(false)
+	[*] --> MovementAllowed
+}
+
+[*] -> Active
+
+
+@enduml
