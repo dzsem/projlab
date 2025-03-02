@@ -2,7 +2,7 @@
 
 participant "Insect" as insect
 participant "Spore" as spore
-participant "Effect" as effect
+participant "effect: Effect" as effect
 
 
 ->insect: eatMushroomSpore(Spore)
@@ -16,6 +16,10 @@ activate spore
 
 
 spore->spore : generateEffect()
+activate spore
+
+spore --> spore: effect
+deactivate spore
 
 
 spore ->effect : applyEffect(insect)

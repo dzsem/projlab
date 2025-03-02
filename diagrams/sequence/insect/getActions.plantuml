@@ -5,61 +5,72 @@ participant "i.tecton: Tecton" as tecton
 participant "MoveInsectAction" as mi_action
 participant "CutThreadAction" as ct_action
 participant "EatSporeAction" as es_action
+collections "result: Action[]" as res
 
 -> insect: Insect.getActions()
 activate insect
+note right: rovar lehetséges akcióinak inicializálása
+
+insect -> res: Instantiate()
+activate res
+note right: kimeneti akció lista
+
+insect <-- res
+deactivate res
 
 insect -> tecton: getThreads()
-deactivate insect
 activate tecton
 
 insect <-- tecton: MushroomThread[]
 deactivate tecton
-activate insect
 
 loop for each thread
 
 	insect -> mi_action: Instantiate(i, thread)
-	deactivate insect
 	activate mi_action
 
-	insect <-- mi_action: moveInsectActionResult
+	insect <-- mi_action
 	deactivate mi_action
-	activate insect
+
 
 	insect -> ct_action: Instantiate(i, thread)
-	deactivate insect
 	activate ct_action
 
-	insect <-- ct_action: cutThreadActionResult
+	insect <-- ct_action
 	deactivate ct_action
-	activate insect
 
-	insect -> insect: result += moveInsectActionResult + cutThreadActionResult
+	insect -> res: add(moveInsectAction)
+	activate res
+	insect <-- res
+	deactivate res
+
+	insect -> res: add(cutThreadAction)
+	activate res
+	insect <-- res
+	deactivate res
 
 end
 
 insect -> tecton: getSpores()
-deactivate insect
 activate tecton
 
 insect <-- tecton: spores
 deactivate tecton
-activate insect
 
 opt spores is not empty
 	insect -> es_action: Instantiate(i)
-	deactivate insect
 	activate es_action
 
-	insect <-- es_action: eatSporeAction
+	insect <-- es_action
 	deactivate es_action
-	activate insect
 
-	insect -> insect: result += eatSporeAction
+	insect -> res: add(eatSporeAction)
+	activate res
+	insect <-- res
+	deactivate res
 end
 
-<-- insect: result: Action[]
+<-- insect: result
 deactivate insect
 
 @enduml

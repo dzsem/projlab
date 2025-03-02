@@ -5,8 +5,8 @@ state Active {
 
 	state CuttingAllowed
 	state CuttingDisabled
-	CuttingDisabled --> CuttingAllowed: enableCutting
-	CuttingDisabled <-- CuttingAllowed: disableCutting
+	CuttingDisabled -> CuttingAllowed: onEndOfTheRound [actionPointsToWait == 0]
+	CuttingDisabled <- CuttingAllowed: setCanCut(false)
 	[*] --> CuttingAllowed
 
 	--
@@ -14,8 +14,8 @@ state Active {
 	state MovementAllowed
 	state MovementDisabled
 
-	MovementDisabled --> MovementAllowed: enableMovement
-	MovementDisabled <-- MovementAllowed: disableMovement
+	MovementDisabled -> MovementAllowed: onEndOfTheRound
+	MovementDisabled <- MovementAllowed: setCanMove(false)
 	[*] --> MovementAllowed
 }
 

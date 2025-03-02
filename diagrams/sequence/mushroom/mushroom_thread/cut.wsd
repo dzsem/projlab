@@ -1,6 +1,6 @@
 @startuml Cut
 participant "mt: MushroomThread" as mt
-participant "parnet: Mushroom" as parent
+participant "parent: Mushroom" as parent
 participant "from: Tecton" as from
 participant "to: Tecton" as to
 
