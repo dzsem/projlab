@@ -1,6 +1,6 @@
-@startuml Insect.eatMeatMushroomSpore
+@startuml SlowEffect
 
-participant "StunEffect" as effect
+participant "SlowEffect" as effect
 
 participant "Insect" as insect
 
@@ -10,12 +10,9 @@ participant "Insect" as insect
 -> effect : applyEffect(Insect)
 activate effect
 
-effect->insect:subRemainingActionPoints()
+effect->insect: subActionPoints()
 activate insect
 
-effect<--insect
-
-effect->insect:setCanMove()
 effect<--insect
 deactivate insect
 

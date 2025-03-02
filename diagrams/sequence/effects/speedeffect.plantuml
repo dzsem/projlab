@@ -1,6 +1,6 @@
-@startuml Insect.eatMeatMushroomSpore
+@startuml SpeedEffect
 
-participant "BlockEffect" as effect
+participant "SpeedEffect" as effect
 
 participant "Insect" as insect
 
@@ -10,18 +10,14 @@ participant "Insect" as insect
 -> effect : applyEffect(Insect)
 activate effect
 
-effect->insect:setToWait()
+effect->insect: addActionPoints()
 activate insect
 
-effect<--insect
-
-effect->insect:setCanCut()
 effect<--insect
 deactivate insect
 
 <--effect
 deactivate effect
-
 
 
 

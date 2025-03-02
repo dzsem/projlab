@@ -1,4 +1,4 @@
-@startuml Insect.eatMeatMushroomSpore
+@startuml SporeEating
 
 participant "Insect" as insect
 participant "Spore" as spore

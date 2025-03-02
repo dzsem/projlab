@@ -1,25 +1,21 @@
-@startuml Insect.eatMeatMushroomSpore
+@startuml BlockEffect
 
-participant "SlowEffect" as effect
-
+participant "BlockEffect" as effect
 participant "Insect" as insect
-
-
-
 
 -> effect : applyEffect(Insect)
 activate effect
 
-effect->insect:subRemainingActionPoints()
+effect->insect:setActionPointsToWait()
 activate insect
 
+effect<--insect
+
+effect->insect:setCanCut()
 effect<--insect
 deactivate insect
 
 <--effect
 deactivate effect
-
-
-
 
 @enduml
