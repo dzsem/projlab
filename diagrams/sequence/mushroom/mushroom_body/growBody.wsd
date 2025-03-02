@@ -1,0 +1,40 @@
+@startuml Grow Body
+participant "m: Mushroom" as m
+participant "t: Tecton" as t
+participant "mb: MushroomBody" as mb
+
+-> m: growBody(t)
+activate m
+
+m -> t: hasBody()
+activate t
+t --> m: hasBody: boolean
+deactivate t
+
+    opt hasBody == false
+        m -> t: getSporeCount()
+        activate t
+        t --> m: sporeCount: int
+        deactivate t
+        
+        opt sporeCount > m.sporesNeeded
+            m -> t: hasThreadFromMushroom(m)
+            activate t
+            t --> m: hasthreadFromMushroom: boolean
+            deactivate t
+
+            opt hasThreadFromMushroom
+                m -> mb: Initialize
+                activate mb
+                mb -> t: setBody(t)
+                activate t
+                t --> mb
+                deactivate t
+                mb --> m
+                deactivate mb
+            end
+        end
+    end
+<-- m
+deactivate m
+@enduml
