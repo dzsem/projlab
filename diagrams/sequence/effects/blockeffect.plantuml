@@ -11,7 +11,7 @@ activate insect
 
 effect<--insect
 
-effect->insect:setCanCut()
+effect->insect:setCanCut(false)
 effect<--insect
 deactivate insect
 
