@@ -1,15 +1,23 @@
 @startuml Distribute Spore Action
+actor "mycologist: Mycologist" as mycologist 
 participant "dsa: DistributeSporeAction" as dsa
 participant "dsa.body: MushroomBody" as mb
 
--> dsa: perform()
+mycologist -> dsa: perform()
+activate mycologist
 activate dsa
+
 dsa -> mb: distibuteSpore()
 activate mb
+
+note right: Mushroom.distributeSpore()
+
 mb --> dsa 
 deactivate mb
-<-- dsa
+
+mycologist <-- dsa
 deactivate dsa
+deactivate mycologist
 
 
 @enduml
