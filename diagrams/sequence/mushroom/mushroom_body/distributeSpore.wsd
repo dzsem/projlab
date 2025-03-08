@@ -1,11 +1,15 @@
 @startuml DistributeSpore
+title MushroomBody.distributeSpores
+
+participant "dsa: DistibuteSporeAction" as dsa
 participant "body: MushroomBody" as body
 participant "body.tecton: Tecton" as tecton
 participant "tectonToSpore: Tecton" as tectonToSpore
 participant "parent: Mushroom" as parent
 collections "tectonsToSpore: Tecton[0..*]" as tectons 
 
--> body : distributeSpores()
+dsa -> body : distributeSpores()
+activate dsa
 activate body
 
 body -> tecton : getNeighbours()
@@ -14,10 +18,9 @@ activate tecton
 tecton --> body : neighbours: Tecton[0..*]
 deactivate tecton
 
-body -> tectons: Instantiate
+body --> tectons: Instantiate
 note right: belso lista
 activate tectons
-tectons --> body
 deactivate tectons
 
     opt age >= normalAge
@@ -62,7 +65,8 @@ deactivate tectons
         deactivate tecton
     end
 
-<-- body
+dsa <-- body
 deactivate body
+deactivate dsa
 
 @enduml
