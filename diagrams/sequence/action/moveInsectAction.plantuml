@@ -1,7 +1,7 @@
 @startuml MoveInsectAction.perform
 title MoveInsectAction.perform
 
-participant "insectologist: Insectologist" as insectologist
+actor "insectologist: Insectologist" as insectologist
 participant "action: MoveInsectAction" as mi_action
 participant "action.i: Insect" as insect
 participant "action.to: Tecton" as t
