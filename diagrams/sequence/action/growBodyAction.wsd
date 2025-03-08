@@ -1,4 +1,6 @@
 @startuml Grow Body Action
+title GrowBodyAction.perform
+
 actor "mycologist: Mycologist" as mycologist
 participant "gba: GrowBodyAction" as gba
 participant "gba.mushroom: Mushroom" as m

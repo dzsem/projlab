@@ -1,4 +1,5 @@
 @startuml CutThreadAction.perform
+title CutThreadAction.perform
 
 actor "insectologist: Insectologist" as insectologist
 participant "action: CutThreadAction" as mi_action

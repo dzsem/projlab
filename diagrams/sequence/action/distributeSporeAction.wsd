@@ -1,4 +1,6 @@
 @startuml Distribute Spore Action
+title DistributeSporeAction.perform
+
 actor "mycologist: Mycologist" as mycologist 
 participant "dsa: DistributeSporeAction" as dsa
 participant "dsa.body: MushroomBody" as mb

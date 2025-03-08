@@ -1,4 +1,6 @@
 @startuml Grow Thread Action
+title GrowThreadAction.perform
+
 actor "mycologist: Mycologist" as mycologist
 participant "gta: GrowThreadAction" as gta
 participant "gta.thread: MushroomThread" as mt
