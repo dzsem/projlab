@@ -1,18 +1,22 @@
 @startuml EatSporeAction.perform
 
+actor "insectologist: Insectologist" as insectologist
 participant "action: EatSporeAction" as mi_action
 participant "action.i: Insect" as insect
 
--> mi_action: perform()
+insectologist -> mi_action: perform()
+activate insectologist
 activate mi_action
 
 mi_action -> insect: eatMushroomSpore()
 activate insect
+note right: Insect.eatMushroomSpore()
 
 mi_action <-- insect
 deactivate insect
 
-<-- mi_action
+insectologist <-- mi_action
 deactivate mi_action
+deactivate insectologist
 
 @enduml
