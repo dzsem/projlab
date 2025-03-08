@@ -1,9 +1,13 @@
 @startuml Grow Body
+title MushroomBody.growBody
+
+participant "gba: GrowBodyAction" as gba
 participant "m: Mushroom" as m
 participant "t: Tecton" as t
 participant "mb: MushroomBody" as mb
 
--> m: growBody(t)
+gba -> m: growBody(t)
+activate gba
 activate m
 
 m -> t: hasBody()
@@ -35,6 +39,8 @@ deactivate t
             end
         end
     end
-<-- m
+gba <-- m
 deactivate m
+deactivate gba
+
 @enduml
