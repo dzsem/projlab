@@ -1,18 +1,24 @@
 @startuml MoveInsectAction.perform
+title MoveInsectAction.perform
 
+participant "insectologist: Insectologist" as insectologist
 participant "action: MoveInsectAction" as mi_action
 participant "action.i: Insect" as insect
+participant "action.to: Tecton" as t
 
--> mi_action: perform()
+insectologist -> mi_action: perform()
+activate insectologist
 activate mi_action
 
 mi_action -> insect: moveToTecton(action.to)
 activate insect
+note right: Insect.moveToTecton(action.to)
 
 mi_action <-- insect
 deactivate insect
 
-<-- mi_action
+insectologist <-- mi_action
 deactivate mi_action
+deactivate insectologist
 
 @enduml
