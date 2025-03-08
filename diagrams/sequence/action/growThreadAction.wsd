@@ -1,14 +1,22 @@
 @startuml Grow Thread Action
+actor "mycologist: Mycologist" as mycologist
 participant "gta: GrowThreadAction" as gta
 participant "gta.thread: MushroomThread" as mt
+participant "gta.tecton: Tecton" as t
 
--> gta: perform()
+mycologist -> gta: perform()
+activate mycologist
 activate gta
+
 gta -> mt: createConnection(gta.tecton)
 activate mt
+note right: MushroomThread.createConnection()
+
 mt --> gta
 deactivate mt
-<-- gta
+
+mycologist <-- gta
 deactivate gta
+deactivate mycologist
 
 @enduml
