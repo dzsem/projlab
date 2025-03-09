@@ -1,7 +1,7 @@
 @startuml SporeEating
 title Insect.eatMushroomSpore
 
-actor "Inscetologist" as insectologist  
+actor "Insectologist" as insectologist  
 participant "insect: Insect" as insect
 participant "spore: Spore" as spore
 participant "effect: Effect" as effect

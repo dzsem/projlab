@@ -11,7 +11,7 @@ mycologist -> mt : createConnection(t)
 activate mycologist
 activate mt
 
-mt -> to : isNeghbour(t) 
+mt -> to : isNeighbour(t) 
 activate to
 to --> mt : isNeighbour
 deactivate to

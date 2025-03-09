@@ -7,7 +7,7 @@ participant "body.tecton: Tecton" as tecton
 participant "tectonToSpore: Tecton" as tectonToSpore
 collections "tectonsToSpore: Tecton[0..*]" as tectons 
 
-collections "neighbours: Tecont[0..*]"
+collections "neighbours: Tecton[0..*]"
 participant "neighbourOfNeighbours"
 
 mycologist -> body : distributeSpores()

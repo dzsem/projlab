@@ -1,5 +1,5 @@
 @startuml split_sequence
-title Tecont.split
+title Tecton.split
 
 participant "g: Game" as game
 participant "t: Tecton" as tecton
