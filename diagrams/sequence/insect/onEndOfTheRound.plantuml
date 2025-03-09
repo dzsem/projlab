@@ -1,0 +1,36 @@
+@startuml Insect.onEndOfTheRound
+
+title Insect.onEndOfTheRound
+
+participant "Insect" as i
+
+-> i: onEndOfTheRound()
+note right: ld. PassRound diagram
+activate i
+
+alt canMove
+	i -> i: refreshActions()
+	activate i
+
+	i --> i
+	deactivate i
+else
+	i -> i: setCanMove(true)
+	activate i
+
+	i --> i
+	deactivate i
+end
+
+opt not canCut && counter == 0
+	i -> i: setCanCut(true)
+	activate i
+
+	i --> i
+	deactivate i
+end
+
+<-- i
+deactivate i
+
+@enduml

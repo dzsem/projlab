@@ -6,10 +6,11 @@ participant "se: StunEffect" as effect
 participant "i: Insect" as insect
 
 spore -> effect : applyEffect(i)
+note left: eatMushroomSpore hívja meg
 activate spore
 activate effect
 
-effect->insect:subActionPoints()
+effect->insect: exhaustActions()
 activate insect
 
 effect<--insect
