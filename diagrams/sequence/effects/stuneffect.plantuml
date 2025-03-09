@@ -10,7 +10,7 @@ note left: eatMushroomSpore hívja meg
 activate spore
 activate effect
 
-effect->insect: ExhaustActions()
+effect->insect: exhaustActions()
 activate insect
 
 effect<--insect
