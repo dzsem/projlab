@@ -1,29 +1,35 @@
-@startuml Insect.eatMushroomSpore
+@startuml SporeEating
+title Insect.eatMushroomSpore
 
-participant "i: Insect" as insect
-participant "i.tecton: Tecton" as tecton
-participant "s: MushroomSpore" as spore
+actor "Inscetologist" as insectologist  
+participant "insect: Insect" as insect
+participant "spore: Spore" as spore
+participant "effect: Effect" as effect
 
--> insect: eatMushroomSpore()
+insectologist -> insect: eatMushroomSpore(spore)
+activate insectologist
 activate insect
-
-insect -> tecton: getRandomSpore()
-deactivate insect
-activate tecton
-
-insect <-- tecton: s: MushroomSpore
-deactivate tecton
-activate insect
-
-insect -> spore: applyEffect(i)
-deactivate insect
+    
+insect->spore : applyEffect(insect)
 activate spore
+
+spore->spore : generateEffect()
+activate spore
+deactivate spore
+
+spore ->effect : applyEffect(insect)
+activate effect
+note right: Effectek kifejtve külön diagramokon (Effect.applyEffect)
+
+spore <-- effect
+deactivate effect
 
 insect <-- spore
 deactivate spore
 activate insect
 
-<-- insect
+insectologist <-- insect
 deactivate insect
+deactivate insectologist
 
 @enduml
