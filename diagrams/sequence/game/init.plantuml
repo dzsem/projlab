@@ -1,0 +1,55 @@
+@startuml init
+
+actor "g: Game" as g
+participant "t: Tecton" as t
+participant "i: Insect" as i
+participant "mt: MushroomThread" as mt
+participant "mb: Mushroombody" as mb
+
+-> g: Init()
+activate g
+
+loop for each player
+
+g->t: Instantiate 
+activate t
+note right: kezdőtekton nem lehet special
+
+t->i: Instantiate
+activate i
+i-->t
+deactivate i
+
+t->t: registerInsect(i)
+activate t
+t-->t
+deactivate t
+
+t->mt: Instantiate
+activate mt
+mt-->t
+deactivate mt
+
+t->t: addConnection(mt)
+activate t
+t-->t
+deactivate t
+
+t->mb: Instantiate
+activate mb
+mb-->t
+deactivate mb
+
+t->t: setBody(mb)
+activate t
+t-->t
+deactivate t
+
+t-->g
+deactivate t
+
+end
+
+<--g
+deactivate g
+@enduml
