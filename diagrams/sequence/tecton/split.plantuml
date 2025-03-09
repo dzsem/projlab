@@ -1,16 +1,17 @@
 @startuml split_sequence
+title Tecton.split
 
+participant "g: Game" as game
 participant "t: Tecton" as tecton
 participant "nt: New Tecton" as newtecton
 participant "mt: Mushroom Thread" as thread
 
--> tecton: split()
+game -> tecton: split()
+activate game
 activate tecton
 
-tecton -> newtecton: Instantiate()
+tecton --> newtecton: Instantiate
 activate newtecton
-
-newtecton --> tecton
 deactivate newtecton
 
 loop for each MushroomThread in mushroomThreads[]
@@ -23,7 +24,8 @@ deactivate thread
 
 end
 
-<-- tecton
+game <-- tecton
 deactivate tecton
+deactivate game
 
 @enduml

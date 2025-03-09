@@ -1,13 +1,12 @@
 @startuml SpeedEffect
+title SpeedEffect.applyEffect
 
-participant "SpeedEffect" as effect
+participant "spore: MushroomSpore" as spore
+participant "se: SpeedEffect" as effect
+participant "i: Insect" as insect
 
-participant "Insect" as insect
-
-
-
-
--> effect : applyEffect(Insect)
+spore -> effect : applyEffect(i)
+activate spore
 activate effect
 
 effect->insect: addActionPoints()
@@ -16,9 +15,8 @@ activate insect
 effect<--insect
 deactivate insect
 
-<--effect
+spore <--effect
 deactivate effect
-
-
+deactivate spore
 
 @enduml

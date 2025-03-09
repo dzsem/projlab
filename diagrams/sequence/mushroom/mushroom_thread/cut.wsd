@@ -1,17 +1,15 @@
 @startuml Cut
+title MushroomThread.cut
+
+participant "i: Insect" as insect
 participant "mt: MushroomThread" as mt
-participant "parnet: Mushroom" as parent
 participant "from: Tecton" as from
 participant "to: Tecton" as to
 
 
--> mt : cut()
+insect -> mt : cut()
+activate insect
 activate mt
-
-mt -> parent: removeThread(mt)
-activate parent
-parent --> mt 
-deactivate parent
 
 mt -> from : removeConnection(mt)
 activate from
@@ -23,7 +21,8 @@ activate to
 to --> mt
 deactivate to
 
-<-- mt
+insect <-- mt
 deactivate mt
+deactivate insect
 
 @enduml

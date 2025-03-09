@@ -1,9 +1,13 @@
 @startuml Grow Body
-participant "m: Mushroom" as m
+title MushroomBody.growBody
+
+actor "Mycologist" as mycologist
+participant "MushroomBody" as m
 participant "t: Tecton" as t
 participant "mb: MushroomBody" as mb
 
--> m: growBody(t)
+mycologist -> m: growBody(t)
+activate mycologist
 activate m
 
 m -> t: hasBody()
@@ -24,17 +28,19 @@ deactivate t
             deactivate t
 
             opt hasThreadFromMushroom
-                m -> mb: Initialize
+                m --> mb: Initialize
                 activate mb
                 mb -> t: setBody(t)
                 activate t
                 t --> mb
                 deactivate t
-                mb --> m
                 deactivate mb
             end
         end
     end
-<-- m
+mycologist <-- m
+
 deactivate m
+deactivate mycologist
+
 @enduml

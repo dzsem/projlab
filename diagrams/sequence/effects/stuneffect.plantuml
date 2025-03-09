@@ -1,13 +1,12 @@
 @startuml StunEffect
+title StunEffect.applyEffect
 
-participant "StunEffect" as effect
+participant "spore: MushroomSpore" as spore
+participant "se: StunEffect" as effect
+participant "i: Insect" as insect
 
-participant "Insect" as insect
-
-
-
-
--> effect : applyEffect(Insect)
+spore -> effect : applyEffect(i)
+activate spore
 activate effect
 
 effect->insect:subActionPoints()
@@ -19,9 +18,9 @@ effect->insect:setCanMove()
 effect<--insect
 deactivate insect
 
-<--effect
+spore <--effect
 deactivate effect
-
+deactivate spore
 
 
 
