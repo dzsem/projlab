@@ -1,6 +1,7 @@
 @startuml Grow Body
 title MushroomBody.growBody
 
+<<<<<<< HEAD:diagrams/sequence/mushroom/mushroom_body/growBody.wsd
 participant "gba: GrowBodyAction" as gba
 participant "m: Mushroom" as m
 participant "t: Tecton" as t
@@ -8,6 +9,15 @@ participant "mb: MushroomBody" as mb
 
 gba -> m: growBody(t)
 activate gba
+=======
+actor "Mycologist" as mycologist
+participant "MushroomBody" as m
+participant "t: Tecton" as t
+participant "mb: MushroomBody" as mb
+
+mycologist -> m: growBody(t)
+activate mycologist
+>>>>>>> main:diagrams/sequence/use_cases/growBody.wsd
 activate m
 
 m -> t: hasBody()
@@ -28,19 +38,25 @@ deactivate t
             deactivate t
 
             opt hasThreadFromMushroom
-                m -> mb: Initialize
+                m --> mb: Initialize
                 activate mb
                 mb -> t: setBody(t)
                 activate t
                 t --> mb
                 deactivate t
-                mb --> m
                 deactivate mb
             end
         end
     end
+<<<<<<< HEAD:diagrams/sequence/mushroom/mushroom_body/growBody.wsd
 gba <-- m
 deactivate m
 deactivate gba
+=======
+mycologist <-- m
+
+deactivate m
+deactivate mycologist
+>>>>>>> main:diagrams/sequence/use_cases/growBody.wsd
 
 @enduml

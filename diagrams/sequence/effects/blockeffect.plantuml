@@ -1,12 +1,16 @@
 @startuml BlockEffect
+title BlockEffect.applyEffect
 
-participant "BlockEffect" as effect
-participant "Insect" as insect
+participant "spore: MushroomSpore" as spore
+participant "be: BlockEffect" as effect
+participant "i: Insect" as insect
 
--> effect : applyEffect(Insect)
+spore-> effect : applyEffect(i)
+note left: eatMushroomSpore hívja meg
+activate spore
 activate effect
 
-effect->insect:setActionPointsToWait()
+effect->insect:setCounter()
 activate insect
 
 effect<--insect
@@ -15,7 +19,8 @@ effect->insect:setCanCut()
 effect<--insect
 deactivate insect
 
-<--effect
+spore<--effect
 deactivate effect
+deactivate spore
 
 @enduml

@@ -1,32 +1,44 @@
 @startuml endofround_threadkill
 
+title ThreadKillingTecton.onEndOfTheRound
+
 participant "t: ThreadKillingTecton" as tecton
 participant "mt: MushroomThread" as thread
+collections "mushroomThreads: MushroomThread[]" as mts
 
 -> tecton: onEndOfTheRound()
+note right: hívó fél: PassRound
 activate tecton
 
 alt random generated number lower then splitChance
 
-tecton -> tecton: split()
+	tecton -> tecton: split()
+	note right: lásd: Tecton.split diagram
+	activate tecton
+
+	tecton --> tecton
+	deactivate tecton
 
 else
 
-loop for every mt: MushrromThread in mushroomThreads[]
-opt random generated number lower than killChance
+	loop for every mt: MushrromThread in mushroomThreads
+		opt random generated number lower than killChance
 
-tecton -> tecton: killMushroomThread(mt)
-activate tecton
+			tecton -> tecton: killMushroomThread(mt)
+			activate tecton
 
-tecton -> thread: cut()
-activate thread
+			tecton -> thread: cut()
+			note right: lásd: MushroomThread.cut diagram
+			activate thread
 
-thread --> tecton
-deactivate thread
-deactivate tecton
+			thread --> tecton
+			deactivate thread
 
-end
-end
+			tecton --> tecton
+			deactivate tecton
+
+		end
+	end
 end
 
 <-- tecton
