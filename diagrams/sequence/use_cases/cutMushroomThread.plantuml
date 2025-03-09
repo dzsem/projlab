@@ -10,12 +10,16 @@ insectologist -> insect: cutMushroomThread(mt)
 activate insectologist
 activate insect
 
-insect -> mt: cut()
-note right: lásd: MushroomThread.cut diagram
-activate mt
+opt canCut
 
-insect <-- mt
-deactivate mt
+	insect -> mt: cut()
+	note right: lásd: MushroomThread.cut diagram
+	activate mt
+
+	insect <-- mt
+	deactivate mt
+
+end
 
 insectologist <-- insect
 deactivate insect
