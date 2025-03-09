@@ -1,6 +1,6 @@
 @startuml Insectologist.moveToTecton
 
-title Insectologist.moveToTecton
+title Insect.moveToTecton
 
 actor "Insectologist" as ins
 participant "insect: Insect" as i
