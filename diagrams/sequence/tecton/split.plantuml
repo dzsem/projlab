@@ -1,31 +1,35 @@
 @startuml split_sequence
 title Tecton.split
 
-participant "g: Game" as game
 participant "t: Tecton" as tecton
 participant "nt: New Tecton" as newtecton
 participant "mt: Mushroom Thread" as thread
+collections "mushroomThreads: MushroomThread[]" as mts
 
-game -> tecton: split()
-activate game
+-> tecton: split()
+note right: hívó fél: Tecton.onEndOfTheRound\nvagy ThreadKillingTecton.onEndOfTheRound
 activate tecton
 
-tecton --> newtecton: Instantiate
+opt random generated number lower than splitChance
+
+tecton -> newtecton: Instantiate
 activate newtecton
+
+tecton <-- newtecton
 deactivate newtecton
 
 loop for each MushroomThread in mushroomThreads[]
 
-tecton -> thread: cut()
-activate thread
+	tecton -> thread: cut()
+	note right: lásd: MushroomThread.cut diagram
+	activate thread
 
-thread --> tecton
-deactivate thread
+	thread --> tecton
+	deactivate thread
 
 end
 
-game <-- tecton
+<-- tecton
 deactivate tecton
-deactivate game
 
 @enduml
