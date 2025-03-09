@@ -1,11 +1,14 @@
 @startuml Create Connection
+title MushroomThread.createConnection
+
+actor "Mycoogist" as mycologist
 participant "mt: MushroomThread" as mt
 participant "to: Tecton" as to
 participant "newMT: MushroomThread" as newMT 
-participant "t: Tecton" as t
-participant "parent: Mushroom" as parent
+participant "mt.tecton: Tecton" as t
 
--> mt : createConnection(t)
+mycologist -> mt : createConnection(t)
+activate mycologist
 activate mt
 
 mt -> to : isNeghbour(t) 
@@ -14,29 +17,24 @@ to --> mt : isNeighbour
 deactivate to
 
     opt if t is neighbour to "to"
-        mt -> newMT : Instantiate
+        mt --> newMT : Instantiate
         activate newMT
-        newMT --> mt
-        deactivate newMT
 
-        mt -> to: addConnection(newMT)
+        newMT -> to: addConnection(newMT)
         activate to
-        to --> mt
+        to --> newMT
         deactivate to
 
-        mt -> t : addConnection(newMT)
+        newMT -> t : addConnection(newMT)
         activate t
-        t --> mt
+        t --> newMT
         deactivate t
-
-        mt -> parent: addThread(newMT)
-        activate parent
-        parent --> mt
-        deactivate parent
+        deactivate newMT
 
     end
 
-<-- mt
+mycologist <-- mt
 deactivate mt
+deactivate mycologist
 
 @enduml
