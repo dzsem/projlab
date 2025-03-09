@@ -6,10 +6,11 @@ participant "se: SpeedEffect" as effect
 participant "i: Insect" as insect
 
 spore -> effect : applyEffect(i)
+note left: eatMushroomSpore hívja meg
 activate spore
 activate effect
 
-effect->insect: addActionPoints()
+effect->insect: refreshActions()
 activate insect
 
 effect<--insect

@@ -6,10 +6,11 @@ participant "be: BlockEffect" as effect
 participant "i: Insect" as insect
 
 spore-> effect : applyEffect(i)
+note left: eatMushroomSpore hívja meg
 activate spore
 activate effect
 
-effect->insect:setActionPointsToWait()
+effect->insect:setCounter()
 activate insect
 
 effect<--insect
