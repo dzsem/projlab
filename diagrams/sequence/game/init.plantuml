@@ -1,55 +1,78 @@
 @startuml init
 
-actor "g: Game" as g
-participant "t: Tecton" as t
-participant "i: Insect" as i
-participant "mt: MushroomThread" as mt
-participant "mb: Mushroombody" as mb
+title Init
 
--> g: Init()
+actor "Game" as g
+participant "t: Tecton" as t
+participant "mb: MushroomBody" as mb
+participant "startingTecton: Tecton" as st
+participant "i: Insect" as i
+collections "mushroomBodies: MushroomBody[]" as mbs
+
 activate g
 
-loop for each player
-
-g->t: Instantiate 
+g -> t: Instantiate
+note right: A játék létrejötte.\nItt már adott a játékosok száma.
 activate t
-note right: kezdőtekton nem lehet special
 
-t->i: Instantiate
-activate i
-i-->t
-deactivate i
-
-t->t: registerInsect(i)
-activate t
-t-->t
+g <-- t: t
 deactivate t
 
-t->mt: Instantiate
-activate mt
-mt-->t
-deactivate mt
-
-t->t: addConnection(mt)
+g -> t: generateNeighbours()
+note right: A kezdőtektonból kiindulva jön létre a pálya.
 activate t
-t-->t
+
+g <-- t
 deactivate t
 
-t->mb: Instantiate
-activate mb
-mb-->t
-deactivate mb
+loop for each mycologist player
+	g -> t: getSuitableMycologistLocation()
 
-t->t: setBody(mb)
-activate t
-t-->t
-deactivate t
+	activate t
 
-t-->g
-deactivate t
+	g <-- t: startingTecton
+	deactivate t
 
+	g -> mb: Instantiate(startingTecton)
+	activate mb
+
+	mb -> st: setBody(mb)
+	activate st
+
+	mb <-- st
+	deactivate st
+
+	g <-- mb: mb
+	deactivate mb
+
+	g -> mbs: Add(mb)
+	activate mbs
+
+	g <-- mbs
+	deactivate mbs
 end
 
-<--g
+loop for each insectologist player
+	g -> mbs: getRandom()
+	activate mbs
+
+	g <-- mbs: mb
+	deactivate mbs
+
+	g -> g: t = mb.tecton
+
+	g -> i: Instantiate(t)
+	activate i
+
+	i -> t: registerInsect(i)
+	activate t
+	
+	i <-- t
+	deactivate t
+
+	g <-- i
+	deactivate i
+end
+
 deactivate g
 @enduml
