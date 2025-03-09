@@ -1,0 +1,31 @@
+@startuml Insectologist.moveToTecton
+
+title Insectologist.moveToTecton
+
+actor "Insectologist" as ins
+participant "insect: Insect" as i
+participant "insect.tecton: Tecton" as it
+participant "t: Tecton" as t
+
+ins -> i: moveToTecton(t)
+activate ins
+activate i
+
+i -> it: unregisterInsect(i)
+activate it
+
+i <-- it
+deactivate it
+
+i -> t: registerInsect(i)
+activate t
+
+i <-- t
+deactivate t
+
+ins <-- i
+deactivate i
+
+deactivate ins
+
+@enduml
