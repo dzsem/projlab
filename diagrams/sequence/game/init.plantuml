@@ -54,6 +54,7 @@ end
 
 loop for each insectologist player
 	g -> mbs: getRandom()
+	note right: egy olyan véletlen gombatest tektonjának visszakérése,\namin nem áll rovar
 	activate mbs
 
 	g <-- mbs: mb
