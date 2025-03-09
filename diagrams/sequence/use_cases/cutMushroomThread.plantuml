@@ -1,6 +1,6 @@
 @startuml Insectologist.cutMushroomThread
 
-title Insectologist.cutMushroomThread
+title Insect.cutMushroomThread
 
 actor "Insectologist" as insectologist
 participant "i: Insect" as insect

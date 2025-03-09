@@ -1,5 +1,7 @@
 @startuml endofround_tecton
 
+title Tecton.onEndOfTheRound
+
 participant "t: Tecton" as tecton
 
 -> tecton: onEndOfTheRound()
