@@ -1,7 +1,7 @@
 @startuml Grow Body
 title MushroomBody.growBody
 
-actor "Mycologosit" as mycologist
+actor "Mycologist" as mycologist
 participant "MushroomBody" as m
 participant "t: Tecton" as t
 participant "mb: MushroomBody" as mb

@@ -1,7 +1,7 @@
 @startuml Create Connection
 title MushroomThread.createConnection
 
-actor "Mycoogist" as mycologist
+actor "Mycologist" as mycologist
 participant "mt: MushroomThread" as mt
 participant "to: Tecton" as to
 participant "newMT: MushroomThread" as newMT 
