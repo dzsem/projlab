@@ -1,0 +1,79 @@
+@startuml init
+
+title Init
+
+actor "Game" as g
+participant "t: Tecton" as t
+participant "mb: MushroomBody" as mb
+participant "startingTecton: Tecton" as st
+participant "i: Insect" as i
+collections "mushroomBodies: MushroomBody[]" as mbs
+
+activate g
+
+g -> t: Instantiate
+note right: A játék létrejötte.\nItt már adott a játékosok száma.
+activate t
+
+g <-- t: t
+deactivate t
+
+g -> t: generateNeighbours()
+note right: A kezdőtektonból kiindulva jön létre a pálya.
+activate t
+
+g <-- t
+deactivate t
+
+loop for each mycologist player
+	g -> t: getSuitableMycologistLocation()
+
+	activate t
+
+	g <-- t: startingTecton
+	deactivate t
+
+	g -> mb: Instantiate(startingTecton)
+	activate mb
+
+	mb -> st: setBody(mb)
+	activate st
+
+	mb <-- st
+	deactivate st
+
+	g <-- mb: mb
+	deactivate mb
+
+	g -> mbs: Add(mb)
+	activate mbs
+
+	g <-- mbs
+	deactivate mbs
+end
+
+loop for each insectologist player
+	g -> mbs: getRandom()
+	note right: egy olyan véletlen gombatest tektonjának visszakérése,\namin nem áll rovar
+	activate mbs
+
+	g <-- mbs: mb
+	deactivate mbs
+
+	g -> g: t = mb.tecton
+
+	g -> i: Instantiate(t)
+	activate i
+
+	i -> t: registerInsect(i)
+	activate t
+	
+	i <-- t
+	deactivate t
+
+	g <-- i
+	deactivate i
+end
+
+deactivate g
+@enduml

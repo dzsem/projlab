@@ -1,0 +1,24 @@
+@startuml
+
+title PassRound
+
+actor "Player" as player
+participant "turnAware: TurnAware" as ta
+collections "turnAwares: TurnAware[]" as tas
+
+activate player
+
+opt az játékos volt a nagy körben az utolsó
+	loop for each turnAware in turnAwares
+		player -> ta: onEndOfTheRound()
+		note right: lásd: Tecton.onEndOfTheRound, és\nThreadKillingTecton.onEndOfTheRound\ndiagramok
+		activate ta
+
+		player <-- ta
+		deactivate ta
+	end
+end
+
+deactivate player
+
+@enduml

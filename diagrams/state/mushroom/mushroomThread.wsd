@@ -1,4 +1,6 @@
 @startuml Mushrooom Thread States
+title MushroomThread States
+
 hide empty description
 
 [*] --> Alive

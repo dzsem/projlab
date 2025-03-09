@@ -1,13 +1,13 @@
 @startuml SlowEffect
+title SlowEffect.applyEffect
 
-participant "SlowEffect" as effect
-
-participant "Insect" as insect
-
-
+participant "spore: MushroomSpore" as spore
+participant "se: SlowEffect" as effect
+participant "i: Insect" as insect
 
 
--> effect : applyEffect(Insect)
+spore -> effect : applyEffect(i)
+activate spore
 activate effect
 
 effect->insect: subActionPoints()
@@ -16,9 +16,9 @@ activate insect
 effect<--insect
 deactivate insect
 
-<--effect
+spore <--effect
 deactivate effect
-
+deactivate spore
 
 
 

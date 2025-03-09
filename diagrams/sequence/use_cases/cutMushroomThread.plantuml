@@ -1,0 +1,25 @@
+@startuml Insectologist.cutMushroomThread
+
+title Insectologist.cutMushroomThread
+
+actor "Insectologist" as insectologist
+participant "i: Insect" as insect
+participant "mt: MushroomThread" as mt
+
+insectologist -> insect: cutMushroomThread(mt)
+activate insectologist
+activate insect
+
+insect -> mt: cut()
+note right: lásd: MushroomThread.cut diagram
+activate mt
+
+insect <-- mt
+deactivate mt
+
+insectologist <-- insect
+deactivate insect
+
+deactivate insectologist
+
+@enduml
