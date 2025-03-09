@@ -1,13 +1,13 @@
 @startuml Insect
 title Insect
 
-title "Insect"
-
+actor "Insectologist" as insectologist
 participant "i: Insect" as insect
 participant "i.tecton: Tecton" as t1
 participant "to: Tecton" as t2
 
--> insect: moveToTecton(to)
+insectologist -> insect: moveToTecton(to)
+activate insectologist
 activate insect
 
 insect -> t1: hasThreadTo(to)
@@ -32,7 +32,8 @@ opt van fonál a két tekton között
 	'insect -> insect: i.tecton = to
 end
 
-<-- insect
+insectologist <-- insect
 deactivate insect
+deactivate insectologist
 
 @enduml
