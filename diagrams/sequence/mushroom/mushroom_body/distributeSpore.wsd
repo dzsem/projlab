@@ -1,11 +1,17 @@
 @startuml DistributeSpore
+title MushroomBody.distributeSpores
+
+actor "Mycologist" as mycologist
 participant "body: MushroomBody" as body
 participant "body.tecton: Tecton" as tecton
 participant "tectonToSpore: Tecton" as tectonToSpore
-participant "parent: Mushroom" as parent
 collections "tectonsToSpore: Tecton[0..*]" as tectons 
 
--> body : distributeSpores()
+collections "neighbours: Tecont[0..*]"
+participant "neighbourOfNeighbours"
+
+mycologist -> body : distributeSpores()
+activate mycologist
 activate body
 
 body -> tecton : getNeighbours()
@@ -14,34 +20,32 @@ activate tecton
 tecton --> body : neighbours: Tecton[0..*]
 deactivate tecton
 
-body -> tectons: Instantiate
+body --> tectons: Instantiate
 note right: belso lista
 activate tectons
-tectons --> body
 deactivate tectons
 
-    opt age >= normalAge
-        body -> tectons: addAll(neighbours);
-        activate tectons
-        tectons --> body
-        deactivate tectons
-    end 
+    
+    body -> tectons: add(body.tecton)
+    activate tectons
+    tectons --> body
+    deactivate tectons
+    
+    body -> tectons: addAll(neighbours);
+    activate tectons
+    tectons --> body
+    deactivate tectons
 
-    opt age >= advancedAge
-        loop for each neighbour in neighbours
+    opt body.age >= advancedAge
+        loop for each neighbourOfNeighbour in neighbours
             opt !tectonsToSpore.contains(neighbour)
-                body -> tectons: tectonsToSpore.add(neighbour)
+                body -> tectons: tectonsToSpore.add(neighbourOfNeighbour)
                 activate tectons
                 tectons --> body
                 deactivate tectons
             end
         end
     end
-
-    body -> tectons: add(body.tecton)
-    activate tectons
-    tectons --> body
-    deactivate tectons
 
     loop for each tectonToSpore in tectonsToSpore
         body -> tectonToSpore : addSpore(spore: Spore)
@@ -52,17 +56,14 @@ deactivate tectons
     end
 
     opt body.remainingSpore == 0
-        body -> parent : removeBody(body)
-        activate parent
-        parent --> body
-        deactivate parent
         body -> tecton : removeBody(body)
         activate tecton
         tecton --> body
         deactivate tecton
     end
 
-<-- body
+mycologist <-- body
 deactivate body
+deactivate mycologist
 
 @enduml
