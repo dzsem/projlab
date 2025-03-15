@@ -7,7 +7,7 @@ rectangle "Insect Tests" {
     usecase "Move to Tecton Success" as test1
 	usecase "Move to (non-neighboring) Tecton Fail" as test2
 	usecase "Move to (unconnected) Tecton Fail" as test3
-	usecase "Move to (same) Tecton Fail" as test4
+	usecase "Move to Tecton Fail (while blocked)" as test4
 
 	usecase "Cut Thread Success" as test5
 	usecase "Cut Thread Fail\n(cutting disabled)" as test6
