@@ -1,0 +1,30 @@
+@startuml insectTestCases
+left to right direction
+
+actor "Tester" as t
+
+rectangle "Insect Tests" {
+    usecase "Move to Tecton Success" as test1
+	usecase "Move to (non-neighboring) Tecton Fail" as test2
+	usecase "Move to (unconnected) Tecton Fail" as test3
+	usecase "Move to (same) Tecton Fail" as test4
+
+	usecase "Cut Thread Success" as test5
+	usecase "Cut Thread Fail\n(cutting disabled)" as test6
+	usecase "Cut Thread Fail\n(thread not on insect's tecton)" as test7
+
+	usecase "Eat Mushroom Spore Success" as test8
+	usecase "Eat Mushroom Spore Fail\n(selected spore not on tecton)" as test9
+}
+
+t -- test1
+t -- test2
+t -- test3
+t -- test4
+t -- test5
+t -- test6
+t -- test7
+t -- test8
+t -- test9
+
+@enduml
