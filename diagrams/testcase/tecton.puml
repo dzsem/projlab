@@ -15,7 +15,7 @@ rectangle TectonTests {
     usecase "Tecton Grow Body Thread Fail" as test9
     usecase "Tecton Grow Body Spore Fail" as test10
     usecase "InfertileTecton Grow Body Fail" as test11
-    usecase "Tecton Grow Body Body Fail" as test 12
+    usecase "Tecton Grow Body Body Fail" as test12
 }
 
 t -- test1
