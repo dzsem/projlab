@@ -1,0 +1,16 @@
+@startuml mushroom thread test-case
+left to right direction
+
+actor "Tester" as tester
+
+rectangle "Mushroom Thread Tests" {
+    usecase "Mushroom Thread Growth" as test1
+    usecase "Mushroom Thread Evolve" as test2
+    usecase "Mushroom Thread Die" as test3
+}
+
+tester -- test1
+tester -- test2
+tester -- test3
+
+@enduml
