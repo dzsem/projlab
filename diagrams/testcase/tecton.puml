@@ -8,7 +8,7 @@ rectangle TectonTests {
     usecase "ThreadKillingTecton Kill Thread" as test2
     usecase "Tecton Kill Thread" as test3
     usecase "Tecton Grow Thread Success" as test4
-    usecase "Tecton Grow Thread Success Fail" as test5
+    usecase "Tecton Grow Thread Fail" as test5
     usecase "SingleThreadTecton Grow Thread Success" as test6
     usecase "SingleThreadTecton Grow Thread Fail" as test7
     usecase "Tecton Grow Body Success" as test8
