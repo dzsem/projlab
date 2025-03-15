@@ -1,0 +1,32 @@
+@startuml tectonTestCases
+left to right direction
+
+actor "Tester" as t
+
+rectangle TectonTests {
+    usecase "Tecton Split" as test1
+    usecase "ThreadKillingTecton Kill Thread" as test2
+    usecase "Tecton Kill Thread" as test3
+    usecase "Tecton Grow Thread Success" as test4
+    usecase "Tecton Grow Thread Success Fail" as test5
+    usecase "SingleThreadTecton Grow Thread Success" as test6
+    usecase "SingleThreadTecton Grow Thread Fail" as test7
+    usecase "Tecton Grow Body Success" as test8
+    usecase "Tecton Grow Body Thread Fail" as test9
+    usecase "Tecton Grow Body Spore Fail" as test10
+    usecase "InfertileTecton Grow Body Fail" as test11
+}
+
+t -- test1
+t -- test2
+t -- test3
+t -- test4
+t -- test5
+t -- test6
+t -- test7
+t -- test8
+t -- test9
+t -- test10
+t -- test11
+
+@enduml

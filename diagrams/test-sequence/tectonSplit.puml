@@ -1,0 +1,23 @@
+@startuml tectonSplitTest
+
+actor "Tester" as tst
+participant "tec: Tecton" as tec
+participant "newTec: Tecton" as ntec
+
+activate tst
+
+tst -> tec: split()
+activate tec
+
+tec -> ntec: Instantiate()
+activate ntec
+
+tec <-- ntec:
+deactivate ntec
+
+tst <-- tec:
+deactivate tec
+
+deactivate tst
+
+@enduml
