@@ -4,6 +4,7 @@ title MushroomThread.cut
 participant "mt: MushroomThread" as mt
 participant "from: Tecton" as from
 participant "to: Tecton" as to
+participant "connectedThread: MushroomThread" as connected
 
 -> mt : cut()
 note right: hívó fél: Insect.cutMushroomThread\nvagy Tecton.split
@@ -18,6 +19,13 @@ mt -> to : removeConnection(mt)
 activate to
 to --> mt
 deactivate to
+
+    loop for each connectedThread in mt.connectedThreads  
+        mt -> connected: removeConnection(mt)
+        activate connected
+        connected --> mt
+        deactivate connected
+    end
 
 <-- mt
 deactivate mt
