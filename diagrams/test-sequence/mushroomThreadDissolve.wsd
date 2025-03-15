@@ -12,12 +12,10 @@ activate mt
 mt --> mt: isConnected
 deactivate mt
 
-opt isConnected == false
-    mt -> mt: decreaseTurnsToDie--
-    activate mt
-    mt --> mt
-    deactivate mt
-end
+mt -> mt: decreaseTurnsToDie--
+activate mt
+mt --> mt
+deactivate mt
 
 mt --> tester
 deactivate mt
