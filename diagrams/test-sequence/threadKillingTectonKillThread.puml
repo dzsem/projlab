@@ -14,7 +14,7 @@ activate tec
 
 loop t in mushroomThreads
     alt t == mt
-        tec -> mt: kill()
+        tec -> mt: cut()
         activate mt
 
         loop ct in connectedThreads
