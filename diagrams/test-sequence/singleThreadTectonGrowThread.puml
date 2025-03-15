@@ -1,0 +1,26 @@
+@startuml tectonGrowThreadTest
+
+actor "Tester" as tst
+participant "t: SingleThreadTecton" as t
+participant "mt: MushroomThread" as mt
+
+activate tst
+
+tst -> t: addConnection(mt)
+activate t
+
+alt t.mushroomThreads.Count >= 1
+    tst <-- t: throw exception
+end
+
+alt mt.from is not neighbour 
+    tst <-- t: throw Exception
+end
+
+t -> t: t.mushroomThreads.Add(mt)
+tst <-- t
+deactivate t
+
+deactivate tst
+
+@enduml
