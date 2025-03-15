@@ -1,0 +1,17 @@
+@startuml tectoGrowBodyTest
+
+actor "Tester" as ts
+participant "t: Tecton" as t
+participant "mb: MushroomBody" as mb
+
+activate ts
+
+ts -> t: setBody(mb)
+activate t
+
+ts <-- t: throw Exception
+deactivate t
+
+deactivate ts
+
+@enduml
