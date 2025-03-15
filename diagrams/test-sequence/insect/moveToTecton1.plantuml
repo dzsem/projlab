@@ -4,11 +4,12 @@ title Move to Tecton Success
 
 actor "Tesztelő" as t
 participant "ins: Insect" as i
-participant "target: Tecton" as target
+participant "t3: Tecton" as t3
 participant "logger: Logger" as logger
 
 activate t
 t -> t: test_moveToTecton1()
+note right: ld. MoveToTecton teszt init diagram
 activate t
 
 	t -> logger: printState(insect)
@@ -17,14 +18,14 @@ activate t
 	t <-- logger
 	deactivate logger
 
-	t -> i: moveToTecton(target)
+	t -> i: moveToTecton(t3)
 	activate i
 	note right: lásd: Insect.moveToTecton
 
 	t <-- i
 	deactivate i
 
-	t -> logger: print("void", "moveToTecton", target)
+	t -> logger: print("void", "moveToTecton", t3)
 	activate logger
 
 	t <-- logger
@@ -35,7 +36,7 @@ activate t
 	t <-- logger
 	deactivate logger
 
-	opt ins.tecton != target
+	opt ins.tecton != t3
 		t -> logger: printError("test_moveToTecton1 failed")
 		activate logger
 

@@ -9,6 +9,7 @@ participant "logger: Logger" as logger
 
 activate t
 t -> t: test_moveToTecton4()
+note right: ld. MoveToTecton teszt init diagram
 activate t
 
 	t -> logger: printState(insect)

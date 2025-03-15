@@ -8,6 +8,7 @@ activate tester
 
 create participant "t1: Tecton" as t1
 tester -> t1: 1.1 → Initialize()
+note right: ld. moveToTecton Success,\nFail (non-neighboring)\nés Fail (unconnected) tesztesetek
 activate t1
 
 tester <-- t1

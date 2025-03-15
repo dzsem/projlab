@@ -4,6 +4,8 @@ title MoveToTecton test case-k inicializációja
 skinparam linestyle ortho
 
 rectangle "Tesztelő" as tester
+note top: ld. moveToTecton Success,\nFail (non-neighboring)\nés Fail (unconnected) tesztesetek
+
 rectangle "t1: Tecton" as t1
 rectangle "t2: Tecton" as t2
 rectangle "t3: Tecton" as t3
