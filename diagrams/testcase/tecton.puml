@@ -8,13 +8,14 @@ rectangle TectonTests {
     usecase "ThreadKillingTecton Kill Thread" as test2
     usecase "Tecton Kill Thread" as test3
     usecase "Tecton Grow Thread Success" as test4
-    usecase "Tecton Grow Thread Success Fail" as test5
+    usecase "Tecton Grow Thread Fail" as test5
     usecase "SingleThreadTecton Grow Thread Success" as test6
     usecase "SingleThreadTecton Grow Thread Fail" as test7
     usecase "Tecton Grow Body Success" as test8
     usecase "Tecton Grow Body Thread Fail" as test9
     usecase "Tecton Grow Body Spore Fail" as test10
     usecase "InfertileTecton Grow Body Fail" as test11
+    usecase "Tecton Grow Body Body Fail" as test 12
 }
 
 t -- test1
@@ -28,5 +29,6 @@ t -- test8
 t -- test9
 t -- test10
 t -- test11
+t -- test12
 
 @enduml
