@@ -1,5 +1,7 @@
 package projlab.fungorium.utilities;
 
+import java.util.List;
+
 public interface Command {
-    public void execute(String... args);
+    public void execute(List<String> args);
 }
