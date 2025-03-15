@@ -1,0 +1,21 @@
+@startuml Mushroom thread Growth
+
+actor "Tester" as tester
+participant "mt: MushroomThread" as mt
+
+tester -> mt: grow() 
+activate tester
+activate mt
+
+mt -> mt: turnsToGrow--
+activate mt
+mt --> mt
+deactivate mt
+
+mt --> tester
+deactivate mt
+deactivate tester
+
+
+
+@enduml

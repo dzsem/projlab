@@ -1,0 +1,70 @@
+@startuml 
+
+actor "Tester" as tester
+participant "body: MushroomBody" as body
+participant "body.tecton: Tecton" as tecton
+participant "tectonToSpore: Tecton" as tectonToSpore
+collections "tectonToSpore.spores: MushroomSpore[0..*]" as spores
+collections "tectonsToSpore: Tecton[0..*]" as tectons 
+
+participant "spore: MushroomSpore"
+collections "neighbours: Tecton[0..*]"
+
+tester -> body : distributeSpores()
+activate tester
+activate body
+
+body -> tecton : getNeighbours()
+
+activate tecton
+tecton --> body : neighbours: Tecton[0..*]
+deactivate tecton
+
+body --> tectons: Instantiate
+activate tectons
+deactivate tectons
+    body -> tectons: add(body.tecton)
+    activate tectons
+    tectons --> body
+    deactivate tectons
+    
+    body -> tectons: addAll(neighbours);
+    activate tectons
+    tectons --> body
+    deactivate tectons
+
+    opt body.age >= advancedAge
+        loop for each neighbourOfNeighbour in neighbours
+            opt !tectonsToSpore.contains(neighbour)
+                body -> tectons: tectonsToSpore.add(neighbourOfNeighbour)
+                activate tectons
+                tectons --> body
+                deactivate tectons
+            end
+        end
+    end
+
+    loop for each tectonToSpore in tectonsToSpore
+        body -> tectonToSpore : addSpore(spore: MuhsroomSpore)
+        activate tectonToSpore
+
+        tectonToSpore -> spores: add(spore: MushroomSpore)
+        activate spores
+        spores --> tectonToSpore
+        deactivate spores
+
+        tectonToSpore --> body 
+        deactivate tectonToSpore
+    end
+
+    body -> body: remainingSpores--;
+    activate body
+    body --> body
+    deactivate body
+
+tester <-- body
+deactivate body
+deactivate tester
+
+
+@enduml
