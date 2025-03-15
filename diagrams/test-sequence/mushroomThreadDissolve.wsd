@@ -1,0 +1,27 @@
+@startuml Mushroom Thread Dissolve
+
+actor "Tester" as tester
+participant "mt: MushroomThread" as mt
+
+tester -> mt: onEndOfTheRound()
+activate tester
+activate mt
+
+mt -> mt: isConnectedToBody()
+activate mt
+mt --> mt: isConnected
+deactivate mt
+
+opt isConnected == false
+    mt -> mt: decreaseTurnsToDie--
+    activate mt
+    mt --> mt
+    deactivate mt
+end
+
+mt --> tester
+deactivate mt
+deactivate tester
+
+
+@enduml
