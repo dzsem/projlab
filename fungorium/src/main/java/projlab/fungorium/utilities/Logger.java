@@ -1,6 +1,8 @@
 package projlab.fungorium.utilities;
 
 public class Logger {
+    private Logger() {}
+
     public static void print(String returnValue, String method, String... parameters) {
         System.out.print(method + "(");
 

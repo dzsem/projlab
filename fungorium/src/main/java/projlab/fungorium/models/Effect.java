@@ -1,5 +1,5 @@
 package projlab.fungorium.models;
 
-public class Tecton {
-    
+public interface Effect {
+
 }
