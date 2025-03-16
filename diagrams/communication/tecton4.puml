@@ -1,6 +1,6 @@
 ' Test-casek:
-'   - SingleThreadTecton Grow Thread Success
-'   - SingleThreadTecton Grow Thread Fail
+' - SingleThreadTecton Grow Thread Success
+' - SingleThreadTecton Grow Thread Fail
 
 @startuml communicationTecton4
 

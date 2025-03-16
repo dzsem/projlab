@@ -1,0 +1,28 @@
+' Test-casek:
+' - InfertileTecton Grow Body Fail
+
+@startuml communicationTecton5
+
+actor "Tester" as ts
+participant "t: InfertileTecton" as t
+participant "mb: MushroomBody" as mb
+
+activate ts
+
+' inicializálás
+ts -> t: 1.1.1 -> Initialize()
+activate t
+ts <-- t
+deactivate t
+
+ts -> mb: 1.2.1 -> Initialize()
+activate mb
+ts <-- mb
+deactivate mb
+
+' tecton setup
+
+
+deactivate ts
+
+@enduml
