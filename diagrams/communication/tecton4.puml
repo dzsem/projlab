@@ -4,6 +4,8 @@
 
 @startuml communicationTecton4
 
+title SingleThreadTecton Grow Thread Success,\nSingleThreadTecton Grow Thread Fail
+
 actor "Tester" as ts
 participant "t1: SingleThreadTecton" as t1
 participant "t2: SingleThreadTecton" as t2
@@ -11,40 +13,38 @@ participant "mt: MushroomThread" as mt
 
 activate ts
 
-' inicializálás
-ts -> t1: 1.1.1 -> Initialize()
+' ------------------------------------------
+' t1: szomszédos t2-vel
+ts -> t1: 1.1 -> Initialize([t2])
 activate t1
+
+t1 -> t1: 1.1.1 registerNeighbour(t2)
+
 ts <-- t1
 deactivate t1
 
-ts -> t2: 1.1.2 -> Initialize()
+' ------------------------------------------
+' t2: szomszédos t1-el
+ts -> t2: 1.2 -> Initialize([t1])
 activate t2
+
+t2 -> t2: 1.2.1 registerNeighbour(t1)
+
 ts <-- t2
 deactivate t2
 
-ts -> mt: 1.2.1 -> Initialize()
+' ------------------------------------------
+' thread: t1-en nő
+ts -> mt: 1.3 -> Initialize()
 activate mt
+
+mt -> t1: 1.3.1 <- addConnection(mt)
+activate t1
+mt <-- t1
+deactivate t1
+
 ts <-- mt
 deactivate mt
-
-' t1 setup
-' t1-n van mt; t1 és t2 szomszédosak
-ts -> t1: 2.1.1 -> registerNeighbour(t2)
-activate t1
-ts <-- t1
-deactivate t1
-
-ts -> t1: 2.2.1 -> addConnection(mt)
-activate t1
-ts <-- t1
-deactivate t1
-
-' t2 setup
-' t1-n van mt; t1 és t2 szomszédosak
-ts -> t2: 2.1.1 -> registerNeighbour(t1)
-activate t2
-ts <-- t2
-deactivate t2
 
 deactivate ts
 
