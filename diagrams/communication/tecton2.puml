@@ -3,6 +3,8 @@
 
 @startuml communicationTecton2
 
+title ThreadKillingTecton Kill Thread
+
 actor "Tester" as ts
 participant "t: Tecton" as t
 participant "mt: MushroomThread" as mt
@@ -15,16 +17,14 @@ activate t
 ts <-- t
 deactivate t
 
-ts -> mt: 1.2 -> Initialize()
+ts -> mt: 1.2 -> Initialize(t)
 activate mt
+mt -> t: 1.2.1 -> addConnection(mt)
+activate t
+mt <-- t
+deactivate t
 ts <-- mt
 deactivate mt
-
-' tecton setup
-ts -> t: 2.1 -> addConnection(mt)
-activate t
-ts <-- t
-deactivate t
 
 deactivate ts
 
