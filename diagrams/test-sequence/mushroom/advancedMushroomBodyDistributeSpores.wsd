@@ -3,6 +3,9 @@
 title Advanced Mushroom Body Distribute Spores
 
 actor "Tester" as tester
+
+participant "Logger" as logger
+
 participant "body: MushroomBody" as body
 participant "body.tecton: Tecton" as tecton
 participant "tectonToSpore: Tecton" as tectonToSpore
@@ -68,5 +71,9 @@ tester <-- body
 deactivate body
 deactivate tester
 
+tester -> logger: print(null, "distributeSpores")
+activate logger
+logger --> tester
+deactivate logger
 
 @enduml
