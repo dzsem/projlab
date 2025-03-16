@@ -5,6 +5,8 @@
 
 @startuml communicationTecton1
 
+title Tecton Split,\nTecton Kill Thread
+
 actor "Tester" as ts
 participant "t: Tecton" as t
 participant "i: Insect" as i
@@ -21,47 +23,63 @@ activate t
 ts <-- t
 deactivate t
 
-ts -> i: 1.2 -> Initialize()
+ts -> i: 1.2 -> Initialize(t)
 activate i
+i -> t: registerInsect(i)
+activate t
+i <-- t
+deactivate t
 ts <-- i
 deactivate i
 
-ts -> mt1: 1.3 -> Initialize()
+ts -> mt1: 1.3 -> Initialize(t)
 activate mt1
+mt1 -> t: addConnection(mt1)
+activate t
+mt1 <-- t
+deactivate t
 ts <-- mt1
 deactivate mt1
 
-ts -> mt2: 1.4 -> Initialize()
+ts -> mt2: 1.4 -> Initialize(t)
 activate mt2
+mt2 -> t: addConnection(mt2)
+activate t
+mt2 <-- t
+deactivate t
 ts <-- mt2
 deactivate mt2
 
-ts -> mb: 1.5 -> Initialize()
+ts -> mb: 1.5 -> Initialize(t)
 activate mb
+mb -> t: setBody(mb)
+activate t
+mb <-- t
+deactivate t
 ts <-- mb
 deactivate mb
 
 ' tecton setup
 
-ts -> t: 2.1 -> addConnection(mt1)
-activate t
-ts <-- t
-deactivate t
+' ts -> t: 2.1 -> addConnection(mt1)
+' activate t
+' ts <-- t
+' deactivate t
 
-ts -> t: 2.2 -> addConnection(mt2)
-activate t
-ts <-- t
-deactivate t
+' ts -> t: 2.2 -> addConnection(mt2)
+' activate t
+' ts <-- t
+' deactivate t
 
-ts -> t: 2.3 -> registerInsect(i)
-activate t
-ts <-- t
-deactivate t
+' ts -> t: 2.3 -> registerInsect(i)
+' activate t
+' ts <-- t
+' deactivate t
 
-ts -> t: 2.4 -> setBody(mb)
-activate t
-ts <-- t
-deactivate t
+' ts -> t: 2.4 -> setBody(mb)
+' activate t
+' ts <-- t
+' deactivate t
 
 deactivate ts
 
