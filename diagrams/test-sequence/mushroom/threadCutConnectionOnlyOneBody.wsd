@@ -8,6 +8,8 @@ participant "mt1: MushroomThread" as mt1
 participant "mt2: MushroomThread" as mt2
 participant "mt3: MushroomThread" as mt3
 
+participant "Logger" as logger
+
 activate tester
 
 tester -> mt1: isConnectedToBody()
@@ -15,34 +17,69 @@ activate mt1
 mt1 --> tester: true
 deactivate mt1
 
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
 tester -> mt2: isConnectedToBody()
 activate mt2
 mt2 --> tester: true
 deactivate mt2
 
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
 tester -> mt3: isConnectedToBody()
 activate mt3
 mt3 --> tester: true
 deactivate mt3
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
 
 tester -> mt2: cut()
 activate mt2
 mt2 --> tester
 deactivate mt2
 
+tester -> logger: print("void", "cut")
+activate logger
+logger --> tester
+deactivate logger
+
 tester -> mt1: isConnectedToBody()
 activate mt1
 mt1 --> tester: false
 deactivate mt1
+
+tester -> logger: print(false, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
 
 tester -> mt2: isConnectedToBody()
 activate mt2
 mt2 --> tester: false
 deactivate mt2
 
+tester -> logger: print(false, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
 tester -> mt3: isConnectedToBody()
 activate mt3
 mt3 --> tester: true
 deactivate mt3
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
 
 @enduml
