@@ -14,7 +14,7 @@ activate mt1
 mt1 --> tester: false
 deactivate mt1
 
-tester -> logger: print("false", "isTraversible", mt2.tecton)
+tester -> logger: print("false", "isConnectingTecton", mt2.tecton)
 activate logger
 logger --> tester
 deactivate logger

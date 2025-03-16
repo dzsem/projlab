@@ -1,6 +1,6 @@
 @startuml Mushroom Thread Is Traversible Success
 
-title Mushroom Thread Is Traversible Success
+title Mushroom Thread Is Connecting Tecton Success
 
 actor "Tester" as tester
 
@@ -14,7 +14,7 @@ activate mt1
 mt1 --> tester: true
 deactivate mt1
 
-tester -> logger: print("true", "isTraversible", mt2.tecton)
+tester -> logger: print("true", "isConnectingTecton", mt2.tecton)
 activate logger
 logger --> tester
 deactivate logger
