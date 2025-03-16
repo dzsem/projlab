@@ -1,5 +1,5 @@
 @startuml Thread Is Traversible Fail Sprout
-title Thread Is Traversible Fail Sprout Init
+title Thread Is Connecting Tecton Fail Sprout Init
 
 actor "Tester" as tester
 
