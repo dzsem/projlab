@@ -19,12 +19,12 @@ activate t1
 t1 --> tester: 0
 deactivate t1
 
-tester -> logger: (0, "getSporeCount")
+tester -> logger: print(0, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
 
-tester -> t2: printgetSporeCount()
+tester -> t2: getSporeCount()
 activate t2
 t2 --> tester: 0
 deactivate t2
@@ -49,7 +49,7 @@ activate amb
 amb --> tester
 deactivate amb
 
-tester -> logger: print(null, "distributeSpores")
+tester -> logger: print("void", "distributeSpores")
 activate logger
 logger --> tester
 deactivate logger
@@ -83,6 +83,7 @@ tester -> logger: print(1, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
+
 
 deactivate tester
 @enduml
