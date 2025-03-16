@@ -1,0 +1,87 @@
+@startuml MushroomThread Init
+
+title Mushroom Thread Tests Init
+
+actor "Tester" as tester
+
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
+
+participant "mb: MushroomBody" as mb
+
+participant "normalThread: MushroomThread" as nmt
+participant "evolvingThread: MushroomThread" as emt
+participant "dissolvingThread: MushroomThread" as dimt
+participant "dyingThread: MushroomThread" as dymt
+
+'Initializing tectons
+activate tester
+tester -> t1: 1.1 Initiailze()
+activate t1
+t1 --> tester
+deactivate t1
+
+tester -> t2: 1.2 Initialize()
+activate t2
+t2 --> tester
+deactivate t2
+
+
+'Initializing mushroombody
+tester -> mb: 2 Initialize(t1)
+activate mb
+mb -> t1: 2.1 setBody(mb)
+activate t1
+t1 --> mb
+deactivate t1
+mb --> tester
+deactivate mb
+
+'Initializing threads
+tester -> nmt: Initialize(t1)
+activate nmt
+nmt -> t1: addConnection(normalThread)
+activate t1
+t1 --> nmt
+deactivate t1
+nmt --> tester
+deactivate nmt
+
+tester -> emt: Initialie(t1)
+activate emt
+emt -> t1: addConnection(normalThread)
+activate t1
+t1 --> emt
+deactivate t1
+emt --> tester
+deactivate emt
+
+tester -> emt: setTurnsToGrow(1)
+activate emt
+emt --> tester
+deactivate emt
+
+tester -> dimt: Initialize(t2)
+activate dimt
+dimt -> t2: addConnection(dissolvingThread)
+activate t2
+t2 --> dimt
+deactivate t2
+dimt --> tester
+deactivate dimt
+
+tester -> dymt: Intitialize(t2)
+activate dymt
+dymt -> t2: addConnection(dyingThread)
+activate t2
+t2 --> dymt
+deactivate t2
+dymt --> tester
+deactivate dymt
+
+tester -> dymt: setTursToDie(1)
+activate dymt
+dymt --> tester
+deactivate dymt
+
+@enduml
