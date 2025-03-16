@@ -5,32 +5,18 @@ title Create Connection To Non Neighbouring Tecton
 actor "Tester" as tester
 
 participant "mt: MushroomThread" as mt
-participant "mt.tecton: Tecton" as tecton
 participant "tecton: Tecton" as not_negihbour
+participant "Logger" as logger
 
 activate tester
+
 tester -> mt: createConnection(tecton)
 activate mt
-
-mt->tecton: getNeighbours()
-activate tecton
-tecton --> mt: neighbours: Tecton[0..*]
-deactivate tecton
-
-'mt -> mt: neighbours.contains(tecton)
-'activate mt
-'mt --> mt: false
-'deactivate mt
-
-alt neighbours.contains(tecton) 
-    mt --> tester
-else
-    mt --> tester: exception
-end
+mt --> tester: exception
 deactivate mt
+
+tester -> logger: printError("Tectons are not neighbours") 
 deactivate tester
-
-
 
 
 @enduml
