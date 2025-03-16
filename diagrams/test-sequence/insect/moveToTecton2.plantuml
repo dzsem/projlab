@@ -18,13 +18,6 @@ activate t
 	t <-- logger
 	deactivate logger
 
-	create originalTecton
-	t -> originalTecton: Initialize(ins.tecton)
-	activate originalTecton
-
-	t <-- originalTecton
-	deactivate originalTecton
-
 	t -> i: moveToTecton(t4)
 	activate i
 	note right: lásd: Insect.moveToTecton
@@ -43,7 +36,7 @@ activate t
 	t <-- logger
 	deactivate logger
 
-	opt ins.tecton != originalTecton
+	opt ins.tecton != t1
 		t -> logger: printError("test_moveToTecton2 failed")
 		activate logger
 
