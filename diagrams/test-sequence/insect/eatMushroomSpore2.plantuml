@@ -1,0 +1,51 @@
+@startuml test_eatMushroomSpore2
+
+title EatMushroomSpore Fail (no spore on tecton)
+
+actor "Tesztelő" as t
+participant "insect: Insect" as i
+participant "t1: Tecton" as t1
+participant "logger: Logger" as logger
+
+activate t
+t -> t: test_eatMushroomSpore2()
+note right: ld. sikertelen eatMushroomSpore teszt init diagram
+activate t
+
+	t -> logger: printState(t1)
+	activate logger
+
+	t <-- logger
+	deactivate logger
+
+	t -> i: eatMushroomSpore()
+	activate i
+	note right: lásd: Insect.eatMushroomSpore
+
+	t <-- i: Exception
+	deactivate i
+
+	opt did not catch Exception
+		t -> logger: printError("eatMushroomSpore didn't throw as expected")
+		activate logger
+
+		t <-- logger
+		deactivate logger
+	end
+
+	t -> logger: print("void", "eatMushroomSpore")
+	activate logger
+
+	t <-- logger
+	deactivate logger
+
+	t -> logger: printState(t1)
+	activate logger
+	t <-- logger
+	deactivate logger
+
+	deactivate t
+deactivate t
+
+
+@enduml

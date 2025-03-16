@@ -1,0 +1,32 @@
+@startuml eatMushroomSporeInit
+
+title EatMushroomSpore sikeres tesztesetének inicializációja
+
+actor Tesztelő as tester
+
+activate tester
+
+create participant "t1: Tecton" as t1
+tester -> t1: 1 → Initialize()
+note right: ld. eatMushroomSpore success
+activate t1
+
+tester <-- t1
+deactivate t1
+
+create participant "ins: Insect" as ins
+tester -> ins: 2 → Initialize(t1)
+activate ins
+
+tester <-- ins
+deactivate ins
+
+
+create participant "spore: MushroomSpore" as spore
+tester -> spore: 3 → Initialize(t1)
+activate spore
+
+tester <-- spore
+deactivate spore
+
+@enduml

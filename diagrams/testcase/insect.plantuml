@@ -14,7 +14,7 @@ rectangle "Insect Tests" {
 	usecase "Cut Thread Fail\n(thread unconnected to insect's tecton)" as test7
 
 	usecase "Eat Mushroom Spore Success" as test8
-	usecase "Eat Mushroom Spore Fail\n(selected spore not on tecton)" as test9
+	usecase "Eat Mushroom Spore Fail\n(no spore on tecton)" as test9
 }
 
 t -- test1
