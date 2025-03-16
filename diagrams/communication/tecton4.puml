@@ -1,0 +1,51 @@
+' Test-casek:
+'   - SingleThreadTecton Grow Thread Success
+'   - SingleThreadTecton Grow Thread Fail
+
+@startuml communicationTecton4
+
+actor "Tester" as ts
+participant "t1: SingleThreadTecton" as t1
+participant "t2: SingleThreadTecton" as t2
+participant "mt: MushroomThread" as mt
+
+activate ts
+
+' inicializálás
+ts -> t1: 1.1.1 -> Initialize()
+activate t1
+ts <-- t1
+deactivate t1
+
+ts -> t2: 1.1.2 -> Initialize()
+activate t2
+ts <-- t2
+deactivate t2
+
+ts -> mt: 1.2.1 -> Initialize()
+activate mt
+ts <-- mt
+deactivate mt
+
+' t1 setup
+' t1-n van mt; t1 és t2 szomszédosak
+ts -> t1: 2.1.1 -> registerNeighbour(t2)
+activate t1
+ts <-- t1
+deactivate t1
+
+ts -> t1: 2.2.1 -> addConnection(mt)
+activate t1
+ts <-- t1
+deactivate t1
+
+' t2 setup
+' t1-n van mt; t1 és t2 szomszédosak
+ts -> t2: 2.1.1 -> registerNeighbour(t1)
+activate t2
+ts <-- t2
+deactivate t2
+
+deactivate ts
+
+@enduml
