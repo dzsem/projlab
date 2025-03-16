@@ -5,7 +5,6 @@ title NEM A DOKSIBA VALÓ!\nInsect tesztesetek pályájának vizualizációja
 
 rectangle Pálya {
 	rectangle t1 {
-		rectangle mb
 		rectangle insect
 	}
 

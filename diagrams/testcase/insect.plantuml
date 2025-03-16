@@ -7,11 +7,11 @@ rectangle "Insect Tests" {
     usecase "Move to Tecton Success" as test1
 	usecase "Move to (non-neighboring) Tecton Fail" as test2
 	usecase "Move to (unconnected) Tecton Fail" as test3
-	usecase "Move to Tecton Fail (while blocked)" as test4
+	usecase "Move to Tecton Fail (while stunned)" as test4
 
 	usecase "Cut Thread Success" as test5
 	usecase "Cut Thread Fail\n(cutting disabled)" as test6
-	usecase "Cut Thread Fail\n(thread not on insect's tecton)" as test7
+	usecase "Cut Thread Fail\n(thread unconnected to insect's tecton)" as test7
 
 	usecase "Eat Mushroom Spore Success" as test8
 	usecase "Eat Mushroom Spore Fail\n(selected spore not on tecton)" as test9

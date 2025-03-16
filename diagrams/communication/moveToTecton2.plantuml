@@ -1,0 +1,100 @@
+@startuml moveToTectonInitFlow2
+
+title MoveToTecton teszteset inicializálása bénított esetre
+
+actor Tesztelő as tester
+
+activate tester
+
+create participant "t1: Tecton" as t1
+tester -> t1: 1.1 → Initialize()
+note right: ld. moveToTecton Fail (while stunned) teszteset
+activate t1
+
+tester <-- t1
+deactivate t1
+
+create participant "t2: Tecton" as t2
+tester -> t2: 1.2 → Initialize()
+activate t2
+
+tester <-- t2
+deactivate t2
+
+tester -> t1: 2 → addNeighbour([t2])
+activate t1
+
+	t1 -> t2: 2.1 → registerNeighbour(t1)
+	activate t2
+
+	t1 <-- t2
+	deactivate t2
+
+tester <-- t1
+deactivate t1
+
+create participant "ins: Insect" as ins
+tester -> ins: 3 → Initialize(t1)
+activate ins
+
+	ins -> t1: 3.1 → registerInsect(t1)
+	activate t1
+
+	ins <-- t1
+	deactivate t1
+
+tester <-- ins
+deactivate ins
+
+create participant "mt1: MushroomThread" as mt1
+tester -> mt1: 4 → Initialize(t1)
+activate mt1
+
+	mt1 -> t1: 4.1 → registerThread(mt1)
+	activate t1
+
+	mt1 <-- t1
+	deactivate t1
+
+tester <-- mt1
+deactivate mt1
+
+tester -> mt1: 5 → createConnection(t2)
+activate mt1
+	create participant "mt2: MushroomThread" as mt2
+	mt1 -> mt2: 5.1 → Initialize(t2)
+	activate mt2
+
+		mt2 -> t2: 5.1.1 → registerThread(mt2)
+		activate t2
+
+		mt2 <-- t2
+		deactivate t2
+
+	mt1 <-- mt2
+	deactivate mt2
+
+	mt1 -> mt2: 5.2 → registerConnectedThread(mt1)
+	activate mt2
+
+	mt1 <-- mt2
+	deactivate mt2
+tester <-- mt1
+deactivate mt1
+
+create participant "stunEffect: StunEffect" as ste
+tester -> ste: 6 → Initialize()
+activate ste
+
+tester <-- ste
+deactivate ste
+
+tester -> ste: applyEffect(ins)
+activate ste
+
+tester <-- ste
+deactivate ste
+
+deactivate tester
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml ill_test_insect_moveToTecton
+
+title NEM A DOKSIBA VALÓ!\nInsect bénított teszteset pályájának vizualizációja
+' ~Tamás
+
+rectangle Pálya {
+	rectangle t1 {
+		rectangle insect
+		note right: BlockEffect applied
+	}
+
+	rectangle t2
+}
+
+t1 -- t2: (neighbor)
+t1 = t2: mt1
+
+@enduml
