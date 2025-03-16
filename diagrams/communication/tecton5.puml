@@ -3,6 +3,8 @@
 
 @startuml communicationTecton5
 
+title InfertileTecton Grow Body Fail
+
 actor "Tester" as ts
 participant "t: InfertileTecton" as t
 participant "mb: MushroomBody" as mb
@@ -19,9 +21,6 @@ ts -> mb: 1.2.1 -> Initialize()
 activate mb
 ts <-- mb
 deactivate mb
-
-' tecton setup
-
 
 deactivate ts
 
