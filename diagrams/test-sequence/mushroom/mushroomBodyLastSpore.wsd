@@ -3,26 +3,44 @@
 title Mushroom Body Last Spore
 
 actor "Tester" as tester
-participant "body: MushroomBody" as body
-participant "body.tecton: Tecton" as tecton
+participant "lastSporeBody: MushroomBody" as lsmb
+participant "t2: Tecton" as t2
+participant "Logger" as logger
 
-tester -> body: distributeSpores()
 activate tester
-activate body
 
-body -> body: remainingSpores--;
-activate body
-body--> body
-deactivate body 
+tester -> t2: hasBody()
+activate t2
+t2 --> tester: true
+deactivate t2
 
-body -> tecton: removeBody(body)
-activate tecton
-tecton --> body
-deactivate tecton
+tester -> logger: print(true, "hasBody")
+activate logger
+logger --> tester
+deactivate logger 
+
+tester -> lsmb: distributeSpores()
+activate lsmb
+lsmb --> tester
+deactivate lsmb
+
+tester -> logger: print(null, "distributeSpores")
+activate logger
+logger --> tester
+deactivate logger 
+
+tester -> t2: hasBody()
+activate t2
+t2 --> tester: false
+deactivate t2
+
+tester -> logger: print(false, "hasBody")
+activate logger
+logger --> tester
+deactivate logger 
 
 
-body --> tester
-deactivate body
+
 deactivate tester
 
 @enduml
