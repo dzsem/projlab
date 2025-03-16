@@ -89,7 +89,7 @@ activate ste
 tester <-- ste
 deactivate ste
 
-tester -> ste: applyEffect(ins)
+tester -> ste: 7 → applyEffect(ins)
 activate ste
 
 tester <-- ste

@@ -93,17 +93,17 @@ activate mt1
 tester <-- mt1
 deactivate mt1
 
-tester -> mt1: 6 → createConnection(t4)
+tester -> mt1: 6 → createConnection(t3)
 activate mt1
 	create participant "mt2: MushroomThread" as mt2
-	mt1 -> mt2: 6.1 → Initialize(t4)
+	mt1 -> mt2: 6.1 → Initialize(t3)
 	activate mt2
 
-		mt2 -> t4: 6.1.1 → registerThread(mt2)
-		activate t4
+		mt2 -> t3: 6.1.1 → registerThread(mt2)
+		activate t3
 
-		mt2 <-- t4
-		deactivate t4
+		mt2 <-- t3
+		deactivate t3
 
 	mt1 <-- mt2
 	deactivate mt2
@@ -115,6 +115,48 @@ activate mt1
 	deactivate mt2
 tester <-- mt1
 deactivate mt1
+
+tester -> mt2: 7 → createConnection(t4)
+activate mt2
+	create participant "mt3: MushroomThread" as mt3
+	mt2 -> mt3: 7.1 → Initialize(t4)
+	activate mt3
+
+		mt3 -> t4: 7.1.1 → registerThread(mt3)
+		activate t4
+
+		mt3 <-- t4
+		deactivate t4
+
+	mt2 <-- mt3
+	deactivate mt3
+
+	mt2 -> mt3: 7.2 → registerConnectedThread(mt2)
+	activate mt3
+
+	mt2 <-- mt3
+	deactivate mt3
+tester <-- mt2
+deactivate mt2
+
+tester -> mt1: 8.1 → setGrowState(GrowState.GROWN)
+activate mt1
+note right: Legyen azonnal kifejlődve\na gombafonál. A fonalak\nalapértelmezetten nincsenek elvágva.
+
+tester <-- mt1
+deactivate mt1
+
+tester -> mt2: 8.2 → setGrowState(GrowState.GROWN)
+activate mt2
+
+tester <-- mt2
+deactivate mt2
+
+tester -> mt3: 8.3 → setGrowState(GrowState.GROWN)
+activate mt3
+
+tester <-- mt3
+deactivate mt3
 
 deactivate tester
 
