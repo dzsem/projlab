@@ -70,6 +70,11 @@ deactivate t2
 dimt --> tester
 deactivate dimt
 
+tester -> dimt: 5.2 setTursToDie(2)
+activate dimt
+dimt --> tester
+deactivate dimt
+
 tester -> dymt: 6.1 Intitialize(t2)
 activate dymt
 dymt -> t2: 6.1.1 addConnection(dyingThread)

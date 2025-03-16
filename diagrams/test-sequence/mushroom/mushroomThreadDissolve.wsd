@@ -3,24 +3,36 @@
 title Mushroom Thread Dissolve
 
 actor "Tester" as tester
-participant "mt: MushroomThread" as mt
+participant "dissolvingThread: MushroomThread" as dimt
 
-tester -> mt: onEndOfTheRound()
 activate tester
-activate mt
 
-mt -> mt: isConnectedToBody()
-activate mt
-mt --> mt: isConnected
-deactivate mt
+tester -> dimt: getTurnsToDie()
+activate dimt
+dimt --> tester: 2
+deactivate dimt
 
-mt -> mt: decreaseTurnsToDie--
-activate mt
-mt --> mt
-deactivate mt
+tester -> logger: print(2, "getTurnsToDie")
+activate logger
+logger --> tester
+deactivate logger
 
-mt --> tester
-deactivate mt
+tester -> dimt: onEndOfTheRound()
+activate dimt
+dimt --> tester
+deactivate dimt
+
+tester -> dimt: getTurnsToDie()
+activate dimt
+dimt --> tester: 1
+deactivate dimt
+
+tester -> logger: print(1, "getTurnsToDie")
+activate logger
+logger --> tester
+deactivate logger
+
+
 deactivate tester
 
 
