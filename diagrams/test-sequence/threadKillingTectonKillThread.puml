@@ -1,13 +1,19 @@
 @startuml threadKillingTectonKillThreadTest
 
+title ThreadKillingTecton Kill Thread
+
 actor "Tester" as tst
 participant "tec: ThreadKillingTecton" as tec
 participant "mt: MushroomThread" as mt
 participant "ct: MushroomThread" as ct
-participant "from: Tecton" as from
-participant "to: Tecton" as to
+participant "l: Logger" as l
 
 activate tst
+
+tst -> l: printState(tec)
+activate l
+tst <-- l
+deactivate l
 
 tst -> tec: killThread(mt)
 activate tec
@@ -23,23 +29,18 @@ loop ct in connectedThreads
     deactivate ct
 end
 
-mt -> from: removeConnection(mt)
-activate from
-
-mt <-- from
-deactivate from
-
-mt -> to: removeConnection(mt)
-activate to
-
-mt <-- to
-deactivate to
-
 tec <-- mt
 deactivate mt
 
+tec -> tec: removeConnection(mt)
+
 tst <-- tec
 deactivate tec
+
+tst -> l: printState(tec)
+activate l
+tst <-- l
+deactivate l
 
 deactivate tst
 
