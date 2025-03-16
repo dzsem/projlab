@@ -64,7 +64,7 @@ deactivate ct1
 
 mt1 -> ct2: 5.3 add(mt1)
 activate ct2
-ct2 -> mt1
+ct2 --> mt1
 deactivate ct2
 
 mt1 --> tester
