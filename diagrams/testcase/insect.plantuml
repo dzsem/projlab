@@ -1,0 +1,23 @@
+@startuml insectTestCases
+left to right direction
+
+actor "Tester" as t
+
+rectangle "Insect Tests" {
+    usecase "Move to Tecton Success" as test1
+	usecase "Move to (non-neighboring) Tecton Fail" as test2
+	usecase "Move to (unconnected) Tecton Fail" as test3
+	usecase "Move to Tecton Fail (while stunned)" as test4
+
+	usecase "Eat Mushroom Spore Success" as test5
+	usecase "Eat Mushroom Spore Fail\n(no spore on tecton)" as test6
+}
+
+t -- test1
+t -- test2
+t -- test3
+t -- test4
+t -- test5
+t -- test6
+
+@enduml
