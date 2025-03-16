@@ -1,0 +1,22 @@
+@startuml Mushroom Thread Is Traversible Fail Cut
+
+title Mushroom Thread Is Traversible Fail Cut
+
+actor "Tester" as tester
+
+participant "mt1: MushroomThread" as mt1
+participant "Logger" as logger
+participant "mt2.tecton: Tecton" as t2
+
+activate tester
+tester -> mt1: isConnectingTecton(mt2.tecton)
+activate mt1
+mt1 --> tester: false
+deactivate mt1
+
+tester -> logger: print("false", "isTraversible", mt2.tecton)
+activate logger
+logger --> tester
+deactivate logger
+
+@enduml
