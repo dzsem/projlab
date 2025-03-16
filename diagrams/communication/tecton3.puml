@@ -1,0 +1,154 @@
+' Test-casek:
+' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt
+' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt
+' - Tecton Grow Body Success: t1-en van mt; t1-en van s1, s2 és s3; t1-en nincs mb
+' - Tecton Grow Body Thread Fail: t2-n nincs mt; t2-n van s1, s2 és s3; t2-n nincs mb
+' - Tecton Grow Body Spore Fail: t3-on van mt; t3-on nincs spóra; t3-on nincs mb
+' - Tecton Grow Body Body Fail: t4-en van mt; t4-en van s1, s2, s3; t4-en van mb
+
+@startuml communicationTecton3
+
+actor "Tester" as ts
+' t1 szomszédos t2-vel, de t3-al nem, így több test-casere is jó lesz a diagram 
+participant "t1: Tecton" as t1 
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+participant "t4: Tecton" as t4
+participant "mt: MushroomThread" as mt
+participant "mb: MushroomBody" as mb
+participant "s1: Spore" as s1
+participant "s2: Spore" as s2
+participant "s3: Spore" as s3
+
+activate ts
+
+' inicializálás
+ts -> t1: 1.1.1 -> Initialize()
+activate t1
+ts <-- t1
+deactivate t1
+
+ts -> t2: 1.1.2 -> Initialize()
+activate t2
+ts <-- t2
+deactivate t2
+
+ts -> t3: 1.1.3 -> Initialize()
+activate t3
+ts <-- t3
+deactivate t3
+
+ts -> t4: 1.1.4 -> Initialize()
+activate t4
+ts <-- t4
+deactivate t4
+
+ts -> mt: 1.2.1 -> Initialize()
+activate mt
+ts <-- mt
+deactivate mt
+
+ts -> mb: 1.3.1 -> Initialize()
+activate mb
+ts <-- mb
+deactivate mb
+
+ts -> s1: 1.4.1 -> Initialize()
+activate s1
+ts <-- s1
+deactivate s1
+
+ts -> s2: 1.4.2 -> Initialize()
+activate s2
+ts <-- s2
+deactivate s2
+
+ts -> s3: 1.4.3 -> Initialize()
+activate s3
+ts <-- s3
+deactivate s3
+
+' t1 setup:
+' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt
+' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt
+' - Tecton Grow Body Success: t1-en van mt; t1-en van s1, s2 és s3; t1-en nincs mb
+ts -> t1: 2.1.1.1 -> registerNeighbour(t2)
+activate t1
+ts <-- t1
+deactivate t1
+
+ts -> t1: 2.1.2.1 -> addSpore(s1)
+activate t1
+ts <-- t1
+deactivate t1
+ts -> t1: 2.1.2.2 -> addSpore(s2)
+activate t1
+ts <-- t1
+deactivate t1
+ts -> t1: 2.1.2.3 -> addSpore(s3)
+activate t1
+ts <-- t1
+deactivate t1
+
+ts -> t1: 2.1.3.1 -> addConnection(mt)
+activate t1
+ts <-- t1
+deactivate t1
+
+' t2 setup:
+' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt
+' - Tecton Grow Body Thread Fail: t2-n nincs mt; t2-n van s1, s2 és s3; t2-n nincs mb
+ts -> t2: 2.2.1.1 -> registerNeighbour(t1)
+activate t2
+ts <-- t2
+deactivate t2
+
+ts -> t2: 2.2.2.1 -> addSpore(s1)
+activate t2
+ts <-- t2
+deactivate t2
+ts -> t2: 2.2.2.2 -> addSpore(s2)
+activate t2
+ts <-- t2
+deactivate t2
+ts -> t2: 2.2.2.3 -> addSpore(s3)
+activate t2
+ts <-- t2
+deactivate t2
+
+' t3 setup:
+' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt
+' - Tecton Grow Body Spore Fail: t3-on van mt; t3-on nincs spóra; t3-on nincs mb
+ts -> t3: 2.3.1.1 -> addConnection(mt)
+activate t3
+ts <-- t3
+deactivate t3
+
+' t4 setup:
+' - Tecton Grow Body Body Fail: t4-en van mt; t4-en van s1, s2, s3; t4-en van mb
+ts -> t4: 2.4.1.1 -> addConnection(mt)
+activate t4
+ts <-- t4
+deactivate t4
+
+ts -> t4: 2.4.2.1 -> addSpore(s1)
+activate t4
+ts <-- t4
+deactivate t4
+ts -> t4: 2.4.2.2 -> addSpore(s2)
+activate t4
+ts <-- t4
+deactivate t4
+ts -> t4: 2.4.2.3 -> addSpore(s3)
+activate t4
+ts <-- t4
+deactivate t4
+
+ts -> t4: 2.4.3.1 -> setBody(mb)
+activate t4
+ts <-- t4
+deactivate t4
+
+deactivate ts
+
+@enduml

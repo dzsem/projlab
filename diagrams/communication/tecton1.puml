@@ -63,4 +63,6 @@ activate t
 ts <-- t
 deactivate t
 
+deactivate ts
+
 @enduml
