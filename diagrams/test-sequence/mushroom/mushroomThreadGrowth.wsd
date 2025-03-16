@@ -3,19 +3,41 @@
 title Mushroom Thread Growth
 
 actor "Tester" as tester
-participant "mt: MushroomThread" as mt
+participant "normalThread: MushroomThread" as nmt
+participant "Logger" as logger
 
-tester -> mt: grow() 
 activate tester
-activate mt
 
-mt -> mt: turnsToGrow--
-activate mt
-mt --> mt
-deactivate mt
+tester -> nmt: getTurnsToGrow()
+activate nmt
+nmt --> tester: 3
+deactivate nmt
 
-mt --> tester
-deactivate mt
+tester -> logger: print(3, getTurnsToGrow) 
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> nmt: grow() 
+activate nmt
+nmt --> tester
+deactivate nmt
+
+tester -> logger: print("void", grow) 
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> nmt: getTurnsToGrow()
+activate nmt
+nmt --> tester: 2
+deactivate nmt
+
+tester -> logger: print(2, getTurnsToGrow) 
+activate logger
+logger --> tester
+deactivate logger
+
 deactivate tester
 
 
