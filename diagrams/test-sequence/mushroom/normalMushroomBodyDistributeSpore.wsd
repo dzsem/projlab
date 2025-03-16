@@ -3,60 +3,87 @@
 title Normal Mushroom Body Distribute Spores
 
 actor "Tester" as tester
-participant "body: MushroomBody" as body
-participant "body.tecton: Tecton" as tecton
-participant "tectonToSpore: Tecton" as tectonToSpore
-collections "tectonsToSpore.spores: MushroomSpore[0..*]" as spores
-collections "tectonsToSpore: Tecton[0..*]" as tectons 
-participant "spore: MushroomSpore" as spore
-collections "neighbours: Tecton[0..*]"
 
-tester -> body : distributeSpores()
+participant "Logger" as logger
+
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+
+participant "normalBody: MushroomBody" as amb
+
 activate tester
-activate body
 
-body -> tecton : getNeighbours()
+tester -> t1: getSporeCount()
+activate t1
+t1 --> tester: 0
+deactivate t1
 
-activate tecton
-tecton --> body : neighbours: Tecton[0..*]
-deactivate tecton
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
 
-body --> tectons: Instantiate
-activate tectons
-deactivate tectons
+tester -> t2: getSporeCount()
+activate t2
+t2 --> tester: 0
+deactivate t2
 
-    
-    body -> tectons: add(body.tecton)
-    activate tectons
-    tectons --> body
-    deactivate tectons
-    
-    body -> tectons: addAll(neighbours);
-    activate tectons
-    tectons --> body
-    deactivate tectons
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
 
-    loop for each tectonToSpore in tectonsToSpore
-        body -> tectonToSpore : addSpore(spore: MuhsroomSpore)
-        activate tectonToSpore
+tester -> t3: getSporeCount()
+activate t3
+t3 --> tester: 0
+deactivate t3
 
-        tectonToSpore -> spores: add(spore: MushroomSpore)
-        activate spores
-        spores --> tectonToSpore
-        deactivate spores
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
 
-        tectonToSpore --> body 
-        deactivate tectonToSpore
-    end
+tester -> amb: distributeSpores() 
+activate amb
+amb --> tester
+deactivate amb
 
-    body -> body: remainingSpores--;
-    activate body
-    body --> body
-    deactivate body
+tester -> logger: print("void", "distributeSpores")
+activate logger
+logger --> tester
+deactivate logger
 
-tester <-- body
-deactivate body
+tester -> t1: getSporeCount()
+activate t1
+t1 --> tester: 0
+deactivate t1
+
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t2: getSporeCount()
+activate t2
+t2 --> tester: 1
+deactivate t2
+
+tester -> logger: print(1, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t3: getSporeCount()
+activate t3
+t3 --> tester: 1
+deactivate t3
+
+tester -> logger: print(1, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+
 deactivate tester
-
-
 @enduml
