@@ -1,0 +1,11 @@
+@startuml Mushroom Body Tests Init
+
+title Msuhroom Body Tests Init
+
+
+participant "advancedBody: MushroomBody" as amb
+participant "normalBody: MushroomBody" as nmb
+participant "lastSporeBody: MushroomBody" as lsmb
+
+
+@enduml
