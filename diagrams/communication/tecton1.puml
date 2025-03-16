@@ -25,7 +25,7 @@ deactivate t
 
 ts -> i: 1.2 -> Initialize(t)
 activate i
-i -> t: registerInsect(i)
+i -> t: 1.2.1 <- registerInsect(i)
 activate t
 i <-- t
 deactivate t
@@ -34,7 +34,7 @@ deactivate i
 
 ts -> mt1: 1.3 -> Initialize(t)
 activate mt1
-mt1 -> t: addConnection(mt1)
+mt1 -> t: 1.3.1 <- addConnection(mt1)
 activate t
 mt1 <-- t
 deactivate t
@@ -43,7 +43,7 @@ deactivate mt1
 
 ts -> mt2: 1.4 -> Initialize(t)
 activate mt2
-mt2 -> t: addConnection(mt2)
+mt2 -> t: 1.4.1 <- addConnection(mt2)
 activate t
 mt2 <-- t
 deactivate t
@@ -52,34 +52,12 @@ deactivate mt2
 
 ts -> mb: 1.5 -> Initialize(t)
 activate mb
-mb -> t: setBody(mb)
+mb -> t: 1.5.1 <- setBody(mb)
 activate t
 mb <-- t
 deactivate t
 ts <-- mb
 deactivate mb
-
-' tecton setup
-
-' ts -> t: 2.1 -> addConnection(mt1)
-' activate t
-' ts <-- t
-' deactivate t
-
-' ts -> t: 2.2 -> addConnection(mt2)
-' activate t
-' ts <-- t
-' deactivate t
-
-' ts -> t: 2.3 -> registerInsect(i)
-' activate t
-' ts <-- t
-' deactivate t
-
-' ts -> t: 2.4 -> setBody(mb)
-' activate t
-' ts <-- t
-' deactivate t
 
 deactivate ts
 
