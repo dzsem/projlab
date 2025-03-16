@@ -15,7 +15,7 @@ activate t
 ts <-- t
 deactivate t
 
-ts -> mb: 1.2.1 -> Initialize()
+ts -> mb: 1.2.1 -> Initialize(t)
 activate mb
 ts <-- mb
 deactivate mb
