@@ -36,6 +36,7 @@ tester <-- t4
 deactivate t4
 
 tester -> t1: 2 → addNeighbour([t2, t3])
+note right: t2 és t3 hozzáadása t1-hez a neighbours asszociációba\nt2 és t3 értesítése
 activate t1
 
 	t1 -> t2: 2.1 → registerNeighbour(t1)
@@ -67,16 +68,10 @@ tester <-- t4
 deactivate t4
 
 create participant "ins: Insect" as ins
-tester -> ins: 4.1 → Initialize()
+tester -> ins: 4 → Initialize(t1)
 activate ins
 
-tester <-- ins
-deactivate ins
-
-tester -> ins: 4.2 → setTecton(t1)
-activate ins
-
-	ins -> t1: 4.2.1 → registerInsect(t1)
+	ins -> t1: 4.1 → registerInsect(t1)
 	activate t1
 
 	ins <-- t1
@@ -85,34 +80,35 @@ activate ins
 tester <-- ins
 deactivate ins
 
-create participant "mb: MushroomBody" as mb
-tester -> mb: 5 → Initialize(t1)
-activate mb
+create participant "mt1: MushroomThread" as mt1
+tester -> mt1: 5 → Initialize(t1)
+activate mt1
 
-	mb -> t1: setBody(mb)
-	activate t1
+	mt1 -> t4: 5.1 → registerThread(mt1)
+	activate t4
 
-	mb <-- t1
-	deactivate t1
+	mt1 <-- t4
+	deactivate t4
 
-tester <-- mb
-deactivate mb
+tester <-- mt1
+deactivate mt1
 
-tester -> mb: 6 → createConnection(t3)
-activate mb
-	create participant "mt1: MushroomThread" as mt1
-	mb -> mt1: 6.1 → Initialize(???)
-	activate mt1
-
-	mb <-- mt1
-	deactivate mt1
-tester <-- mb
-deactivate mb
-
-tester -> mt1: 7 → createConnection(t4)
+tester -> mt1: 6 → createConnection(t4)
 activate mt1
 	create participant "mt2: MushroomThread" as mt2
-	mt1 -> mt2: 7.1 → Initialize(???)
+	mt1 -> mt2: 6.1 → Initialize(t4)
+	activate mt2
+
+		mt2 -> t4: 6.1.1 → registerThread(mt2)
+		activate t4
+
+		mt2 <-- t4
+		deactivate t4
+
+	mt1 <-- mt2
+	deactivate mt2
+
+	mt1 -> mt2: 6.2 → registerConnectedThread(mt1)
 	activate mt2
 
 	mt1 <-- mt2
