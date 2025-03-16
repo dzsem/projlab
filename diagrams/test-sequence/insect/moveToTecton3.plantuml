@@ -8,50 +8,47 @@ participant "t2: Tecton" as t2
 participant "logger: Logger" as logger
 
 activate t
-t -> t: test_moveToTecton3()
+
+t -> logger: printState(insect)
 note right: ld. MoveToTecton teszt init diagram
-activate t
+activate logger
 
-	t -> logger: printState(insect)
+t <-- logger
+deactivate logger
+
+create originalTecton
+t -> originalTecton: Initialize(ins.tecton)
+activate originalTecton
+
+t <-- originalTecton
+deactivate originalTecton
+
+t -> i: moveToTecton(t2)
+activate i
+note right: lásd: Insect.moveToTecton
+
+t <-- i
+deactivate i
+
+t -> logger: print("void", "moveToTecton", t2)
+activate logger
+
+t <-- logger
+deactivate logger
+
+t -> logger: printState(insect)
+activate logger
+t <-- logger
+deactivate logger
+
+opt ins.tecton != originalTecton
+	t -> logger: printError("test_moveToTecton3 failed")
 	activate logger
 
 	t <-- logger
 	deactivate logger
+end
 
-	create originalTecton
-	t -> originalTecton: Initialize(ins.tecton)
-	activate originalTecton
-
-	t <-- originalTecton
-	deactivate originalTecton
-
-	t -> i: moveToTecton(t2)
-	activate i
-	note right: lásd: Insect.moveToTecton
-
-	t <-- i
-	deactivate i
-
-	t -> logger: print("void", "moveToTecton", t2)
-	activate logger
-
-	t <-- logger
-	deactivate logger
-
-	t -> logger: printState(insect)
-	activate logger
-	t <-- logger
-	deactivate logger
-
-	opt ins.tecton != originalTecton
-		t -> logger: printError("test_moveToTecton3 failed")
-		activate logger
-
-		t <-- logger
-		deactivate logger
-	end
-
-	deactivate t
 deactivate t
 
 

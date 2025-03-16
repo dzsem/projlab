@@ -8,44 +8,40 @@ participant "t1: Tecton" as t1
 participant "logger: Logger" as logger
 
 activate t
-t -> t: test_eatMushroomSpore2()
+
+t -> logger: printState(t1)
 note right: ld. sikertelen eatMushroomSpore teszt init diagram
-activate t
+activate logger
 
-	t -> logger: printState(t1)
+t <-- logger
+deactivate logger
+
+t -> i: eatMushroomSpore()
+activate i
+note right: lásd: Insect.eatMushroomSpore
+
+t <-- i: Exception
+deactivate i
+
+opt did not catch Exception
+	t -> logger: printError("eatMushroomSpore didn't throw as expected")
 	activate logger
 
 	t <-- logger
 	deactivate logger
+end
 
-	t -> i: eatMushroomSpore()
-	activate i
-	note right: lásd: Insect.eatMushroomSpore
+t -> logger: print("void", "eatMushroomSpore")
+activate logger
 
-	t <-- i: Exception
-	deactivate i
+t <-- logger
+deactivate logger
 
-	opt did not catch Exception
-		t -> logger: printError("eatMushroomSpore didn't throw as expected")
-		activate logger
+t -> logger: printState(t1)
+activate logger
+t <-- logger
+deactivate logger
 
-		t <-- logger
-		deactivate logger
-	end
-
-	t -> logger: print("void", "eatMushroomSpore")
-	activate logger
-
-	t <-- logger
-	deactivate logger
-
-	t -> logger: printState(t1)
-	activate logger
-	t <-- logger
-	deactivate logger
-
-	deactivate t
 deactivate t
-
 
 @enduml

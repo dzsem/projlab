@@ -8,43 +8,40 @@ participant "target: Tecton" as target
 participant "logger: Logger" as logger
 
 activate t
-t -> t: test_moveToTecton4()
+
+t -> logger: printState(insect)
 note right: ld. MoveToTecton (bénított eset) teszt init diagram
-activate t
+activate logger
 
-	t -> logger: printState(insect)
+t <-- logger
+deactivate logger
+
+t -> i: moveToTecton(target)
+activate i
+note right: lásd: Insect.moveToTecton
+
+t <-- i
+deactivate i
+
+t -> logger: print("void", "moveToTecton", target)
+activate logger
+
+t <-- logger
+deactivate logger
+
+t -> logger: printState(insect)
+activate logger
+t <-- logger
+deactivate logger
+
+opt ins.tecton != t1
+	t -> logger: printError("test_moveToTecton4 failed")
 	activate logger
 
 	t <-- logger
 	deactivate logger
+end
 
-	t -> i: moveToTecton(target)
-	activate i
-	note right: lásd: Insect.moveToTecton
-
-	t <-- i
-	deactivate i
-
-	t -> logger: print("void", "moveToTecton", target)
-	activate logger
-
-	t <-- logger
-	deactivate logger
-
-	t -> logger: printState(insect)
-	activate logger
-	t <-- logger
-	deactivate logger
-
-	opt ins.tecton != t1
-		t -> logger: printError("test_moveToTecton4 failed")
-		activate logger
-
-		t <-- logger
-		deactivate logger
-	end
-
-	deactivate t
 deactivate t
 
 
