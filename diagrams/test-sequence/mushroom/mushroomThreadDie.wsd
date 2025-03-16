@@ -3,30 +3,42 @@
 title Mushroom Thread Die
 
 actor "Tester" as tester
-participant "mt: MushroomThread" as mt
+participant "dyingThread: MushroomThread" as dymt
+participant "t2: Tecton" as t2
+participant "Logger" as logger
 
-tester -> mt: onEndOfTheRound() 
+
 activate tester
-activate mt
 
-mt -> mt: isConnectedToBody()
-activate mt
-mt --> mt: isConnected
-deactivate mt
+tester -> t2: hasThreadFromMushroom(dyingThread)
+activate t2
+t2 --> tester: true
+deactivate t2
 
-mt -> mt: decreaseTurnsToDie()
-activate mt
-mt --> mt
-deactivate mt
+tester -> logger: print(true, hasThreadFromMushroom)
+activate logger
+logger --> tester
+deactivate logger
 
-mt -> mt: dieIfUnconnected()
-activate mt
-mt --> mt 
-deactivate mt
+tester -> dymt: onEndOfTheRound() 
+activate dymt
+dymt --> tester
+deactivate dymt
 
-mt --> tester
-deactivate mt
+tester -> logger: print("void", onEndOfTheRound)
+activate logger
+logger --> tester
+deactivate logger
 
+tester -> t2: hasThreadFromMushroom(dyingThread)
+activate t2
+t2 --> tester: false
+deactivate t2
+
+tester -> logger: print(false, hasThreadFromMushroom)
+activate logger
+logger --> tester
+deactivate logger
 
 deactivate tester
 
