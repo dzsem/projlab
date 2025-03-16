@@ -1,0 +1,127 @@
+@startuml  Cut Connection With Two Bodies
+
+title Thread Cut Connection With Two Bodies
+
+actor "Tester" as tester
+
+participant "mt1: MushroomThread" as mt1
+participant "mt2: MushroomThread" as mt2
+participant "mt3: MushroomThread" as mt3
+participant "mt4: MushroomThread" as mt4
+participant "mt5: MushroomThread" as mt5
+
+participant "Logger" as logger
+
+activate tester
+
+tester -> mt1: isConnectedToBody()
+activate mt1
+mt1 --> tester: true
+deactivate mt1
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt2: isConnectedToBody()
+activate mt2
+mt2 --> tester: true
+deactivate mt2
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt3: isConnectedToBody()
+activate mt3
+mt3 --> tester: true
+deactivate mt3
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt4: isConnectedToBody()
+activate mt4
+mt4 --> tester: true
+deactivate mt4
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt5: isConnectedToBody()
+activate mt5
+mt5 --> tester: true
+deactivate mt5
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt3: cut()
+activate mt3
+mt3 --> tester
+deactivate mt3
+
+tester -> logger: print("void", "cut")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt1: isConnectedToBody()
+activate mt1
+mt1 --> tester: true
+deactivate mt1
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt2: isConnectedToBody()
+activate mt2
+mt2 --> tester: true
+deactivate mt2
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt3: isConnectedToBody()
+activate mt3
+mt3 --> tester: false
+deactivate mt3
+
+tester -> logger: print(false, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt4: isConnectedToBody()
+activate mt4
+mt4 --> tester: true
+deactivate mt4
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> mt5: isConnectedToBody()
+activate mt5
+mt5 --> tester: true
+deactivate mt5
+
+tester -> logger: print(true, "isConnectedToBody")
+activate logger
+logger --> tester
+deactivate logger
+
+@enduml

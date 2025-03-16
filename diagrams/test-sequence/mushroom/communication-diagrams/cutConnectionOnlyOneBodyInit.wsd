@@ -1,0 +1,76 @@
+@startuml Thread Cut Connection With Only One Body
+title Thread Cut Connection With Only One Body
+
+actor "Tester" as tester
+
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+
+participant "mt1: MushroomThread" as mt1
+participant "mt2: MushroomThread" as mt2
+participant "mt3: MushroomThread" as mt3
+
+participant "mb: MushroomBody" as mb
+
+activate tester
+
+'Init Tectons
+tester -> t1: Initialize()
+activate t1
+t1 --> tester
+deactivate t1
+
+tester -> t2: Initialize()
+activate t2
+t2 --> tester
+deactivate t2
+
+tester -> t3: Initialize()
+activate t3
+t3 --> tester
+deactivate t3
+
+'Init MB
+tester -> mb: Initialize(t3)
+activate mb
+
+mb -> t3: setBody(mb)
+activate t3
+t3 --> mb
+deactivate t3
+
+mb --> tester
+deactivate mb
+
+'Init mt3
+tester -> mt3: Initialize(t3)
+activate mt3
+mt3 --> tester
+deactivate mt3
+
+'Create connections mt2
+tester -> mt3: createConnection(t2)
+activate mt3
+
+mt3 -> mt2: Initialize(t2)
+activate mt2
+mt2 --> mt3
+deactivate mt2 
+
+mt3 --> tester
+deactivate mt3
+
+'Create connections mt1
+tester -> mt2: createConnection(t1)
+activate mt2
+
+mt2 -> mt1: Initialize(t1)
+activate mt1
+mt1 --> mt2
+deactivate mt1 
+
+mt2 --> tester
+deactivate mt2
+
+@enduml
