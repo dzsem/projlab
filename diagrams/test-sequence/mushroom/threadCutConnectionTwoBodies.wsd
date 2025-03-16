@@ -1,0 +1,78 @@
+@startuml
+
+title Thread Cut Connection With Two Boides
+
+actor "Tester" as tester
+
+participant "mt1: MushroomThread" as mt1
+participant "mt2: MushroomThread" as mt2
+participant "mt3: MushroomThread" as mt3
+participant "mt4: MushroomThread" as mt4
+participant "mt5: MushroomThread" as mt5
+
+activate tester
+
+tester -> mt1: isConnectedTobody()
+activate mt1
+mt1 --> tester: true
+deactivate mt1
+
+
+tester -> mt2: isConnectedTobody()
+activate mt2
+mt2 --> tester: true
+deactivate mt2
+
+
+tester -> mt3: isConnectedTobody()
+activate mt3
+mt3 --> tester: true
+deactivate mt3
+
+
+tester -> mt4: isConnectedTobody()
+activate mt4
+mt4 --> tester: true
+deactivate mt4
+
+
+tester -> mt5: isConnectedTobody()
+activate mt5
+mt5 --> tester: true
+deactivate mt5
+
+tester -> mt3: cut()
+activate mt3
+mt3 --> tester
+deactivate mt3
+
+tester -> mt1: isConnectedTobody()
+activate mt1
+mt1 --> tester: true
+deactivate mt1
+
+
+tester -> mt2: isConnectedTobody()
+activate mt2
+mt2 --> tester: true
+deactivate mt2
+
+
+tester -> mt3: isConnectedTobody()
+activate mt3
+mt3 --> tester: false
+deactivate mt3
+
+
+tester -> mt4: isConnectedTobody()
+activate mt4
+mt4 --> tester: true
+deactivate mt4
+
+
+tester -> mt5: isConnectedTobody()
+activate mt5
+mt5 --> tester: true
+deactivate mt5
+
+@enduml

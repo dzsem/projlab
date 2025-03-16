@@ -1,14 +1,12 @@
 @startuml Thread Cut Connection Only One Body
 
-title Thread Cut Connection Only One Body
+title Thread Cut Connection With Only One Body
 
 actor "Tester" as tester
 
 participant "mt1: MushroomThread" as mt1
 participant "mt2: MushroomThread" as mt2
 participant "mt3: MushroomThread" as mt3
-
-participant "body: MushroomBody" as mb
 
 activate tester
 
