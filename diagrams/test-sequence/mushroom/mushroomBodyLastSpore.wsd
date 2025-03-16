@@ -24,7 +24,7 @@ activate lsmb
 lsmb --> tester
 deactivate lsmb
 
-tester -> logger: print(null, "distributeSpores")
+tester -> logger: print("void", "distributeSpores")
 activate logger
 logger --> tester
 deactivate logger 
