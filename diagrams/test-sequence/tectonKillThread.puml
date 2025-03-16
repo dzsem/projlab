@@ -1,15 +1,35 @@
 @startuml tectonKillThreadTest
 
+title Tecton Kill Thread
+
 actor "Tester" as tst
 participant "tec: Tecton" as tec
+participant "l: Logger" as l
 
 activate tst
+
+tst -> l: printState(tec)
+activate l
+tst <-- l
+deactivate l
 
 tst -> tec: killThread(mt)
 activate tec
 
 tst <-- tec: throw Exception
 deactivate tec
+
+alt caught Exception
+        tst -> l: printError("Non-ThreadKillingTecton can't kill MushroomThread")
+        activate l
+        tst <-- l
+        deactivate l    
+    end
+
+tst -> l: printState(tec)
+activate l
+tst <-- l
+deactivate l
 
 deactivate tst
 
