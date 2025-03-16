@@ -1,4 +1,6 @@
-@startuml 
+@startuml  Normal Mushroom Body Distribute Spores
+
+title Normal Mushroom Body Distribute Spores
 
 actor "Tester" as tester
 participant "body: MushroomBody" as body

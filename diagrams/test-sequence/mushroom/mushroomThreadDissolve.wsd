@@ -1,5 +1,7 @@
 @startuml Mushroom Thread Dissolve
 
+title Mushroom Thread Dissolve
+
 actor "Tester" as tester
 participant "mt: MushroomThread" as mt
 

@@ -1,4 +1,6 @@
-@startuml Mushroom thread Growth
+@startuml Mushroom Thread Growth
+
+title Mushroom Thread Growth
 
 actor "Tester" as tester
 participant "mt: MushroomThread" as mt

@@ -1,6 +1,6 @@
 @startuml Mushroom Body Tests Init
 
-title Msuhroom Body Tests Init
+title Mushroom Body Tests Init
 
 actor "Tester" as tester
 
@@ -15,17 +15,17 @@ participant "lastSporeBody: MushroomBody" as lsmb
 activate tester
 
 'Init tectons
-tester -> t1: 1.1 Initialize(t1)
+tester -> t1: 1.1 Initialize()
 activate t1
 t1 --> tester
 deactivate t1
 
-tester -> t2: 1.2 Initialize(t2)
+tester -> t2: 1.2 Initialize()
 activate t2
 t2 --> tester
 deactivate t2
 
-tester -> t3: 1.3 Initialize(t3)
+tester -> t3: 1.3 Initialize()
 activate t3
 t3 --> tester
 deactivate t3
@@ -67,7 +67,7 @@ deactivate amb
 tester -> nmb: 4.1 Initialize(t3)
 activate nmb
 
-nmb -> t3: 4.1.1 setBody(nnormalBody)
+nmb -> t3: 4.1.1 setBody(normalBody)
 activate t3
 t3 -> nmb
 deactivate t3

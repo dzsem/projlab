@@ -1,5 +1,7 @@
 @startuml Mushroom Thread Die
 
+title Mushroom Thread Die
+
 actor "Tester" as tester
 participant "mt: MushroomThread" as mt
 
@@ -12,7 +14,7 @@ activate mt
 mt --> mt: isConnected
 deactivate mt
 
-mt -> mt: decreaseTurnsToDie--
+mt -> mt: decreaseTurnsToDie()
 activate mt
 mt --> mt
 deactivate mt

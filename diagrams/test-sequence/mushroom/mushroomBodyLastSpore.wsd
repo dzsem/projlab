@@ -1,4 +1,6 @@
-@startuml Mushroom boy Last Spore
+@startuml Mushroom Body Last Spore
+
+title Mushroom Body Last Spore
 
 actor "Tester" as tester
 participant "body: MushroomBody" as body
