@@ -3,7 +3,7 @@
 title InfertileTecton Grow Body
 
 actor "Tester" as ts
-participant "t: InfertileTecton" as t
+participant "t1: InfertileTecton" as t
 participant "mb: MushroomBody" as mb
 participant "l: Logger" as l
 
