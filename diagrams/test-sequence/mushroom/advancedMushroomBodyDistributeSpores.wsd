@@ -24,12 +24,12 @@ activate logger
 logger --> tester
 deactivate logger
 
-tester -> t2: getSporeCount()
+tester -> t2: printgetSporeCount()
 activate t2
 t2 --> tester: 0
 deactivate t2
 
-tester -> logger: (0, "getSporeCount")
+tester -> logger: print(0, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
@@ -39,7 +39,7 @@ activate t3
 t3 --> tester: 0
 deactivate t3
 
-tester -> logger: (0, "getSporeCount")
+tester -> logger: print(0, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
@@ -59,7 +59,7 @@ activate t1
 t1 --> tester: 1
 deactivate t1
 
-tester -> logger: (1, "getSporeCount")
+tester -> logger: print(1, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
@@ -69,7 +69,7 @@ activate t2
 t2 --> tester: 1
 deactivate t2
 
-tester -> logger: (1, "getSporeCount")
+tester -> logger: print(1, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
@@ -79,7 +79,7 @@ activate t3
 t3 --> tester: 1
 deactivate t3
 
-tester -> logger: (1, "getSporeCount")
+tester -> logger: print(1, "getSporeCount")
 activate logger
 logger --> tester
 deactivate logger
