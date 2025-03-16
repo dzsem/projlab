@@ -12,35 +12,31 @@ activate tst
 tst -> tec: killThread(mt)
 activate tec
 
-loop t in mushroomThreads
-    alt t == mt
-        tec -> mt: kill()
-        activate mt
+tec -> mt: kill()
+activate mt
 
-        loop ct in connectedThreads
-            mt -> ct: removeConnectedThread(mt)
-            activate ct
+loop ct in connectedThreads
+    mt -> ct: removeConnectedThread(mt)
+    activate ct
 
-            mt <-- ct
-            deactivate ct
-        end
-
-        mt -> from: removeConnection(mt)
-        activate from
-
-        mt <-- from
-        deactivate from
-
-        mt -> to: removeConnection(mt)
-        activate to
-
-        mt <-- to
-        deactivate to
-
-        tec <-- mt
-        deactivate mt
-    end
+    mt <-- ct
+    deactivate ct
 end
+
+mt -> from: removeConnection(mt)
+activate from
+
+mt <-- from
+deactivate from
+
+mt -> to: removeConnection(mt)
+activate to
+
+mt <-- to
+deactivate to
+
+tec <-- mt
+deactivate mt
 
 tst <-- tec
 deactivate tec
