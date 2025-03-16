@@ -3,24 +3,36 @@
 title Mushroom Thread Evolve
 
 actor "Tester" as tester
-participant "mt: MushroomThread" as mt
+participant "evolvingThread: MushroomThread" as emt
+participant "Logger" as logger 
 
-tester -> mt: grow() 
 activate tester
-activate mt
 
-mt -> mt: turnsToGrow--
-activate mt
-mt --> mt
-deactivate mt
+tester -> emt: getGrowState()
+activate emt
+emt --> tester: GrowState.SPROUT 
+deactivate emt
 
-mt -> mt: growthState = GrowthState.Grown
-activate mt
-mt --> mt
-deactivate mt
+tester -> logger: print(GrowState.SPROUT, "getGrowState")
+activate logger
+logger --> tester
+deactivate logger
 
-mt --> tester
-deactivate mt
+tester -> emt: grow() 
+activate emt
+emt --> tester
+deactivate emt
+
+tester -> emt: getGrowState()
+activate emt
+emt --> tester: GrowState.GROWN 
+deactivate emt
+
+tester -> logger: print(GrowState.GROWN, "getGrowState")
+activate logger
+logger --> tester
+deactivate logger
+
 deactivate tester
 
 @enduml
