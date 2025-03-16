@@ -1,30 +1,64 @@
-@startuml tectoGrowBodyTest
+@startuml tectonGrowBodyTest
+
+title Tecton Grow Body (Success/Fail)
 
 actor "Tester" as ts
 participant "t: Tecton" as t
 participant "mb: MushroomBody" as mb
+participant "l: Logger" as l
 
 activate ts
+
+ts -> l: printState(t)
+activate l
+ts <-- l
+deactivate l
 
 ts -> t: setBody(mb)
 activate t
 
 alt t.hasBody
     ts <-- t: throw Exception
+
+    alt caught Exception
+        ts -> l: printError("Tecton can only have at most 1 body")
+        activate l
+        ts <-- l
+        deactivate l    
+    end
 end
 
 alt not t.hasThreadFrom(mb)
     ts <-- t: throw Exception
+
+    alt caught Exception
+        ts -> l: printError("Tecton needs MushroomThread from MushroomBody before growing it")
+        activate l
+        ts <-- l
+        deactivate l    
+    end
 end
 
 alt t.spores.Count < 3
     ts <-- t: throw Exception
+
+    alt caught Exception
+        ts -> l: printError("Tecton needs at least 3 Spores to grow a MushroomBody")
+        activate l
+        ts <-- l
+        deactivate l    
+    end
 end
 
-t -> t: t.mushroomBodies.Add(mb)
+t -> t: setBody(mb)
 
 ts <-- t
 deactivate t
+
+ts -> l: printState(t)
+activate l
+ts <-- l
+deactivate l
 
 deactivate ts
 
