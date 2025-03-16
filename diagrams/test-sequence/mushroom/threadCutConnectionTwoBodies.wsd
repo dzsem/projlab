@@ -12,31 +12,31 @@ participant "mt5: MushroomThread" as mt5
 
 activate tester
 
-tester -> mt1: isConnectedTobody()
+tester -> mt1: isConnectedToBody()
 activate mt1
 mt1 --> tester: true
 deactivate mt1
 
 
-tester -> mt2: isConnectedTobody()
+tester -> mt2: isConnectedToBody()
 activate mt2
 mt2 --> tester: true
 deactivate mt2
 
 
-tester -> mt3: isConnectedTobody()
+tester -> mt3: isConnectedToBody()
 activate mt3
 mt3 --> tester: true
 deactivate mt3
 
 
-tester -> mt4: isConnectedTobody()
+tester -> mt4: isConnectedToBody()
 activate mt4
 mt4 --> tester: true
 deactivate mt4
 
 
-tester -> mt5: isConnectedTobody()
+tester -> mt5: isConnectedToBody()
 activate mt5
 mt5 --> tester: true
 deactivate mt5
@@ -46,31 +46,31 @@ activate mt3
 mt3 --> tester
 deactivate mt3
 
-tester -> mt1: isConnectedTobody()
+tester -> mt1: isConnectedToBody()
 activate mt1
 mt1 --> tester: true
 deactivate mt1
 
 
-tester -> mt2: isConnectedTobody()
+tester -> mt2: isConnectedToBody()
 activate mt2
 mt2 --> tester: true
 deactivate mt2
 
 
-tester -> mt3: isConnectedTobody()
+tester -> mt3: isConnectedToBody()
 activate mt3
 mt3 --> tester: false
 deactivate mt3
 
 
-tester -> mt4: isConnectedTobody()
+tester -> mt4: isConnectedToBody()
 activate mt4
 mt4 --> tester: true
 deactivate mt4
 
 
-tester -> mt5: isConnectedTobody()
+tester -> mt5: isConnectedToBody()
 activate mt5
 mt5 --> tester: true
 deactivate mt5
