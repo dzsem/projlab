@@ -3,24 +3,29 @@
 title Tecton Grow Thread Success
 
 actor "Tester" as tst
-participant "t: Tecton" as t
-participant "mt: MushroomThread" as mt
+participant "t2: Tecton" as t2
+participant "newMt: MushroomThread" as newMt
 participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(t)
+tst -> l: printState(t2)
 activate l
 tst <-- l
 deactivate l
 
-tst -> t: addConnection(mt)
-activate t
+tst -> newMt: Instantiate()
+activate newMt
+tst <-- newMt
+deactivate newMt
 
-tst <-- t
-deactivate t
+tst -> t2: addConnection(newMt)
+activate t2
 
-tst -> l: printState(t)
+tst <-- t2
+deactivate t2
+
+tst -> l: printState(t2)
 activate l
 tst <-- l
 deactivate l

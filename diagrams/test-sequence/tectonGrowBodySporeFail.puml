@@ -3,22 +3,27 @@
 title Tecton Grow Body Spore Fail
 
 actor "Tester" as ts
-participant "t: Tecton" as t
-participant "mb: MushroomBody" as mb
+participant "t3: Tecton" as t3
+participant "newMb: MushroomBody" as newMb
 participant "l: Logger" as l
 
 activate ts
 
-ts -> l: printState(t)
+ts -> l: printState(t3)
 activate l
 ts <-- l
 deactivate l
 
-ts -> t: setBody(mb)
-activate t
+ts -> newMb: Instantiate()
+activate newMb
+ts <-- newMb
+deactivate newMb
 
-ts <-- t: throw Exception
-deactivate t
+ts -> t3: setBody(newMb)
+activate t3
+
+ts <-- t3: throw Exception
+deactivate t3
 
 alt caught Exception
     ts -> l: log("Tecton needs at least 3 Spores to grow a MushroomBody")
@@ -27,7 +32,7 @@ alt caught Exception
     deactivate l    
 end
 
-ts -> l: printState(t)
+ts -> l: printState(t3)
 activate l
 ts <-- l
 deactivate l

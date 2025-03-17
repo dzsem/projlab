@@ -3,22 +3,27 @@
 title Tecton Grow Body Thread Fail
 
 actor "Tester" as ts
-participant "t: Tecton" as t
-participant "mb: MushroomBody" as mb
+participant "t2: Tecton" as t2
+participant "newMb: MushroomBody" as newMb
 participant "l: Logger" as l
 
 activate ts
 
-ts -> l: printState(t)
+ts -> l: printState(t2)
 activate l
 ts <-- l
 deactivate l
 
-ts -> t: setBody(mb)
-activate t
+ts -> newMb: Instantiate()
+activate newMb
+ts <-- newMb
+deactivate newMb
 
-ts <-- t: throw Exception
-deactivate t
+ts -> t2: setBody(newMb)
+activate t2
+
+ts <-- t2: throw Exception
+deactivate t2
 
 alt caught Exception
     ts -> l: log("Tecton needs MushroomThread from MushroomBody before growing it")
@@ -27,7 +32,7 @@ alt caught Exception
     deactivate l    
 end
 
-ts -> l: printState(t)
+ts -> l: printState(t2)
 activate l
 ts <-- l
 deactivate l

@@ -3,18 +3,23 @@
 title InfertileTecton Grow Body
 
 actor "Tester" as ts
-participant "t1: InfertileTecton" as t
-participant "mb: MushroomBody" as mb
+participant "t: InfertileTecton" as t
+participant "newMb: MushroomBody" as newMb
 participant "l: Logger" as l
 
 activate ts
 
-ts -> l: printState(t1)
+ts -> l: printState(t)
 activate l
 ts <-- l
 deactivate l
 
-ts -> t: setBody(mb)
+ts -> newMb: Instantiate()
+activate newMb
+ts <-- newMb
+deactivate newMb
+
+ts -> t: setBody(newMb)
 activate t
 
 ts <-- t: throw Exception
@@ -27,7 +32,7 @@ alt caught Exception
     deactivate l
 end
 
-ts -> l: printState(t1)
+ts -> l: printState(t)
 activate l
 ts <-- l
 deactivate l

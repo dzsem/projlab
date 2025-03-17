@@ -3,36 +3,36 @@
 title Tecton Split
 
 actor "Tester" as tst
-participant "tec: Tecton" as tec
+participant "t: Tecton" as t
 participant "newTec: Tecton" as ntec
 participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(tec)
+tst -> l: printState(t)
 activate l
 tst <-- l
 deactivate l
 
-tst -> tec: split()
-activate tec
+tst -> t: split()
+activate t
 
 ' ez nemtom így mennyire jó, de nincs jobb ötletem és leszarom XD
-tec -> ntec: Instantiate([tec, tec.getNeighbours()])
+t -> ntec: Instantiate([t, t.getNeighbours()])
 activate ntec
 
-tec <-- ntec:
+t <-- ntec:
 deactivate ntec
 
-tst <-- tec:
-deactivate tec
+tst <-- t:
+deactivate t
 
 tst -> l: printState(newTec)
 activate l
 tst <-- l
 deactivate l
 
-tst -> l: printState(tec)
+tst -> l: printState(t)
 activate l
 tst <-- l
 deactivate l

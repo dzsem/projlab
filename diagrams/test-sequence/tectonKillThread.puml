@@ -3,21 +3,21 @@
 title Tecton Kill Thread
 
 actor "Tester" as tst
-participant "tec: Tecton" as tec
+participant "t: Tecton" as t
 participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(tec)
+tst -> l: printState(t)
 activate l
 tst <-- l
 deactivate l
 
-tst -> tec: killThread(mt)
-activate tec
+tst -> t: killThread(mt)
+activate t
 
-tst <-- tec: throw Exception
-deactivate tec
+tst <-- t: throw Exception
+deactivate t
 
 alt caught Exception
         tst -> l: log("Non-ThreadKillingTecton can't kill MushroomThread")
@@ -26,7 +26,7 @@ alt caught Exception
         deactivate l    
     end
 
-tst -> l: printState(tec)
+tst -> l: printState(t)
 activate l
 tst <-- l
 deactivate l

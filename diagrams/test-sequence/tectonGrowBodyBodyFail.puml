@@ -3,22 +3,27 @@
 title Tecton Grow Body Body Fail
 
 actor "Tester" as ts
-participant "t: Tecton" as t
-participant "mb: MushroomBody" as mb
+participant "t4: Tecton" as t4
+participant "newMb: MushroomBody" as newMb
 participant "l: Logger" as l
 
 activate ts
 
-ts -> l: printState(t)
+ts -> l: printState(t4)
 activate l
 ts <-- l
 deactivate l
 
-ts -> t: setBody(mb)
-activate t
+ts -> newMb: Instantiate()
+activate newMb
+ts <-- newMb
+deactivate newMb
 
-ts <-- t: throw Exception
-deactivate t
+ts -> t4: setBody(newMb)
+activate t4
+
+ts <-- t4: throw Exception
+deactivate t4
 
 alt caught Exception
     ts -> l: log("Tecton can only have at most 1 body")
@@ -27,7 +32,7 @@ alt caught Exception
     deactivate l    
 end
 
-ts -> l: printState(t)
+ts -> l: printState(t4)
 activate l
 ts <-- l
 deactivate l
