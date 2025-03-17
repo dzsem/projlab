@@ -12,13 +12,19 @@ participant "mb: MushroomBody" as mb
 activate ts
 
 ' inicializálás
-ts -> t: 1.1.1 -> Initialize()
+ts -> t: 1.1 -> Initialize()
 activate t
 ts <-- t
 deactivate t
 
-ts -> mb: 1.2.1 -> Initialize(t)
+ts -> mb: 1.2 -> Initialize(t)
 activate mb
+
+mb -> t: 1.2.1 setBody(mb)
+activate t
+mb <-- t
+deactivate t 
+
 ts <-- mb
 deactivate mb
 
