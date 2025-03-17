@@ -26,22 +26,22 @@ activate t1
 ts <-- t1
 deactivate t1
 
-ts -> mt1: 3 -> Initialize(t1)
+ts -> mt1: 2 -> Initialize(t1)
 activate mt1
 	' tecton beállítás
 	' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
-	mt1 -> mt1: 3.1 -> growOnTecton(t1)
+	mt1 -> mt1: 2.1 -> growOnTecton(t1)
 
 ts <-- mt1
 deactivate mt1
 
 ' ------------------------------------------
 ' s1_1: t1-en
-ts -> s1_1: 4 -> Initialize(t2)
+ts -> s1_1: 3 -> Initialize(t2)
 activate s1_1
 
 ' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
-s1_1 -> s1_1: 4.1 -> sporeTecton(t2)
+s1_1 -> s1_1: 3.1 -> sporeTecton(t2)
 
 ts <-- s1_1
 deactivate s1_1
@@ -49,11 +49,11 @@ deactivate s1_1
 
 ' ------------------------------------------
 ' s1_2: t1-en
-ts -> s1_2: 5 -> Initialize(t2)
+ts -> s1_2: 4 -> Initialize(t2)
 activate s1_2
 
 ' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
-s1_2 -> s1_2: 5.1 -> sporeTecton(t2)
+s1_2 -> s1_2: 4.1 -> sporeTecton(t2)
 
 ts <-- s1_2
 deactivate s1_2
@@ -61,11 +61,11 @@ deactivate s1_2
 
 ' ------------------------------------------
 ' s1_3: t1-en
-ts -> s1_3: 6 -> Initialize(t2)
+ts -> s1_3: 5 -> Initialize(t2)
 activate s1_3
 
 ' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
-s1_3 -> s1_3: 6.1 -> sporeTecton(t2)
+s1_3 -> s1_3: 5.1 -> sporeTecton(t2)
 
 ts <-- s1_3
 deactivate s1_3
@@ -74,11 +74,11 @@ deactivate s1_3
 ' ------------------------------------------
 ' mb1: 
 ' - t1-en nő
-ts -> mb1: 7 -> Initialize(t1)
+ts -> mb1: 6 -> Initialize(t1)
 activate mb1
 
 ' a growOnTecton() blackboxolja, hogy a Tectonon regisztrálja magát, mint MushroomBody
-mb1 -> mb1: 7.1 growOnTecton(t1)
+mb1 -> mb1: 6.1 growOnTecton(t1)
 
 ts <-- mb1
 deactivate mb1
