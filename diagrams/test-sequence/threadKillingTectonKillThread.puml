@@ -18,7 +18,7 @@ deactivate l
 tst -> t: killThread(mt)
 activate t
 
-t -> mt: kill()
+t -> mt: cut()
 activate mt
 
 loop ct in connectedThreads
