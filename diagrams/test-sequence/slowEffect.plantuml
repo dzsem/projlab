@@ -8,10 +8,10 @@ participant "i: Insect" as insect
 
 activate tester
 
-tester -> speed: applyEffect(i)
+tester -> slow: applyEffect(i)
 activate slow
 
-speed --> tester
+slow --> tester
 deactivate slow
 
 tester -> logger: log("slow effect test, slowEffect, i")
