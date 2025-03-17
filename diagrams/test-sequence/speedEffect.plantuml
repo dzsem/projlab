@@ -1,0 +1,67 @@
+@startuml speedEffect
+
+actor Tester as tester
+
+participant "Logger" as logger
+participant "speedEffect: SpeedEffect" as speed
+participant "i: Insect" as insect
+
+activate tester
+
+tester -> speed: applyEffect(i)
+activate speed
+
+speed --> tester
+deactivate speed
+
+tester -> insect: getCanMove(i)
+activate insect
+activate tester
+
+alt canMove == false
+
+insect --> tester: false
+tester -> logger: print("false, getCanMove()")
+activate logger
+logger -> tester
+deactivate logger
+
+else canMove == true
+
+insect --> tester: true
+deactivate insect
+tester -> logger: print("true, getCanMove()")
+activate logger
+logger -> tester
+deactivate logger
+
+end
+deactivate tester
+
+tester -> insect: getCanCut(i)
+activate insect
+activate tester
+
+alt canCut == false
+
+insect --> tester: false
+tester -> logger: print("false, getCanCut()")
+activate logger
+logger -> tester
+deactivate logger
+
+else canCut == true
+
+insect --> tester: true
+deactivate insect
+tester -> logger: print("true, getCanCut()")
+activate logger
+logger -> tester
+deactivate logger
+
+end
+deactivate tester
+
+deactivate tester
+
+@enduml
