@@ -9,10 +9,10 @@ participant "i: Insect" as insect
 activate tester
 
 tester -> speed: applyEffect(i)
-activate speed
+activate slow
 
 speed --> tester
-deactivate speed
+deactivate slow
 
 tester -> logger: log("slow effect test, slowEffect, i")
 note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
