@@ -1,9 +1,12 @@
 ' Test-casek:
 ' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt1
+'   - mt1-ről átnő egy thread t2-re
+' - Tecton Grow Body Success: t1-en van mt1; t1-en van s1_1, s1_2 és s1_3
+'   - t1-re nő egy MushroomBody
 
 @startuml communicationTecton3_1
 
-title Tecton Grow Thread Success
+title Tecton Grow Thread Success\nTecton Grow Body Success
 
 actor "Tester" as ts
 participant "t1: Tecton" as t1 

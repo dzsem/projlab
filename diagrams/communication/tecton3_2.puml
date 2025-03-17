@@ -1,10 +1,10 @@
 ' Test-casek:
 ' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt1
-
+'   - t3-ra próbálunk fonalat növeszteni mt-ből, de nem szomszédos t1-gyel
 
 @startuml communicationTecton3_2
 
-title Tecton Grow Thread Fail
+title Tecton Grow Thread Fail\n(t1 and t3 are not neighbours)
 
 actor "Tester" as ts
 participant "t1: Tecton" as t1 
