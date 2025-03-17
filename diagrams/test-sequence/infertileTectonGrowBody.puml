@@ -21,7 +21,7 @@ ts <-- t: throw Exception
 deactivate t
 
 alt caught Exception
-    ts -> l: printError("InfertileTecton can't grow a body")
+    ts -> l: log("InfertileTecton can't grow a body")
     activate l
     ts <-- l
     deactivate l

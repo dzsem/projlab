@@ -21,7 +21,7 @@ tst <-- t1: throw Exception
 deactivate t1
 
 alt caught Exception
-    tst -> l: printError("SingleThreadTecton can't have more than one MushroomThread")
+    tst -> l: log("SingleThreadTecton can't have more than one MushroomThread")
     activate l
     tst <-- l
     deactivate l    

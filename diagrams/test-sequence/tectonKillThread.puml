@@ -20,7 +20,7 @@ tst <-- tec: throw Exception
 deactivate tec
 
 alt caught Exception
-        tst -> l: printError("Non-ThreadKillingTecton can't kill MushroomThread")
+        tst -> l: log("Non-ThreadKillingTecton can't kill MushroomThread")
         activate l
         tst <-- l
         deactivate l    

@@ -21,7 +21,7 @@ ts <-- t: throw Exception
 deactivate t
 
 alt caught Exception
-    ts -> l: printError("Tecton needs MushroomThread from MushroomBody before growing it")
+    ts -> l: log("Tecton needs MushroomThread from MushroomBody before growing it")
     activate l
     ts <-- l
     deactivate l    
