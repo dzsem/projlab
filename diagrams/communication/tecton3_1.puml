@@ -1,0 +1,86 @@
+' Test-casek:
+' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt1
+'   - mt1-ről átnő egy thread t2-re
+' - Tecton Grow Body Success: t1-en van mt1; t1-en van s1_1, s1_2 és s1_3
+'   - t1-re nő egy MushroomBody
+
+@startuml communicationTecton3_1
+
+title Tecton Grow Thread Success\nTecton Grow Body Success
+
+actor "Tester" as ts
+participant "t1: Tecton" as t1 
+participant "t2: Tecton" as t2
+
+participant "mt1: MushroomThread" as mt1
+
+participant "s1_1: Spore" as s1_1
+participant "s1_2: Spore" as s1_2
+participant "s1_3: Spore" as s1_3
+
+activate ts
+
+ts -> t1: 1 -> Initialize([t2])
+activate t1
+
+	t1 -> t1: 1.1 -> registerNeighbour(t2)
+
+ts <-- t1
+deactivate t1
+
+ts -> t2: 2 -> Initialize([t1])
+activate t2
+
+t2 -> t2: 2.1 -> registerNeighbour(t1)
+
+ts <-- t2
+deactivate t2
+
+ts -> mt1: 3 -> Initialize(t1)
+activate mt1
+	' tecton beállítás
+	' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+	mt1 -> mt1: 3.1 -> growOnTecton(t1)
+
+ts <-- mt1
+deactivate mt1
+
+
+' ------------------------------------------
+' s1_1: t1-en
+ts -> s1_1: 4 -> Initialize(t1)
+activate s1_1
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_1 -> s1_1: 4.1 -> sporeTecton(t1)
+
+ts <-- s1_1
+deactivate s1_1
+
+
+' ------------------------------------------
+' s1_2: t1-en
+ts -> s1_2: 5 -> Initialize(t1)
+activate s1_2
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_2 -> s1_2: 5.1 -> sporeTecton(t1)
+
+ts <-- s1_2
+deactivate s1_2
+
+
+' ------------------------------------------
+' s1_3: t1-en
+ts -> s1_3: 6 -> Initialize(t1)
+activate s1_3
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_3 -> s1_3: 6.1 -> sporeTecton(t1)
+
+ts <-- s1_3
+deactivate s1_3
+
+deactivate ts
+
+@enduml

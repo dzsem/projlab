@@ -1,0 +1,46 @@
+' Test-casek:
+' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt1
+'   - t3-ra próbálunk fonalat növeszteni mt-ből, de nem szomszédos t1-gyel
+' - Tecton Grow Body Spore Fail: t1-on van mt1; t1-on nincs spóra
+'   - t1-re próbálunk gombatestet növeszteni, ami nem sikerül, mert nincs spóra
+'   - MÓDOSULT: eredetileg t3 spóra volt a leírásban ~Tams
+'               ebben a példában a t3 használatlan, de a diagram minden másban megegyezik
+
+@startuml communicationTecton3_2
+
+title Tecton Grow Thread Fail\n(t1 and t3 are not neighbours)
+
+actor "Tester" as ts
+participant "t1: Tecton" as t1 
+participant "t3: Tecton" as t3
+
+participant "mt1: MushroomThread" as mt1
+
+activate ts
+
+ts -> t1: 1 -> Initialize()
+activate t1
+
+ts <-- t1
+deactivate t1
+
+ts -> t3: 2 -> Initialize()
+activate t3
+
+ts <-- t3
+deactivate t3
+
+
+ts -> mt1: 3 -> Initialize(t1)
+activate mt1
+
+' tecton beállítás
+' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+mt1 -> mt1: 3.1 growOnTecton(t1)
+
+ts <-- mt1
+deactivate mt1
+
+deactivate ts
+
+@enduml
