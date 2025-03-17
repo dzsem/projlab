@@ -16,7 +16,7 @@ activate speed
 speed --> tester
 deactivate speed
 
-tester -> insect: getCanMove(i)
+tester -> insect: getCanMove()
 activate insect
 activate tester
 
