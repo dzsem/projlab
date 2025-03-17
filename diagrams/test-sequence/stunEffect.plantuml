@@ -23,7 +23,7 @@ activate tester
 alt canMove == true
 
 insect --> tester: true
-tester -> logger: print("true, getCanMove()")
+tester -> logger: print("true", "getCanMove")
 activate logger
 logger -> tester
 deactivate logger
@@ -32,7 +32,7 @@ else canMove == false
 
 insect --> tester: false
 deactivate insect
-tester -> logger: print("false, getCanMove()")
+tester -> logger: print("false", "getCanMove")
 activate logger
 logger -> tester
 deactivate logger
