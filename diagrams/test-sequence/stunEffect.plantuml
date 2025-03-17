@@ -1,5 +1,7 @@
 @startuml stunEffect
 
+title stunEffect test
+
 actor Tester as tester
 
 participant "Logger" as logger
@@ -18,19 +20,19 @@ tester -> insect: getCanMove(i)
 activate insect
 activate tester
 
-alt canMove == false
+alt canMove == true
 
-insect --> tester: false
-tester -> logger: print("false, getCanMove()")
+insect --> tester: true
+tester -> logger: print("true, getCanMove()")
 activate logger
 logger -> tester
 deactivate logger
 
-else canMove == true
+else canMove == false
 
-insect --> tester: true
+insect --> tester: false
 deactivate insect
-tester -> logger: print("true, getCanMove()")
+tester -> logger: print("false, getCanMove()")
 activate logger
 logger -> tester
 deactivate logger

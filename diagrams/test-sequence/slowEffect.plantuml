@@ -1,5 +1,8 @@
 @startuml slowEffect
 
+title slowEffect test
+
+
 actor Tester as tester
 
 participant "Logger" as logger

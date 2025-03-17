@@ -1,5 +1,7 @@
 @startuml speedEffect
 
+title speedEffect test
+
 actor Tester as tester
 
 participant "Logger" as logger
