@@ -74,11 +74,11 @@ deactivate s1_3
 ' ------------------------------------------
 ' mb1: 
 ' - t1-en nő
-ts -> mb1: 3.1 -> Initialize(t1)
+ts -> mb1: 7 -> Initialize(t1)
 activate mb1
 
 ' a growOnTecton() blackboxolja, hogy a Tectonon regisztrálja magát, mint MushroomBody
-mb1 -> mb1: 3.1.1 growOnTecton(t1)
+mb1 -> mb1: 7.1 growOnTecton(t1)
 
 ts <-- mb1
 deactivate mb1
