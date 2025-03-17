@@ -3,7 +3,7 @@
 
 @startuml communicationTecton3_3
 
-title Tecton Grow Body Thread Fail\n(no MushroomThread connects to t2, but there are enough spores)
+title Tecton Grow Body Thread Fail\n(no MushroomThread connects to t2, but there are enough spores)\nTecton Grow Body Spore Fail\n(there are not enough spores, but there is a MushroomThread on t1)
 
 actor "Tester" as ts
 participant "t1: Tecton" as t1 
