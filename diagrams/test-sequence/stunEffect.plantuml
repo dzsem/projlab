@@ -18,27 +18,25 @@ deactivate speed
 
 tester -> insect: getCanMove()
 activate insect
-activate tester
 
 alt canMove == true
 
-insect --> tester: true
-tester -> logger: print("true", "getCanMove")
-activate logger
-logger -> tester
-deactivate logger
+	insect --> tester: true
+	tester -> logger: print("true", "getCanMove")
+	activate logger
+	logger -> tester
+	deactivate logger
 
 else canMove == false
 
-insect --> tester: false
-deactivate insect
-tester -> logger: print("false", "getCanMove")
-activate logger
-logger -> tester
-deactivate logger
+	insect --> tester: false
+	deactivate insect
+	tester -> logger: print("false", "getCanMove")
+	activate logger
+	logger -> tester
+	deactivate logger
 
 end
-deactivate tester
 
 tester -> logger: log("stun effect test, StunEffect, i")
 note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
