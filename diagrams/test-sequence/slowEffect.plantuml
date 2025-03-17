@@ -1,14 +1,15 @@
-@startuml speedEffect
+@startuml slowEffect
 
 actor Tester as tester
 
 participant "Logger" as logger
-participant "speedEffect: SpeedEffect" as speed
+participant "slowEffect: SlowEffect" as slow
 participant "i: Insect" as insect
 
 activate tester
 
-tester -> logger: log("speed effect test, speedEffect, i")
+tester -> logger: log("slow effect test, slowEffect, i")
+note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
 activate logger
 
 logger--> tester
