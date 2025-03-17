@@ -15,6 +15,8 @@ participant "s1_1: Spore" as s1_1
 participant "s1_2: Spore" as s1_2
 participant "s1_3: Spore" as s1_3
 
+activate ts
+
 ts -> t1: 1 -> Initialize([t2])
 activate t1
 
@@ -76,5 +78,6 @@ s1_3 -> s1_3: 6.1 -> sporeTecton(t1)
 ts <-- s1_3
 deactivate s1_3
 
+deactivate ts
 
 @enduml
