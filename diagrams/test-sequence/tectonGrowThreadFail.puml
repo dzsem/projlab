@@ -1,0 +1,42 @@
+@startuml tectonGrowThreadTest
+
+title Tecton Grow Thread Fail
+
+actor "Tester" as tst
+participant "t3: Tecton" as t3
+participant "newMt: MushroomThread" as newMt
+participant "l: Logger" as l
+
+activate tst
+
+tst -> l: printState(t3)
+activate l
+tst <-- l
+deactivate l
+
+tst -> newMt: Instantiate()
+activate newMt
+tst <-- newMt
+deactivate newMt
+
+tst -> t3: addConnection(newMt)
+activate t3
+
+tst <-- t3: throw Exception
+deactivate t3
+
+alt caught Exception
+    tst -> l: log("Can't connect non-neighbour Tectons with MushroomThread")
+    activate l
+    tst <-- l
+    deactivate l    
+end
+
+tst -> l: printState(t3)
+activate l
+tst <-- l
+deactivate l
+
+deactivate tst
+
+@enduml
