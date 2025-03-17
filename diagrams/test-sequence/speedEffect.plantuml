@@ -8,6 +8,12 @@ participant "i: Insect" as insect
 
 activate tester
 
+tester -> speed: applyEffect(i)
+activate speed
+
+speed --> tester
+deactivate speed
+
 tester -> logger: log("speed effect test, speedEffect, i")
 note right: Az effektet a kontroller kezeli, az insect visszakapta az összes lépését
 activate logger
