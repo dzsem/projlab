@@ -1,0 +1,39 @@
+@startuml Mushroom Thread Dissolve
+
+title Mushroom Thread Dissolve
+
+actor "Tester" as tester
+participant "dissolvingThread: MushroomThread" as dimt
+
+activate tester
+
+tester -> dimt: getTurnsToDie()
+activate dimt
+dimt --> tester: 2
+deactivate dimt
+
+tester -> logger: print(2, "getTurnsToDie")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> dimt: onEndOfTheRound()
+activate dimt
+dimt --> tester
+deactivate dimt
+
+tester -> dimt: getTurnsToDie()
+activate dimt
+dimt --> tester: 1
+deactivate dimt
+
+tester -> logger: print(1, "getTurnsToDie")
+activate logger
+logger --> tester
+deactivate logger
+
+
+deactivate tester
+
+
+@enduml

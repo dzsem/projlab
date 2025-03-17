@@ -1,0 +1,94 @@
+@startuml Mushroom Body Tests Init
+
+title Mushroom Body Tests Init
+
+actor "Tester" as tester
+
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+
+participant "advancedBody: MushroomBody" as amb
+participant "normalBody: MushroomBody" as nmb
+participant "lastSporeBody: MushroomBody" as lsmb
+
+activate tester
+
+'Init tectons
+tester -> t1: 1.1 Initialize()
+activate t1
+t1 --> tester
+deactivate t1
+
+tester -> t2: 1.2 Initialize()
+activate t2
+t2 --> tester
+deactivate t2
+
+tester -> t3: 1.3 Initialize()
+activate t3
+t3 --> tester
+deactivate t3
+
+'Set neighbours
+tester -> t2: 2 addNeighbour([t1, t2])
+activate t2
+
+t2 -> t1: 2.1 registerNeighbour(t2)
+activate t1
+t1 --> t2
+deactivate t1
+
+t2 -> t3: 2.2 registerNeighbour(t2)
+activate t3
+t3 --> t2
+deactivate t3
+
+t2 --> tester
+deactivate t2
+
+'Init mushroom bodies
+tester -> amb: 3.1 Initialize(t1)
+activate amb
+
+amb -> t1: 3.1.1 setBody(advancedBody)
+activate t1
+t1 --> amb
+deactivate t1
+
+amb --> tester
+deactivate amb
+
+tester -> amb: 3.2 setAdvancement(MushroomBodyAdvancement.Advanced)
+activate amb
+amb --> tester
+deactivate amb
+
+tester -> nmb: 4.1 Initialize(t3)
+activate nmb
+
+nmb -> t3: 4.1.1 setBody(normalBody)
+activate t3
+t3 -> nmb
+deactivate t3
+
+nmb --> tester 
+deactivate nmb
+
+tester -> lsmb: 5.1 Initialize(t2)
+activate lsmb
+
+lsmb -> t2: 5.1.1 setBody(lastSporeBody)
+activate t2
+t2 -> lsmb
+deactivate t2
+
+lsmb --> tester
+deactivate lsmb
+
+tester -> lsmb: 5.2 setSporesRemaining(1)
+activate lsmb
+lsmb --> tester
+deactivate lsmb
+
+@enduml

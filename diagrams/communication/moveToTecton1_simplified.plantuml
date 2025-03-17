@@ -1,0 +1,109 @@
+@startuml moveToTectonInitFlow
+
+title MoveToTecton teszteseteinek inicializációi
+
+actor Tesztelő as tester
+
+activate tester
+
+create participant "t1: Tecton" as t1
+tester -> t1: 1.1 → Initialize()
+note right: ld. moveToTecton Success,\nFail (non-neighboring)\nés Fail (unconnected) tesztesetek
+activate t1
+
+tester <-- t1
+deactivate t1
+
+create participant "t2: Tecton" as t2
+tester -> t2: 1.2 → Initialize()
+activate t2
+
+tester <-- t2
+deactivate t2
+
+create participant "t3: Tecton" as t3
+tester -> t3: 1.3 → Initialize()
+activate t3
+
+tester <-- t3
+deactivate t3
+
+create participant "t4: Tecton" as t4
+tester -> t4: 1.4 → Initialize()
+activate t4
+
+tester <-- t4
+deactivate t4
+
+tester -> t1: 2 → addNeighbour([t2, t3])
+note right: t2 és t3 hozzáadása t1-hez a neighbours asszociációba\nt2 és t3 értesítése
+activate t1
+
+tester <-- t1
+deactivate t1
+
+
+tester -> t4: 3 → addNeighbour([t3])
+activate t4
+
+tester <-- t4
+deactivate t4
+
+create participant "ins: Insect" as ins
+tester -> ins: 4 → Initialize(t1)
+activate ins
+
+tester <-- ins
+deactivate ins
+
+create participant "mt1: MushroomThread" as mt1
+tester -> mt1: 5 → Initialize(t1)
+activate mt1
+
+tester <-- mt1
+deactivate mt1
+
+tester -> mt1: 6 → createConnection(t3)
+activate mt1
+	create participant "mt2: MushroomThread" as mt2
+	mt1 -> mt2: 6.1 → Initialize(t3)
+	activate mt2
+
+	mt1 <-- mt2
+	deactivate mt2
+tester <-- mt1
+deactivate mt1
+
+tester -> mt2: 7 → createConnection(t4)
+activate mt2
+	create participant "mt3: MushroomThread" as mt3
+	mt2 -> mt3: 7.1 → Initialize(t4)
+	activate mt3
+
+	mt2 <-- mt3
+	deactivate mt3
+tester <-- mt2
+deactivate mt2
+
+tester -> mt1: 8.1 → setGrowState(GrowState.GROWN)
+activate mt1
+note right: Legyen azonnal kifejlődve\na gombafonál. A fonalak\nalapértelmezetten nincsenek elvágva.
+
+tester <-- mt1
+deactivate mt1
+
+tester -> mt2: 8.2 → setGrowState(GrowState.GROWN)
+activate mt2
+
+tester <-- mt2
+deactivate mt2
+
+tester -> mt3: 8.3 → setGrowState(GrowState.GROWN)
+activate mt3
+
+tester <-- mt3
+deactivate mt3
+
+deactivate tester
+
+@enduml

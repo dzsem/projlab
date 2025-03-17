@@ -1,0 +1,50 @@
+@startuml stunEffect
+
+title stunEffect test
+
+actor Tester as tester
+
+participant "Logger" as logger
+participant "stunEffect: StunEffect" as speed
+participant "i: Insect" as insect
+
+activate tester
+
+tester -> speed: applyEffect(i)
+activate speed
+
+speed --> tester
+deactivate speed
+
+tester -> insect: getCanMove()
+activate insect
+
+alt canMove == true
+
+	insect --> tester: true
+	tester -> logger: print("true", "getCanMove")
+	activate logger
+	logger --> tester
+	deactivate logger
+
+else canMove == false
+
+	insect --> tester: false
+	deactivate insect
+	tester -> logger: print("false", "getCanMove")
+	activate logger
+	logger --> tester
+	deactivate logger
+
+end
+
+tester -> logger: log("stun effect test, StunEffect, i")
+note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
+activate logger
+
+logger--> tester
+deactivate logger
+
+deactivate tester
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml test_moveToTecton1
+
+title Move to Tecton Success
+
+actor "Tesztelő" as t
+participant "ins: Insect" as i
+participant "t3: Tecton" as t3
+participant "logger: Logger" as logger
+
+activate t
+
+t -> logger: printState(insect)
+note right: ld. MoveToTecton teszt init diagram
+activate logger
+
+t <-- logger
+deactivate logger
+
+t -> i: moveToTecton(t3)
+activate i
+note right: lásd: Insect.moveToTecton
+
+t <-- i
+deactivate i
+
+t -> logger: print("void", "moveToTecton", t3)
+activate logger
+
+t <-- logger
+deactivate logger
+
+t -> logger: printState(insect)
+activate logger
+t <-- logger
+deactivate logger
+
+opt ins.tecton != t3
+	t -> logger: printError("test_moveToTecton1 failed")
+	activate logger
+
+	t <-- logger
+	deactivate logger
+end
+
+deactivate t
+
+@enduml

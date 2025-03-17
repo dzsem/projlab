@@ -1,0 +1,45 @@
+@startuml Mushroom Thread Growth
+
+title Mushroom Thread Growth
+
+actor "Tester" as tester
+participant "normalThread: MushroomThread" as nmt
+participant "Logger" as logger
+
+activate tester
+
+tester -> nmt: getTurnsToGrow()
+activate nmt
+nmt --> tester: 3
+deactivate nmt
+
+tester -> logger: print(3, getTurnsToGrow) 
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> nmt: grow() 
+activate nmt
+nmt --> tester
+deactivate nmt
+
+tester -> logger: print("void", grow) 
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> nmt: getTurnsToGrow()
+activate nmt
+nmt --> tester: 2
+deactivate nmt
+
+tester -> logger: print(2, getTurnsToGrow) 
+activate logger
+logger --> tester
+deactivate logger
+
+deactivate tester
+
+
+
+@enduml

@@ -1,0 +1,89 @@
+@startuml Advanced Mushroom Body Distribute Spores
+
+title Advanced Mushroom Body Distribute Spores
+
+actor "Tester" as tester
+
+participant "Logger" as logger
+
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+
+participant "advancedBody: MushroomBody" as amb
+
+activate tester
+
+tester -> t1: getSporeCount()
+activate t1
+t1 --> tester: 0
+deactivate t1
+
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t2: getSporeCount()
+activate t2
+t2 --> tester: 0
+deactivate t2
+
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t3: getSporeCount()
+activate t3
+t3 --> tester: 0
+deactivate t3
+
+tester -> logger: print(0, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> amb: distributeSpores() 
+activate amb
+amb --> tester
+deactivate amb
+
+tester -> logger: print("void", "distributeSpores")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t1: getSporeCount()
+activate t1
+t1 --> tester: 1
+deactivate t1
+
+tester -> logger: print(1, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t2: getSporeCount()
+activate t2
+t2 --> tester: 1
+deactivate t2
+
+tester -> logger: print(1, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> t3: getSporeCount()
+activate t3
+t3 --> tester: 1
+deactivate t3
+
+tester -> logger: print(1, "getSporeCount")
+activate logger
+logger --> tester
+deactivate logger
+
+
+deactivate tester
+@enduml

@@ -1,0 +1,29 @@
+@startuml slowEffect
+
+title slowEffect test
+
+
+actor Tester as tester
+
+participant "Logger" as logger
+participant "slowEffect: SlowEffect" as slow
+participant "i: Insect" as insect
+
+activate tester
+
+tester -> slow: applyEffect(i)
+activate slow
+
+slow --> tester
+deactivate slow
+
+tester -> logger: log("slow effect test, slowEffect, i")
+note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
+activate logger
+
+logger--> tester
+deactivate logger
+
+deactivate tester
+
+@enduml
