@@ -4,17 +4,13 @@ left to right direction
 actor "Tester" as t
 
 rectangle "Effect Tests" {
-    usecase "Lassító effect hatása" as test1
-    usecase "Gyorsító effect hatása" as test2
-    usecase "Bénító effect hatása" as test3
-    usecase "Blokkoló effect hatása" as test4
-
+    usecase "stunEffect test\n(bénító effekt hatása)" as test1
+    usecase "speedEffect test\n(gyorsító effekt hatása)" as test2
+    usecase "slowEffect test\n(lassító effekt hatása)" as test3
 }
 
 t -- test1
 t -- test2
 t -- test3
-t -- test4
-
 
 @enduml
