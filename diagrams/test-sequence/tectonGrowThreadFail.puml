@@ -26,7 +26,7 @@ tst <-- t3: throw Exception
 deactivate t3
 
 alt caught Exception
-    tst -> l: log("Can't3 connect non-neighbour Tectons with MushroomThread")
+    tst -> l: log("Can't connect non-neighbour Tectons with MushroomThread")
     activate l
     tst <-- l
     deactivate l    
