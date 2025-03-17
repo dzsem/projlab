@@ -1,0 +1,31 @@
+' Test-casek:
+' - ThreadKillingTecton Kill Thread
+
+@startuml communicationTecton2
+
+title ThreadKillingTecton Kill Thread
+
+actor "Tester" as ts
+participant "t: Tecton" as t
+participant "mt: MushroomThread" as mt
+
+activate ts
+
+' inicializálás
+ts -> t: 1.1 -> Initialize()
+activate t
+ts <-- t
+deactivate t
+
+ts -> mt: 1.2 -> Initialize(t)
+activate mt
+mt -> t: 1.2.1 -> addConnection(mt)
+activate t
+mt <-- t
+deactivate t
+ts <-- mt
+deactivate mt
+
+deactivate ts
+
+@enduml
