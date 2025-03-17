@@ -1,10 +1,10 @@
 ' Test-casek:
 ' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt
 ' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt
-' - Tecton Grow Body Success: t1-en van mt; t1-en van s1, s2 és s3; t1-en nincs mb
-' - Tecton Grow Body Thread Fail: t2-n nincs mt; t2-n van s1, s2 és s3; t2-n nincs mb
+' - Tecton Grow Body Success: t1-en van mt; t1-en van s1_1, s1_2 és s1_3; t1-en nincs mb
+' - Tecton Grow Body Thread Fail: t2-n nincs mt; t2-n van s1_1, s1_2 és s1_3; t2-n nincs mb
 ' - Tecton Grow Body Spore Fail: t3-on van mt; t3-on nincs spóra; t3-on nincs mb
-' - Tecton Grow Body Body Fail: t4-en van mt; t4-en van s1, s2, s3; t4-en van mb
+' - Tecton Grow Body Body Fail: t4-en van mt; t4-en van s1_1, s1_2, s1_3; t4-en van mb
 
 @startuml communicationTecton3
 
@@ -18,9 +18,15 @@ participant "t3: Tecton" as t3
 participant "t4: Tecton" as t4
 participant "mt: MushroomThread" as mt
 participant "mb: MushroomBody" as mb
-participant "s1: Spore" as s1
-participant "s2: Spore" as s2
-participant "s3: Spore" as s3
+participant "s1_1: Spore" as s1_1
+participant "s1_2: Spore" as s1_2
+participant "s1_3: Spore" as s1_3
+participant "s2_1: Spore" as s2_1
+participant "s2_2: Spore" as s2_2
+participant "s2_3: Spore" as s2_3
+participant "s3_1: Spore" as s3_1
+participant "s3_2: Spore" as s3_2
+participant "s3_3: Spore" as s3_3
 
 activate ts
 
@@ -83,7 +89,7 @@ deactivate mt
 
 ' ------------------------------------------
 ' body: t4-en nő
-ts -> mb: 3.1 -> Initialize([t4])
+ts -> mb: 3.1 -> Initialize(t4)
 activate mb
 
 mb -> t4: 3.1.1 <- setBody(mb)
@@ -95,74 +101,121 @@ ts <-- mb
 deactivate mb
 
 ' ------------------------------------------
-' minden spóra t1, t2, t3-on van
-' s1
-ts -> s1: 4.1 -> Initialize([t1, t2, t3])
-activate s1
+' s1_1: t1-en
+ts -> s1_1: 4.1 -> Initialize(t1)
+activate s1_1
 
-s1 -> t1: 4.1.1 <- addSpore(s1)
+s1_1 -> t1: 4.1.1 <- addSpore(s1_1)
 activate t1
-s1 <-- t1
+s1_1 <-- t1
 deactivate t1
 
-s1 -> t2: 4.1.2 <- addSpore(s1)
-activate t2
-s1 <-- t2
-deactivate t2
-
-s1 -> t4: 4.1.3 <- addSpore(s1)
-activate t4
-s1 <-- t4
-deactivate t4
-
-ts <-- s1
-deactivate s1
+ts <-- s1_1
+deactivate s1_1
 
 ' ------------------------------------------
-' s2
-ts -> s2: 4.2 -> Initialize([t1, t2, t3])
-activate s2
+' s2_1: t2-n
+ts -> s2_1: 4.1 -> Initialize(t2)
+activate s2_1
 
-s2 -> t1: 4.2.1 <- addSpore(s2)
-activate t1
-s2 <-- t1
-deactivate t1
-
-s2 -> t2: 4.2.2 <- addSpore(s2)
+s2_1 -> t2: 4.1.1 <- addSpore(s2_1)
 activate t2
-s2 <-- t2
+s2_1 <-- t2
 deactivate t2
 
-s2 -> t4: 4.2.3 <- addSpore(s2)
-activate t4
-s2 <-- t4
-deactivate t4
-
-ts <-- s2
-deactivate s2
+ts <-- s2_1
+deactivate s2_1
 
 ' ------------------------------------------
-' s3
-ts -> s3: 4.3 -> Initialize([t1, t2, t3])
-activate s3
+' s3_1: t3-on
+ts -> s3_1: 4.1 -> Initialize(t3)
+activate s3_1
 
-s3 -> t1: 4.3.1 <- addSpore(s3)
+s3_1 -> t3: 4.1.1 <- addSpore(s3_1)
+activate t3
+s3_1 <-- t3
+deactivate t3
+
+ts <-- s3_1
+deactivate s3_1
+
+' ------------------------------------------
+' s1_2: t1-en
+ts -> s1_2: 4.2 -> Initialize(t1)
+activate s1_2
+
+s1_2 -> t1: 4.2.1 <- addSpore(s1_2)
 activate t1
-s3 <-- t1
+s1_2 <-- t1
 deactivate t1
 
-s3 -> t2: 4.3.2 <- addSpore(s3)
+ts <-- s1_2
+deactivate s1_2
+
+' ------------------------------------------
+' s2_2: t2-n
+ts -> s2_2: 4.1 -> Initialize(t2)
+activate s2_2
+
+s2_2 -> t2: 4.1.1 <- addSpore(s2_2)
 activate t2
-s3 <-- t2
+s2_2 <-- t2
 deactivate t2
 
-s3 -> t4: 4.3.3 <- addSpore(s3)
-activate t4
-s3 <-- t4
-deactivate t4
+ts <-- s2_2
+deactivate s2_2
 
-ts <-- s3
-deactivate s3
+' ------------------------------------------
+' s3_2: t3-on
+ts -> s3_2: 4.1 -> Initialize(t3)
+activate s3_2
+
+s3_2 -> t3: 4.1.1 <- addSpore(s3_2)
+activate t3
+s3_2 <-- t3
+deactivate t3
+
+ts <-- s3_2
+deactivate s3_2
+
+' ------------------------------------------
+' s1_3: t1-en
+ts -> s1_3: 4.3 -> Initialize(t1)
+activate s1_3
+
+s1_3 -> t1: 4.3.1 <- addSpore(s1_3)
+activate t1
+s1_3 <-- t1
+deactivate t1
+
+ts <-- s1_3
+deactivate s1_3
+
+' ------------------------------------------
+' s2_3: t2-n
+ts -> s2_3: 4.1 -> Initialize(t2)
+activate s2_3
+
+s2_3 -> t2: 4.1.1 <- addSpore(s2_3)
+activate t2
+s2_3 <-- t2
+deactivate t2
+
+ts <-- s2_3
+deactivate s2_3
+
+' ------------------------------------------
+' s3_3: t3-on
+ts -> s3_3: 4.1 -> Initialize(t3)
+activate s3_3
+
+s3_3 -> t3: 4.1.1 <- addSpore(s3_3)
+activate t3
+s3_3 <-- t3
+deactivate t3
+
+ts <-- s3_3
+deactivate s3_3
 
 deactivate ts
 
