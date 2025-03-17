@@ -1,0 +1,42 @@
+' Test-casek:
+' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt1
+
+
+@startuml communicationTecton3_2
+
+title Tecton Grow Thread Fail
+
+actor "Tester" as ts
+participant "t1: Tecton" as t1 
+participant "t3: Tecton" as t3
+
+participant "mt1: MushroomThread" as mt1
+
+activate ts
+
+ts -> t1: 1 -> Initialize()
+activate t1
+
+ts <-- t1
+deactivate t1
+
+ts -> t3: 2 -> Initialize()
+activate t3
+
+ts <-- t3
+deactivate t3
+
+
+ts -> mt1: 3 -> Initialize(t1)
+activate mt1
+
+' tecton beállítás
+' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+mt1 -> mt1: 3.1 growOnTecton(t1)
+
+ts <-- mt1
+deactivate mt1
+
+deactivate ts
+
+@enduml
