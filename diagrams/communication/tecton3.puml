@@ -1,49 +1,63 @@
 ' Test-casek:
 ' - Tecton Grow Thread Success: t1 és t2 szomszédos; t1-en van mt1
 ' - Tecton Grow Thread Fail: t1 és t3 nem szomszédos; t1-en van mt1
-' - Tecton Grow Body Success: t1-en van mt1; t1-en van s1_1, s1_2 és s1_3; t1-en nincs mb
-' - Tecton Grow Body Thread Fail: t2-n nincs mt1; t2-n van s1_1, s1_2 és s1_3; t2-n nincs mb
-' - Tecton Grow Body Spore Fail: t3-on van mt1; t3-on nincs spóra; t3-on nincs mb
-' - Tecton Grow Body Body Fail: t4-en van mt1; t4-en van s1_1, s1_2, s1_3; t4-en van mb
+' - Tecton Grow Body Success: t1-en van mt1; t1-en van s1_1, s1_2 és s1_3; t1-en nincs mb4
+' - Tecton Grow Body Thread Fail: t2-n nincs mt1; t2-n van s1_1, s1_2 és s1_3; t2-n nincs mb4
+' - Tecton Grow Body Spore Fail: t3-on van mt1; t3-on nincs spóra; t3-on nincs mb4
+' - Tecton Grow Body Body Fail: t4-en van mt1; t4-en van s1_1, s1_2, s1_3; t4-en van mb4
 
 @startuml communicationTecton3
 
 title Tecton Grow Thread Success,\nTecton Grow Thread Fail,\nTecton Grow Body Success,\nTecton Grow Body Thread Fail,\nTecton Grow Body Spore Fail,\nTecton Grow Body Body Fail
 
 actor "Tester" as ts
-' t1 szomszédos t2-vel, de t3-al nem, így több test-casere is jó lesz a diagram 
 participant "t1: Tecton" as t1 
 participant "t2: Tecton" as t2
 participant "t3: Tecton" as t3
 participant "t4: Tecton" as t4
+participant "t5: Tecton" as t5
 participant "mt1: MushroomThread" as mt1
-participant "mt2: MushroomThread" as mt2
 participant "mt3: MushroomThread" as mt3
-participant "mb: MushroomBody" as mb
+participant "mt4: MushroomThread" as mt4
+participant "mt5: MushroomThread" as mt5
+participant "mb4: Mushroomb4ody" as mb4
+participant "mb5: Mushroomb4ody" as mb5
 participant "s1_1: Spore" as s1_1
 participant "s1_2: Spore" as s1_2
 participant "s1_3: Spore" as s1_3
 participant "s2_1: Spore" as s2_1
 participant "s2_2: Spore" as s2_2
 participant "s2_3: Spore" as s2_3
-participant "s3_1: Spore" as s3_1
-participant "s3_2: Spore" as s3_2
-participant "s3_3: Spore" as s3_3
+participant "s4_1: Spore" as s4_1
+participant "s4_2: Spore" as s4_2
+participant "s4_3: Spore" as s4_3
+participant "s5_1: Spore" as s5_1
+participant "s5_2: Spore" as s5_2
+participant "s5_3: Spore" as s5_3
 
 activate ts
 
 ' ------------------------------------------
-' t1: szomszédos t2-vel
-ts -> t1: 1.1 -> Initialize([t2])
+' t1: 
+' - t2, t5-el szomszédos
+' - s1_1, s1_2, s1_3 spórák vannak rajta
+' - mt1 nő rajta
+' - nincs rajta gomb4atest
+ts -> t1: 1.1 -> Initialize([t2, t5])
 activate t1
 
 t1 -> t1: 1.1.1 registerNeighbour(t2)
+t1 -> t1: 1.1.2 registerNeighbour(t5)
 
 ts <-- t1
 deactivate t1
 
 ' ------------------------------------------
-' t2: szomszédos t1-el
+' t2: 
+' - szomszédos t1-el
+' - s2_1, s2_2, s2_3 spórák vannak rajta
+' - nincs rajta fonal
+' - nincs rajta gomb4atest
 ts -> t2: 1.2 -> Initialize([t1])
 activate t2
 
@@ -53,171 +67,271 @@ ts <-- t2
 deactivate t2
 
 ' ------------------------------------------
-' t3
-ts -> t3: 1.3 -> Initialize()
+' t3: 
+' - t5-el szomszédos
+' - nincs rajta spóra
+' - mt3 fonal nő rajta
+' - nincs rajta gomb4atest
+ts -> t3: 1.3 -> Initialize([t5])
 activate t3
+
+t3 -> t3: 1.3.1 registerNeighbour(t5)
+
 ts <-- t3
 deactivate t3
 
 ' ------------------------------------------
-' t4
+' t4:
+' - nincs szomszédja
+' - s4_1, s4_2, s4_3 spórák vannak rajta
+' - mt4 fonal nő rajta
+' - mb44 gomb4atest nő rajta
 ts -> t4: 1.4 -> Initialize()
 activate t4
 ts <-- t4
 deactivate t4
 
 ' ------------------------------------------
-' thread: t1, t3, t4-en nő
-ts -> mt1: 2.1 -> Initialize([t1, t3, t4])
-activate mt1
+' t5:
+' - t1, t3-al szomszédos
+' - s5_1, s5_2, s5_3 spórák vannak rajta
+' - mt5 fonal nő rajta
+' - mb45 gomb4atest nő rajta
+ts -> t5: 1.5 -> Initialize([t1, t3])
+activate t5
 
-mt1 -> t1: 2.1.1 <- addConnection(mt1)
-activate t1
-mt1 <-- t1
-deactivate t1
+t5 -> t5: 1.5.1 registerNeighbour(t1)
+t5 -> t5: 1.5.2 registerNeighbour(t3)
 
-mt1 -> t3: 2.1.2 <- addConnection(mt1)
-activate t3
-mt1 <-- t3
-deactivate t3
-
-mt1 -> t4: 2.1.3 <- addConnection(mt1)
-activate t4
-mt1 <-- t4
-deactivate t4
-
-ts <-- mt1
-deactivate mt1
-
-' ------------------------------------------
-' body: t4-en nő
-ts -> mb: 3.1 -> Initialize(t4)
-activate mb
-
-mb -> t4: 3.1.1 <- setBody(mb)
-activate t4
-mb <-- t4
-deactivate t4
-
-ts <-- mb
-deactivate mb
+ts <-- t5
+deactivate t5
 
 ' ------------------------------------------
 ' s1_1: t1-en
-ts -> s1_1: 4.1 -> Initialize(t1)
+ts -> s1_1: 2.1 -> Initialize(t1)
 activate s1_1
 
-s1_1 -> t1: 4.1.1 <- addSpore(s1_1)
-activate t1
-s1_1 <-- t1
-deactivate t1
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_1 -> s1_1: 2.1.1 sporeTecton(t1)
 
 ts <-- s1_1
 deactivate s1_1
 
 ' ------------------------------------------
 ' s2_1: t2-n
-ts -> s2_1: 4.2 -> Initialize(t2)
+ts -> s2_1: 2.2 -> Initialize(t2)
 activate s2_1
 
-s2_1 -> t2: 4.2.1 <- addSpore(s2_1)
-activate t2
-s2_1 <-- t2
-deactivate t2
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s2_1 -> s2_1: 2.2.1 sporeTecton(t2)
 
 ts <-- s2_1
 deactivate s2_1
 
 ' ------------------------------------------
-' s3_1: t3-on
-ts -> s3_1: 4.3 -> Initialize(t3)
-activate s3_1
+' s4_1: t4-en
+ts -> s4_1: 2.3 -> Initialize(t4)
+activate s4_1
 
-s3_1 -> t3: 4.3.1 <- addSpore(s3_1)
-activate t3
-s3_1 <-- t3
-deactivate t3
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s4_1 -> s4_1: 2.3.1 sporeTecton(t4)
 
-ts <-- s3_1
-deactivate s3_1
+ts <-- s4_1
+deactivate s4_1
+
+' ------------------------------------------
+' s5_1: t5-ön
+ts -> s5_1: 2.4 -> Initialize(t5)
+activate s5_1
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s5_1 -> s5_1: 2.4.1 sporeTecton(t5)
+
+ts <-- s5_1
+deactivate s5_1
 
 ' ------------------------------------------
 ' s1_2: t1-en
-ts -> s1_2: 4.4 -> Initialize(t1)
+ts -> s1_2: 2.5 -> Initialize(t1)
 activate s1_2
 
-s1_2 -> t1: 4.4.1 <- addSpore(s1_2)
-activate t1
-s1_2 <-- t1
-deactivate t1
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_2 -> s1_2: 2.5.1 sporeTecton(t1)
 
 ts <-- s1_2
 deactivate s1_2
 
 ' ------------------------------------------
 ' s2_2: t2-n
-ts -> s2_2: 4.5 -> Initialize(t2)
+ts -> s2_2: 2.6 -> Initialize(t2)
 activate s2_2
 
-s2_2 -> t2: 4.5.1 <- addSpore(s2_2)
-activate t2
-s2_2 <-- t2
-deactivate t2
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s2_2 -> s2_2: 2.6.1 sporeTecton(t2)
 
 ts <-- s2_2
 deactivate s2_2
 
 ' ------------------------------------------
-' s3_2: t3-on
-ts -> s3_2: 4.6 -> Initialize(t3)
-activate s3_2
+' s4_2: t4-en
+ts -> s4_2: 2.7 -> Initialize(t4)
+activate s4_2
 
-s3_2 -> t3: 4.6.1 <- addSpore(s3_2)
-activate t3
-s3_2 <-- t3
-deactivate t3
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s4_2 -> s4_2: 2.7.1 sporeTecton(t4)
 
-ts <-- s3_2
-deactivate s3_2
+ts <-- s4_2
+deactivate s4_2
+
+' ------------------------------------------
+' s5_2: t5-ön
+ts -> s5_2: 2.8 -> Initialize(t5)
+activate s5_2
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s5_2 -> s5_2: 2.8.1 sporeTecton(t5)
+
+ts <-- s5_2
+deactivate s5_2
 
 ' ------------------------------------------
 ' s1_3: t1-en
-ts -> s1_3: 4.7 -> Initialize(t1)
+ts -> s1_3: 2.9 -> Initialize(t1)
 activate s1_3
 
-s1_3 -> t1: 4.7.1 <- addSpore(s1_3)
-activate t1
-s1_3 <-- t1
-deactivate t1
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s1_3 -> s1_3: 2.9.1 sporeTecton(t1)
 
 ts <-- s1_3
 deactivate s1_3
 
 ' ------------------------------------------
 ' s2_3: t2-n
-ts -> s2_3: 4.8 -> Initialize(t2)
+ts -> s2_3: 2.10 -> Initialize(t2)
 activate s2_3
 
-s2_3 -> t2: 4.8.1 <- addSpore(s2_3)
-activate t2
-s2_3 <-- t2
-deactivate t2
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s2_3 -> s2_3: 2.10.1 sporeTecton(t2)
 
 ts <-- s2_3
 deactivate s2_3
 
 ' ------------------------------------------
-' s3_3: t3-on
-ts -> s3_3: 4.9 -> Initialize(t3)
-activate s3_3
+' s4_3: t4-on
+ts -> s4_3: 2.11 -> Initialize(t4)
+activate s4_3
 
-s3_3 -> t3: 4.9.1 <- addSpore(s3_3)
-activate t3
-s3_3 <-- t3
-deactivate t3
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s4_3 -> s4_3: 2.11.1 sporeTecton(t4)
 
-ts <-- s3_3
-deactivate s3_3
+ts <-- s4_3
+deactivate s4_3
+
+' ------------------------------------------
+' s5_3: t5-on
+ts -> s5_3: 2.12 -> Initialize(t5)
+activate s5_3
+
+' sporeTecton blackboxolja, hogy a Tectonon hozzáadja magát a MushroomSporeok közé
+s5_3 -> s5_3: 2.12.1 sporeTecton(t5)
+
+ts <-- s5_3
+deactivate s5_3
+
+' ------------------------------------------
+' mb4: 
+' - t4-en nő
+ts -> mb4: 3.1 -> Initialize(t4)
+activate mb4
+
+' a growOnTecton() blackboxolja, hogy a Tectonon regisztrálja magát, mint MushroomBody
+mb4 -> mb4: 3.1.1 growOnTecton(t4)
+
+ts <-- mb4
+deactivate mb4
+
+' ------------------------------------------
+' mb5: 
+' - t5-en nő
+ts -> mb5: 3.2 -> Initialize(t5)
+activate mb5
+
+' a growOnTecton() blackboxolja, hogy a Tectonon regisztrálja magát, mint MushroomBody
+mb5 -> mb5: 3.2.1 growOnTecton(t5)
+
+ts <-- mb5
+deactivate mb5
+
+' ------------------------------------------
+' mt1:
+' - t1-en nő
+' - mt5, mt3-al összekapcsolódik
+' - mb5-höz tartozik
+ts -> mt1: 4.1 -> Initialize(t1, [mb5], [mt5, mt3])
+activate mt1
+
+' tecton beállítás
+' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+mt1 -> mt1: 4.1.1 growOnTecton(t1)
+
+' bodies
+' registerBody() blackboxolja, hogy a MushroomBody MushroomThreadjei közé is felveszi magát
+mt1 -> mt1: 4.1.2 registerBody(mb5)
+
+' fonál kötések
+' connectThread() blackboxolja, hogy a másik MushroomThread kapcsolódó MushroomThreadjei közé is felveszi magát
+mt1 -> mt1: 4.1.3 connectThread(mt5)
+mt1 -> mt1: 4.1.4 connectThread(mt3)
+
+ts <-- mt1
+deactivate mt1
+
+' ------------------------------------------
+' mt3:
+' - t3-en nő
+' - mt5, mt1-el összekapcsolódik
+' - mb5-höz tartozik
+ts -> mt3: 4.2 -> Initialize(t1, [mb5], [mt1, mt5])
+activate mt3
+
+' tecton beállítás
+' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+mt3 -> mt3: 4.2.1 growOnTecton(t3)
+
+' bodies
+' registerBody() blackboxolja, hogy a MushroomBody MushroomThreadjei közé is felveszi magát
+mt3 -> mt3: 4.2.2 registerBody(mb5)
+
+' fonál kötések
+' connectThread() blackboxolja, hogy a másik MushroomThread kapcsolódó MushroomThreadjei közé is felveszi magát
+mt3 -> mt3: 4.2.3 connectThread(mt1)
+mt3 -> mt3: 4.2.4 connectThread(mt5)
+
+ts <-- mt3
+deactivate mt3
+
+' ------------------------------------------
+' mt4:
+' - t4-en nő
+' - nincs összekapcsolódása
+' - mb4-hez tartozik
+ts -> mt4: 4.3 -> Initialize(t4, [mb4], [])
+activate mt4
+
+' tecton beállítás
+' growOnTecton() blackboxolja, hogy a Tecton MushroomThreadjei közé is felveszi magát
+mt4 -> mt4: 4.3.1 growOnTecton(t4)
+
+' bodies
+' registerBody() blackboxolja, hogy a MushroomBody MushroomThreadjei közé is felveszi magát
+mt4 -> mt4: 4.3.2 registerBody(mb4)
+
+' fonál kötések
+' connectThread() blackboxolja, hogy a másik MushroomThread kapcsolódó MushroomThreadjei közé is felveszi magát
+' itt nincs fonál kötés
+
+ts <-- mt4
+deactivate mt4
 
 deactivate ts
 
