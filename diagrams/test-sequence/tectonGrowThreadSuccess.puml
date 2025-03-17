@@ -1,6 +1,6 @@
 @startuml tectonGrowThreadTest
 
-title Tecton Grow Thread (Success/Fail)
+title Tecton Grow Thread Success
 
 actor "Tester" as tst
 participant "t: Tecton" as t
@@ -17,18 +17,6 @@ deactivate l
 tst -> t: addConnection(mt)
 activate t
 
-alt not isNeighbour(mt.getTecton())
-    tst <-- t: throw Exception
-
-    alt caught Exception
-        tst -> l: printError("Can't connect non-neighbour Tectons with MushroomThread")
-        activate l
-        tst <-- l
-        deactivate l    
-    end
-end
-
-t -> t: t.mushroomThreads.Add(mt)
 tst <-- t
 deactivate t
 

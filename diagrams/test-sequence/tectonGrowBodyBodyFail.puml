@@ -1,6 +1,6 @@
 @startuml tectonGrowBodyTest
 
-title Tecton Grow Body Success
+title Tecton Grow Body Body Fail
 
 actor "Tester" as ts
 participant "t: Tecton" as t
@@ -17,8 +17,15 @@ deactivate l
 ts -> t: setBody(mb)
 activate t
 
-ts <-- t
+ts <-- t: throw Exception
 deactivate t
+
+alt caught Exception
+    ts -> l: printError("Tecton can only have at most 1 body")
+    activate l
+    ts <-- l
+    deactivate l    
+end
 
 ts -> l: printState(t)
 activate l

@@ -1,0 +1,30 @@
+@startuml tectonGrowThreadTest
+
+title SingleThreadTecton Grow Thread Success
+
+actor "Tester" as tst
+participant "t1: SingleThreadTecton" as t1
+participant "mt: MushroomThread" as mt
+participant "l: Logger" as l
+
+activate tst
+
+tst -> l: printState(t1)
+activate l
+tst <-- l
+deactivate l
+
+tst -> t1: addConnection(mt)
+activate t1
+
+tst <-- t1
+deactivate t1
+
+tst -> l: printState(t1)
+activate l
+tst <-- l
+deactivate l
+
+deactivate tst
+
+@enduml
