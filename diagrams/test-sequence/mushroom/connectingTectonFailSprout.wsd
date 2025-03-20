@@ -3,20 +3,26 @@
 title Mushroom Thread Is Connecting Tecton Fail Sprout
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
+
 
 participant "mt1: MushroomThread" as mt1
-participant "Logger" as logger
+participant "mt2: MushroomThread" as mt2
+
+participant "mt1.tecton: Tecton" as t1
 participant "mt2.tecton: Tecton" as t2
 
 activate tester
+
 tester -> mt1: isConnectingTecton(mt2.tecton)
 activate mt1
+
+mt1 -> mt2: getCutState()
+activate mt2
+mt2 --> mt1: CutState.UNCUT
+deactivate mt2
+
 mt1 --> tester: false
 deactivate mt1
-
-tester -> logger: print("false", "isConnectingTecton", mt2.tecton)
-activate logger
-logger --> tester
-deactivate logger
 
 @enduml
