@@ -5,6 +5,7 @@ title Move to Tecton Fail\n(non-neighboring tecton)
 actor "Tesztelő" as t
 participant "Skeleton" as ske
 participant "ins: Insect" as i
+participant "t1: Tecton" as t1
 participant "t4: Tecton" as t4
 
 activate t
@@ -14,9 +15,21 @@ note right: ld. MoveToTecton teszt init diagram
 activate ske
 	ske -> i: moveToTecton(t4)
 	activate i
-	note right: lásd: Insect.moveToTecton
+	note right: lásd: Insect.moveToTecton\nitt: insect.tecton=t1, t=t4
 
-	ske <-- i
+		i -> t1: isNeighbour(t4)
+		activate t1
+
+		i <-- t1: false
+		deactivate t1
+
+		i -> t1: verifyConnection(t4)
+		activate t1
+
+		i <-- t1
+		deactivate t1
+
+	ske <-- i: Exception
 	deactivate i
 
 '	opt ins.tecton != t1

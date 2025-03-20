@@ -5,6 +5,7 @@ title Move to Tecton Success
 actor "Tesztelő" as t
 participant "Skeleton" as ske
 participant "ins: Insect" as i
+participant "t1: Tecton" as t1
 participant "t3: Tecton" as t3
 
 activate t
@@ -15,7 +16,32 @@ activate ske
 
 	ske -> i: moveToTecton(t3)
 	activate i
-	note right: lásd: Insect.moveToTecton
+	note right: lásd: Insect.moveToTecton\nitt: insect.tecton=t1, t=t3
+
+		i -> t1: isNeighbour(t4)
+		activate t1
+
+		i <-- t1: true
+		deactivate t1
+
+		i -> t1: verifyConnection(t3)
+		activate t1
+
+		i <-- t1: true
+		deactivate t1
+
+		i -> t1: unregisterInsect(i)
+		activate t1
+
+		i <-- t1
+		deactivate t1
+
+		i -> t3: registerInsect(i)
+		activate t3
+
+		i <-- t3
+		deactivate t3
+
 
 	ske <-- i
 	deactivate i
