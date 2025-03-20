@@ -16,6 +16,14 @@ activate ske
 	activate i
 	note right: lásd: Insect.eatMushroomSpore
 
+	
+	i -> t1: getRandomSpore()
+	note right: a getSporeCount() == 0\nágra futunk, kivétel
+	activate t1
+
+	i <-- t1: Exception
+	deactivate t1
+
 	ske <-- i: Exception
 	deactivate i
 
