@@ -8,12 +8,14 @@ participant "Skeleton" as skeleton
 participant "mt1: MushroomThread" as mt1
 participant "mt2: MushroomThread" as mt2
 
-participant "mt1.tecton: Tecton" as t1
 participant "mt2.tecton: Tecton" as t2
 
 activate tester
 
-tester -> mt1: isConnectingTecton(mt2.tecton)
+tester -> skeleton: test_connectingTectonFailCut()
+activate skeleton
+
+skeleton -> mt1: isConnectingTecton(mt2.tecton)
 activate mt1
 
 mt1 -> mt2: getCutState()
@@ -37,7 +39,10 @@ activate mt1
 mt1 --> mt1: CutState.CUT
 deactivate mt1
 
-mt1 --> tester: false
+mt1 --> skeleton: false
 deactivate mt1
+
+skeleton --> tester
+deactivate skeleton
 
 @enduml
