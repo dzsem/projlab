@@ -3,44 +3,25 @@
 title EatMushroomSpore Success
 
 actor "Tesztelő" as t
+participant "Skeleton" as ske
 participant "insect: Insect" as i
 participant "t1: Tecton" as t1
-participant "logger: Logger" as logger
 
 activate t
 
-t -> logger: printState(t1)
+t -> ske: test_eatMushroomSpore1()
 note right: ld. sikeres eatMushroomSpore teszt init diagram
-activate logger
+activate ske
 
-t <-- logger
-deactivate logger
+	ske -> i: eatMushroomSpore()
+	activate i
+	note right: lásd: Insect.eatMushroomSpore
 
-t -> i: eatMushroomSpore()
-activate i
-note right: lásd: Insect.eatMushroomSpore
+	ske <-- i
+	deactivate i
 
-t <-- i
-deactivate i
-
-t -> logger: print("void", "eatMushroomSpore")
-activate logger
-
-t <-- logger
-deactivate logger
-
-t -> logger: printState(t1)
-activate logger
-t <-- logger
-deactivate logger
-
-opt t1.getSporeCount() != 0
-	t -> logger: printError("test_eatMushroomSpore1 failed")
-	activate logger
-
-	t <-- logger
-	deactivate logger
-end
+t <-- ske
+deactivate ske
 
 deactivate t
 

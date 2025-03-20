@@ -3,51 +3,33 @@
 title Move to Tecton Fail\n(unconnected tecton)
 
 actor "Tesztelő" as t
+participant "Skeleton" as ske
 participant "ins: Insect" as i
 participant "t2: Tecton" as t2
-participant "logger: Logger" as logger
 
 activate t
 
-t -> logger: printState(insect)
+t -> ske: test_moveToTecton3()
 note right: ld. MoveToTecton teszt init diagram
-activate logger
+activate ske
 
-t <-- logger
-deactivate logger
+	ske -> i: moveToTecton(t2)
+	activate i
+	note right: lásd: Insect.moveToTecton
 
-create originalTecton
-t -> originalTecton: Initialize(ins.tecton)
-activate originalTecton
+	ske <-- i
+	deactivate i
 
-t <-- originalTecton
-deactivate originalTecton
+'	opt ins.tecton != originalTecton 't1
+'		t -> logger: printError("test_moveToTecton3 failed")
+'		activate logger
+'
+'		t <-- logger
+'		deactivate logger
+'	end
 
-t -> i: moveToTecton(t2)
-activate i
-note right: lásd: Insect.moveToTecton
-
-t <-- i
-deactivate i
-
-t -> logger: print("void", "moveToTecton", t2)
-activate logger
-
-t <-- logger
-deactivate logger
-
-t -> logger: printState(insect)
-activate logger
-t <-- logger
-deactivate logger
-
-opt ins.tecton != originalTecton
-	t -> logger: printError("test_moveToTecton3 failed")
-	activate logger
-
-	t <-- logger
-	deactivate logger
-end
+t <-- ske
+deactivate ske
 
 deactivate t
 

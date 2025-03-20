@@ -3,44 +3,24 @@
 title EatMushroomSpore Fail (no spore on tecton)
 
 actor "Tesztelő" as t
+participant "Skeleton" as ske
 participant "insect: Insect" as i
 participant "t1: Tecton" as t1
-participant "logger: Logger" as logger
 
 activate t
 
-t -> logger: printState(t1)
-note right: ld. sikertelen eatMushroomSpore teszt init diagram
-activate logger
+t -> ske: test_eatMushroomSpore2()
+activate ske
 
-t <-- logger
-deactivate logger
+	ske -> i: eatMushroomSpore()
+	activate i
+	note right: lásd: Insect.eatMushroomSpore
 
-t -> i: eatMushroomSpore()
-activate i
-note right: lásd: Insect.eatMushroomSpore
+	ske <-- i: Exception
+	deactivate i
 
-t <-- i: Exception
-deactivate i
-
-opt did not catch Exception
-	t -> logger: printError("eatMushroomSpore didn't throw as expected")
-	activate logger
-
-	t <-- logger
-	deactivate logger
-end
-
-t -> logger: print("void", "eatMushroomSpore")
-activate logger
-
-t <-- logger
-deactivate logger
-
-t -> logger: printState(t1)
-activate logger
-t <-- logger
-deactivate logger
+t <-- ske
+deactivate ske
 
 deactivate t
 
