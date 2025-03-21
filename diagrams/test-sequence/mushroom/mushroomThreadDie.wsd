@@ -21,15 +21,19 @@ activate dymt
 dymt --> dymt
 deactivate dymt
 
+dymt -> dymt: dieIfUnconnected()
+activate dymt
 
 dymt -> t2: removeConnection(dyingThread)
 activate t2
 t2 --> dymt
 deactivate t2
 
+dymt --> dymt
+deactivate dymt
+note right: Ha lenne fonál, a connectedThreads listájában,\n akkor azokon végig futna és meghívá rajtuk a\n "removeConnection(dyingThread)"-et
 
 dymt --> skeleton
-note right: Ha lenne fonál, a connectedThreads listájában,\n akkor azokon végig futna és meghívá rajtuk a\n "removeConnection(dyingThread)"-et
 deactivate dymt
 
 skeleton --> tester
