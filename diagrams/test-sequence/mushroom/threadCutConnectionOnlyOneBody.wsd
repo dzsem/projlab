@@ -9,9 +9,8 @@ participant "mt1: MushroomThread" as mt1
 participant "mt2: MushroomThread" as mt2
 participant "mt3: MushroomThread" as mt3
 
-participant "mt1.tecton" as t1
-participant "mt2.tecton" as t2
-participant "mt3.tecton" as t3
+participant "mt1.tecton: Tecton" as t1
+participant "mt3.tecton: Tecton" as t3
 
 activate tester
 

@@ -77,6 +77,11 @@ loop while !queue.isEmpty()
                 deactivate q
             end
         end
+
+        mt -> visited: add(connectedThread)
+        activate visited
+        visited --> mt
+        deactivate visited
     end
 end
 
