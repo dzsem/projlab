@@ -16,6 +16,13 @@ activate skeleton
 skeleton -> dymt: onEndOfTheRound()
 activate dymt
 
+dymt -> dymt: isConnectedToBody()
+activate dymt
+note right: lásd: MushroomThread.isConnectingToBody() sd 
+dymt --> dymt: false
+deactivate dymt
+
+
 dymt -> dymt: turnsToDie--
 activate dymt
 dymt --> dymt
