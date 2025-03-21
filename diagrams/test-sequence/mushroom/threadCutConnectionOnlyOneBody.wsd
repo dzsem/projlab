@@ -3,83 +3,60 @@
 title Thread Cut Connection With Only One Body
 
 actor "Tester" as tester
+participant "Skeleton" as  skeleton
 
 participant "mt1: MushroomThread" as mt1
 participant "mt2: MushroomThread" as mt2
 participant "mt3: MushroomThread" as mt3
 
-participant "Logger" as logger
+participant "mt1.tecton" as t1
+participant "mt2.tecton" as t2
+participant "mt3.tecton" as t3
 
 activate tester
 
-tester -> mt1: isConnectedToBody()
+tester -> skeleton: test_cutConnectionOneBody()
+activate skeleton
+
+' CUT
+skeleton -> mt2: cut()
+activate mt2
+mt2 --> skeleton 
+deactivate mt2
+
+' MT1
+skeleton -> mt1: isConnectedToBody()
 activate mt1
-mt1 --> tester: true
+
+mt1 -> t1: hasBody()
+activate t1
+t1 --> mt1: false
+deactivate t1
+
+mt1 --> skeleton: false
 deactivate mt1
 
-tester -> logger: print(true, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
+' MT2
 
-tester -> mt2: isConnectedToBody()
+skeleton -> mt2: isConnectedToBody()
 activate mt2
-mt2 --> tester: true
+mt2 --> skeleton: false 
+note right: cutState == CUT után egyből kilép
 deactivate mt2
 
-tester -> logger: print(true, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> mt3: isConnectedToBody()
+' MT3
+skeleton -> mt3: isConnectedToBody()
 activate mt3
-mt3 --> tester: true
+
+mt3 -> t3: hasBody()
+activate t3
+t3 --> mt3: true
+deactivate t3
+
+mt3 --> skeleton: true
 deactivate mt3
 
-tester -> logger: print(true, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> mt2: cut()
-activate mt2
-mt2 --> tester
-deactivate mt2
-
-tester -> logger: print("void", "cut")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> mt1: isConnectedToBody()
-activate mt1
-mt1 --> tester: false
-deactivate mt1
-
-tester -> logger: print(false, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> mt2: isConnectedToBody()
-activate mt2
-mt2 --> tester: false
-deactivate mt2
-
-tester -> logger: print(false, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> mt3: isConnectedToBody()
-activate mt3
-mt3 --> tester: true
-deactivate mt3
-
-tester -> logger: print(true, "isConnectedToBody")
-activate logger
-logger --> tester
-deactivate logger
+skeleton --> tester
+deactivate skeleton
 
 @enduml
