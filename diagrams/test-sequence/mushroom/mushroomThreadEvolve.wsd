@@ -3,36 +3,32 @@
 title Mushroom Thread Evolve
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
+
 participant "evolvingThread: MushroomThread" as emt
-participant "Logger" as logger 
 
 activate tester
+tester -> skeleton: test_threadEvolve()
+activate skeleton
 
-tester -> emt: getGrowState()
+skeleton -> emt: onEndOfTheRound()
 activate emt
-emt --> tester: GrowState.SPROUT 
+
+emt -> emt: isConnectedToBody()
+activate emt
+note right: lásd: MushroomThread.isConnectingToBody() sd 
+emt --> emt: true
 deactivate emt
 
-tester -> logger: print(GrowState.SPROUT, "getGrowState")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> emt: grow() 
+emt -> emt: turnsToGrow--
 activate emt
-emt --> tester
+emt --> emt
 deactivate emt
 
-tester -> emt: getGrowState()
-activate emt
-emt --> tester: GrowState.GROWN 
+emt --> skeleton
 deactivate emt
 
-tester -> logger: print(GrowState.GROWN, "getGrowState")
-activate logger
-logger --> tester
-deactivate logger
-
-deactivate tester
+skeleton --> tester
+deactivate skeleton
 
 @enduml
