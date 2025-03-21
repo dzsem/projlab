@@ -12,8 +12,8 @@ collections "tectonsToSpore: Tecton[0..*]" as tectons
 participant "t2: Tecton" as t2
 
 collections "neighbours: Tecton[0..*]"
-participant "s1: Spore"
-participant "s2: Spore"
+participant "s2: Spore" as s2
+participant "s3: Spore" as s3
 
 activate tester
 tester -> skeleton: test_lastSpore()
@@ -52,13 +52,20 @@ deactivate tectons
 ' 
 ' end
 
+nmb --> s3: Instantiate
+activate s3
+deactivate s3
 
-nmb -> t3: addSpore(s2: Spore)
+nmb -> t3: addSpore(s3: Spore)
 activate t3
 t3 --> nmb
 deactivate t3
 
-nmb -> t2: addSpore(s1: Spore)
+nmb --> s2: Instantiate
+activate s2
+deactivate s2
+
+nmb -> t2: addSpore(s2: Spore)
 activate t2
 t2 --> nmb
 deactivate t2
