@@ -3,37 +3,33 @@
 title Mushroom Thread Dissolve
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
+
 participant "dissolvingThread: MushroomThread" as dimt
 
-activate tester
+activate tester 
 
-tester -> dimt: getTurnsToDie()
+tester -> skeleton: test_threadDissolve()
+activate skeleton
+
+skeleton -> dimt: onEndOfTheRound()
 activate dimt
-dimt --> tester: 2
+
+dimt -> dimt: turnsToDie--
+activate dimt
+dimt --> dimt
 deactivate dimt
 
-tester -> logger: print(2, "getTurnsToDie")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> dimt: onEndOfTheRound()
+dimt -> dimt: dieIfUnconnected()
 activate dimt
-dimt --> tester
+dimt --> dimt
 deactivate dimt
 
-tester -> dimt: getTurnsToDie()
-activate dimt
-dimt --> tester: 1
+dimt --> skeleton
 deactivate dimt
 
-tester -> logger: print(1, "getTurnsToDie")
-activate logger
-logger --> tester
-deactivate logger
-
-
-deactivate tester
+skeleton --> tester
+deactivate skeleton
 
 
 @enduml
