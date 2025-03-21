@@ -1,15 +1,15 @@
-@startuml InfertileTectonGrowBodyTest
+@startuml tectonGrowBodyTest
 
-title InfertileTecton Grow Body
+title Tecton Grow Body Body Fail
 
 actor "Tester" as ts
-participant "t: InfertileTecton" as t
+participant "t1: Tecton" as t1
 participant "newMb: MushroomBody" as newMb
 participant "l: Logger" as l
 
 activate ts
 
-ts -> l: printState(t)
+ts -> l: printState(t1)
 activate l
 ts <-- l
 deactivate l
@@ -19,20 +19,20 @@ activate newMb
 ts <-- newMb
 deactivate newMb
 
-ts -> t: setBody(newMb)
-activate t
+ts -> t1: setBody(newMb)
+activate t1
 
-ts <-- t: throw Exception
-deactivate t
+ts <-- t1: throw Exception
+deactivate t1
 
 alt caught Exception
-    ts -> l: log("InfertileTecton can't grow a body")
+    ts -> l: log("Tecton can only have at most 1 body")
     activate l
     ts <-- l
-    deactivate l
+    deactivate l    
 end
 
-ts -> l: printState(t)
+ts -> l: printState(t1)
 activate l
 ts <-- l
 deactivate l

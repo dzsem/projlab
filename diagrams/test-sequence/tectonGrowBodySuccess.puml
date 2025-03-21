@@ -1,0 +1,35 @@
+@startuml tectonGrowBodyTest
+
+title Tecton Grow Body Success
+
+actor "Tester" as ts
+participant "t1: Tecton" as t1
+participant "newMb: MushroomBody" as newMb
+participant "l: Logger" as l
+
+activate ts
+
+ts -> l: printState(t1)
+activate l
+ts <-- l
+deactivate l
+
+ts -> newMb: Instantiate()
+activate newMb
+ts <-- newMb
+deactivate newMb
+
+ts -> t1: setBody(newMb)
+activate t1
+
+ts <-- t1
+deactivate t1
+
+ts -> l: printState(t1)
+activate l
+ts <-- l
+deactivate l
+
+deactivate ts
+
+@enduml

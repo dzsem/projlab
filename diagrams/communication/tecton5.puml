@@ -1,0 +1,21 @@
+' Test-casek:
+' - InfertileTecton Grow Body Fail
+
+@startuml communicationTecton5
+
+title InfertileTecton Grow Body Fail
+
+actor "Tester" as ts
+participant "t: InfertileTecton" as t
+
+activate ts
+
+' inicializálás
+ts -> t: 1.1 -> Initialize()
+activate t
+ts <-- t
+deactivate t
+
+deactivate ts
+
+@enduml
