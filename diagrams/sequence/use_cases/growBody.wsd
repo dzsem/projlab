@@ -1,36 +1,35 @@
+' TODO:
 @startuml Grow Body
 title MushroomBody.growBody
 
 actor "Mycologist" as mycologist
-participant "MushroomBody" as m
-participant "t: Tecton" as t
 participant "mb: MushroomBody" as mb
+participant "t: Tecton" as t
 
-mycologist -> m: growBody(t)
 activate mycologist
-activate m
 
-m -> t: hasBody()
+mycologist --> mb: Initialize
+activate mb
+
+mb -> t: hasBody()
 activate t
-t --> m: hasBody: boolean
+t --> mb: hasBody: boolean
 deactivate t
 
     opt hasBody == false
-        m -> t: getSporeCount()
+        mb -> t: getSporeCount()
         activate t
-        t --> m: sporeCount: int
+        t --> mb: sporeCount: int
         deactivate t
         
-        opt sporeCount > m.sporesNeeded
-            m -> t: hasThreadFromMushroom(m)
+        opt sporeCount > mb.sporesNeeded
+            mb -> t: hasThreadFromMushroom(m)
             activate t
-            t --> m: hasthreadFromMushroom: boolean
+            t --> mb: hasthreadFromMushroom: boolean
             deactivate t
 
             opt hasThreadFromMushroom
-                m --> mb: Initialize
-                activate mb
-                mb -> t: setBody(t)
+                mb -> t: setBody(mb)
                 activate t
                 t --> mb
                 deactivate t
@@ -38,9 +37,7 @@ deactivate t
             end
         end
     end
-mycologist <-- m
 
-deactivate m
 deactivate mycologist
 
 @enduml
