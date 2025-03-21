@@ -67,16 +67,16 @@ lsmb -> s2: Instantiate
 activate s2
 deactivate s2
 
-lsmb -> t3: addSpore(s2: Spore)
+lsmb --> t3: addSpore(s2: Spore)
 activate t3
 t3 --> lsmb
 deactivate t3
 
-lsmb -> s3: Instantiate
+lsmb --> s3: Instantiate
 activate s3
 deactivate s3
 
-lsmb -> t3: addSpore(s3: Spore)
+lsmb --> t3: addSpore(s3: Spore)
 activate t3
 t3 --> lsmb
 deactivate t3

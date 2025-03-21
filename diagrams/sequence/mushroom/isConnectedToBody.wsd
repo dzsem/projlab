@@ -1,0 +1,89 @@
+@startuml Is Connected To Body
+title MushroomThread.isConnectedToBody
+
+actor "Mycologist" as mycologist
+
+participant "mt: MushroomThread" as mt
+participant "mt.tecton: Tecton" as t
+collections "queue: MushroomThreads[0..*]" as q
+participant "queueFirst: MuhsroomThread" as q1
+participant "queueFirst.tecton: Tecton" as q1t
+collections "visited: MushroomThread[0..*]" as visited
+
+participant "connectedThread: MushroomThread" as ct
+
+
+activate mycologist
+mycologist -> mt: isConnectedToBody()
+activate mt
+
+
+opt mt.cutState == CUT
+    mt --> mycologist: false
+end
+
+mt -> t: hasBody()
+activate t
+t --> mt: hasBody: boolean
+deactivate t
+
+opt hasBody == true
+    mt --> mycologist: true
+end
+
+
+
+loop for each connectedThread in connectedThreads  
+    opt connectedThread.cutState == CutState.UNCUT
+        mt -> q: add(connectedThread)
+        note right: feltölti queue-t azokkal a fonalakkal,\n amik nincsenek átvágva
+        activate q
+        q --> mt
+        deactivate q
+    end
+end
+
+mt -> visited: add(mt)
+activate visited
+visited --> mt
+deactivate visited
+
+loop while !queue.isEmpty()
+    mt -> q: getFirst() 
+    note right: BFS szerű vizsgálat, ami leáll,\n ha talált gombatestet valamelyik\n gombafonálnál
+    activate q
+    q --> mt: queueFirst
+    deactivate q
+
+    mt -> q: remove(queueFirst)
+    activate q
+    q --> mt
+    deactivate q
+
+    mt -> q1t: hasBody()
+    activate q1t
+    q1t --> mt: queueFirstHasBody: boolean
+    deactivate q1t
+
+    alt queueFirstHasBody == true
+        mt --> mycologist: true
+
+    else
+        loop for each connectedThread in queue.connectedThreads
+            opt !visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT
+                mt -> q: add(connectedThread)
+                activate q
+                q --> mt
+                deactivate q
+            end
+        end
+    end
+end
+
+mt -> mycologist: false
+note right: ha nem talált, nincs kapcsolatban MushroomBody-val
+deactivate mt
+
+
+
+@enduml
