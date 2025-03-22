@@ -1,0 +1,31 @@
+@startuml InfertileTectonGrowBodyTest
+
+title InfertileTecton Grow Body Fail
+
+actor "Tester" as ts
+participant "s: Skeleton" as s
+participant "t: InfertileTecton" as t
+participant "newMb: MushroomBody" as newMb
+
+activate ts
+
+ts -> s: InfertileTectonGrowBodyFail()
+activate s
+
+s -> newMb: Instantiate()
+activate newMb
+s <-- newMb
+deactivate newMb
+
+s -> t: setBody(newMb)
+activate t
+
+s <-- t: throw Exception
+deactivate t
+
+ts <-- s
+deactivate s
+
+deactivate ts
+
+@enduml
