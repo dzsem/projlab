@@ -4,5 +4,7 @@ import projlab.fungorium.models.Insect;
 
 public class StunEffect implements Effect {
     public void applyEffect(Insect insect) {
+        insect.exhaustActions();
+        insect.setCanMove(false);
     }
 }
