@@ -1,6 +1,7 @@
 package projlab.fungorium.models;
 
 import java.util.List;
+import java.util.Random;
 
 import projlab.fungorium.interfaces.TurnAware;
 
@@ -26,11 +27,14 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // Tecton stuff
 
-    public void split() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Unimplemented method 'split'");
+    final public void split() {
+        List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
+        newNeighbours.addAll(neighbours);
+        Tecton newTect = new Tecton(newNeighbours);
+        neighbours.add(newTect);
     }
 
-    public boolean isNegihbour(Tecton t) {
+    final public boolean isNeighbour(Tecton t) {
         return neighbours.contains(t);
     }
 
@@ -44,15 +48,27 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomThread stuff
 
-    public boolean verifyConnection(Tecton t) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Unimplemented method 'verifyConnection'");
+    final public boolean verifyConnection(Tecton t) {
+        if (!isNeighbour(t)) {
+            return false;
+        }
+
+        for (MushroomThread mt : mushroomThreads) {
+            if (mt.isConnectingTecton(t)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void addConnection(MushroomThread mt) {
+        // TODO: check if mt comes from a neighbour tecton
+
         mushroomThreads.add(mt);
     }
 
-    public void removeConnection(MushroomThread mt) {
+    final public void removeConnection(MushroomThread mt) {
         mushroomThreads.remove(mt);
     }
 
@@ -61,11 +77,11 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // Insect stuff
 
-    public void registerInsect(Insect i) {
+    final public void registerInsect(Insect i) {
         insects.add(i);
     }
 
-    public void unregisterInsect(Insect i) {
+    final public void unregisterInsect(Insect i) {
         insects.remove(i);
     }
 
@@ -74,16 +90,16 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomSpore stuff
 
-    public void addSpore(MushroomSpore ms) {
+    final public void addSpore(MushroomSpore ms) {
         mushroomSpores.add(ms);
     }
 
     // getRandomSpore() és removeSpore() összeolvasztva, mert tulajdonképpen mindegy melyik spórát veszed ki, az effektet a megevés fogja generálni
-    public MushroomSpore removeSpore() {
+    final public MushroomSpore removeSpore() {
         return mushroomSpores.removeLast();
     }
 
-    public int getSporeCount() {
+    final public int getSporeCount() {
         return mushroomSpores.size();
     }
 
@@ -92,29 +108,52 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomBody stuff
 
-    public boolean hasThreadFrom(MushroomBody mb) throws UnsupportedOperationException {
+    // TODO
+    final public boolean hasThreadFrom(MushroomBody mb) throws UnsupportedOperationException {
+        // for (MushroomThread mt : mushroomThreads) {
+        //     if ()
+        // }
+
         throw new UnsupportedOperationException("Unimplemented method 'hasThreadFrom'");
     }
 
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
-    public void removeBody() {
+    final public void removeBody() {
         mushroomBody = null;
     }
 
-    public void setBody(MushroomBody mb) throws Exception {
+    public void setBody(MushroomBody mb) throws RuntimeException {
         if (mushroomBody != null) {
-            throw new Exception("Tecton already has a body.");
+            throw new RuntimeException("Tecton already has a body.");
+        }
+
+        if (getSporeCount() < 3) {
+            throw new RuntimeException("Tecton needs at least 3 MushroomSpores to grow a body.");
+        }
+
+        if (!hasThreadFrom(mb)) {
+            throw new RuntimeException("Tecton needs a MushroomThread from the MushroomBody before growing it.");
         }
 
         mushroomBody = mb;
     }
 
-    public boolean hasBody() {
+    final public boolean hasBody() {
         return mushroomBody != null;
     }
 
-    public void killThread(MushroomThread mt) throws Exception {
-        throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
+    // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami rajta van
+    public void killThreads() throws Exception {
+        throw new UnsupportedOperationException("Non-ThreadKillingTectons can't kill MushroomThreads");
+    }
+
+
+
+    // -------------------------------------
+    // Egyéb
+
+    public void setSplitChance(double p) {
+        splitChance = p;
     }
 
 
@@ -124,12 +163,17 @@ public class Tecton implements TurnAware {
 
     @Override
     public void onEndOfTheRound() {
-        throw new UnsupportedOperationException("Unimplemented method 'onEndOfTheRound'");
+        Random r = new Random();
+
+        if (r.nextDouble() < splitChance) {
+            this.split();
+        }
     }
 
-    private MushroomBody mushroomBody;
-    private List<MushroomThread> mushroomThreads;
+    protected MushroomBody mushroomBody;
+    protected List<MushroomThread> mushroomThreads;
     private List<MushroomSpore> mushroomSpores;
     private List<Insect> insects;
     private List<Tecton> neighbours;
+    private static double splitChance = 0.3f;
 }
