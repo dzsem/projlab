@@ -58,7 +58,7 @@ public class Tecton implements TurnAware {
     }
 
     public void addConnection(MushroomThread mt) {
-        for (Tecton tecton : mt.getConnectedTecons()) {
+        for (Tecton tecton : mt.getConnectedTectons()) {
             if (isNeighbour(tecton)) {
                 mushroomThreads.add(mt);
                 return;
@@ -120,6 +120,13 @@ public class Tecton implements TurnAware {
         }
 
         return false;
+    }
+
+    public MushroomBody getBody() throws Exception {
+        if (mushroomBody == null) {
+            throw new Exception("Tecton does not hav a MushroomBody");
+        }
+        return mushroomBody;
     }
 
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
