@@ -3,32 +3,30 @@
 title SingleThreadTecton Grow Thread Success
 
 actor "Tester" as tst
+participant "s: Skeleton" as s
 participant "t2: SingleThreadTecton" as t2
 participant "newMt: MushroomThread" as newMt
-participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(t2)
-activate l
-tst <-- l
-deactivate l
+tst -> s: SingleThreadTectonGrowThreadSuccess()
+activate s
 
-tst -> newMt: Instantiate()
+s -> newMt: Instantiate()
 activate newMt
-tst <-- newMt
+s <-- newMt
 deactivate newMt
 
-tst -> t2: addConnection(newMt)
+s -> t2: addConnection(newMt)
 activate t2
 
-tst <-- t2
+t2 -> t2: mushroomThreads.add(newMt)
+
+s <-- t2
 deactivate t2
 
-tst -> l: printState(t2)
-activate l
-tst <-- l
-deactivate l
+tst <-- s
+deactivate s
 
 deactivate tst
 

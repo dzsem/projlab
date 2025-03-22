@@ -3,39 +3,40 @@
 title Tecton Split
 
 actor "Tester" as tst
+participant "s: Skeleton" as s
 participant "t: Tecton" as t
 participant "newTec: Tecton" as ntec
-participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(t)
-activate l
-tst <-- l
-deactivate l
+tst -> s: TectonSplit()
+activate s
 
-tst -> t: split()
+s -> t: split()
 activate t
 
 ' ez nemtom így mennyire jó, de nincs jobb ötletem és leszarom XD
 t -> ntec: Instantiate([t, t.getNeighbours()])
 activate ntec
 
+ntec -> ntec: neighbours.add(t)
+
+loop nt in t.getNeighbours()
+
+ntec -> ntec: neighbours.add(nt)
+
+end
+
 t <-- ntec:
 deactivate ntec
 
-tst <-- t:
+t -> t: neighbours.add(newTec)
+
+s <-- t:
 deactivate t
 
-tst -> l: printState(newTec)
-activate l
-tst <-- l
-deactivate l
-
-tst -> l: printState(t)
-activate l
-tst <-- l
-deactivate l
+tst <-- s
+deactivate s
 
 deactivate tst
 
