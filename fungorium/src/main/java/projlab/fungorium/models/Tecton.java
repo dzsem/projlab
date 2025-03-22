@@ -168,7 +168,9 @@ public class Tecton implements TurnAware {
         splitChance = p;
     }
 
-
+    public List<Tecton> getNeighbours() {
+        return neighbours;
+    }
 
     // -------------------------------------
     // Interface implementációk
