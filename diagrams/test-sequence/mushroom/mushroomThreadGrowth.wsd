@@ -3,43 +3,37 @@
 title Mushroom Thread Growth
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
+
 participant "normalThread: MushroomThread" as nmt
-participant "Logger" as logger
 
 activate tester
+tester -> skeleton: test_threadEvolve()
+activate skeleton
 
-tester -> nmt: getTurnsToGrow()
+skeleton -> nmt: onEndOfTheRound()
 activate nmt
-nmt --> tester: 3
+
+nmt -> nmt: isConnectedToBody()
+activate nmt
+note right: lásd: MushroomThread.isConnectedToBody() sd 
+nmt --> nmt: true
 deactivate nmt
 
-tester -> logger: print(3, getTurnsToGrow) 
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> nmt: grow() 
+nmt -> nmt: turnsToGrow--
 activate nmt
-nmt --> tester
+nmt --> nmt
 deactivate nmt
 
-tester -> logger: print("void", grow) 
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> nmt: getTurnsToGrow()
+nmt -> nmt: growState = GrowState.GROWN
 activate nmt
-nmt --> tester: 2
+nmt --> nmt
 deactivate nmt
 
-tester -> logger: print(2, getTurnsToGrow) 
-activate logger
-logger --> tester
-deactivate logger
+nmt --> skeleton
+deactivate nmt
 
-deactivate tester
-
-
+skeleton --> tester
+deactivate skeleton
 
 @enduml

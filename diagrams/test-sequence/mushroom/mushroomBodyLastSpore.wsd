@@ -3,43 +3,96 @@
 title Mushroom Body Last Spore
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
 participant "lastSporeBody: MushroomBody" as lsmb
 participant "t2: Tecton" as t2
-participant "Logger" as logger
+
+collections "tectonsToSpore: Tecton[0..*]" as tectons
+
+participant "t1: Tecton" as t1
+participant "t3: Tecton" as t3
+
+collections "neighbours: Tecton[0..*]"
+participant "s1: Spore" as s1
+participant "s2: Spore" as s2
+participant "s3: Spore" as s3
 
 activate tester
+tester -> skeleton: test_lastSpore()
+activate skeleton
 
-tester -> t2: hasBody()
+
+' BEGIN COPY
+skeleton -> lsmb: distributeSpores() 
+activate lsmb
+lsmb -> t2 : getNeighbours()
 activate t2
-t2 --> tester: true
+t2 --> lsmb : neighbours: Tecton[0..*]
 deactivate t2
 
-tester -> logger: print(true, "hasBody")
-activate logger
-logger --> tester
-deactivate logger 
+lsmb --> tectons: Instantiate
+note right: belso lista
+activate tectons
+deactivate tectons
 
-tester -> lsmb: distributeSpores()
-activate lsmb
-lsmb --> tester
+lsmb -> tectons: add(lastSporeBody.tecton)
+activate tectons
+tectons --> lsmb
+deactivate tectons
+
+lsmb -> tectons: addAll(neighbours);
+activate tectons
+tectons --> lsmb
+deactivate tectons
+
+' CANT REUSE
+' loop for each tectonToSpore in tectonsToSpore
+'     body -> tectonToSpore : addSpore(spore: Spore)
+'     activate tectonToSpore
+'     tectonToSpore --> body 
+'     deactivate tectonToSpore
+' 
+' end
+
+lsmb -> s1: Instantiate
+activate s1
+deactivate s1
+
+lsmb -> t1: addSpore(s1: Spore)
+activate t1
+t1 --> lsmb
+deactivate t1
+
+lsmb -> s2: Instantiate
+activate s2
+deactivate s2
+
+lsmb --> t3: addSpore(s2: Spore)
+activate t3
+t3 --> lsmb
+deactivate t3
+
+lsmb --> s3: Instantiate
+activate s3
+deactivate s3
+
+lsmb --> t3: addSpore(s3: Spore)
+activate t3
+t3 --> lsmb
+deactivate t3
+
+lsmb -> t2 : removeBody(lastSporeBody)
+activate t2
+t2 --> lsmb
+deactivate t2
+
+lsmb --> skeleton
 deactivate lsmb
 
-tester -> logger: print("void", "distributeSpores")
-activate logger
-logger --> tester
-deactivate logger 
+' END COPY
 
-tester -> t2: hasBody()
-activate t2
-t2 --> tester: false
-deactivate t2
-
-tester -> logger: print(false, "hasBody")
-activate logger
-logger --> tester
-deactivate logger 
-
-
+skeleton --> tester
+deactivate skeleton
 
 deactivate tester
 
