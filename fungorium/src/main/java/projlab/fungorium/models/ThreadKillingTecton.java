@@ -2,9 +2,15 @@ package projlab.fungorium.models;
 
 import java.util.Random;
 
-final public class ThreadKillingTecton extends Tecton {
+/**
+ * MushroomThread-ölő Tecton modellje.
+ */
+public final class ThreadKillingTecton extends Tecton {
+    /**
+     * A Tectonon növő MushroomThreadeket egyenként killChance eséllyel megöli.
+     */
     @Override
-    final public void killThreads() {
+    public final void killThreads() {
         Random r = new Random();
 
         for (MushroomThread mt : mushroomThreads) {
@@ -15,7 +21,12 @@ final public class ThreadKillingTecton extends Tecton {
         }
     }
 
-    final public void setKillChance(double p) {
+    /**
+     * Beállítja a ThreadKillingTectonok killChancét a megadott értékre.
+     * 
+     * @param p A fonal ölés esélye. Egy 0.0 és 1.0 közti egész szám.
+     */
+    public static final void setKillChance(double p) {
         killChance = p;
     } 
 
