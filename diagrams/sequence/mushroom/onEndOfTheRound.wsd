@@ -1,0 +1,61 @@
+@startuml MushroomThread.onEndOfTheRound
+
+title MushroomThread.onEndOfTheRound
+
+participant "mt: MushroomThread" as mt
+participant "mt.connnectedThread" as ct
+participant "mt.tecton: Tecton" as t
+
+-> mt: onEndOfTheRound()
+activate mt
+
+mt -> mt: isConnectedToBody()
+activate mt
+mt --> mt: isConnectedToBody: boolean
+deactivate mt
+
+alt !isConnectedToBody
+    mt -> mt: turnsToDie--;
+    activate mt
+    mt --> mt
+    deactivate mt
+
+    opt turnsToDie == 0
+        mt -> mt: dieIfUnconnected()
+        activate mt
+
+        mt -> t: removeConnection(mt)
+        activate t
+        t --> mt
+        deactivate t
+
+        loop for each connectedThread in mt.connectedThreads
+            mt -> ct: removeConnection()
+            activate ct
+            ct --> mt
+            deactivate ct 
+        end
+
+        mt --> mt
+        deactivate
+    end
+else
+    opt growState == GrowState.SPROUT
+        mt -> mt: turnsToGrow--
+        activate mt
+        mt --> mt
+        deactivate mt
+
+        opt turnsToGrow == 0
+            mt -> mt: growState = GrowState.GROWN
+            activate mt
+            mt --> mt
+            deactivate mt
+        end
+    end
+end
+
+<-- mt
+deactivate mt
+
+@enduml
