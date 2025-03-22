@@ -17,7 +17,7 @@ activate dimt
 
 dimt -> dimt: isConnectedToBody()
 activate dimt
-note right: lásd: MushroomThread.isConnectingToBody() sd 
+note right: lásd: MushroomThread.isConnectedToBody() sd 
 dimt --> dimt: false
 deactivate dimt
 

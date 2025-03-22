@@ -16,7 +16,7 @@ activate nmt
 
 nmt -> nmt: isConnectedToBody()
 activate nmt
-note right: lásd: MushroomThread.isConnectingToBody() sd 
+note right: lásd: MushroomThread.isConnectedToBody() sd 
 nmt --> nmt: true
 deactivate nmt
 

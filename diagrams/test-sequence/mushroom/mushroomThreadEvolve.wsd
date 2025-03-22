@@ -16,7 +16,7 @@ activate emt
 
 emt -> emt: isConnectedToBody()
 activate emt
-note right: lásd: MushroomThread.isConnectingToBody() sd 
+note right: lásd: MushroomThread.isConnectedToBody() sd 
 emt --> emt: true
 deactivate emt
 
