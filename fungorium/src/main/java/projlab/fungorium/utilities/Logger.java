@@ -17,4 +17,8 @@ public class Logger {
         
         System.out.println( ") = " + returnValue);
     }
+
+    public static void printError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
 }

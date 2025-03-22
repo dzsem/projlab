@@ -16,7 +16,6 @@ public class Skeleton {
     public static void init() {
         // Commandok feltoltese
         commands.put("stop", Skeleton::stop);
-        commands.put("grow_thread", Skeleton::testMushroomThreadGrowth);
     }
 
     public static void run() {
@@ -39,13 +38,6 @@ public class Skeleton {
                 break;
             }
         }
-    }
-
-    private static void testMushroomThreadGrowth(List<String> args) {
-        MushroomThread thread = new MushroomThread();
-        thread.grow();
-        Logger.print("void", "MushroomThread.grow");
-
     }
 
     private static void stop(List<String> args) {
