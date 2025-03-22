@@ -3,39 +3,28 @@
 title SingleThreadTecton Grow Thread Fail
 
 actor "Tester" as tst
+participant "s: Skeleton" as s
 participant "t1: SingleThreadTecton" as t1
 participant "newMt: MushroomThread" as newMt
-participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(t1)
-activate l
-tst <-- l
-deactivate l
+tst -> s: SingleThreadTectonGrowThreadFail()
+activate s
 
-tst -> newMt: Instantiate()
+s -> newMt: Instantiate()
 activate newMt
-tst <-- newMt
+s <-- newMt
 deactivate newMt
 
-tst -> t1: addConnection(newMt)
+s -> t1: addConnection(newMt)
 activate t1
 
-tst <-- t1: throw Exception
+s <-- t1: throw Exception
 deactivate t1
 
-alt caught Exception
-    tst -> l: log("SingleThreadTecton can't have more than one MushroomThread")
-    activate l
-    tst <-- l
-    deactivate l    
-end
-
-tst -> l: printState(t1)
-activate l
-tst <-- l
-deactivate l
+tst <-- s
+deactivate s
 
 deactivate tst
 
