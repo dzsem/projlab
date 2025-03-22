@@ -1,4 +1,4 @@
-package projlab.fungorium.models;
+package projlab.fungorium.interfaces;
 
 public interface TurnAware {
     public void onEndOfTheRound();
