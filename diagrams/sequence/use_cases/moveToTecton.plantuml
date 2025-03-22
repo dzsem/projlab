@@ -11,19 +11,37 @@ ins -> i: moveToTecton(t)
 activate ins
 activate i
 
-i -> it: unregisterInsect(i)
+i -> it: isNeighbour(t)
 activate it
 
-i <-- it
+i <-- it: isNeighbour
 deactivate it
 
-i -> t: registerInsect(i)
-activate t
+i -> it: verifyConnection(t)
+activate it
 
-i <-- t
-deactivate t
+i <-- it: isConnected
+deactivate it
 
-ins <-- i
+alt isNeighbour && isConnected && canMove
+
+	i -> it: unregisterInsect(i)
+	activate it
+
+	i <-- it
+	deactivate it
+
+	i -> t: registerInsect(i)
+	activate t
+
+	i <-- t
+	deactivate t
+
+	ins <-- i
+else
+	ins <-- i: Exception
+end
+
 deactivate i
 
 deactivate ins
