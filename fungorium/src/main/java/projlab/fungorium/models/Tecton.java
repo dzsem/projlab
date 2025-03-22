@@ -38,11 +38,6 @@ public class Tecton implements TurnAware {
         return neighbours.contains(t);
     }
 
-    // Ez kell egyáltalán hogy publikus legyen?
-    // public List<Tecton> getNeighbours() {
-    //     return neighbours;
-    // }
-
 
 
     // -------------------------------------
@@ -63,10 +58,12 @@ public class Tecton implements TurnAware {
     }
 
     public void addConnection(MushroomThread mt) {
-        // TODO: check if mt comes from a neighbour tecton
-        
-
-        mushroomThreads.add(mt);
+        for (Tecton tecton : mt.getConnectedTecons()) {
+            if (isNeighbour(tecton)) {
+                mushroomThreads.add(mt);
+                return;
+            }
+        }
     }
 
     final public void removeConnection(MushroomThread mt) {
@@ -113,13 +110,16 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomBody stuff
 
-    // TODO
-    final public boolean hasThreadFrom(MushroomBody mb) throws UnsupportedOperationException {
-        // for (MushroomThread mt : mushroomThreads) {
-        //     if ()
-        // }
+    final public boolean hasThreadFrom(MushroomBody mb) {
+        for (MushroomThread mushroomThread : mushroomThreads) {
+            for (MushroomBody mushroomBody : mushroomThread.getConnectedBodies()) {
+                if (mushroomBody.equals(mb)) {
+                    return true;
+                }
+            }
+        }
 
-        throw new UnsupportedOperationException("Unimplemented method 'hasThreadFrom'");
+        return false;
     }
 
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
@@ -127,7 +127,7 @@ public class Tecton implements TurnAware {
         mushroomBody = null;
     }
 
-    public void setBody(MushroomBody mb) throws RuntimeException {
+    public void setBody(MushroomBody mb) throws Exception {
         if (mushroomBody != null) {
             throw new RuntimeException("Tecton already has a body.");
         }
@@ -149,7 +149,7 @@ public class Tecton implements TurnAware {
 
     // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami rajta van
     public void killThreads() throws Exception {
-        throw new UnsupportedOperationException("Non-ThreadKillingTectons can't kill MushroomThreads");
+        throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
     }
 
 
