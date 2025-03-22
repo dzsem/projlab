@@ -14,6 +14,18 @@ public class MushroomThread implements TurnAware {
     private List<MushroomThread> connectedThreads;
     private Tecton tecton;
 
+    public void kill() {
+
+    }
+
+    public List<MushroomBody> getConnectedBodies() {
+        throw new RuntimeException("Not Implemented");
+    }
+
+    public List<Tecton> getConnectedTecons() {
+        throw new RuntimeException("Not Implemented");
+    }
+
     public void decreaseTurnsToDie() {
 
     }
