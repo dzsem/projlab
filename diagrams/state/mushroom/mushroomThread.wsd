@@ -12,11 +12,19 @@ state Alive {
     [*] -> Sporut
     Sporut -> Sporut: grow() / turnsToGrow--
     Sporut -down-> Grown: [turnsToGrow == 0]
+
+    || 
+    state Cut
+    state UnCut
+
+    [*] -> UnCut
+    UnCut --> Cut: cut()
+    Cut --> UnCut: createConnection()
 }
 
 state Dead
 
-Alive -> Alive: decreaseTurnsToDie() / turnsToDie--
+Alive -> Alive: [thread is not connected to body] decreaseTurnsToDie() / turnsToDie--
 Alive -down-> Dead: dieIfUnconnected() 
 
 Dead -> [*]

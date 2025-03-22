@@ -1,0 +1,34 @@
+@startuml ill_test_insect_moveToTecton
+
+title NEM A DOKSIBA VALÓ!\nInsect tesztesetek pályájának vizualizációja
+' ~Tamás
+
+rectangle Pálya {
+	rectangle t1 {
+		rectangle insect
+		rectangle mt1
+	}
+
+	rectangle t2
+
+	rectangle t3 {
+		rectangle mt2
+	}
+
+	rectangle t4 {
+		rectangle mt3
+	}
+}
+
+t1 -- t2: (neighbor)
+t1 -- t3: (neighbor)
+mt1 -- mt2
+
+t3 -- t4: (neighbor)
+mt2 -- mt3
+
+'Teszt 1: insect t1-ről t3-ra sikeresen lép
+'Teszt 2: insect t1-ről t4-re nem tud lépni, mert nem szomszédosak
+'Teszt 3: insect t1-ről t2-re nem tud lépni, mert nincsenek összekötve
+
+@enduml

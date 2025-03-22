@@ -1,0 +1,63 @@
+@startuml test_eatMushroomSpore1
+
+title EatMushroomSpore Success
+
+actor "Tesztelő" as t
+participant "Skeleton" as ske
+participant "i: Insect" as i
+participant "t1: Tecton" as t1
+participant "spore: Spore" as spore
+participant "effect: NoEffect" as effect
+
+activate t
+
+t -> ske: test_eatMushroomSpore1()
+note right: ld. sikeres eatMushroomSpore teszt init diagram
+activate ske
+
+	ske -> i: eatMushroomSpore()
+	activate i
+	note right: lásd: Insect.eatMushroomSpore
+
+		i -> t1: getRandomSpore()
+		activate t1
+
+		i <-- t1: spore
+		deactivate t1
+			
+		i->spore : applyEffect(i)
+		activate spore
+
+			spore->spore : generateEffect()
+			note right: A példa kedvéért feltesszük,\nhogy NoEffect típusú effekt jön létre,\nmert az effekt fajtája a teszt\nszempontjából lényegtelen.
+			activate spore
+
+			spore-->spore: effect
+			deactivate spore
+
+			spore -> effect : applyEffect(i)
+			activate effect
+			note right: Semmi nem történik.
+
+			spore <-- effect
+			deactivate effect
+
+			spore -> t1: removeSpore(spore)
+			activate t1
+
+			spore <-- t1
+			deactivate t1
+
+		i <-- spore
+		deactivate spore
+
+
+	ske <-- i
+	deactivate i
+
+t <-- ske
+deactivate ske
+
+deactivate t
+
+@enduml

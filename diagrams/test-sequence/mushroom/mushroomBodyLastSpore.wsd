@@ -1,0 +1,46 @@
+@startuml Mushroom Body Last Spore
+
+title Mushroom Body Last Spore
+
+actor "Tester" as tester
+participant "lastSporeBody: MushroomBody" as lsmb
+participant "t2: Tecton" as t2
+participant "Logger" as logger
+
+activate tester
+
+tester -> t2: hasBody()
+activate t2
+t2 --> tester: true
+deactivate t2
+
+tester -> logger: print(true, "hasBody")
+activate logger
+logger --> tester
+deactivate logger 
+
+tester -> lsmb: distributeSpores()
+activate lsmb
+lsmb --> tester
+deactivate lsmb
+
+tester -> logger: print("void", "distributeSpores")
+activate logger
+logger --> tester
+deactivate logger 
+
+tester -> t2: hasBody()
+activate t2
+t2 --> tester: false
+deactivate t2
+
+tester -> logger: print(false, "hasBody")
+activate logger
+logger --> tester
+deactivate logger 
+
+
+
+deactivate tester
+
+@enduml

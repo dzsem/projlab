@@ -1,0 +1,16 @@
+@startuml mushroom body test-case
+left to right direction
+
+actor "Tester" as tester
+
+rectangle "Mushroom Body Tests" {
+    usecase "Normal MushroomBody Distribute Spores" as test1
+    usecase "Advanced MushroomBody Distribute Spores" as test2
+    usecase "MushroomBody Distribute Last Spore" as test3
+}
+
+tester -- test1
+tester -- test2
+tester -- test3
+
+@enduml

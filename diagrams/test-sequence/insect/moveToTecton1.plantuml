@@ -1,0 +1,63 @@
+@startuml test_moveToTecton1
+
+title Move to Tecton Success
+
+actor "Tesztelő" as t
+participant "Skeleton" as ske
+participant "ins: Insect" as i
+participant "t1: Tecton" as t1
+participant "t3: Tecton" as t3
+
+activate t
+
+t -> ske: test_moveToTecton1()
+note right: ld. MoveToTecton teszt init diagram
+activate ske
+
+	ske -> i: moveToTecton(t3)
+	activate i
+	note right: lásd: Insect.moveToTecton\nitt: insect.tecton=t1, t=t3
+
+		i -> t1: isNeighbour(t4)
+		activate t1
+
+		i <-- t1: true
+		deactivate t1
+
+		i -> t1: verifyConnection(t3)
+		activate t1
+
+		i <-- t1: true
+		deactivate t1
+
+		i -> t1: unregisterInsect(i)
+		activate t1
+
+		i <-- t1
+		deactivate t1
+
+		i -> t3: registerInsect(i)
+		activate t3
+
+		i <-- t3
+		deactivate t3
+
+
+	ske <-- i
+	deactivate i
+
+' idk hogy ez kelleni fog-e valamilyen formában ~tams
+'	opt ins.tecton != t3
+'		t -> logger: printError("test_moveToTecton1 failed")
+'		activate logger
+'
+'		t <-- logger
+'		deactivate logger
+'	end
+
+t <-- ske
+deactivate ske
+
+deactivate t
+
+@enduml

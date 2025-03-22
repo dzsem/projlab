@@ -1,0 +1,38 @@
+@startuml Mushroom Thread Evolve
+
+title Mushroom Thread Evolve
+
+actor "Tester" as tester
+participant "evolvingThread: MushroomThread" as emt
+participant "Logger" as logger 
+
+activate tester
+
+tester -> emt: getGrowState()
+activate emt
+emt --> tester: GrowState.SPROUT 
+deactivate emt
+
+tester -> logger: print(GrowState.SPROUT, "getGrowState")
+activate logger
+logger --> tester
+deactivate logger
+
+tester -> emt: grow() 
+activate emt
+emt --> tester
+deactivate emt
+
+tester -> emt: getGrowState()
+activate emt
+emt --> tester: GrowState.GROWN 
+deactivate emt
+
+tester -> logger: print(GrowState.GROWN, "getGrowState")
+activate logger
+logger --> tester
+deactivate logger
+
+deactivate tester
+
+@enduml

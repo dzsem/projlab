@@ -1,0 +1,79 @@
+@startuml Thread Is Traversible Fail Sprout
+title Thread Is Connecting Tecton Fail Sprout Init
+
+actor "Tester" as tester
+
+participant "mt1.tecton: Tecton" as t1
+participant "mt2.tecton: Tecton" as t2
+participant "mt1: MushroomThread" as mt1
+participant "mt2: MushroomThread" as mt2
+
+collections "mt1.connectedThreads[0..*]" as ct1
+collections "mt2.connectedThreads[0..*]" as ct2
+
+activate tester
+
+'Init tectons
+tester -> t1: 1 Initialize()
+activate t1
+t1 --> tester
+deactivate t1
+
+tester -> t2: 2 Initialize()
+activate t2
+t2 --> tester
+deactivate t2
+
+'Add neighbours
+tester -> t1: 3 addNeighbour([mt2.tecton])
+activate t1
+t1 -> t2: 3.1 registerNeighbour(mt1.tecton)
+activate t2
+t2 --> t1
+deactivate t2
+t1 -> tester
+deactivate t1
+
+'Add threads
+tester -> mt1: 4 Initialize(mt1.tecton)
+activate mt1
+mt1 -> t1: 4.1 addConnection(mt1)
+activate t1
+t1 --> mt1
+deactivate t1
+mt1 --> tester 
+deactivate mt1
+
+tester -> mt1: 5 createConnection(mt2.tecton)
+activate mt1
+
+mt1 -> mt2: 5.1 Initialize(mt2.tecton)
+activate mt2
+mt2 -> t2: 5.1.1 addConnection(mt2)
+activate t2
+t2 --> mt2
+deactivate t2
+mt2 --> mt1
+deactivate mt2
+
+mt1 -> ct1: 5.2 add(mt2)
+activate ct1
+ct1 --> mt1
+deactivate ct1
+
+
+mt1 -> ct2: 5.3 add(mt1)
+activate ct2
+ct2 --> mt1
+deactivate ct2
+
+mt1 --> tester
+deactivate mt1
+
+'Set Sprout
+tester -> mt1: 6 setGrowState(GrowState.SPROUT)
+activate mt1
+mt1 --> tester
+deactivate mt1
+
+@enduml
