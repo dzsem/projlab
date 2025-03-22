@@ -3,44 +3,60 @@
 title EatMushroomSpore Success
 
 actor "Tesztelő" as t
-participant "insect: Insect" as i
+participant "Skeleton" as ske
+participant "i: Insect" as i
 participant "t1: Tecton" as t1
-participant "logger: Logger" as logger
+participant "spore: Spore" as spore
+participant "effect: NoEffect" as effect
 
 activate t
 
-t -> logger: printState(t1)
+t -> ske: test_eatMushroomSpore1()
 note right: ld. sikeres eatMushroomSpore teszt init diagram
-activate logger
+activate ske
 
-t <-- logger
-deactivate logger
+	ske -> i: eatMushroomSpore()
+	activate i
+	note right: lásd: Insect.eatMushroomSpore
 
-t -> i: eatMushroomSpore()
-activate i
-note right: lásd: Insect.eatMushroomSpore
+		i -> t1: getRandomSpore()
+		activate t1
 
-t <-- i
-deactivate i
+		i <-- t1: spore
+		deactivate t1
+			
+		i->spore : applyEffect(i)
+		activate spore
 
-t -> logger: print("void", "eatMushroomSpore")
-activate logger
+			spore->spore : generateEffect()
+			note right: A példa kedvéért feltesszük,\nhogy NoEffect típusú effekt jön létre,\nmert az effekt fajtája a teszt\nszempontjából lényegtelen.
+			activate spore
 
-t <-- logger
-deactivate logger
+			spore-->spore: effect
+			deactivate spore
 
-t -> logger: printState(t1)
-activate logger
-t <-- logger
-deactivate logger
+			spore -> effect : applyEffect(i)
+			activate effect
+			note right: Semmi nem történik.
 
-opt t1.getSporeCount() != 0
-	t -> logger: printError("test_eatMushroomSpore1 failed")
-	activate logger
+			spore <-- effect
+			deactivate effect
 
-	t <-- logger
-	deactivate logger
-end
+			spore -> t1: removeSpore(spore)
+			activate t1
+
+			spore <-- t1
+			deactivate t1
+
+		i <-- spore
+		deactivate spore
+
+
+	ske <-- i
+	deactivate i
+
+t <-- ske
+deactivate ske
 
 deactivate t
 
