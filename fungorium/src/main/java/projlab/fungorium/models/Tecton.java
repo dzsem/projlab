@@ -126,7 +126,7 @@ public class Tecton implements TurnAware {
      * 
      * @param mt A megadott MushroomThread
      */
-    public void addConnection(MushroomThread mt) {
+    public void addConnection(MushroomThread mt) throws Exception {
         for (Tecton tecton : mt.getConnectedTecons()) {
             if (isNeighbour(tecton)) {
                 mushroomThreads.add(mt);
@@ -247,15 +247,15 @@ public class Tecton implements TurnAware {
      */
     public void setBody(MushroomBody mb) throws Exception {
         if (mushroomBody != null) {
-            throw new RuntimeException("Tecton already has a body.");
+            throw new Exception("Tecton already has a body.");
         }
 
         if (getSporeCount() < 3) {
-            throw new RuntimeException("Tecton needs at least 3 MushroomSpores to grow a body.");
+            throw new Exception("Tecton needs at least 3 MushroomSpores to grow a body.");
         }
 
         if (!hasThreadFrom(mb)) {
-            throw new RuntimeException("Tecton needs a MushroomThread from the MushroomBody before growing it.");
+            throw new Exception("Tecton needs a MushroomThread from the MushroomBody before growing it.");
         }
 
         mushroomBody = mb;
