@@ -3,31 +3,56 @@ title Insect.eatMushroomSpore
 
 actor "Insectologist" as insectologist  
 participant "insect: Insect" as insect
+participant "insect.tecton: Tecton" as tecton
 participant "spore: Spore" as spore
 participant "effect: Effect" as effect
 
-insectologist -> insect: eatMushroomSpore(spore)
+insectologist -> insect: eatMushroomSpore()
 activate insectologist
 activate insect
-    
-insect->spore : applyEffect(insect)
-activate spore
 
-spore->spore : generateEffect()
-activate spore
+	insect -> tecton: getRandomSpore()
+	activate tecton
 
-spore-->spore: effect
-deactivate spore
+	tecton -> tecton: getSporeCount()
+	activate tecton
 
-spore ->effect : applyEffect(insect)
-activate effect
-note right: Effectek kifejtve külön diagramokon (Effect.applyEffect)
+	tecton --> tecton: sporeCount
+	deactivate tecton
 
-spore <-- effect
-deactivate effect
+	opt sporeCount == 0
+		insect <-- tecton: Exception
+		insectologist <-- insect: Exception
+	end
 
-insect <-- spore
-deactivate spore
+	insect <-- tecton: spore
+	deactivate tecton
+		
+	insect->spore : applyEffect(insect)
+	activate spore
+
+		spore->spore : generateEffect()
+		activate spore
+
+		spore-->spore: effect
+		deactivate spore
+
+		spore -> effect : applyEffect(insect)
+		activate effect
+		note right: Effectek kifejtve külön diagramokon (Effect.applyEffect)
+
+		spore <-- effect
+		deactivate effect
+
+		spore -> tecton: removeSpore(spore)
+		note right: a spóra eltávolítja magát a tektonról\naz effekt kiosztása után
+		activate tecton
+
+		spore <-- tecton
+		deactivate tecton
+
+	insect <-- spore
+	deactivate spore
 
 insectologist <-- insect
 deactivate insect

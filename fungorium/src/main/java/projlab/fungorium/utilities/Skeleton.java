@@ -6,17 +6,17 @@ import java.util.Map;
 
 import projlab.fungorium.models.MushroomThread;
 
-public class Tester {
+public class Skeleton {
 
-    private Tester() {}
+    private Skeleton() {}
     private static boolean shouldStop = true;
 
     private static Map<String, Command> commands = new HashMap<>();
 
     public static void init() {
         // Commandok feltoltese
-        commands.put("stop", Tester::stop);
-        commands.put("grow_thread", Tester::testMushroomThreadGrowth);
+        commands.put("stop", Skeleton::stop);
+        commands.put("grow_thread", Skeleton::testMushroomThreadGrowth);
     }
 
     public static void run() {

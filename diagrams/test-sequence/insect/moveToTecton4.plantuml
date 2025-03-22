@@ -3,44 +3,47 @@
 title Move to Tecton Fail\n(while stunned)
 
 actor "Tesztelő" as t
+participant "Skeleton" as ske
 participant "ins: Insect" as i
-participant "target: Tecton" as target
-participant "logger: Logger" as logger
+participant "t1: Tecton" as t1
+participant "t2: Tecton" as t2
 
 activate t
 
-t -> logger: printState(insect)
+t -> ske: test_moveToTecton4()
 note right: ld. MoveToTecton (bénított eset) teszt init diagram
-activate logger
+activate ske
 
-t <-- logger
-deactivate logger
+	ske -> i: moveToTecton(t2)
+	activate i
+	note right: lásd: Insect.moveToTecton\nitt insect.tecton=t1, t=t2
 
-t -> i: moveToTecton(target)
-activate i
-note right: lásd: Insect.moveToTecton
+		i -> t1: isNeighbour(t2)
+			activate t1
 
-t <-- i
-deactivate i
+		i <-- t1: true
+		deactivate t1
 
-t -> logger: print("void", "moveToTecton", target)
-activate logger
+		i -> t1: verifyConnection(t2)
+		activate t1
 
-t <-- logger
-deactivate logger
+		i <-- t1: true
+		deactivate t1
 
-t -> logger: printState(insect)
-activate logger
-t <-- logger
-deactivate logger
+	ske <-- i: Exception
+	note right: canMove feltétel sérült\n(komm. diagram StunEffect-je miatt)
+	deactivate i
 
-opt ins.tecton != t1
-	t -> logger: printError("test_moveToTecton4 failed")
-	activate logger
+'	opt ins.tecton != t1
+'		t -> logger: printError("test_moveToTecton4 failed")
+'		activate logger
+'
+'		t <-- logger
+'		deactivate logger
+'	end
 
-	t <-- logger
-	deactivate logger
-end
+t <-- ske
+deactivate ske
 
 deactivate t
 
