@@ -69,7 +69,7 @@ deactivate q
 
 mt1 -> t2: hasBody()
 activate t2
-t2 --> mt1: false
+t2 --> mt1: true
 deactivate t2
 
 mt1 --> skeleton: true
