@@ -18,10 +18,16 @@ activate ske
 
 	
 	i -> t1: getRandomSpore()
-	note right: a getSporeCount() == 0\nágra futunk, kivétel
 	activate t1
 
+	t1 -> t1: getSporeCount()
+	activate t1
+
+	t1 --> t1: 0
+	deactivate t1
+
 	i <-- t1: Exception
+	note right: a getSporeCount() == 0\nágra futunk, kivétel
 	deactivate t1
 
 	ske <-- i: Exception

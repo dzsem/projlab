@@ -14,7 +14,13 @@ activate insect
 	insect -> tecton: getRandomSpore()
 	activate tecton
 
-	opt getSporeCount() == 0
+	tecton -> tecton: getSporeCount()
+	activate tecton
+
+	tecton --> tecton: sporeCount
+	deactivate tecton
+
+	opt sporeCount == 0
 		insect <-- tecton: Exception
 		insectologist <-- insect: Exception
 	end
