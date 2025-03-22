@@ -64,6 +64,7 @@ public class Tecton implements TurnAware {
 
     public void addConnection(MushroomThread mt) {
         // TODO: check if mt comes from a neighbour tecton
+        
 
         mushroomThreads.add(mt);
     }
@@ -94,9 +95,13 @@ public class Tecton implements TurnAware {
         mushroomSpores.add(ms);
     }
 
-    // getRandomSpore() és removeSpore() összeolvasztva, mert tulajdonképpen mindegy melyik spórát veszed ki, az effektet a megevés fogja generálni
-    final public MushroomSpore removeSpore() {
-        return mushroomSpores.removeLast();
+    final public void removeSpore(MushroomSpore ms) {
+        mushroomSpores.remove(ms);
+    }
+
+    final public MushroomSpore getRandomSpore() {
+        Random r = new Random();
+        return mushroomSpores.get(r.nextInt(mushroomSpores.size()));
     }
 
     final public int getSporeCount() {
