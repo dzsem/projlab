@@ -26,10 +26,11 @@ activate ske
 		i -> t1: verifyConnection(t4)
 		activate t1
 
-		i <-- t1
+		i <-- t1: connectionResult
 		deactivate t1
 
 	ske <-- i: Exception
+	note right: mivel isNeighbour == false, ezért nem léphet\nát a rovar, a verifyConnection kimenetétől\nfüggetlenül kivétel keletkezik.
 	deactivate i
 
 '	opt ins.tecton != t1
