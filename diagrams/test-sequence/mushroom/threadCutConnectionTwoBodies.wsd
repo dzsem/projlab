@@ -36,8 +36,16 @@ activate mt1
 
 mt1 -> t1: hasBody()
 activate t1
-t1 --> mt1: false
+t1 --> mt1: true
 deactivate t1
+
+mt1 --> q: Instantiate
+activate q 
+deactivate q 
+
+mt1 --> visited: Instantiate
+activate visited 
+deactivate visited 
 
 mt1 -> q: add(mt2)
 activate q
@@ -64,12 +72,7 @@ activate t2
 t2 --> mt1: false
 deactivate t2
 
-mt1 -> visited: add(mt2)
-activate visited
-visited --> mt1
-deactivate visited
-
-mt1 --> skeleton: false
+mt1 --> skeleton: true
 deactivate mt1
 
 ' MT 4
@@ -81,6 +84,14 @@ mt4 -> t4: hasBody()
 activate t4
 t4 --> mt4: false
 deactivate t4
+
+mt4 --> q: Instantiate
+activate q 
+deactivate q 
+
+mt4 --> visited: Instantiate
+activate visited 
+deactivate visited 
 
 mt4 -> q: add(mt5)
 activate q

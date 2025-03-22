@@ -31,7 +31,15 @@ opt hasBody == true
     mt --> mycologist: true
 end
 
+mt --> q: Instantiate
+note right: belso lista
+activate q 
+deactivate q 
 
+mt --> visited: Instantiate
+note right: belso lista
+activate visited 
+deactivate visited 
 
 loop for each connectedThread in connectedThreads  
     opt connectedThread.cutState == CutState.UNCUT
@@ -85,7 +93,7 @@ loop while !queue.isEmpty()
     end
 end
 
-mt -> mycologist: false
+mt --> mycologist: false
 note right: ha nem talált, nincs kapcsolatban MushroomBody-val
 deactivate mt
 
