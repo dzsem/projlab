@@ -85,8 +85,7 @@ public class Insect implements TurnAware {
 	 * @throws Exception ha az átlépési követelmények nem teljesülnek.
 	 */
 	public void moveToTecton(Tecton t) throws Exception {
-		// TODO: typo fix
-		boolean isNeighbour = tecton.isNegihbour(t);
+		boolean isNeighbour = tecton.isNeighbour(t);
 		boolean isConnected = tecton.verifyConnection(t);
 
 		if (isNeighbour && isConnected && canMove) {
@@ -109,10 +108,9 @@ public class Insect implements TurnAware {
 	 *                          getRandomSpore() kivétele feljebb halad.
 	 */
 	public void eatMushroomSpore() throws Exception {
-		// TODO: tekton műveletek ~tams
-		throw new UnsupportedOperationException("Unimplemented method");
+		MushroomSpore spore = tecton.getRandomSpore();
 
-		// MushroomSpore spore = tecton.getRandomSpore();
+		// TODO: spóra interfész
 		// spore.applyEffect(this);
 	}
 
@@ -120,7 +118,7 @@ public class Insect implements TurnAware {
 	 * A rovar értesíti a kontrollert, hogy visszakapja az összes akcióját.
 	 */
 	public void refreshActions() {
-		throw new UnsupportedOperationException("Unimplemented method");
+		// egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
 	}
 
 	/**
@@ -128,7 +126,7 @@ public class Insect implements TurnAware {
 	 * körben.
 	 */
 	public void exhaustActions() {
-		throw new UnsupportedOperationException("Unimplemented method");
+		// egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
 	}
 
 	/**
@@ -153,7 +151,6 @@ public class Insect implements TurnAware {
 			setCanCut(true);
 		}
 
-		// TODO ez körönként csökken? ~tams
 		if (counter != 0) {
 			counter--;
 		}
@@ -182,7 +179,6 @@ public class Insect implements TurnAware {
 	 * Ennyi körbe telik majd, amég a rovar újra fonalat vághat.
 	 */
 	public void setCounter() {
-		// TODO ne legyen hardcodeolva? ~tams
-		counter = 5;
+		counter = 3;
 	}
 }
