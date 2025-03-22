@@ -3,19 +3,17 @@
 title ThreadKillingTecton Kill Thread
 
 actor "Tester" as tst
+participant "s: Skeleton" as s
 participant "t: ThreadKillingTecton" as t
 participant "mt: MushroomThread" as mt
 participant "ct: MushroomThread" as ct
-participant "l: Logger" as l
 
 activate tst
 
-tst -> l: printState(t)
-activate l
-tst <-- l
-deactivate l
+tst -> s: ThreadKillingTectonKillThread()
+activate s
 
-tst -> t: killThread(mt)
+s -> t: killThread(mt)
 activate t
 
 t -> mt: kill()
@@ -34,13 +32,11 @@ deactivate mt
 
 t -> t: removeConnection(mt)
 
-tst <-- t
+s <-- t
 deactivate t
 
-tst -> l: printState(t)
-activate l
-tst <-- l
-deactivate l
+tst <-- s
+deactivate s
 
 deactivate tst
 
