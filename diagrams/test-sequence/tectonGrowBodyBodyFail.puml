@@ -6,7 +6,6 @@ actor "Tester" as ts
 participant "s: Skeleton" as s
 participant "t1: Tecton" as t1
 participant "newMb: MushroomBody" as newMb
-participant "l: Logger" as l
 
 activate ts
 
