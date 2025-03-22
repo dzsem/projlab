@@ -64,12 +64,16 @@ public class Insect implements TurnAware {
 	}
 
 	/**
-	 * @todo
+	 * Elvágja a bemenetként adott gombafonalat, amennyiben
 	 * 
-	 * @param mt
+	 * @param mt Az elvágandó gombafonál
 	 */
 	public void cutMushroomThread(MushroomThread mt) {
-		throw new UnsupportedOperationException("Unimplemented method");
+		// TODO: ez így akármilyen gombafonalat el tud vágni, lehet módosítani kéne a
+		// diagramokon? ~tams
+		if (canCut) {
+			mt.cut();
+		}
 	}
 
 	/**
