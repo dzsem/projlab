@@ -179,6 +179,8 @@ public class Insect implements TurnAware {
 	 * Ennyi körbe telik majd, amég a rovar újra fonalat vághat.
 	 */
 	public void setCounter() {
-		counter = 3;
+		counter = COUNTER_DEFAULT_VALUE;
 	}
+
+	private static final int COUNTER_DEFAULT_VALUE = 3;
 }
