@@ -99,7 +99,7 @@ public class Skeleton {
         System.out.println("Tests:");
 
         for (int i = 0; i < commands.size(); i++) {
-            System.out.println(" " + (i + 1) + ")\t" + commandDescriptions.get(i));
+            System.out.println(" " + (i) + ")\t" + commandDescriptions.get(i));
         }
     }
 

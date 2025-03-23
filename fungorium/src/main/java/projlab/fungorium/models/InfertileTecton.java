@@ -23,11 +23,14 @@ public final class InfertileTecton extends Tecton {
     
     /**
      * Nem tud magának MushroomBodyt állítani.
-     * 
-     * @throws Exception Mindig.
      */
     @Override
-    public final void setBody(MushroomBody mb) throws Exception {
+    public final void setBody(MushroomBody mb) { 
+        mushroomBody = null;
+    }
+
+    @Override 
+    public final void growBody(int mushroomID) throws Exception{
         throw new Exception("InfertileTecton can't grow a body");
     }
 }

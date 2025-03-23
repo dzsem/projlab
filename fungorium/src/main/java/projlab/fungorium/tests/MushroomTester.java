@@ -1,5 +1,6 @@
 package projlab.fungorium.tests;
 
+
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
@@ -32,7 +33,8 @@ public class MushroomTester {
         t2.registerNeighbour(t3);
         
         t3.registerNeighbour(t2);
-        
+
+
         // Első gomba fonal létrehozása
         mt3 = new MushroomThread(t3, MUSHROOM_ID);
         
