@@ -29,7 +29,20 @@ public class MushroomThread implements TurnAware {
     private GrowState growState;
     private CutState cutState;
 
+    /**
+     * Beállítja az attribútumait az alapértelmezett értékekre és hozzáadja magát a tekton listájához.
+     * @param tecton
+     */
     public MushroomThread(Tecton tecton) {
+        this.tecton = tecton;
+        this.cutState = CutState.UNCUT;
+        this.growState = GrowState.SPROUT;
+        this.turnsToDie = DEFAULT_TURNS_TO_DIE;
+        this.turnsToGrow = DEFAULT_TURNS_TO_GROW;
+
+        connectedThreads = new ArrayList<>();
+
+        tecton.addConnection(this);
     } 
 
     /**
@@ -261,5 +274,33 @@ public class MushroomThread implements TurnAware {
             }
         }
     }
+
+    /**
+     * Beállítja a fonál turnsToDie változóját.
+     * Tesztekhez szükséges
+     * @param turnsToDie turnsToDie új értéke
+     */
+    public void setTurnsToDie(int turnsToDie) {
+        this.turnsToDie = turnsToDie;
+    }
+
+    /**
+     * Beállítja a fonál turnsToDie változóját.
+     * Tesztekhez szükséges
+     * @param turnsToGrow turnsToGrow új értéke
+     */
+    public void setTurnsToGrow(int turnsToGrow) {
+        this.turnsToGrow = turnsToGrow;
+    }
+
+    /**
+     * Beállítja a fonál growState változóját.
+     * Tesztekhez szükséges
+     * @param growState growState új értéke
+     */
+    public void setGrowState(GrowState growState) {
+        this.growState = growState;
+    }
+
 }
 

@@ -3,6 +3,7 @@ package projlab.fungorium.models;
 import java.util.List;
 import java.util.Random;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * A Tecton modellje.
  */
-public class Tecton implements TurnAware {
+public class Tecton implements TurnAware, PrintableState {
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */
@@ -23,17 +24,18 @@ public class Tecton implements TurnAware {
     }
 
     /**
-     * Létrehoz egy új Tectont, és beregisztárlja a megadott Tectonokat szomszédnak.
-     * @param neighbours A Tectonok, amiket szomszédként beregisztrál.
-    */
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * @param neighbour Szomszédos tektonok.
+     */
     public Tecton(List<Tecton> neighbours) {
         this.mushroomBody = null;
         this.mushroomThreads = new ArrayList<>();
         this.mushroomSpores = new ArrayList<>();
         this.insects = new ArrayList<>();
-
-        for (Tecton tecton : neighbours) {
-            registerNeighbour(tecton);
+        this.neighbours = new ArrayList<>();
+    
+        for (Tecton t : neighbours) {
+            registerNeighbour(t);
         }
     }
 
@@ -46,7 +48,7 @@ public class Tecton implements TurnAware {
     public final void split() {
         List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
         newNeighbours.addAll(neighbours);
-        Tecton newTect = new Tecton(newNeighbours);
+        Tecton newTect = new Tecton();
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {
@@ -121,13 +123,13 @@ public class Tecton implements TurnAware {
         return false;
     }
 
-    public void addConnection(MushroomThread mt) {
-        for (Tecton tecton : mt.getConnectedTectons()) {
-            if (isNeighbour(tecton)) {
-                mushroomThreads.add(mt);
-                return;
-            }
-        }
+    /**
+     * Felveszi a megadott MushroomThreadet a Tecton fonalai közé.
+     * 
+     * @param mt A megadott MushroomThread
+     */
+    public void addConnection(MushroomThread mt) throws Exception {
+        mushroomThreads.add(mt);
     }
 
     /**
@@ -220,6 +222,7 @@ public class Tecton implements TurnAware {
      * @param mb Az adott MushroomBody
      * @return True, ha nő rajta fonal a gombatesstől
      */
+    // TODO: mushroom id-kra újraírni
     public final boolean hasThreadFrom(MushroomBody mb) {
         for (MushroomThread mushroomThread : mushroomThreads) {
             for (MushroomBody mbIt : mushroomThread.getConnectedBodies()) {
@@ -316,6 +319,66 @@ public class Tecton implements TurnAware {
         if (r.nextDouble() < splitChance) {
             this.split();
         }
+    }
+
+    /**
+     * String az állapotból.
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder stateString = new StringBuilder();
+
+        // Gombatest
+        if (mushroomBody != null) {
+            stateString.append("Mushroom Body: ").append(mushroomBody.getStateString()).append("\n");
+        } else {
+            stateString.append("Mushroom Body: None\n");
+        }
+
+        // Gombafonalak
+        stateString.append("Mushroom Threads:\n");
+        if (mushroomThreads.isEmpty()) {
+            stateString.append("  No threads present.\n");
+        } else {
+            for (MushroomThread thread : mushroomThreads) {
+                stateString.append("  - ").append(thread.getStateString()).append("\n");
+            }
+        }
+
+        // Spórák
+        stateString.append("Mushroom Spores:\n");
+        if (mushroomSpores.isEmpty()) {
+            stateString.append("  No spores present.\n");
+        } else {
+            for (MushroomSpore spore : mushroomSpores) {
+                stateString.append("  - ").append(spore.getStateString()).append("\n");
+            }
+        }
+
+        // Rovarok
+        stateString.append("Insects:\n");
+        if (insects.isEmpty()) {
+            stateString.append("  No insects present.\n");
+        } else {
+            for (Insect insect : insects) {
+                stateString.append("  - ").append(insect.getStateString()).append("\n");
+            }
+        }
+
+        // Szomszédok
+        stateString.append("Neighbors:\n");
+        if (neighbours.isEmpty()) {
+            stateString.append("  No neighbors present.\n");
+        } else {
+            for (Tecton neighbour : neighbours) {
+                stateString.append("  - ").append(neighbour.toString()).append("\n");
+            }
+        }
+
+        // Szakadási esély
+        stateString.append("Split Chance: ").append(splitChance).append("\n");
+
+        return stateString.toString();
     }
 
     protected MushroomBody mushroomBody;
