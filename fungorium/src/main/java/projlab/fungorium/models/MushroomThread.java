@@ -188,13 +188,18 @@ public class MushroomThread implements TurnAware {
     /**
      * Létrehoz egy új MushroomThread-et a to tecton felé, majd ezt felveszi a listájába
      * @param to az a tecton, ahol az új fonál létrejön
+     * @throws Exception ha nem tod 
      */
-    public void createConnection(Tecton to) {
+    public MushroomThread createConnection(Tecton to) throws Exception {
         if (to.isNeighbour(tecton)) {
             MushroomThread newThread = new MushroomThread(to);
             newThread.addConnection(this);
             addConnection(newThread);
+
+            return newThread;
         }
+
+        throw new Exception("Tecton was not neighour");
     }
 
     /**
