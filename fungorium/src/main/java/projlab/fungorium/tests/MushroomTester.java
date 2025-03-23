@@ -250,10 +250,10 @@ public class MushroomTester {
      * Vizsgálja, hogy egy tekton össze van-e kötve gombafonállal, olyan esetben, ha a gombafonál el van vágva
      */
     public static void test_connectingTectinFailCut() {
-        
-
         threadIsConnectingTectonFailCutInit();
-        mt1.isConnectingTecton(t2);
+        
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -261,7 +261,9 @@ public class MushroomTester {
      */
     public static void test_connectingTectonFailSprout() {
         threadIsConnectingTectonFailSproutInit();
-        mt1.isConnectingTecton(t2);
+
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -269,7 +271,9 @@ public class MushroomTester {
      */
     public static void test_connectingTectonSuccess() {
         threadIsConnectingTectonSuccessInit();
-        mt1.isConnectingTecton(t2);
+
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -277,7 +281,19 @@ public class MushroomTester {
      */
     public static void test_lastSpore() {
         mushroomBodyTestInit();
+
+        Logger.printState(lastSporeBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
+        Logger.print("void", "distributeSpores");
         lastSporeBody.distributeSpores();
+
+        Logger.printState(lastSporeBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
@@ -285,6 +301,9 @@ public class MushroomTester {
      */
     public static void test_threadDie() {
         mushroomThreadTestInit();
+
+        
+
         dyingThread.onEndOfTheRound();
     }
 
