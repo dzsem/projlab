@@ -4,8 +4,8 @@ import projlab.fungorium.models.Insect;
 
 public class NoEffect implements Effect {
     /**
-     * it does nothing
-     * @param insect is the Insect which eats the spore
+     * nem csinál semmit
+     * @param insect a rovar ami megeszi ezt az effectet
      */
     public void applyEffect(Insect insect) {}
 }

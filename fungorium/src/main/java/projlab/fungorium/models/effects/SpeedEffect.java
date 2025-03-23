@@ -4,8 +4,8 @@ import projlab.fungorium.models.Insect;
 
 public class SpeedEffect implements Effect {
     /**
-     * restart the insects turn
-     * @param insect is the Insect which eats the spore
+     * újraezdi a rovar körét
+     * @param insect a rovar ami megeszi ezt az effectet
      */
     public void applyEffect(Insect insect) {
         insect.refreshActions();

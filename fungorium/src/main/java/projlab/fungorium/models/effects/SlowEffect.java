@@ -4,8 +4,8 @@ import projlab.fungorium.models.Insect;
 
 public class SlowEffect implements Effect {
     /**
-     * ends the insects turn
-     * @param insect is the Insect which eats the spore
+     * befejezi a rovar körét
+     * @param insect a rovar ami megeszi ezt az effectet
      */
     //
     public void applyEffect(Insect insect) {

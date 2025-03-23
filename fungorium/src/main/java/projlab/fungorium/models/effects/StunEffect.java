@@ -4,8 +4,8 @@ import projlab.fungorium.models.Insect;
 
 public class StunEffect implements Effect {
     /**
-     * ends the insects turn and disable it for the next turn
-     * @param insect is the Insect which eats the spore
+     * befejezi az rovar körét és letiltja a következőt is
+     * @param insect a rovar ami megeszi ezt az effectet
      */
     public void applyEffect(Insect insect) {
         insect.exhaustActions();

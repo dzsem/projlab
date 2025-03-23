@@ -6,15 +6,15 @@ import java.util.Random;
 
 class MushroomSpore {
     /**
-     * when you make a spore it adds itself to the tecton it is on
-     * @param tecton is the Tecton, which the spore is on
+     * mikor egy spóra létrejön, akkor hozzáadja magát a tecton listájához, amin rajta van
+     * @param tecton a Tetcon, amin a spóra rajta van
      */
     public MushroomSpore(Tecton tecton) {
         tecton.addSpore(this);
     }
     /**
-     * gets a random effect
-     * @return a random effect which can be any of block, slow, speed, stun and nothing
+     * vissza add egy random effectet
+     * @return egy random effectet, ami lehet blockkoló, lassító, gyorsító, bénító vagy semmilyen
      */
     protected Effect generateEffect(){
         Random rand = new Random();
@@ -28,8 +28,8 @@ class MushroomSpore {
     }
 
     /**
-     * an insect eats the spore, which generates a random effect and activate it
-     * @param insect is the Insect which eats the spore
+     * a rovar megeszi a spórát, ami generál egy random effectet és aktiválja a hatását
+     * @param insect a rovar ami megeszi ezt az effectet
      */
     public void applyEffect(Insect insect) {
         generateEffect().applyEffect(insect);
