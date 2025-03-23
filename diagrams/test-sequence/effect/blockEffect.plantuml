@@ -3,14 +3,14 @@
 title blockEffect test
 
 Actor Tester as test
-activate test
-test -> tester: testBlockEffect()
-
 participant "Skeleton" as tester
 
 participant "blockEffect: BlockEffect" as speed
 participant "i: Insect" as insect
 
+activate test
+
+test -> tester: testBlockEffect()
 activate tester
 
 tester -> speed: applyEffect(i)
@@ -37,7 +37,7 @@ insect -->tester:false
 tester -> insect: getTimerIsNull()
 
 insect -->tester:false
-
+deactivate insect
 
 test<-- tester
 deactivate tester
