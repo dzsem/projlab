@@ -16,6 +16,8 @@ public class MushroomBody implements TurnAware, PrintableState {
     private static final int MAX_SPORES = 5;
     private static final int ADVANCED_AGE = 5;
 
+    private final int mushroomID;
+
     private int remainingSpores;
     private int age;
 
@@ -27,7 +29,8 @@ public class MushroomBody implements TurnAware, PrintableState {
      * Beállítja az attributumait az alapértelmezett értékekre és felhelyezi magát a paraméterként kapott tektonra
      * @param tecton A tekton, amire a gombatest fog kerülni
      */
-    public MushroomBody(Tecton tecton) {    
+    public MushroomBody(Tecton tecton, int mushroomID) {    
+        this.mushroomID = mushroomID;
         this.tecton = tecton;
         this.advancement = Advancement.NORMAL;
         this.age = 0;
@@ -63,7 +66,7 @@ public class MushroomBody implements TurnAware, PrintableState {
         }
 
         for (Tecton tectonToSpore : tectonsToSpore) { // Tektonok spórázása
-            new MushroomBody(tectonToSpore);
+            new MushroomSpore(tectonToSpore);
         }
 
         remainingSpores--; // Spóra mennyiség cskkentés
@@ -71,6 +74,14 @@ public class MushroomBody implements TurnAware, PrintableState {
         if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a tektonról
             tecton.removeBody(); 
         }
+    }
+
+    /**
+     * Visszaadja a gombához tartozó mushroomID-t
+     * @return gombához tartozó mushroomID
+     */
+    public int getMushroomID() {
+        return mushroomID;
     }
 
     /**
@@ -112,6 +123,7 @@ public class MushroomBody implements TurnAware, PrintableState {
     public String getStateString() {
         StringBuilder stateString = new StringBuilder();
 
+        stateString.append("Mushroom ID: ").append(mushroomID).append("\n");
         stateString.append("Remaining Spores: ").append(remainingSpores).append("\n");
         stateString.append("Age: ").append(age).append("\n");
         stateString.append("Advancament Level: ").append(advancement.toString()).append("\n");

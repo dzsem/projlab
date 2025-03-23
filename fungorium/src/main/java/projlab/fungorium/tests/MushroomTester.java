@@ -12,6 +12,8 @@ public class MushroomTester {
     private static MushroomThread mt1, mt2, mt3, mt4, mt5, normalThread, evolvingThread, dissolvingThread, dyingThread;
     private static MushroomBody mb, mb1, mb2, advnacedBody, normalBody, lastSporeBody;
 
+    private static final int MUSHROOM_ID = 0;
+
     /**
      * Létrehoz 3 tectont, amik lánc szerűen szomszédosakegymással. <p>
      * Ezekre felhelyez 1-1 gomba fonalat, amiket összeköt egymással. <p>
@@ -32,7 +34,7 @@ public class MushroomTester {
         t3.registerNeighbour(t2);
         
         // Első gomba fonal létrehozása
-        mt3 = new MushroomThread(t3);
+        mt3 = new MushroomThread(t3, MUSHROOM_ID);
         
         // Tőbbi gombafonál összekötése
         try {
@@ -43,7 +45,7 @@ public class MushroomTester {
         }
 
         // Gombatest elhelyezése
-        mb = new MushroomBody(t3);
+        mb = new MushroomBody(t3, MUSHROOM_ID);
     }
 
     /**
@@ -74,11 +76,11 @@ public class MushroomTester {
         t5.registerNeighbour(t4);
 
         // Gombatestek felhelyezése
-        mb1 = new MushroomBody(t5);
-        mb2 = new MushroomBody(t1);
+        mb1 = new MushroomBody(t5, MUSHROOM_ID);
+        mb2 = new MushroomBody(t1, MUSHROOM_ID);
 
         // Első gombafonal inicializálása
-        mt5 = new MushroomThread(t5);
+        mt5 = new MushroomThread(t5, MUSHROOM_ID);
 
         // Gombafonalak kialakítása kapcsolatokkal
         try {
@@ -114,12 +116,12 @@ public class MushroomTester {
         t3.registerNeighbour(t2);
 
         // Gombatestek felhelyezése
-        advnacedBody = new MushroomBody(t1);
+        advnacedBody = new MushroomBody(t1, MUSHROOM_ID);
         advnacedBody.setAdvancement(Advancement.ADVANCED);
 
-        normalBody = new MushroomBody(t2);
+        normalBody = new MushroomBody(t2, MUSHROOM_ID);
 
-        lastSporeBody = new MushroomBody(t3);
+        lastSporeBody = new MushroomBody(t3, MUSHROOM_ID);
         lastSporeBody.setSporesRemaining(1);
     }
 
@@ -138,18 +140,18 @@ public class MushroomTester {
         t2 = new Tecton();
 
         // Gombatest inicializálása
-        mb = new MushroomBody(t1);
+        mb = new MushroomBody(t1, MUSHROOM_ID);
 
         // Gombafonalak inicializálása
-        normalThread = new MushroomThread(t1);
+        normalThread = new MushroomThread(t1, MUSHROOM_ID);
 
-        evolvingThread = new MushroomThread(t1);
+        evolvingThread = new MushroomThread(t1, MUSHROOM_ID);
         evolvingThread.setTurnsToGrow(1);
 
-        dissolvingThread = new MushroomThread(t2);
+        dissolvingThread = new MushroomThread(t2, MUSHROOM_ID);
         dissolvingThread.setTurnsToDie(2);
 
-        dyingThread = new MushroomThread(t2);
+        dyingThread = new MushroomThread(t2, MUSHROOM_ID);
         dyingThread.setTurnsToDie(1);
     }
 
@@ -166,7 +168,7 @@ public class MushroomTester {
         t1.registerNeighbour(t2);
         t2.registerNeighbour(t1);
 
-        mt1 = new MushroomThread(t1);
+        mt1 = new MushroomThread(t1, MUSHROOM_ID);
         try {
             mt2 = mt1.createConnection(t2);
         } catch (Exception e) {
@@ -191,7 +193,7 @@ public class MushroomTester {
         t1.registerNeighbour(t2);
         t2.registerNeighbour(t1);
 
-        mt1 = new MushroomThread(t1);
+        mt1 = new MushroomThread(t1, MUSHROOM_ID);
         try {
             mt2 = mt1.createConnection(t2);
         } catch (Exception e) {
@@ -214,7 +216,7 @@ public class MushroomTester {
         t1.registerNeighbour(t2);
         t2.registerNeighbour(t1);
 
-        mt1 = new MushroomThread(t1);
+        mt1 = new MushroomThread(t1, MUSHROOM_ID);
         try {
             mt2 = mt1.createConnection(t2);
         } catch (Exception e) {
