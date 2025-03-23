@@ -1,6 +1,6 @@
-@startuml stunEffect
+@startuml blockEffect
 
-title stunEffect test
+title blockEffect test
 
 Actor Tester as test
 activate test
@@ -8,7 +8,7 @@ test -> tester: testBlockEffect()
 
 participant Skeleton as tester
 
-participant "stunEffect: StunEffect" as speed
+participant "blockEffect: BlockEffect" as speed
 participant "i: Insect" as insect
 
 activate tester
@@ -16,26 +16,38 @@ activate tester
 tester -> speed: applyEffect(i)
 activate speed
 
-speed->insect: exhaustActions()
+speed->insect:setCounter()
 activate insect
 
 speed<--insect
 
-speed->insect:setCanMove()
+speed->insect:setCanCut()
 speed<--insect
 deactivate insect
 
 speed --> tester
 deactivate speed
 
-tester -> insect: getCanMove()
+tester -> insect: getCanCute()
 activate insect
 
-alt canMove == true
+alt canCut == true
 
 	insect --> tester: true
 	
-else canMove == false
+else canCut == false
+
+	insect --> tester: false
+	
+
+end
+
+tester -> insect: getTimerIsNull()
+alt Timer == 0
+
+	insect --> tester: true
+	
+else Timer != 0
 
 	insect --> tester: false
 	deactivate insect
@@ -44,7 +56,7 @@ else canMove == false
 end
 
 
-
 test<-- tester
 deactivate tester
+
 @enduml
