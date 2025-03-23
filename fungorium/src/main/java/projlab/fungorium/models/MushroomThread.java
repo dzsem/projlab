@@ -275,5 +275,24 @@ public class MushroomThread implements TurnAware {
             }
         }
     }
+
+    /**
+     * Beállítja a fonál turnsToDie változóját.
+     * Tesztekhez szükséges
+     * @param turnsToDie turnsToDie új értéke
+     */
+    public void setTurnsToDie(int turnsToDie) {
+        this.turnsToDie = turnsToDie;
+    }
+
+    /**
+     * Beállítja a fonál turnsToDie változóját.
+     * Tesztekhez szükséges
+     * @param turnsToGrow turnsToGrow új értéke
+     */
+    public void setTurnsToGrow(int turnsToGrow) {
+        this.turnsToGrow = turnsToGrow;
+    }
+
 }
 

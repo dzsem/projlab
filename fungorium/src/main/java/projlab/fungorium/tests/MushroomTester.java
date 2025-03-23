@@ -8,7 +8,7 @@ import projlab.fungorium.utilities.Logger;
 
 public class MushroomTester {
     private static Tecton t1, t2, t3, t4, t5;
-    private static MushroomThread mt1, mt2, mt3, mt4, mt5;
+    private static MushroomThread mt1, mt2, mt3, mt4, mt5, normalThread, evolvingThread, dissolvingThread, dyingThread;
     private static MushroomBody mb, mb1, mb2, advnacedBody, normalBody, lastSporeBody;
 
     private static void cutConnectionOnyOneBodyInit() {
@@ -90,5 +90,24 @@ public class MushroomTester {
 
         lastSporeBody = new MushroomBody(t3);
         lastSporeBody.setSporesRemaining(1);
+    }
+
+    private static void mushroomThreadTestInit() {
+        t1 = new Tecton();
+        t2 = new Tecton();
+
+        mb = new MushroomBody(t1);
+
+        normalThread = new MushroomThread(t1);
+
+        evolvingThread = new MushroomThread(t1);
+        evolvingThread.setTurnsToGrow(1);
+
+        dissolvingThread = new MushroomThread(t2);
+        dissolvingThread.setTurnsToDie(2);
+
+        dyingThread = new MushroomThread(t2);
+        dyingThread.setTurnsToDie(1);
+
     }
 }
