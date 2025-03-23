@@ -16,16 +16,11 @@ public final class ThreadKillingTecton extends Tecton {
     }
 
     /**
-     * Konstruktor.
-     * 
-     * @param neighbours Szomszédos Tectonok.
-     * @param thread Tectonon nönő fonalak.
-     * @param spores Tectonon lévő spórák.
-     * @param insects Tectonon álló rovarok.
-     * @param body Tectonon növő gombatest.
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * @param neighbour Szomszédos tektonok.
      */
-    public ThreadKillingTecton(List<Tecton> neighbours, List<MushroomThread> threads, List<MushroomSpore> spores, List<Insect> insects, MushroomBody body) {
-        super(neighbours, threads, spores, insects, body);
+    public ThreadKillingTecton(List<Tecton> neighbours) {
+        super(neighbours);
     }
     
     /**

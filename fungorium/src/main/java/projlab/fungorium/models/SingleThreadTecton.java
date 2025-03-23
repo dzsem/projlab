@@ -13,18 +13,13 @@ public final class SingleThreadTecton extends Tecton {
     public SingleThreadTecton() {
         super();
     }
-    
+
     /**
-     * Konstruktor.
-     * 
-     * @param neighbours Szomszédos Tectonok.
-     * @param thread Tectonon nönő fonalak.
-     * @param spores Tectonon lévő spórák.
-     * @param insects Tectonon álló rovarok.
-     * @param body Tectonon növő gombatest.
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * @param neighbour Szomszédos tektonok.
      */
-    public SingleThreadTecton(List<Tecton> neighbours, MushroomThread thread, List<MushroomSpore> spores, List<Insect> insects, MushroomBody body) {
-        super(neighbours, List.of(thread), spores, insects, body);
+    public SingleThreadTecton(List<Tecton> neighbours) {
+        super(neighbours);
     }
     
     /**

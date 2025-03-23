@@ -23,21 +23,18 @@ public class Tecton implements TurnAware {
     }
 
     /**
-     * Létrehoz egy új Tectont, és beregisztárlja a megadott Tectonokat szomszédnak.
-     * @param neighbours A Tectonok, amiket szomszédként beregisztrál.
-     * @param threads A MushroomThreadek, amik rajta fognak nőni.
-     * @param spores A MushroomSporeok, amik rajta lesznek.
-     * @param insects Az Insectek, amik rajta fognak állni.
-     * @param body A MushroomBody, ami rajta fog nőni.
-    */
-    public Tecton(List<Tecton> neighbours, List<MushroomThread> threads, List<MushroomSpore> spores, List<Insect> insects, MushroomBody body) {
-        this.mushroomBody = body;
-        this.mushroomThreads = new ArrayList<>(threads);
-        this.mushroomSpores = new ArrayList<>(spores);
-        this.insects = new ArrayList<>(insects);
-
-        for (Tecton tecton : neighbours) {
-            registerNeighbour(tecton);
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * @param neighbour Szomszédos tektonok.
+     */
+    public Tecton(List<Tecton> neighbours) {
+        this.mushroomBody = null;
+        this.mushroomThreads = new ArrayList<>();
+        this.mushroomSpores = new ArrayList<>();
+        this.insects = new ArrayList<>();
+        this.neighbours = new ArrayList<>();
+    
+        for (Tecton t : neighbours) {
+            registerNeighbour(t);
         }
     }
 
@@ -50,7 +47,7 @@ public class Tecton implements TurnAware {
     public final void split() {
         List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
         newNeighbours.addAll(neighbours);
-        Tecton newTect = new Tecton(newNeighbours, null, null, null, null);
+        Tecton newTect = new Tecton();
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {

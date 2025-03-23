@@ -12,17 +12,13 @@ public final class InfertileTecton extends Tecton {
     public InfertileTecton() {
         super();
     }
-    
+
     /**
-     * Konstruktor.
-     * 
-     * @param neighbours Szomszédos Tectonok.
-     * @param thread Tectonon nönő fonalak.
-     * @param spores Tectonon lévő spórák.
-     * @param insects Tectonon álló rovarok.
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * @param neighbour Szomszédos tektonok.
      */
-    public InfertileTecton(List<Tecton> neighbours, MushroomThread thread, List<MushroomSpore> spores, List<Insect> insects) {
-        super(neighbours, List.of(thread), spores, insects, null);
+    public InfertileTecton(List<Tecton> neighbours) {
+        super(neighbours);
     }
     
     /**
