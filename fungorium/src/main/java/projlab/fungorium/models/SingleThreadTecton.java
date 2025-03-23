@@ -28,11 +28,9 @@ public final class SingleThreadTecton extends Tecton {
      * @throws Exception Ha már nőtt rajta egy fonal.
      */
     @Override
-    public final void addConnection(MushroomThread mt) {
+    public final void addConnection(MushroomThread mt) throws Exception {
         if (!mushroomThreads.isEmpty()) {
-            // TODO: ez jó így?
-            return;
-            // throw new Exception("SingleThreadTecton can only grow a maximum of 1 MushroomThreads.");
+            throw new Exception("SingleThreadTecton can only grow a maximum of 1 MushroomThreads.");
         }
 
         super.addConnection(mt);
