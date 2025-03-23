@@ -121,13 +121,8 @@ public class Tecton implements TurnAware {
         return false;
     }
 
-    /**
-     * Felveszi a megadott MushroomThreadet a Tecton fonalai közé.
-     * 
-     * @param mt A megadott MushroomThread
-     */
-    public void addConnection(MushroomThread mt) throws Exception {
-        for (Tecton tecton : mt.getConnectedTecons()) {
+    public void addConnection(MushroomThread mt) {
+        for (Tecton tecton : mt.getConnectedTectons()) {
             if (isNeighbour(tecton)) {
                 mushroomThreads.add(mt);
                 return;
@@ -232,10 +227,15 @@ public class Tecton implements TurnAware {
         return false;
     }
 
-    /**
-     * Eltávolítja a Tectonon növő MushroomBodyt.
-     */
-    public final void removeBody() {
+    public MushroomBody getBody() throws Exception {
+        if (mushroomBody == null) {
+            throw new Exception("Tecton does not hav a MushroomBody");
+        }
+        return mushroomBody;
+    }
+
+    // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
+    final public void removeBody() {
         mushroomBody = null;
     }
 
@@ -294,7 +294,9 @@ public class Tecton implements TurnAware {
         splitChance = p;
     }
 
-
+    public List<Tecton> getNeighbours() {
+        return neighbours;
+    }
 
     // -------------------------------------
     // Interface implementációk
