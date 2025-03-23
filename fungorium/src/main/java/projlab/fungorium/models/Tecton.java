@@ -25,7 +25,7 @@ public class Tecton implements TurnAware, PrintableState {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
-     * @param neighbour Szomszédos tektonok.
+     * @param neighbours Szomszédos tektonok.
      */
     public Tecton(List<Tecton> neighbours) {
         this.mushroomBody = null;

@@ -1,10 +1,11 @@
 package projlab.fungorium.models;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.effects.*;
 
 import java.util.Random;
 
-public class MushroomSpore {
+public class MushroomSpore implements PrintableState {
     /**
      * mikor egy spóra létrejön, akkor hozzáadja magát a tecton listájához, amin rajta van
      * @param tecton a Tetcon, amin a spóra rajta van
@@ -33,5 +34,10 @@ public class MushroomSpore {
      */
     public void applyEffect(Insect insect) {
         generateEffect().applyEffect(insect);
+    }
+
+    @Override
+    public String getStateString() {
+        return "This is a Mushroom Spore, which  can be eaten or used";
     }
 }
