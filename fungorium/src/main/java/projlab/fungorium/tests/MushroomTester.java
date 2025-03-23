@@ -250,10 +250,10 @@ public class MushroomTester {
      * Vizsgálja, hogy egy tekton össze van-e kötve gombafonállal, olyan esetben, ha a gombafonál el van vágva
      */
     public static void test_connectingTectinFailCut() {
-        
-
         threadIsConnectingTectonFailCutInit();
-        mt1.isConnectingTecton(t2);
+        
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -261,7 +261,9 @@ public class MushroomTester {
      */
     public static void test_connectingTectonFailSprout() {
         threadIsConnectingTectonFailSproutInit();
-        mt1.isConnectingTecton(t2);
+
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -269,7 +271,9 @@ public class MushroomTester {
      */
     public static void test_connectingTectonSuccess() {
         threadIsConnectingTectonSuccessInit();
-        mt1.isConnectingTecton(t2);
+
+        boolean result = mt1.isConnectingTecton(t2);
+        Logger.print((result ? "true" : "false"), "isConnectingTecton", "t2");
     }
 
     /**
@@ -277,7 +281,19 @@ public class MushroomTester {
      */
     public static void test_lastSpore() {
         mushroomBodyTestInit();
+
+        Logger.printState(lastSporeBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
+        Logger.print("void", "distributeSpores");
         lastSporeBody.distributeSpores();
+
+        Logger.printState(lastSporeBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
@@ -285,7 +301,16 @@ public class MushroomTester {
      */
     public static void test_threadDie() {
         mushroomThreadTestInit();
+
+        Logger.printState(t2);
+        Logger.printState(dyingThread);
+
+        Logger.print("void", "onEndOfTheRound");
         dyingThread.onEndOfTheRound();
+
+        
+        Logger.printState(t2);
+        Logger.printState(dyingThread);
     }
 
     /**
@@ -293,7 +318,15 @@ public class MushroomTester {
      */
     public static void test_threadDissolve() {
         mushroomThreadTestInit();
+        
+        Logger.printState(t2);
+        Logger.printState(dissolvingThread);
+
+        Logger.print("void", "onEndOfTheRound");
         dissolvingThread.onEndOfTheRound();
+                
+        Logger.printState(t2);
+        Logger.printState(dissolvingThread);
     }
 
     /**
@@ -301,7 +334,15 @@ public class MushroomTester {
      */
     public static void test_threadEvolve() {
         mushroomThreadTestInit();
+
+        Logger.printState(t1);
+        Logger.printState(evolvingThread);
+
+        Logger.print("void", "onEndOfTheRound");
         evolvingThread.onEndOfTheRound();
+
+        Logger.printState(t1);
+        Logger.printState(evolvingThread);
     }
 
     /**
@@ -309,7 +350,15 @@ public class MushroomTester {
      */
     public static void test_threadGrowth() {
         mushroomThreadTestInit();
+
+        Logger.printState(t1);
+        Logger.printState(normalThread);
+
+        Logger.print("void", "onEndOfTheRound");
         normalThread.onEndOfTheRound();
+
+        Logger.printState(t1);
+        Logger.printState(normalThread);
     }
 
     /**
@@ -317,7 +366,20 @@ public class MushroomTester {
      */
     public static void test_normalBodyDistibuteSpores() {
         mushroomBodyTestInit();
+
+        Logger.printState(normalBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
+        Logger.print("void", "distributeSpores");
         normalBody.distributeSpores();
+
+        
+        Logger.printState(normalBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
@@ -325,10 +387,18 @@ public class MushroomTester {
      */
     public static void test_cutConncectionOneBody() {
         cutConnectionOnlyOneBodyInit();
+        
         mt2.cut();
-        mt1.isConnectedToBody();
-        mt2.isConnectedToBody();
-        mt3.isConnectedToBody();
+        Logger.print("void", "cut");
+
+        boolean mt1IsConnectedToBody = mt1.isConnectedToBody();
+        Logger.print((mt1IsConnectedToBody ? "true" : "false"), "isConnectedToBody");
+
+        boolean mt2IsConnectedToBody = mt2.isConnectedToBody();
+        Logger.print((mt2IsConnectedToBody ? "true" : "false"), "isConnectedToBody");
+
+        boolean mt3IsConnectedToBody = mt3.isConnectedToBody();
+        Logger.print((mt3IsConnectedToBody ? "true" : "false"), "isConnectedToBody");
     }
 
     /**
@@ -336,9 +406,15 @@ public class MushroomTester {
      */
     public static void test_cutConnectionTwoBodies() {
         cutConnectionWithTwoBodiesInit();
+        
         mt3.cut();
-        mt1.isConnectedToBody();
-        mt4.isConnectedToBody();
+        Logger.print("void", "cut");
+
+        boolean mt1IsConnectedToBody = mt1.isConnectedToBody();
+        Logger.print((mt1IsConnectedToBody ? "true" : "false"), "isConnectedToBody");
+
+        boolean mt4IsConnectedToBody = mt4.isConnectedToBody();
+        Logger.print((mt4IsConnectedToBody ? "true" : "false"), "isConnectedToBody");
     }
 
 }
