@@ -140,8 +140,12 @@ public class InsectTester {
 		initMushroomSporeSuccess();
 
 		try {
+			Logger.printState(insect);
+
 			Logger.print("void", "eatMushroomSpore");
 			insect.eatMushroomSpore();
+
+			Logger.printState(insect);
 		} catch (Exception exc) {
 			Logger.printError("EatMushroomSpore threw exception when it wasn't supposed to.");
 			Logger.printError("Exception: " + exc.getMessage());
@@ -166,8 +170,12 @@ public class InsectTester {
 
 		boolean eatMushroomSporeThrew = false;
 		try {
+			Logger.printState(insect);
+
 			Logger.print("void", "eatMushroomSpore");
 			insect.eatMushroomSpore();
+
+			Logger.printState(insect);
 		} catch (Exception exc) {
 			eatMushroomSporeThrew = true;
 		}
@@ -189,7 +197,12 @@ public class InsectTester {
 		initMoveToTecton();
 
 		try {
+			Logger.printState(insect);
+
+			Logger.print("void", "moveToTecton", t3.toString());
 			insect.moveToTecton(t3);
+
+			Logger.printState(insect);
 
 			if (!insect.getTecton().equals(t3)) {
 				Logger.printError("Insect.tecton didn't change after moveToTecton.");
@@ -216,10 +229,16 @@ public class InsectTester {
 		boolean moveToTectonThrew = false;
 
 		try {
+			Logger.printState(insect);
+
+			Logger.print("void", "moveToTecton", t4.toString());
 			insect.moveToTecton(t4);
+
 		} catch (Exception exc) {
 			moveToTectonThrew = true;
 		}
+
+		Logger.printState(insect);
 
 		if (!moveToTectonThrew) {
 			Logger.printError("MoveToTecton didn't throw, as it was supposed to. " +
@@ -243,6 +262,9 @@ public class InsectTester {
 		boolean moveToTectonThrew = false;
 
 		try {
+			Logger.printState(insect);
+
+			Logger.print("void", "moveToTecton", t2.toString());
 			insect.moveToTecton(t2);
 		} catch (Exception exc) {
 			moveToTectonThrew = true;
@@ -271,10 +293,15 @@ public class InsectTester {
 		boolean moveToTectonThrew = false;
 
 		try {
+			Logger.printState(insect);
+
+			Logger.print("void", "moveToTecton", t2.toString());
 			insect.moveToTecton(t2);
 		} catch (Exception exc) {
 			moveToTectonThrew = true;
 		}
+
+		Logger.printState(insect);
 
 		if (!moveToTectonThrew) {
 			Logger.printError(
