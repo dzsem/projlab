@@ -15,7 +15,6 @@ public class BlockEffect implements Effect, PrintableState {
 
     @Override
     public String getStateString() {
-        // TODO Auto-generated method stub
-        return null;
+        return "This is a block spore";
     }
 }

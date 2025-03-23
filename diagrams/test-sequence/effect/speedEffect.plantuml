@@ -2,11 +2,16 @@
 
 title speedEffect test
 
-actor Tester as tester
+Actor Tester as test
+participant "Skeleton" as tester
 
-participant "Logger" as logger
 participant "speedEffect: SpeedEffect" as speed
 participant "i: Insect" as insect
+
+activate test
+test -> tester: testBlockEffect()
+
+
 
 activate tester
 
@@ -16,13 +21,7 @@ activate speed
 speed --> tester
 deactivate speed
 
-tester -> logger: log("speed effect test, speedEffect, i")
-note right: Az effektet a kontroller kezeli, az insect visszakapta az összes lépését
-activate logger
 
-logger--> tester
-deactivate logger
-
+test<-- tester
 deactivate tester
-
 @enduml
