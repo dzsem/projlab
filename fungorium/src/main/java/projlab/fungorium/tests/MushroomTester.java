@@ -10,7 +10,7 @@ import projlab.fungorium.utilities.Logger;
 public class MushroomTester {
     private static Tecton t1, t2, t3, t4, t5;
     private static MushroomThread mt1, mt2, mt3, mt4, mt5, normalThread, evolvingThread, dissolvingThread, dyingThread;
-    private static MushroomBody mb, mb1, mb2, advnacedBody, normalBody, lastSporeBody;
+    private static MushroomBody mb, mb1, mb2, advancedBody, normalBody, lastSporeBody;
 
     private static final int MUSHROOM_ID = 0;
 
@@ -116,8 +116,8 @@ public class MushroomTester {
         t3.registerNeighbour(t2);
 
         // Gombatestek felhelyezése
-        advnacedBody = new MushroomBody(t1, MUSHROOM_ID);
-        advnacedBody.setAdvancement(Advancement.ADVANCED);
+        advancedBody = new MushroomBody(t1, MUSHROOM_ID);
+        advancedBody.setAdvancement(Advancement.ADVANCED);
 
         normalBody = new MushroomBody(t2, MUSHROOM_ID);
 
@@ -231,13 +231,27 @@ public class MushroomTester {
      */
     public static void test_advancedMushroomDstibuteSpores() {
         mushroomBodyTestInit();
-        advnacedBody.distributeSpores();
+
+        Logger.printState(advancedBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
+        Logger.print("void", "distributeSpores");
+        advancedBody.distributeSpores();
+
+        Logger.printState(advancedBody);
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
      * Vizsgálja, hogy egy tekton össze van-e kötve gombafonállal, olyan esetben, ha a gombafonál el van vágva
      */
     public static void test_connectingTectinFailCut() {
+        
+
         threadIsConnectingTectonFailCutInit();
         mt1.isConnectingTecton(t2);
     }

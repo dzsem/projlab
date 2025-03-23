@@ -126,7 +126,7 @@ public class MushroomBody implements TurnAware, PrintableState {
         stateString.append("Mushroom ID: ").append(mushroomID).append("\n");
         stateString.append("Remaining Spores: ").append(remainingSpores).append("\n");
         stateString.append("Age: ").append(age).append("\n");
-        stateString.append("Advancament Level: ").append(advancement.toString()).append("\n");
+        stateString.append("Advancement Level: ").append(advancement.toString()).append("\n");
 
         return stateString.toString();
     }
