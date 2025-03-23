@@ -3,10 +3,11 @@ package projlab.fungorium.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread implements TurnAware {
+public class MushroomThread implements TurnAware, PrintableState {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -19,6 +20,8 @@ public class MushroomThread implements TurnAware {
 
     private static final int DEFAULT_TURNS_TO_DIE = 3;
     private static final int DEFAULT_TURNS_TO_GROW = 3;
+
+    private final int mushroomID;
 
     private int turnsToDie;
     private int turnsToGrow;
@@ -33,7 +36,8 @@ public class MushroomThread implements TurnAware {
      * Beállítja az attribútumait az alapértelmezett értékekre és hozzáadja magát a tekton listájához.
      * @param tecton
      */
-    public MushroomThread(Tecton tecton) {
+    public MushroomThread(Tecton tecton, int mushroomID) {
+        this.mushroomID = mushroomID;
         this.tecton = tecton;
         this.cutState = CutState.UNCUT;
         this.growState = GrowState.SPROUT;
@@ -42,7 +46,11 @@ public class MushroomThread implements TurnAware {
 
         connectedThreads = new ArrayList<>();
 
-        tecton.addConnection(this);
+        try {
+            tecton.addConnection(this);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
     } 
 
     /**
@@ -158,7 +166,19 @@ public class MushroomThread implements TurnAware {
      * @return Azoknak a Tektonoknak listáját, amivel közvetlen kapcsolatban van
      */
     public List<Tecton> getConnectedTectons() {
-        throw new RuntimeException("Not Implemented");
+        List<Tecton> result = new ArrayList<>();
+
+        if (cutState == CutState.CUT) { // Ha el van vágva, akkor üres listával tér vissza
+            return result;
+        }
+
+        for (MushroomThread connectedThread : connectedThreads) {
+            if (connectedThread.cutState == CutState.UNCUT) { // Csak azokra a tectonokra van szükség, amiknek a fonala az nincs elvágva
+                result.add(connectedThread.tecton);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -172,7 +192,7 @@ public class MushroomThread implements TurnAware {
      * Visszaállítja a turns to die értékét az alapértelmezettre
      */
     public void resetTurnsToDie() {
-        turnsToGrow--;
+        turnsToDie = DEFAULT_TURNS_TO_DIE;
     }
 
     
@@ -189,13 +209,14 @@ public class MushroomThread implements TurnAware {
      * Csökkenti a turnsToGorw értékét eggyel
      */
     public void grow() {
+        turnsToGrow--;
     }
 
     /**
      * A fonál CutState értékét cut-ra állítja
      */
     public void cut() {
-
+        cutState = CutState.CUT;
     }
 
     /**
@@ -205,7 +226,7 @@ public class MushroomThread implements TurnAware {
      */
     public MushroomThread createConnection(Tecton to) throws Exception {
         if (to.isNeighbour(tecton)) {
-            MushroomThread newThread = new MushroomThread(to);
+            MushroomThread newThread = new MushroomThread(to, mushroomID);
             newThread.addConnection(this);
             addConnection(newThread);
 
@@ -249,6 +270,14 @@ public class MushroomThread implements TurnAware {
         }
 
         return false;
+    }
+
+    /**
+     * Visszaadja a gombához tartozó mushroomID-t
+     * @return gombához tartozó mushroomID
+     */
+    public int getMushroomID() {
+        return mushroomID;
     }
 
 
@@ -300,6 +329,24 @@ public class MushroomThread implements TurnAware {
      */
     public void setGrowState(GrowState growState) {
         this.growState = growState;
+    }
+
+
+    /**
+     * Létrehozza a MushroomThread-hez tartozó state stringet 
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder stateString = new StringBuilder();
+
+        stateString.append("Mushroom ID: ").append(mushroomID).append("\n");
+        stateString.append("Turns to die: ").append(turnsToDie).append("\n");
+        stateString.append("Turns to grow: ").append(turnsToGrow).append("\n");
+        stateString.append("Number of connected threads: ").append(connectedThreads.size()).append("\n");
+        stateString.append("Grow state ").append(growState.toString()).append("\n");
+        stateString.append("Cut state ").append(cutState.toString()).append("\n");
+
+        return stateString.toString();
     }
 
 }

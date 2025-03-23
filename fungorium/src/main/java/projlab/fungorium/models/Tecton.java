@@ -25,7 +25,7 @@ public class Tecton implements TurnAware, PrintableState {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
-     * @param neighbour Szomszédos tektonok.
+     * @param neighbours Szomszédos tektonok.
      */
     public Tecton(List<Tecton> neighbours) {
         this.mushroomBody = null;
@@ -190,9 +190,14 @@ public class Tecton implements TurnAware, PrintableState {
     /**
      * Visszaad egy random MushroomSporet a Tecton spóráiból.
      * 
+     * @throws Exception Ha nincs egy spóra sem a tektonon.
      * @return Egy random MushroomSpore a Tectonról.
      */
-    public final MushroomSpore getRandomSpore() {
+    public final MushroomSpore getRandomSpore() throws Exception {
+        if (getSporeCount() == 0) {
+            throw new Exception("Can't get random spore: there are no spores on the tecton.");
+        }
+
         Random r = new Random();
         return mushroomSpores.get(r.nextInt(mushroomSpores.size()));
     }
