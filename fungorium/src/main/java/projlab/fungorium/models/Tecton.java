@@ -131,12 +131,7 @@ public class Tecton implements TurnAware {
      * @param mt A megadott MushroomThread
      */
     public void addConnection(MushroomThread mt) throws Exception {
-        for (Tecton tecton : mt.getConnectedTecons()) {
-            if (isNeighbour(tecton)) {
-                mushroomThreads.add(mt);
-                return;
-            }
-        }
+        mushroomThreads.add(mt);
     }
 
     /**
