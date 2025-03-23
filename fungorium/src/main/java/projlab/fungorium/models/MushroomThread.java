@@ -135,14 +135,14 @@ public class MushroomThread implements TurnAware, PrintableState {
 
         for (MushroomThread connectedThread : connectedThreads) { // Felvsezi a sorba azokat a fonalakat, amik nincsenek átvágva és benne vannak a connectedThreads listban
             if (connectedThread.cutState == CutState.UNCUT) {
-                queue.addLast(connectedThread);
+                queue.add(connectedThread);
             }
         }
 
         visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra magát
 
         while (!queue.isEmpty()) {
-            MushroomThread thread = queue.removeFirst();
+            MushroomThread thread = queue.remove(0);
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor visszatérhet igazzal
                 return true;
@@ -150,7 +150,7 @@ public class MushroomThread implements TurnAware, PrintableState {
             else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd felveszi a vizsgált fonalat a már megvizsgáltak közé
                 for (MushroomThread connectedThread : thread.connectedThreads) {
                     if (!visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT) {
-                        queue.addLast(connectedThread);
+                        queue.add(connectedThread);
                     }
                 }
 
