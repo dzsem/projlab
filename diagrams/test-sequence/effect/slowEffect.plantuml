@@ -7,7 +7,7 @@ Actor Tester as test
 activate test
 test -> tester: testBlockEffect()
 
-participant Skeleton as tester
+participant "Skeleton" as tester
 
 participant "slowEffect: SlowEffect" as slow
 participant "i: Insect" as insect

@@ -6,7 +6,7 @@ Actor Tester as test
 activate test
 test -> tester: testBlockEffect()
 
-participant Skeleton as tester
+participant "Skeleton" as tester
 
 participant "stunEffect: StunEffect" as speed
 participant "i: Insect" as insect
@@ -31,18 +31,8 @@ deactivate speed
 tester -> insect: getCanMove()
 activate insect
 
-alt canMove == true
 
-	insect --> tester: true
-	
-else canMove == false
-
-	insect --> tester: false
-	deactivate insect
-	
-
-end
-
+insect --> tester: false
 
 
 test<-- tester
