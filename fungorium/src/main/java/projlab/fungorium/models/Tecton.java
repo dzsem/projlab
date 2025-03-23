@@ -128,7 +128,7 @@ public class Tecton implements TurnAware, PrintableState {
      * 
      * @param mt A megadott MushroomThread
      */
-    public void addConnection(MushroomThread mt) throws Exception {
+    public void addConnection(MushroomThread mt) {
         mushroomThreads.add(mt);
     }
 
