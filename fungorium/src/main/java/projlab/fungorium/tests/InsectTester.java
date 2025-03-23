@@ -9,8 +9,8 @@ import projlab.fungorium.utilities.Logger;
  * <p>
  * Tartalmazott tesztek:
  * <ul>
- * <li>{@link #test_eatMushroomSpore1()}: EatMushroomSpore success</li>
- * <li>{@link #test_eatMushroomSpore2()}: EatMushroomSpore fail (no spore on
+ * <li>{@link #testEatMushroomSpore1()}: EatMushroomSpore success</li>
+ * <li>{@link #testEatMushroomSpore2()}: EatMushroomSpore fail (no spore on
  * tecton)</li>
  * <li>TODO: MoveToTecton success</li>
  * <li>TODO: MoveToTecton fail (non-neighboring tecton)</li>
@@ -23,34 +23,32 @@ public class InsectTester {
 	private InsectTester() {
 	}
 
-	/**
-	 * Az EatMushroomSpore sikeres tesztesetének inicializációja.
-	 * (ld.: Kommunikációs diagram)
-	 */
-	private static class EatMushroomSporeSuccessModel {
-		public Tecton t1;
-		public Insect ins;
-		public MushroomSpore spore;
+	private static Tecton t1;
+	private static Tecton t2;
+	private static MushroomSpore spore;
+	private static Insect insect;
 
-		public EatMushroomSporeSuccessModel() {
-			t1 = new Tecton();
-			ins = new Insect(t1);
-			spore = new MushroomSpore(t1);
-		}
+	private static void initClearVariables() {
+		t1 = null;
+		t2 = null;
+		spore = null;
+		insect = null;
 	}
 
-	/**
-	 * Az EatMushroomSpore sikertelen tesztesetének inicializációja.
-	 * (ld. kommunikációs diagram)
-	 */
-	private static class EatMushroomSporeFailModel {
-		public Tecton t1;
-		public Insect ins;
+	private static void initMushroomSporeSuccess() {
+		initClearVariables();
 
-		public EatMushroomSporeFailModel() {
-			t1 = new Tecton();
-			ins = new Insect(t1);
-		}
+		t1 = new Tecton();
+		insect = new Insect(t1);
+		spore = new MushroomSpore(t1);
+	}
+
+	private static void initMushroomSporeFail() {
+		initClearVariables();
+
+		t1 = new Tecton();
+		insect = new Insect(t1);
+		spore = null;
 	}
 
 	/**
@@ -60,17 +58,17 @@ public class InsectTester {
 	 * hatása nem számít, a lényeg, hogy az eatMushroomSpore függvény ne dobjon
 	 * kivételt, és ne legyen spóra a tektonon a művelet elvégézése után.
 	 */
-	public static void test_eatMushroomSpore1() {
-		EatMushroomSporeSuccessModel model = new EatMushroomSporeSuccessModel();
+	public static void testEatMushroomSpore1() {
+		initMushroomSporeSuccess();
 
 		try {
 			Logger.print("void", "eatMushroomSpore");
-			model.ins.eatMushroomSpore();
+			insect.eatMushroomSpore();
 		} catch (Exception exc) {
 			Logger.printError("EatMushroomSpore threw exception when it wasn't supposed to.");
 		}
 
-		if (model.t1.getSporeCount() != 0) {
+		if (t1.getSporeCount() != 0) {
 			Logger.printError("The only spore was eaten from the tecton, but sporeCount isn't 0.");
 		}
 	}
@@ -82,13 +80,13 @@ public class InsectTester {
 	 * Itt a rovar megpróbál spórát enni a saját tektonjáról, azonban nincs.
 	 * Ilyenkor az eatMushroomSpore-nak kivételt kell dobnia.
 	 */
-	public static void test_eatMushroomSpore2() {
-		EatMushroomSporeFailModel model = new EatMushroomSporeFailModel();
+	public static void testEatMushroomSpore2() {
+		initMushroomSporeFail();
 
 		boolean eatMushroomSporeThrew = false;
 		try {
 			Logger.print("void", "eatMushroomSpore");
-			model.ins.eatMushroomSpore();
+			insect.eatMushroomSpore();
 		} catch (Exception exc) {
 			eatMushroomSporeThrew = true;
 		}
