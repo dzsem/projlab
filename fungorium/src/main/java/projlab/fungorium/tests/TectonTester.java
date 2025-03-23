@@ -189,27 +189,52 @@ public final class TectonTester {
     /**
      * Tecton Grow Thread Fail teszteset megvalósítása.
      */
-    // TODO: ez nem ide tartozik, hanem inkabb a fonalhoz
-    // public static final void TectonGrowThreadFail() {
+    public static final void TectonGrowThreadFail() {
+        // init
+        Tecton t1 = new Tecton();
+        Tecton t2 = new Tecton();
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
 
-    // }
+        // test
+        Logger.printState(t1);
+        Logger.printState(t2);
+
+        // test
+        try {
+            mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+    }
 
     /**
      * Tecton Grow Thread Success teszteset megvalósítása.
      */
-    // TODO: ez nem ide tartozik, hanem inkabb a fonalhoz
-    // public static final void tectonGrowThreadSuccess() {
-    //     // init
-    //     Tecton t1 = new Tecton();
-    //     Tecton t2 = new Tecton(List.of(t1));
-    //     MushroomThread mt1 = new MushroomThread(t1);
-    //     MushroomSpore ms1 = new MushroomSpore(t1);
-    //     MushroomSpore ms2 = new MushroomSpore(t1);
-    //     MushroomSpore ms3 = new MushroomSpore(t1);
+    public static final void tectonGrowThreadSuccess() {
+        // init
+        Tecton t1 = new Tecton();
+        Tecton t2 = new Tecton(List.of(t1));
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
+        MushroomSpore ms1 = new MushroomSpore(t1);
+        MushroomSpore ms2 = new MushroomSpore(t1);
+        MushroomSpore ms3 = new MushroomSpore(t1);
 
-    //     // test
-    //     Logger.print("void", "Tecton::addConnection", "");
-    // }
+        Logger.printState(t1);
+        Logger.printState(t2);
+
+        // test
+        try {
+            mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+    }
 
     /**
      * Tecton Kill Thread teszteset megvalósítása.
