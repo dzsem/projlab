@@ -1,6 +1,7 @@
 package projlab.fungorium.tests;
 
 import projlab.fungorium.models.*;
+import projlab.fungorium.models.MushroomThread.GrowState;
 import projlab.fungorium.models.effects.StunEffect;
 import projlab.fungorium.utilities.Logger;
 
@@ -95,9 +96,14 @@ public class InsectTester {
 		insect = new Insect(t1);
 		mt1 = new MushroomThread(t1);
 
+		mt1.setGrowState(GrowState.GROWN);
+
 		try {
 			mt2 = mt1.createConnection(t3);
+			mt2.setGrowState(GrowState.GROWN);
+
 			mt3 = mt2.createConnection(t4);
+			mt3.setGrowState(GrowState.GROWN);
 		} catch (Exception exc) {
 			Logger.printError("Caught exception in initialization: " + exc.getMessage());
 		}
@@ -112,12 +118,16 @@ public class InsectTester {
 		t1 = new Tecton();
 		t2 = new Tecton();
 
+		t1.registerNeighbour(t2);
+
 		insect = new Insect(t1);
 
 		mt1 = new MushroomThread(t1);
+		mt1.setGrowState(GrowState.GROWN);
 
 		try {
 			mt2 = mt1.createConnection(t2);
+			mt2.setGrowState(GrowState.GROWN);
 		} catch (Exception exc) {
 			Logger.printError("Caught exception in initialization: " + exc.getMessage());
 		}
