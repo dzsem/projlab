@@ -20,6 +20,10 @@ public class Logger {
         System.out.println( ") = " + returnValue);
     }
 
+    public static void printError(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     public static void printState(PrintableState ps) {
         System.out.println(ps.getStateString());
     }

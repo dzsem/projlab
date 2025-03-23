@@ -1,0 +1,31 @@
+@startuml tectonGrowThreadTest
+
+title Tecton Grow Thread Fail
+
+actor "Tester" as tst
+participant "s: Skeleton" as s
+participant "t3: Tecton" as t3
+participant "newMt: MushroomThread" as newMt
+
+activate tst
+
+tst -> s: TectonGrowThreadFail()
+activate s
+
+s -> newMt: Instantiate()
+activate newMt
+s <-- newMt
+deactivate newMt
+
+s -> t3: addConnection(newMt)
+activate t3
+
+s <-- t3: throw Exception
+deactivate t3
+
+tst <-- s
+deactivate s
+
+deactivate tst
+
+@enduml

@@ -1,0 +1,31 @@
+@startuml tectonGrowBodyTest
+
+title Tecton Grow Body Thread Fail
+
+actor "Tester" as ts
+participant "s: Skeleton" as s
+participant "t2: Tecton" as t2
+participant "newMb: MushroomBody" as newMb
+
+activate ts
+
+ts -> s: TectonGrowBodyThreadFail()
+activate s
+
+s -> newMb: Instantiate()
+activate newMb
+s <-- newMb
+deactivate newMb
+
+s -> t2: setBody(newMb)
+activate t2
+
+s <-- t2: throw Exception
+deactivate t2
+
+ts <-- s
+deactivate s
+
+deactivate ts
+
+@enduml

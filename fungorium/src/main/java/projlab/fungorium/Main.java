@@ -1,11 +1,11 @@
 package projlab.fungorium;
 
-import projlab.fungorium.utilities.Tester;
+import projlab.fungorium.utilities.Skeleton;
 
 public class Main {
     public static void main(String[] args) {
-        Tester.init();
+        Skeleton.init();
 
-        Tester.run();
+        Skeleton.run();
     }
 }

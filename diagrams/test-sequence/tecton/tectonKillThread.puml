@@ -1,0 +1,26 @@
+@startuml tectonKillThreadTest
+
+title Tecton Kill Thread
+
+actor "Tester" as tst
+participant "s: Skeleton" as s
+participant "t: Tecton" as t
+
+activate tst
+
+tst -> s: TectonKillThread()
+activate s
+
+
+s -> t: killThread(mt)
+activate t
+
+s <-- t: throw Exception
+deactivate t
+
+tst <-- s
+deactivate s
+
+deactivate tst
+
+@enduml
