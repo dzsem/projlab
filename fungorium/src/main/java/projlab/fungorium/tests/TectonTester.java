@@ -37,7 +37,10 @@ public final class TectonTester {
         Logger.printState(t);
 
         // test
-        MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
+        try {
+            t.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t);
     }
@@ -107,7 +110,11 @@ public final class TectonTester {
         MushroomSpore ms1 = new MushroomSpore(t1);
         MushroomSpore ms2 = new MushroomSpore(t1);
         MushroomSpore ms3 = new MushroomSpore(t1);
-        MushroomBody mb1 = new MushroomBody(t1, MUSHROOM_ID);
+
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
 
@@ -134,7 +141,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -157,7 +167,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -180,7 +193,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t2, MUSHROOM_ID);
+        try {
+            t2.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);

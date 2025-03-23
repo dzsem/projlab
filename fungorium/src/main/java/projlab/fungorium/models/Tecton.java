@@ -251,9 +251,17 @@ public class Tecton implements TurnAware, PrintableState {
      * Beállítja a megadott MushroomBodyt a Tectonon növő gombatestnek.
      * 
      * @param mb A megadott MushroomBody
+     */
+    public void setBody(MushroomBody mb) {
+        mushroomBody = mb;
+    }
+    
+    /**
+     * Növeszt egy gombatestet a megadott mushroomID-val
+     * @param mushroomID az új gombatest mushroomID-ja
      * @throws Exception Ha a Tectonon már nő egy gombatest, vagy ha a Tectonon nincs legalább 3 MushroomSpore, vagy ha a Tectonon nem nő még MushroomThread mb-től.
      */
-    public void setBody(MushroomBody mb) throws Exception {
+    public void growBody(int mushroomID) throws Exception {
         if (mushroomBody != null) {
             throw new Exception("Tecton already has a body.");
         }
@@ -262,11 +270,19 @@ public class Tecton implements TurnAware, PrintableState {
             throw new Exception("Tecton needs at least 3 MushroomSpores to grow a body.");
         }
 
-        if (!hasThreadFrom(mb)) {
+        boolean hasThreadFromMushroom = false;
+        for (MushroomThread thread : mushroomThreads) {
+            if (thread.getMushroomID() == mushroomID) {
+                hasThreadFromMushroom = true;
+                break;
+            }
+        }
+
+        if (!hasThreadFromMushroom) {
             throw new Exception("Tecton needs a MushroomThread from the MushroomBody before growing it.");
         }
 
-        mushroomBody = mb;
+        new MushroomBody(this, mushroomID);
     }
 
     /**
