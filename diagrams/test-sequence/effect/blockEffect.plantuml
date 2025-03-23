@@ -20,22 +20,26 @@ speed->insect:setCounter()
 activate insect
 
 speed<--insect
+deactivate insect
 
 speed->insect:setCanCut()
+activate insect
+
 speed<--insect
 deactivate insect
 
 speed --> tester
 deactivate speed
 
-tester -> insect: getCanCute()
+tester -> insect: getCanCut()
 activate insect
 
 insect -->tester:false
-
+deactivate insect
 
 tester -> insect: getTimerIsNull()
 
+activate insect
 insect -->tester:false
 deactivate insect
 

@@ -22,8 +22,11 @@ speed->insect: exhaustActions()
 activate insect
 
 speed<--insect
+deactivate insect
 
 speed->insect:setCanMove()
+activate insect
+
 speed<--insect
 deactivate insect
 
