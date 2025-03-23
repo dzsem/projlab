@@ -4,7 +4,7 @@ import projlab.fungorium.models.effects.*;
 
 import java.util.Random;
 
-class MushroomSpore {
+public class MushroomSpore {
     /**
      * mikor egy spóra létrejön, akkor hozzáadja magát a tecton listájához, amin rajta van
      * @param tecton a Tetcon, amin a spóra rajta van

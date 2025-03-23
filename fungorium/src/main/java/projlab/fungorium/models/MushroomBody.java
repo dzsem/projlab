@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.TurnAware;
+import projlab.fungorium.utilities.Logger;
 
 public class MushroomBody implements TurnAware {
     public enum Advancement {
@@ -20,6 +21,23 @@ public class MushroomBody implements TurnAware {
     private Tecton tecton;
 
     private Advancement advancement;
+
+    /**
+     * Beállítja az attributumait az alapértelmezett értékekre és felhelyezi magát a paraméterként kapott tektonra
+     * @param tecton A tekton, amire a gombatest fog kerülni
+     */
+    public MushroomBody(Tecton tecton) {    
+        this.tecton = tecton;
+        this.advancement = Advancement.NORMAL;
+        this.age = 0;
+        this.remainingSpores = MAX_SPORES;
+
+        try {
+            tecton.setBody(this);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+    }
 
     /**
      * Spórákat helyez el a körülötte lévő tektonokra.
@@ -44,7 +62,7 @@ public class MushroomBody implements TurnAware {
         }
 
         for (Tecton tectonToSpore : tectonsToSpore) { // Tektonok spórázása
-            tectonToSpore.addSpore(new MushroomSpore());
+            new MushroomBody(tectonToSpore);
         }
 
         remainingSpores--; // Spóra mennyiség cskkentés
@@ -67,4 +85,23 @@ public class MushroomBody implements TurnAware {
             }
         }
     } 
+
+    /**
+     * Beállítja a gomba test advancement szintjét.
+     * Teszteléshez használt.
+     * @param advancement az új advancement szint
+     */
+    public void setAdvancement(Advancement advancement) {
+        this.advancement = advancement;
+    }
+
+    /**
+     * Beállítja a gomba test maradék spóráit szintjét.
+     * Teszteléshez használt.
+     * @param remainingSpores a maradék spórák új értéke
+     */
+    public void setSporesRemaining(int remainingSpores) {
+        this.remainingSpores = remainingSpores;
+    }
+
 }
