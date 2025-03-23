@@ -1,5 +1,6 @@
 package projlab.fungorium.models;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 
 /**
@@ -8,7 +9,7 @@ import projlab.fungorium.interfaces.TurnAware;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect implements TurnAware {
+public class Insect implements TurnAware, PrintableState {
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
@@ -104,14 +105,13 @@ public class Insect implements TurnAware {
 	/**
 	 * A rovar megeszi a vele azonos tektonon lévő egyik spórát.
 	 *
-	 * @throws RuntimeException amennyiben nincs spóra a tektonon, a
-	 *                          getRandomSpore() kivétele feljebb halad.
+	 * @throws Exception amennyiben nincs spóra a tektonon, a
+	 *                   getRandomSpore() kivétele feljebb halad.
 	 */
 	public void eatMushroomSpore() throws Exception {
 		MushroomSpore spore = tecton.getRandomSpore();
 
-		// TODO: spóra interfész
-		// spore.applyEffect(this);
+		spore.applyEffect(this);
 	}
 
 	/**
@@ -157,6 +157,37 @@ public class Insect implements TurnAware {
 	}
 
 	/**
+	 * Visszatér egy rovar állapotát leíró stringgel.
+	 * Debug célból használandó.
+	 * 
+	 * @return A tesztelőnek megjelenítendő debug string.
+	 * @see projlab.fungorium.interfaces.PrintableState
+	 */
+	@Override
+	public String getStateString() {
+		StringBuilder resultBuilder = new StringBuilder();
+
+		resultBuilder.append("Insect(tecton=")
+				.append(tecton.toString());
+
+		if (!canMove) {
+			resultBuilder.append(", !canMove");
+		}
+
+		if (!canCut) {
+			resultBuilder.append(", !canCut");
+		}
+
+		if (counter != 0) {
+			resultBuilder.append(", counter=").append(counter);
+		}
+
+		resultBuilder.append(")");
+
+		return resultBuilder.toString();
+	}
+
+	/**
 	 * Beállítja a canMove értékét.
 	 * 
 	 * @param newCanMove
@@ -180,6 +211,13 @@ public class Insect implements TurnAware {
 	 */
 	public void setCounter() {
 		counter = COUNTER_DEFAULT_VALUE;
+	}
+
+	/**
+	 * Visszaadja a tektont, amin a rovar áll.
+	 */
+	public Tecton getTecton() {
+		return tecton;
 	}
 
 	private static final int COUNTER_DEFAULT_VALUE = 3;
