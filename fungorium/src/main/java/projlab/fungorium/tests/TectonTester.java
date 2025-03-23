@@ -17,6 +17,8 @@ import projlab.fungorium.utilities.Logger;
  * Ez az osztály felelős a Tectonhoz tartozó tesztesetekért és azok inicializásáért.
  */
 public final class TectonTester {
+    private static final int MUSHROOM_ID = 1;
+
     // -------------------------------------
     // Teszt függvények
 
@@ -27,7 +29,7 @@ public final class TectonTester {
     public static final void InfertileTectonGrowBodyFail() {
         // init
         InfertileTecton t = new InfertileTecton();
-        MushroomThread mt1 = new MushroomThread(t);
+        MushroomThread mt1 = new MushroomThread(t, MUSHROOM_ID);
         MushroomSpore ms1 = new MushroomSpore(t);
         MushroomSpore ms2 = new MushroomSpore(t);
         MushroomSpore ms3 = new MushroomSpore(t);
@@ -35,7 +37,7 @@ public final class TectonTester {
         Logger.printState(t);
 
         // test
-        MushroomBody mb = new MushroomBody(t);
+        MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
 
         Logger.printState(t);
     }
@@ -49,8 +51,8 @@ public final class TectonTester {
         SingleThreadTecton t1 = new SingleThreadTecton();
         SingleThreadTecton t2 = new SingleThreadTecton(List.of(t1));
         SingleThreadTecton t3 = new SingleThreadTecton(List.of(t1, t2));
-        MushroomThread mt1 = new MushroomThread(t1);
-        MushroomThread mt2 = new MushroomThread(t2);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
+        MushroomThread mt2 = new MushroomThread(t2, MUSHROOM_ID);
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -76,8 +78,8 @@ public final class TectonTester {
         SingleThreadTecton t1 = new SingleThreadTecton();
         SingleThreadTecton t2 = new SingleThreadTecton(List.of(t1));
         SingleThreadTecton t3 = new SingleThreadTecton(List.of(t1, t2));
-        MushroomThread mt1 = new MushroomThread(t1);
-        MushroomThread mt2 = new MushroomThread(t2);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
+        MushroomThread mt2 = new MushroomThread(t2, MUSHROOM_ID);
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -101,16 +103,16 @@ public final class TectonTester {
     public static final void TectonGrowBodyBodyFail() {
         // init
         Tecton t1 = new Tecton();
-        MushroomThread mt1 = new MushroomThread(t1);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
         MushroomSpore ms1 = new MushroomSpore(t1);
         MushroomSpore ms2 = new MushroomSpore(t1);
         MushroomSpore ms3 = new MushroomSpore(t1);
-        MushroomBody mb1 = new MushroomBody(t1);
+        MushroomBody mb1 = new MushroomBody(t1, MUSHROOM_ID);
 
         Logger.printState(t1);
 
         // test
-        MushroomBody mb2 = new MushroomBody(t1);
+        MushroomBody mb2 = new MushroomBody(t1, MUSHROOM_ID);
 
         Logger.printState(t1);
     }
@@ -123,7 +125,7 @@ public final class TectonTester {
         // init
         Tecton t1 = new Tecton();
         Tecton t2 = new Tecton(List.of(t1));
-        MushroomThread mt1 = new MushroomThread(t1);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
         MushroomSpore ms1 = new MushroomSpore(t2);
         MushroomSpore ms2 = new MushroomSpore(t2);
         MushroomSpore ms3 = new MushroomSpore(t2);
@@ -132,7 +134,7 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1);
+        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -146,7 +148,7 @@ public final class TectonTester {
         // init
         Tecton t1 = new Tecton();
         Tecton t2 = new Tecton(List.of(t1));
-        MushroomThread mt1 = new MushroomThread(t1);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
         MushroomSpore ms1 = new MushroomSpore(t1);
         MushroomSpore ms2 = new MushroomSpore(t1);
         MushroomSpore ms3 = new MushroomSpore(t1);
@@ -155,7 +157,7 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1);
+        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -169,7 +171,7 @@ public final class TectonTester {
         // init
         Tecton t1 = new Tecton();
         Tecton t2 = new Tecton(List.of(t1));
-        MushroomThread mt1 = new MushroomThread(t1);
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
         MushroomSpore ms1 = new MushroomSpore(t2);
         MushroomSpore ms2 = new MushroomSpore(t2);
         MushroomSpore ms3 = new MushroomSpore(t2);
@@ -178,7 +180,7 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t2);
+        MushroomBody mb = new MushroomBody(t2, MUSHROOM_ID);
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -216,9 +218,9 @@ public final class TectonTester {
         // init
         Tecton t = new Tecton();
         Insect i = new Insect(t);
-        MushroomThread mt1 = new MushroomThread(t);
-        MushroomThread mt2 = new MushroomThread(t);
-        MushroomBody mb = new MushroomBody(t);
+        MushroomThread mt1 = new MushroomThread(t, MUSHROOM_ID);
+        MushroomThread mt2 = new MushroomThread(t, MUSHROOM_ID);
+        MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
 
         Logger.printState(t);
 
@@ -241,9 +243,9 @@ public final class TectonTester {
         // init
         Tecton t = new Tecton();
         Insect i = new Insect(t);
-        MushroomThread mt1 = new MushroomThread(t);
-        MushroomThread mt2 = new MushroomThread(t);
-        MushroomBody mb = new MushroomBody(t);
+        MushroomThread mt1 = new MushroomThread(t, MUSHROOM_ID);
+        MushroomThread mt2 = new MushroomThread(t, MUSHROOM_ID);
+        MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
         
         Logger.printState(t);
 
@@ -260,7 +262,7 @@ public final class TectonTester {
     public static final void threadKillingTectonKillThread() {
         // init
         ThreadKillingTecton t = new ThreadKillingTecton();
-        MushroomThread mt = new MushroomThread(t);
+        MushroomThread mt = new MushroomThread(t, MUSHROOM_ID);
 
         Logger.printState(t);
 

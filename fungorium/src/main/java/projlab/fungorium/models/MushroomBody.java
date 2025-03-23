@@ -3,10 +3,11 @@ package projlab.fungorium.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomBody implements TurnAware {
+public class MushroomBody implements TurnAware, PrintableState {
     public enum Advancement {
         NORMAL,
         ADVANCED
@@ -14,6 +15,8 @@ public class MushroomBody implements TurnAware {
 
     private static final int MAX_SPORES = 5;
     private static final int ADVANCED_AGE = 5;
+
+    private final int mushroomID;
 
     private int remainingSpores;
     private int age;
@@ -26,7 +29,8 @@ public class MushroomBody implements TurnAware {
      * Beállítja az attributumait az alapértelmezett értékekre és felhelyezi magát a paraméterként kapott tektonra
      * @param tecton A tekton, amire a gombatest fog kerülni
      */
-    public MushroomBody(Tecton tecton) {    
+    public MushroomBody(Tecton tecton, int mushroomID) {    
+        this.mushroomID = mushroomID;
         this.tecton = tecton;
         this.advancement = Advancement.NORMAL;
         this.age = 0;
@@ -62,7 +66,7 @@ public class MushroomBody implements TurnAware {
         }
 
         for (Tecton tectonToSpore : tectonsToSpore) { // Tektonok spórázása
-            new MushroomBody(tectonToSpore);
+            new MushroomSpore(tectonToSpore);
         }
 
         remainingSpores--; // Spóra mennyiség cskkentés
@@ -70,6 +74,14 @@ public class MushroomBody implements TurnAware {
         if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a tektonról
             tecton.removeBody(); 
         }
+    }
+
+    /**
+     * Visszaadja a gombához tartozó mushroomID-t
+     * @return gombához tartozó mushroomID
+     */
+    public int getMushroomID() {
+        return mushroomID;
     }
 
     /**
@@ -102,6 +114,21 @@ public class MushroomBody implements TurnAware {
      */
     public void setSporesRemaining(int remainingSpores) {
         this.remainingSpores = remainingSpores;
+    }
+
+    /**
+     * Létrehozza a MushroomBody-hoz tartozó state string-et
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder stateString = new StringBuilder();
+
+        stateString.append("Mushroom ID: ").append(mushroomID).append("\n");
+        stateString.append("Remaining Spores: ").append(remainingSpores).append("\n");
+        stateString.append("Age: ").append(age).append("\n");
+        stateString.append("Advancement Level: ").append(advancement.toString()).append("\n");
+
+        return stateString.toString();
     }
 
 }
