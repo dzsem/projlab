@@ -37,7 +37,7 @@ activate insect
 insect -->tester:false
 deactivate insect
 
-tester -> insect: getTimerIsNull()
+tester -> insect: isCounterSet()
 
 activate insect
 insect -->tester:false
