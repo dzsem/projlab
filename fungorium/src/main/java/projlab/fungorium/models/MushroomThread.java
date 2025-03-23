@@ -166,7 +166,19 @@ public class MushroomThread implements TurnAware, PrintableState {
      * @return Azoknak a Tektonoknak listáját, amivel közvetlen kapcsolatban van
      */
     public List<Tecton> getConnectedTectons() {
-        throw new RuntimeException("Not Implemented");
+        List<Tecton> result = new ArrayList<>();
+
+        if (cutState == CutState.CUT) { // Ha el van vágva, akkor üres listával tér vissza
+            return result;
+        }
+
+        for (MushroomThread connectedThread : connectedThreads) {
+            if (connectedThread.cutState == CutState.UNCUT) { // Csak azokra a tectonokra van szükség, amiknek a fonala az nincs elvágva
+                result.add(connectedThread.tecton);
+            }
+        }
+
+        return result;
     }
 
     /**
