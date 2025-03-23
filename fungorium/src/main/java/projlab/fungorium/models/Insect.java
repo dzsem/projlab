@@ -181,5 +181,12 @@ public class Insect implements TurnAware {
 		counter = COUNTER_DEFAULT_VALUE;
 	}
 
+	/**
+	 * Visszaadja a tektont, amin a rovar áll.
+	 */
+	public Tecton getTecton() {
+		return tecton;
+	}
+
 	private static final int COUNTER_DEFAULT_VALUE = 3;
 }
