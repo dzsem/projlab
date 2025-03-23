@@ -103,4 +103,5 @@ public class MushroomBody implements TurnAware {
     public void setSporesRemaining(int remainingSpores) {
         this.remainingSpores = remainingSpores;
     }
+
 }

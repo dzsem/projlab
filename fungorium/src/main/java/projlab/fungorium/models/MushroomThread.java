@@ -1,6 +1,5 @@
 package projlab.fungorium.models;
 
-import java.beans.DefaultPersistenceDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -292,6 +291,15 @@ public class MushroomThread implements TurnAware {
      */
     public void setTurnsToGrow(int turnsToGrow) {
         this.turnsToGrow = turnsToGrow;
+    }
+
+    /**
+     * Beállítja a fonál growState változóját.
+     * Tesztekhez szükséges
+     * @param growState growState új értéke
+     */
+    public void setGrowState(GrowState growState) {
+        this.growState = growState;
     }
 
 }

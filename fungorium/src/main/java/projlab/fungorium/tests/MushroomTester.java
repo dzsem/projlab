@@ -4,6 +4,7 @@ import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.MushroomBody.Advancement;
+import projlab.fungorium.models.MushroomThread.GrowState;
 import projlab.fungorium.utilities.Logger;
 
 public class MushroomTester {
@@ -108,6 +109,61 @@ public class MushroomTester {
 
         dyingThread = new MushroomThread(t2);
         dyingThread.setTurnsToDie(1);
-
     }
+
+    private static void threadIsConnectingTectonFailCutInit() {
+        t1 = new Tecton();
+        t2 = new Tecton();
+
+        t1.registerNeighbour(t2);
+        t2.registerNeighbour(t1);
+
+        mt1 = new MushroomThread(t1);
+        try {
+            mt2 = mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        mt1.setGrowState(GrowState.GROWN);
+        mt2.setGrowState(GrowState.GROWN);
+
+        mt1.cut();
+    }
+
+    private static void threadIsConnectingTectonSuccessInit() {
+        t1 = new Tecton();
+        t2 = new Tecton();
+
+        t1.registerNeighbour(t2);
+        t2.registerNeighbour(t1);
+
+        mt1 = new MushroomThread(t1);
+        try {
+            mt2 = mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        mt1.setGrowState(GrowState.GROWN);
+        mt2.setGrowState(GrowState.GROWN);
+    }
+
+    private static void threadIsConnectingTectonFailSproutInit() {
+        t1 = new Tecton();
+        t2 = new Tecton();
+
+        t1.registerNeighbour(t2);
+        t2.registerNeighbour(t1);
+
+        mt1 = new MushroomThread(t1);
+        try {
+            mt2 = mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        mt1.setGrowState(GrowState.SPROUT);
+    }
+
 }
