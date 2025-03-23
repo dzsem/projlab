@@ -25,16 +25,30 @@ public class InsectTester {
 
 	private static Tecton t1;
 	private static Tecton t2;
+	private static Tecton t3;
+	private static Tecton t4;
+	private static MushroomThread mt1;
+	private static MushroomThread mt2;
+	private static MushroomThread mt3;
 	private static MushroomSpore spore;
 	private static Insect insect;
 
 	private static void initClearVariables() {
 		t1 = null;
 		t2 = null;
+		t3 = null;
+		t4 = null;
+		mt1 = null;
+		mt2 = null;
+		mt3 = null;
 		spore = null;
 		insect = null;
 	}
 
+	/**
+	 * Az EatMushroomSpore sikeres tesztesetének inicializációja.
+	 * (ld.: Kommunikációs diagram)
+	 */
 	private static void initMushroomSporeSuccess() {
 		initClearVariables();
 
@@ -43,12 +57,44 @@ public class InsectTester {
 		spore = new MushroomSpore(t1);
 	}
 
+	/**
+	 * Az EatMushroomSpore sikertelen tesztesetének inicializációja.
+	 * (ld. kommunikációs diagram)
+	 */
 	private static void initMushroomSporeFail() {
 		initClearVariables();
 
 		t1 = new Tecton();
 		insect = new Insect(t1);
 		spore = null;
+	}
+
+	/**
+	 * A MoveToTecton teszteseteinek inicializációi.
+	 * (ld. kommunikációs diagram)
+	 */
+	private static void initMoveToTecton() {
+		initClearVariables();
+
+		t1 = new Tecton();
+		t2 = new Tecton();
+		t3 = new Tecton();
+		t4 = new Tecton();
+
+		t1.registerNeighbour(t2);
+		t1.registerNeighbour(t3);
+
+		t4.registerNeighbour(t3);
+
+		insect = new Insect(t1);
+		mt1 = new MushroomThread(t1);
+
+		try {
+			mt2 = mt1.createConnection(t3);
+			mt3 = mt2.createConnection(t4);
+		} catch (Exception exc) {
+			Logger.printError("Caught exception in initialization: " + exc.getMessage());
+		}
 	}
 
 	/**
@@ -66,6 +112,7 @@ public class InsectTester {
 			insect.eatMushroomSpore();
 		} catch (Exception exc) {
 			Logger.printError("EatMushroomSpore threw exception when it wasn't supposed to.");
+			Logger.printError("Exception: " + exc.getMessage());
 		}
 
 		if (t1.getSporeCount() != 0) {
@@ -93,6 +140,17 @@ public class InsectTester {
 
 		if (!eatMushroomSporeThrew) {
 			Logger.printError("EatMushroomSpore didn't throw when there were no spores on the tecton");
+		}
+	}
+
+	public static void testMoveToTecton1() {
+		initMoveToTecton();
+
+		try {
+			insect.moveToTecton(t3);
+		} catch (Exception exc) {
+			Logger.printError("MoveToTecton threw, but it shouldn't have.");
+			Logger.printError("Exception: " + exc.getMessage());
 		}
 	}
 }
