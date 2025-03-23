@@ -5,11 +5,11 @@ import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
 
 public class MushroomBodyTester {
-    private static Tecton t1, t2, t3;
-    private static MushroomThread mt1, mt2, mt3;
-    private static MushroomBody mb;
+    private static Tecton t1, t2, t3, t4, t5;
+    private static MushroomThread mt1, mt2, mt3, mt4, mt5;
+    private static MushroomBody mb, mb1, mb2;
 
-    public static void cutConnectionOnyOneBody() {
+    private static void cutConnectionOnyOneBody() {
         t1 = new Tecton();
         t2 = new Tecton();
         t3 = new Tecton();
@@ -21,4 +21,20 @@ public class MushroomBodyTester {
 
         mb = new MushroomBody(t3);
     }
+
+    private static void cutConnectionWithTwoBodies() {
+        t1 = new Tecton();
+        t2 = new Tecton();
+        t3 = new Tecton();
+        t4 = new Tecton();
+        t5 = new Tecton();
+
+        mb1 = new MushroomBody(t5);
+        mb2 = new MushroomBody(t1);
+
+        mt5 = new MushroomThread(t5);
+
+        mt5.createConnection(t1);
+    }
+    
 }
