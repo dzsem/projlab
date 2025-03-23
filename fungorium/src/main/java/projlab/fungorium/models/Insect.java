@@ -1,5 +1,6 @@
 package projlab.fungorium.models;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 
 /**
@@ -8,7 +9,7 @@ import projlab.fungorium.interfaces.TurnAware;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect implements TurnAware {
+public class Insect implements TurnAware, PrintableState {
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
@@ -153,6 +154,37 @@ public class Insect implements TurnAware {
 		if (counter != 0) {
 			counter--;
 		}
+	}
+
+	/**
+	 * Visszatér egy rovar állapotát leíró stringgel.
+	 * Debug célból használandó.
+	 * 
+	 * @return A tesztelőnek megjelenítendő debug string.
+	 * @see projlab.fungorium.interfaces.PrintableState
+	 */
+	@Override
+	public String getStateString() {
+		StringBuilder resultBuilder = new StringBuilder();
+
+		resultBuilder.append("Insect(tecton=")
+				.append(tecton.toString());
+
+		if (!canMove) {
+			resultBuilder.append(", !canMove");
+		}
+
+		if (!canCut) {
+			resultBuilder.append(", !canCut");
+		}
+
+		if (counter != 0) {
+			resultBuilder.append(", counter=").append(counter);
+		}
+
+		resultBuilder.append(")");
+
+		return resultBuilder.toString();
 	}
 
 	/**
