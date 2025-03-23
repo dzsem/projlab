@@ -47,7 +47,7 @@ deactivate speed
 
 test <-- tester
 
-
+deactivate tester
 
 
 @enduml
