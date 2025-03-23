@@ -62,7 +62,7 @@ public class MushroomBody implements TurnAware {
         }
 
         for (Tecton tectonToSpore : tectonsToSpore) { // Tektonok spórázása
-            tectonToSpore.addSpore(new MushroomSpore());
+            new MushroomBody(tectonToSpore);
         }
 
         remainingSpores--; // Spóra mennyiség cskkentés
