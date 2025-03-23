@@ -166,4 +166,69 @@ public class MushroomTester {
         mt1.setGrowState(GrowState.SPROUT);
     }
 
+    public static void test_advancedMushroomDstibuteSpores() {
+        mushroomBodyTestInit();
+        advnacedBody.distributeSpores();
+    }
+
+    public static void test_connectingTectinFailCut() {
+        threadIsConnectingTectonFailCutInit();
+        mt1.isConnectingTecton(t2);
+    }
+
+    public static void test_connectingTectonFailSprout() {
+        threadIsConnectingTectonFailSproutInit();
+        mt1.isConnectingTecton(t2);
+    }
+
+    public static void test_connectingTectonSuccess() {
+        threadIsConnectingTectonSuccessInit();
+        mt1.isConnectingTecton(t2);
+    }
+
+    public static void test_lastSpore() {
+        mushroomBodyTestInit();
+        lastSporeBody.distributeSpores();
+    }
+
+    public static void test_threadDie() {
+        mushroomThreadTestInit();
+        dyingThread.onEndOfTheRound();
+    }
+
+    public static void test_threadDissolve() {
+        mushroomThreadTestInit();
+        dissolvingThread.onEndOfTheRound();
+    }
+
+    public static void test_threadEvolve() {
+        mushroomThreadTestInit();
+        evolvingThread.onEndOfTheRound();
+    }
+
+    public static void test_threadGrowth() {
+        mushroomThreadTestInit();
+        normalThread.onEndOfTheRound();
+    }
+
+    public static void test_normalBodyDistibuteSpores() {
+        mushroomBodyTestInit();
+        normalBody.distributeSpores();
+    }
+
+    public static void test_cutConncectionOneBody() {
+        cutConnectionOnyOneBodyInit();
+        mt2.cut();
+        mt1.isConnectedToBody();
+        mt2.isConnectedToBody();
+        mt3.isConnectedToBody();
+    }
+
+    public static void test_cutConnectionTwoBodies() {
+        cutConnectionWithTwoBodiesInit();
+        mt3.cut();
+        mt1.isConnectedToBody();
+        mt4.isConnectedToBody();
+    }
+
 }
