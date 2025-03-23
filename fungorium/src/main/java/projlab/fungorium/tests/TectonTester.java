@@ -181,7 +181,7 @@ public final class TectonTester {
     /**
      * InfertileTecton Grow Body Fail teszteset megvalósítása.
      */
-    public final void InfertileTectonGrowBodyFail() {
+    public static final void InfertileTectonGrowBodyFail() {
 
     }
 
