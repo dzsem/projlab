@@ -4,86 +4,120 @@ title Advanced Mushroom Body Distribute Spores
 
 actor "Tester" as tester
 
-participant "Logger" as logger
-
-participant "t1: Tecton" as t1
-participant "t2: Tecton" as t2
-participant "t3: Tecton" as t3
+participant "Skeleton" as skeleton
 
 participant "advancedBody: MushroomBody" as amb
 
+participant "t1: Tecton" as t1
+
 activate tester
 
-tester -> t1: getSporeCount()
+collections "tectonsToSpore: Tecton[0..*]" as tectons
+collections "neighbours: Tecton [0..*]"
+participant "t2: Tecton" as t2
+participant "t3: Tecton" as t3
+
+participant "s1: Spore" as s1
+participant "s2: Spore" as s2
+participant "s3: Spore" as s3
+
+tester -> skeleton: testAdvancedMushroomDistributeSpores()
+activate skeleton
+
+skeleton -> amb: distributeSpores() 
+activate amb
+
+' COPY BEGIN
+
+amb -> t1 : getNeighbours()
+
 activate t1
-t1 --> tester: 0
+t1 --> amb : neighbours: Tecton[0..*]
+note right: neighbours == {t2} 
 deactivate t1
 
-tester -> logger: print(0, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
+amb --> tectons: Instantiate
+note right: belso lista
+activate tectons
+deactivate tectons
 
-tester -> t2: getSporeCount()
+amb -> tectons: add(advancedMushroomBody.tecton) 
+note right: itt advancedMushroomBody.tecton == t1
+activate tectons
+tectons --> amb
+deactivate tectons
+
+amb -> tectons: addAll(neighbours);
+activate tectons
+tectons --> amb
+deactivate tectons
+
+    ' Could not use
+    ' opt body.age >= advancedAge
+    '     loop for each neighbour in neighbours
+    '         opt !tectonsToSpore.contains(neighbour)
+    '             body -> tectons: tectonsToSpore.add(neighbourOfNeighbour)
+    '             activate tectons
+    '             tectons --> body
+    '             deactivate tectons
+    '         end
+    '     end
+    ' end
+
+amb -> tectons: add(t3)
+activate tectons
+tectons --> amb
+deactivate tectons
+
+    ' Could not use
+    ' loop for each tectonToSpore in tectonsToSpore
+    ' amb -> tectons : addSpore(spore: Spore)
+    ' activate tectons
+    ' tectons --> amb 
+    ' deactivate tectons
+    ' end
+
+amb --> s1: Instantiate
+activate s1
+deactivate s1
+
+amb --> t1: addSpore(s1: Spore)
+activate t1
+t1 --> amb
+deactivate t1
+
+amb --> s2: Instantiate
+activate s2
+deactivate s2
+
+amb --> t2: addSpore(s2: Spore)
 activate t2
-t2 --> tester: 0
+t2 --> amb
 deactivate t2
 
-tester -> logger: print(0, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
+amb --> s3: Instantiate
+activate s3
+deactivate s3
 
-tester -> t3: getSporeCount()
+amb --> t3: addSpore(s3: Spore)
 activate t3
-t3 --> tester: 0
+t3 --> amb
 deactivate t3
 
-tester -> logger: print(0, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
 
-tester -> amb: distributeSpores() 
-activate amb
-amb --> tester
+    ' Not part of the test-case
+    ' opt body.remainingSpore == 0
+    '     body -> tecton : removeBody(body)
+    '     activate tecton
+    '     tecton --> body
+    '     deactivate tecton
+    ' end
+' COPY END
+
+amb --> skeleton
 deactivate amb
 
-tester -> logger: print("void", "distributeSpores")
-activate logger
-logger --> tester
-deactivate logger
+skeleton --> tester
+deactivate skeleton
 
-tester -> t1: getSporeCount()
-activate t1
-t1 --> tester: 1
-deactivate t1
-
-tester -> logger: print(1, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> t2: getSporeCount()
-activate t2
-t2 --> tester: 1
-deactivate t2
-
-tester -> logger: print(1, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> t3: getSporeCount()
-activate t3
-t3 --> tester: 1
-deactivate t3
-
-tester -> logger: print(1, "getSporeCount")
-activate logger
-logger --> tester
-deactivate logger
-
-
-deactivate tester
 @enduml

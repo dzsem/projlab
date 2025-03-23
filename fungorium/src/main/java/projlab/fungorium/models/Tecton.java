@@ -231,10 +231,15 @@ public class Tecton implements TurnAware {
         return false;
     }
 
-    /**
-     * Eltávolítja a Tectonon növő MushroomBodyt.
-     */
-    public final void removeBody() {
+    public MushroomBody getBody() throws Exception {
+        if (mushroomBody == null) {
+            throw new Exception("Tecton does not hav a MushroomBody");
+        }
+        return mushroomBody;
+    }
+
+    // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
+    final public void removeBody() {
         mushroomBody = null;
     }
 
@@ -293,7 +298,9 @@ public class Tecton implements TurnAware {
         splitChance = p;
     }
 
-
+    public List<Tecton> getNeighbours() {
+        return neighbours;
+    }
 
     // -------------------------------------
     // Interface implementációk
