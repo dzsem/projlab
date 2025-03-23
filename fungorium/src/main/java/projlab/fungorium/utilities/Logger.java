@@ -1,5 +1,7 @@
 package projlab.fungorium.utilities;
 
+import projlab.fungorium.interfaces.PrintableState;
+
 public class Logger {
     private Logger() {}
 
@@ -16,5 +18,9 @@ public class Logger {
         }
         
         System.out.println( ") = " + returnValue);
+    }
+
+    public static void printState(PrintableState ps) {
+        System.out.println(ps.getStateString());
     }
 }
