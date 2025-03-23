@@ -13,5 +13,8 @@ public class BlockEffect implements Effect, PrintableState {
         insect.setCanCut(false);
     }
 
-
+    @Override
+    public String getStateString() {
+        return "This is a block spore";
+    }
 }

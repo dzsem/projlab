@@ -3,11 +3,15 @@
 title slowEffect test
 
 
-actor Tester as tester
+Actor Tester as test
+participant "Skeleton" as tester
 
-participant "Logger" as logger
 participant "slowEffect: SlowEffect" as slow
 participant "i: Insect" as insect
+
+activate test
+test -> tester: testBlockEffect()
+
 
 activate tester
 
@@ -17,13 +21,7 @@ activate slow
 slow --> tester
 deactivate slow
 
-tester -> logger: log("slow effect test, slowEffect, i")
-note right: Az effektet a kontroller kezeli, az insect elvesztette az összes lépését
-activate logger
 
-logger--> tester
-deactivate logger
-
+test<-- tester
 deactivate tester
-
 @enduml

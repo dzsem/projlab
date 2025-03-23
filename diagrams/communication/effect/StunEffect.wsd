@@ -1,0 +1,38 @@
+@startuml Effects Init
+
+title BlockEffects 
+
+actor "Tester" as tester
+participant "stunEffect: StunEffect" as stun
+participant "t: Tecton" as t
+participant "i: Insect" as i
+
+activate tester
+
+	tester -> t: Initialize()
+	activate t
+	t --> tester
+	deactivate t
+
+	tester -> i: Initialize(t)
+	activate i
+
+		i-> t: registerInsect(i)
+		activate t
+		t --> i
+		deactivate t
+
+	tester <-- i
+	deactivate i
+
+	tester -> stun: Initialize()
+	activate stun
+	stun --> tester
+
+	tester->stun: applyEffect(i)
+	stun-->tester
+	deactivate stun
+
+deactivate tester
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml Effects Init
+
+title SlowEffect 
+
+actor "Tester" as tester
+participant "slowEffect: SlowEffect" as slow
+participant "t: Tecton" as t
+participant "i: Insect" as i
+
+activate tester
+
+	tester -> t: Initialize()
+	activate t
+	t --> tester
+	deactivate t
+
+	tester -> i: Initialize(t)
+	activate i
+
+		i-> t: registerInsect(i)
+		activate t
+		t --> i
+		deactivate t
+
+	tester <-- i
+	deactivate i
+
+	tester -> slow: Initialize()
+	activate slow
+	slow --> tester
+
+	tester->slow: applyEffect(i)
+	slow-->tester
+	deactivate slow
+
+deactivate tester
+
+@enduml
