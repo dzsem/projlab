@@ -178,7 +178,7 @@ public class Insect implements TurnAware, PrintableState {
 			resultBuilder.append(", !canCut");
 		}
 
-		if (counter != 0) {
+		if (isCounterSet()) {
 			resultBuilder.append(", counter=").append(counter);
 		}
 
@@ -218,6 +218,24 @@ public class Insect implements TurnAware, PrintableState {
 	 */
 	public Tecton getTecton() {
 		return tecton;
+	}
+
+	public boolean getCanMove() {
+		return canMove;
+	}
+
+	public boolean getCanCut() {
+		return canCut;
+	}
+
+	/**
+	 * Visszatér arra, hogy a counter változó nem 0 értékre van-e állítva, azaz
+	 * éppen számol-e vissza a rovar.
+	 * 
+	 * @return
+	 */
+	public boolean isCounterSet() {
+		return counter != 0;
 	}
 
 	private static final int COUNTER_DEFAULT_VALUE = 3;
