@@ -7,7 +7,13 @@ import projlab.fungorium.interfaces.TurnAware;
 
 import java.util.ArrayList;
 
+/**
+ * A Tecton modellje.
+ */
 public class Tecton implements TurnAware {
+    /**
+     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     */
     public Tecton() {
         this.mushroomBody = null;
         this.mushroomThreads = new ArrayList<>();
@@ -16,26 +22,78 @@ public class Tecton implements TurnAware {
         this.neighbours = new ArrayList<>();
     }
 
+    /**
+     * Létrehoz egy új Tectont, és beregisztárlja a megadott Tectonokat szomszédnak.
+     * @param neighbours A Tectonok, amiket szomszédként beregisztrál.
+    */
     public Tecton(List<Tecton> neighbours) {
         this.mushroomBody = null;
         this.mushroomThreads = new ArrayList<>();
         this.mushroomSpores = new ArrayList<>();
         this.insects = new ArrayList<>();
-        this.neighbours = new ArrayList<Tecton>(neighbours);
+
+        for (Tecton tecton : neighbours) {
+            registerNeighbour(tecton);
+        }
     }
 
     // -------------------------------------
     // Tecton stuff
 
-    final public void split() {
+    /**
+     * Tekton szakadás. Létrehoz egy új Tectont, aminek beregisztálja magát és az összes szomszédját szomszédnak. Elszakítja a Tectonon lévő összes fonalat.
+     */
+    public final void split() {
         List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
         newNeighbours.addAll(neighbours);
         Tecton newTect = new Tecton(newNeighbours);
-        neighbours.add(newTect);
+        registerNeighbour(newTect);
+
+        for (MushroomThread mushroomThread : mushroomThreads) {
+            mushroomThread.cut();
+        }
     }
 
-    final public boolean isNeighbour(Tecton t) {
+    /**
+     * Ellenőrzi, hogy a megadott Tecton szomszédos-e ezzel a Tectonnal.
+     * 
+     * @param t Tekton, amit ellenőriz
+     * @return True, ha szomszédosak
+     */
+    public final boolean isNeighbour(Tecton t) {
         return neighbours.contains(t);
+    }
+
+    /**
+     * Hozzáadja a megadott Tectont ennek a Tectonnak a szomszédjai közé, aztán ezt a Tectont is hozzáadja a megadott Tecton szomszédjai közé.
+     * 
+     * @param t A másik tekton
+     */
+    public final void registerNeighbour(Tecton t) {
+        neighbours.add(t);
+
+        // Feltétel, hogy ne legyen végtelen rekurzió
+        if (t.isNeighbour(this)) {
+            return;
+        }
+
+        t.registerNeighbour(this);
+    }
+
+    /**
+     * Eltávolítja a megadott Tectont ennek a Tectonnak a szomszédjai közül, aztán ezt a Tectont is eltávolítja a megadott Tecton szomszédjai közül.
+     * 
+     * @param t A másik tekton
+     */
+    public final void unregisterNeighbour(Tecton t) {
+        neighbours.remove(t);
+
+        // Feltétel, hogy ne legyen végtelen rekurzió
+        if (!t.isNeighbour(this)) {
+            return;
+        }
+
+        t.unregisterNeighbour(this);
     }
 
 
@@ -43,7 +101,13 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomThread stuff
 
-    final public boolean verifyConnection(Tecton t) {
+    /**
+     * Ellenőrzi, hogy van-e fonállal összeköttetése a másik Tectonhoz.
+     * 
+     * @param t A másik Tecton
+     * @return True, ha össze vannak kötve.
+     */
+    public final boolean verifyConnection(Tecton t) {
         if (!isNeighbour(t)) {
             return false;
         }
@@ -66,7 +130,12 @@ public class Tecton implements TurnAware {
         }
     }
 
-    final public void removeConnection(MushroomThread mt) {
+    /**
+     * Eltávolítja a megadott MushroomThreadet a Tecton fonalai közül.
+     * 
+     * @param mt
+     */
+    public final void removeConnection(MushroomThread mt) {
         mushroomThreads.remove(mt);
     }
 
@@ -75,11 +144,21 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // Insect stuff
 
-    final public void registerInsect(Insect i) {
+    /**
+     * Hozzáadja a megadott Insectet a Tectonon álló rovarokhoz.
+     * 
+     * @param i A megadott Insect
+     */
+    public final void registerInsect(Insect i) {
         insects.add(i);
     }
 
-    final public void unregisterInsect(Insect i) {
+    /**
+     * Eltávolítja a megadott Insectet a Tectonon álló rovarokból.
+     * 
+     * @param i A megadott Insect
+     */
+    public final void unregisterInsect(Insect i) {
         insects.remove(i);
     }
 
@@ -88,20 +167,40 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomSpore stuff
 
-    final public void addSpore(MushroomSpore ms) {
+    /**
+     * Hozzáadja a megadott MushroomSporet a Tecton spóráihoz.
+     * 
+     * @param ms A megadott MushroomSpore
+     */
+    public final void addSpore(MushroomSpore ms) {
         mushroomSpores.add(ms);
     }
 
-    final public void removeSpore(MushroomSpore ms) {
+    /**
+     * Eltávolítja a megadott MushroomSporet a Tecton spóráiból.
+     * 
+     * @param ms A megadott MushroomSpore
+     */
+    public final void removeSpore(MushroomSpore ms) {
         mushroomSpores.remove(ms);
     }
 
-    final public MushroomSpore getRandomSpore() {
+    /**
+     * Visszaad egy random MushroomSporet a Tecton spóráiból.
+     * 
+     * @return Egy random MushroomSpore a Tectonról.
+     */
+    public final MushroomSpore getRandomSpore() {
         Random r = new Random();
         return mushroomSpores.get(r.nextInt(mushroomSpores.size()));
     }
 
-    final public int getSporeCount() {
+    /**
+     * Visszaadja, hogy a Tectonon mennyi spóra van.
+     * 
+     * @return A spórák száma
+     */
+    public final int getSporeCount() {
         return mushroomSpores.size();
     }
 
@@ -110,10 +209,16 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // MushroomBody stuff
 
-    final public boolean hasThreadFrom(MushroomBody mb) {
+    /**
+     * Megvizsgálja, hogy az adott MushroomBodytól nő-e MushroomThread a Tectonon.
+     * 
+     * @param mb Az adott MushroomBody
+     * @return True, ha nő rajta fonal a gombatesstől
+     */
+    public final boolean hasThreadFrom(MushroomBody mb) {
         for (MushroomThread mushroomThread : mushroomThreads) {
-            for (MushroomBody mushroomBody : mushroomThread.getConnectedBodies()) {
-                if (mushroomBody.equals(mb)) {
+            for (MushroomBody mbIt : mushroomThread.getConnectedBodies()) {
+                if (mbIt.equals(mb)) {
                     return true;
                 }
             }
@@ -134,27 +239,43 @@ public class Tecton implements TurnAware {
         mushroomBody = null;
     }
 
+    /**
+     * Beállítja a megadott MushroomBodyt a Tectonon növő gombatestnek.
+     * 
+     * @param mb A megadott MushroomBody
+     * @throws Exception Ha a Tectonon már nő egy gombatest, vagy ha a Tectonon nincs legalább 3 MushroomSpore, vagy ha a Tectonon nem nő még MushroomThread mb-től.
+     */
     public void setBody(MushroomBody mb) throws Exception {
         if (mushroomBody != null) {
-            throw new RuntimeException("Tecton already has a body.");
+            throw new Exception("Tecton already has a body.");
         }
 
         if (getSporeCount() < 3) {
-            throw new RuntimeException("Tecton needs at least 3 MushroomSpores to grow a body.");
+            throw new Exception("Tecton needs at least 3 MushroomSpores to grow a body.");
         }
 
         if (!hasThreadFrom(mb)) {
-            throw new RuntimeException("Tecton needs a MushroomThread from the MushroomBody before growing it.");
+            throw new Exception("Tecton needs a MushroomThread from the MushroomBody before growing it.");
         }
 
         mushroomBody = mb;
     }
 
-    final public boolean hasBody() {
+    /**
+     * Ellenőrzi, hogy nő-e MushroomBody a Tectonon.
+     * 
+     * @return True, ha nő.
+     */
+    public final boolean hasBody() {
         return mushroomBody != null;
     }
 
     // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami rajta van
+    /**
+     * Nem csinál semmit, mivel ezt csak a ThreadKillingTecton tudja végrehajtani.
+     * 
+     * @throws Exception Mindig.
+     */
     public void killThreads() throws Exception {
         throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
     }
@@ -164,7 +285,12 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // Egyéb
 
-    public void setSplitChance(double p) {
+    /**
+     * Beállítja a Tectonok szakadási esélyét a megadott értékre.
+     * 
+     * @param p A szakadási esély, egy 0.0 és 1.0 közti double.
+     */
+    public static void setSplitChance(double p) {
         splitChance = p;
     }
 
@@ -175,6 +301,9 @@ public class Tecton implements TurnAware {
     // -------------------------------------
     // Interface implementációk
 
+    /**
+     * Minden kör végén a Tecton splitChance eséllyel kettészakad.
+     */
     @Override
     public void onEndOfTheRound() {
         Random r = new Random();
@@ -189,5 +318,5 @@ public class Tecton implements TurnAware {
     private List<MushroomSpore> mushroomSpores;
     private List<Insect> insects;
     private List<Tecton> neighbours;
-    private static double splitChance = 0.3f;
+    protected static double splitChance = 0.1f;
 }

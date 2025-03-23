@@ -3,43 +3,48 @@
 title Mushroom Thread Die
 
 actor "Tester" as tester
+participant "Skeleton" as skeleton
+
 participant "dyingThread: MushroomThread" as dymt
 participant "t2: Tecton" as t2
-participant "Logger" as logger
 
+activate tester 
 
-activate tester
+tester -> skeleton: test_threadDie()
+activate skeleton
 
-tester -> t2: hasThreadFromMushroom(dyingThread)
-activate t2
-t2 --> tester: true
-deactivate t2
-
-tester -> logger: print(true, hasThreadFromMushroom)
-activate logger
-logger --> tester
-deactivate logger
-
-tester -> dymt: onEndOfTheRound() 
+skeleton -> dymt: onEndOfTheRound()
 activate dymt
-dymt --> tester
+
+dymt -> dymt: isConnectedToBody()
+activate dymt
+note right: lásd: MushroomThread.isConnectedToBody() sd 
+dymt --> dymt: false
 deactivate dymt
 
-tester -> logger: print("void", onEndOfTheRound)
-activate logger
-logger --> tester
-deactivate logger
 
-tester -> t2: hasThreadFromMushroom(dyingThread)
+dymt -> dymt: turnsToDie--
+activate dymt
+dymt --> dymt
+deactivate dymt
+
+dymt -> dymt: dieIfUnconnected()
+activate dymt
+
+dymt -> t2: removeConnection(dyingThread)
 activate t2
-t2 --> tester: false
+t2 --> dymt
 deactivate t2
 
-tester -> logger: print(false, hasThreadFromMushroom)
-activate logger
-logger --> tester
-deactivate logger
+dymt --> dymt
+deactivate dymt
+note right: Ha lenne fonál, a connectedThreads listájában,\n akkor azokon végig futna és meghívá rajtuk a\n "removeConnection(dyingThread)"-et
 
-deactivate tester
+dymt --> skeleton
+deactivate dymt
+
+skeleton --> tester
+deactivate skeleton
+
 
 @enduml
