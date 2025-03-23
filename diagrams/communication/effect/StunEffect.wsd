@@ -1,53 +1,38 @@
 @startuml Effects Init
 
-title StunEffects 
+title BlockEffects 
 
-actor "Tester" as test
-
-participant "Skeleton" as tester
-activate test
-test ->tester:testEffect3()
-
-participant "stunEffect: StunEffect" as speed
-
-
+actor "Tester" as tester
+participant "stunEffect: StunEffect" as stun
 participant "t: Tecton" as t
-
-participant "i1: Insect" as i
-
+participant "i: Insect" as i
 
 activate tester
 
-tester -> t: Initialize()
-activate t
-t --> tester
-deactivate t
+	tester -> t: Initialize()
+	activate t
+	t --> tester
+	deactivate t
 
-tester -> i: Initialize(t)
-activate i
-i-> t: registerInsect(i)
-activate t
-t --> i
-deactivate t
-i --> tester
-deactivate i
+	tester -> i: Initialize(t)
+	activate i
 
+		i-> t: registerInsect(i)
+		activate t
+		t --> i
+		deactivate t
 
+	tester <-- i
+	deactivate i
 
+	tester -> stun: Initialize()
+	activate stun
+	stun --> tester
 
-
-
-tester -> speed: Initialize()
-activate speed
-speed --> tester
-
-tester->speed: applyEffect(i)
-speed-->tester
-deactivate speed
-
-test <-- tester
+	tester->stun: applyEffect(i)
+	stun-->tester
+	deactivate stun
 
 deactivate tester
-
 
 @enduml

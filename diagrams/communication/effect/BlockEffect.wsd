@@ -1,53 +1,38 @@
 @startuml Effects Init
 
-title BlockEffects 
+title BlockEffect
 
-actor "Tester" as test
-
-participant "Skeleton" as tester
-activate test
-test ->tester:testEffect2()
-
-participant "blockEffect: BlockEffect" as speed
-
-
+actor "Tester" as tester
+participant "blockEffect: BlockEffect" as block
 participant "t: Tecton" as t
-
 participant "i: Insect" as i
-
 
 activate tester
 
-tester -> t: Initialize()
-activate t
-t --> tester
-deactivate t
+	tester -> t: Initialize()
+	activate t
+	t --> tester
+	deactivate t
 
-tester -> i: Initialize(t)
-activate i
-i-> t: registerInsect(i)
-activate t
-t --> i
-deactivate t
-i--> tester
-deactivate i
+	tester -> i: Initialize(t)
+	activate i
 
+		i-> t: registerInsect(i)
+		activate t
+		t --> i
+		deactivate t
 
+	tester <-- i
+	deactivate i
 
+	tester -> block: Initialize()
+	activate block
+	block --> tester
 
+	tester->block: applyEffect(i)
+	block-->tester
+	deactivate block
 
-
-tester -> speed: Initialize()
-activate speed
-speed --> tester
-
-tester->speed: applyEffect(i)
-speed-->tester
-deactivate speed
-
-test <-- tester
 deactivate tester
-
-
 
 @enduml
