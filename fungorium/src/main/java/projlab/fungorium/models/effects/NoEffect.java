@@ -3,7 +3,6 @@ package projlab.fungorium.models.effects;
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.Insect;
 
-import java.awt.print.Printable;
 
 public class NoEffect implements Effect, PrintableState {
     /**

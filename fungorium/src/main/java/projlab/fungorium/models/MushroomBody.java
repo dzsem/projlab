@@ -36,11 +36,7 @@ public class MushroomBody implements TurnAware, PrintableState {
         this.age = 0;
         this.remainingSpores = MAX_SPORES;
 
-        try {
-            tecton.setBody(this);
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
-        }
+        tecton.setBody(this);
     }
 
     /**

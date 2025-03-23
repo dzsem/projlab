@@ -1,9 +1,7 @@
 package projlab.fungorium.tests;
 
-import javax.sql.rowset.spi.SyncProviderException;
 
 import projlab.fungorium.models.MushroomBody;
-import projlab.fungorium.models.MushroomSpore;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.MushroomBody.Advancement;
@@ -35,8 +33,6 @@ public class MushroomTester {
         t2.registerNeighbour(t3);
         
         t3.registerNeighbour(t2);
-        
-
 
 
         // Első gomba fonal létrehozása
@@ -50,10 +46,6 @@ public class MushroomTester {
             Logger.printError(e.getMessage());
         }
 
-        new MushroomSpore(t3);
-        new MushroomSpore(t3);
-        new MushroomSpore(t3);
-        
         // Gombatest elhelyezése
         mb = new MushroomBody(t3, MUSHROOM_ID);
     }
@@ -86,15 +78,6 @@ public class MushroomTester {
         t5.registerNeighbour(t4);
 
         // Gombatestek felhelyezése
-        new MushroomSpore(t5);
-        new MushroomSpore(t5);
-        new MushroomSpore(t5);
-
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-
-
         mb1 = new MushroomBody(t5, MUSHROOM_ID);
         mb2 = new MushroomBody(t1, MUSHROOM_ID);
 
@@ -134,19 +117,6 @@ public class MushroomTester {
 
         t3.registerNeighbour(t2);
 
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-        
-        new MushroomSpore(t2);
-        new MushroomSpore(t2);
-        new MushroomSpore(t2);
-
-        new MushroomSpore(t3);
-        new MushroomSpore(t3);
-        new MushroomSpore(t3);
-
-
         // Gombatestek felhelyezése
         advancedBody = new MushroomBody(t1, MUSHROOM_ID);
         advancedBody.setAdvancement(Advancement.ADVANCED);
@@ -172,11 +142,6 @@ public class MushroomTester {
         t2 = new Tecton();
 
         // Gombatest inicializálása
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-        new MushroomSpore(t1);
-
-
         mb = new MushroomBody(t1, MUSHROOM_ID);
 
         // Gombafonalak inicializálása
