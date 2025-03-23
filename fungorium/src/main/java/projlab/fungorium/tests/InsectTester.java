@@ -1,6 +1,7 @@
 package projlab.fungorium.tests;
 
 import projlab.fungorium.models.*;
+import projlab.fungorium.models.effects.StunEffect;
 import projlab.fungorium.utilities.Logger;
 
 /**
@@ -97,6 +98,27 @@ public class InsectTester {
 		}
 	}
 
+	private static void initMoveToTectonStun() {
+		initClearVariables();
+
+		t1 = new Tecton();
+		t2 = new Tecton();
+
+		insect = new Insect(t1);
+
+		mt1 = new MushroomThread(t1);
+
+		try {
+			mt2 = mt1.createConnection(t2);
+		} catch (Exception exc) {
+			Logger.printError("Caught exception in initialization: " + exc.getMessage());
+		}
+
+		StunEffect stunEffect = new StunEffect();
+
+		stunEffect.applyEffect(insect);
+	}
+
 	/**
 	 * Az "EatMushroomSpore success" teszt szekvenciadiagramot megvalósító függvény.
 	 * <p>
@@ -148,9 +170,66 @@ public class InsectTester {
 
 		try {
 			insect.moveToTecton(t3);
+
+			if (!insect.getTecton().equals(t3)) {
+				Logger.printError("Insect.tecton didn't change after moveToTecton.");
+			}
 		} catch (Exception exc) {
 			Logger.printError("MoveToTecton threw, but it shouldn't have.");
 			Logger.printError("Exception: " + exc.getMessage());
+		}
+	}
+
+	public static void testMoveToTecton2() {
+		initMoveToTecton();
+
+		boolean moveToTectonThrew = false;
+
+		try {
+			insect.moveToTecton(t4);
+		} catch (Exception exc) {
+			moveToTectonThrew = true;
+		}
+
+		if (!moveToTectonThrew) {
+			Logger.printError("MoveToTecton didn't throw, as it was supposed to. " +
+					"Target tecton was not a neighbour.");
+		}
+	}
+
+	public static void testMoveToTecton3() {
+		initMoveToTecton();
+
+		boolean moveToTectonThrew = false;
+
+		try {
+			insect.moveToTecton(t2);
+		} catch (Exception exc) {
+			moveToTectonThrew = true;
+		}
+
+		if (!moveToTectonThrew) {
+			Logger.printError(
+					"MoveToTecton didn't throw, as it was supposed to. " +
+							"Target tecton was neighboring, but unconnected.");
+		}
+	}
+
+	public static void testMoveToTecton4() {
+		initMoveToTectonStun();
+
+		boolean moveToTectonThrew = false;
+
+		try {
+			insect.moveToTecton(t2);
+		} catch (Exception exc) {
+			moveToTectonThrew = true;
+		}
+
+		if (!moveToTectonThrew) {
+			Logger.printError(
+					"MoveToTecton didn't throw, as it was supposed to. " +
+							"Target was valid, but insect was stunned.");
 		}
 	}
 }
