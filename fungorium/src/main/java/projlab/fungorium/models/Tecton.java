@@ -217,6 +217,7 @@ public class Tecton implements TurnAware, PrintableState {
      * @param mb Az adott MushroomBody
      * @return True, ha nő rajta fonal a gombatesstől
      */
+    // TODO: mushroom id-kra újraírni
     public final boolean hasThreadFrom(MushroomBody mb) {
         for (MushroomThread mushroomThread : mushroomThreads) {
             for (MushroomBody mbIt : mushroomThread.getConnectedBodies()) {
@@ -365,7 +366,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No neighbors present.\n");
         } else {
             for (Tecton neighbour : neighbours) {
-                stateString.append("  - ").append(neighbour.getStateString()).append("\n");
+                stateString.append("  - ").append(neighbour.toString()).append("\n");
             }
         }
 
