@@ -49,13 +49,14 @@ public class MushroomBody implements TurnAware {
 
         remainingSpores--; // Spóra mennyiség cskkentés
 
-        if (remainingSpores == 0) { // Vizsgálja, hogy 
-            tecton.removeBody();
+        if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a tektonról
+            tecton.removeBody(); 
         }
     }
 
     /**
-     * 
+     * Körök végén kell meghívni.
+     * Növeli a gomba test korát, ha a test még nem érte el az advanced szintet
      */
     public void onEndOfTheRound() {
         if (advancement == Advancement.NORMAL) {

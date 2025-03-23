@@ -29,7 +29,7 @@ public class MushroomThread implements TurnAware {
     private GrowState growState;
     private CutState cutState;
 
-    public MushroomThread(Tecton from, Tecton to) {
+    public MushroomThread(Tecton tecton) {
     } 
 
     /**
@@ -152,14 +152,14 @@ public class MushroomThread implements TurnAware {
      * Csökkenti a turnsToDie értékét eggyel
      */
     public void decreaseTurnsToDie() {
-
+        turnsToDie--;
     }
     
     /**
      * Visszaállítja a turns to die értékét az alapértelmezettre
      */
     public void resetTurnsToDie() {
-
+        turnsToGrow--;
     }
 
     
@@ -191,7 +191,7 @@ public class MushroomThread implements TurnAware {
      */
     public void createConnection(Tecton to) {
         if (to.isNeighbour(tecton)) {
-            MushroomThread newThread = new MushroomThread(tecton, to);
+            MushroomThread newThread = new MushroomThread(to);
             newThread.addConnection(this);
             addConnection(newThread);
         }
@@ -244,12 +244,12 @@ public class MushroomThread implements TurnAware {
     @Override
     public void onEndOfTheRound() {
         if (!isConnectedToBody()) {
-            turnsToDie--;
+            decreaseTurnsToDie();
             dieIfUnconnected();
         } else {
             if (growState == GrowState.SPROUT)
             {
-                turnsToGrow--;
+                grow();
                 if (turnsToGrow == 0) {
                     growState = GrowState.GROWN;
                 }
