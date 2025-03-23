@@ -1,5 +1,6 @@
 package projlab.fungorium.models;
 
+import java.beans.DefaultPersistenceDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,15 @@ public class MushroomThread implements TurnAware {
     private CutState cutState;
 
     public MushroomThread(Tecton tecton) {
+        this.tecton = tecton;
+        this.cutState = CutState.UNCUT;
+        this.growState = GrowState.SPROUT;
+        this.turnsToDie = DEFAULT_TURNS_TO_DIE;
+        this.turnsToGrow = DEFAULT_TURNS_TO_GROW;
+
+        connectedThreads = new ArrayList<>();
+
+        tecton.addConnection(this);
     } 
 
     /**
