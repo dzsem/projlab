@@ -3,10 +3,11 @@ package projlab.fungorium.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread implements TurnAware {
+public class MushroomThread implements TurnAware, PrintableState {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -42,7 +43,11 @@ public class MushroomThread implements TurnAware {
 
         connectedThreads = new ArrayList<>();
 
-        tecton.addConnection(this);
+        try {
+            tecton.addConnection(this);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
     } 
 
     /**
@@ -300,6 +305,23 @@ public class MushroomThread implements TurnAware {
      */
     public void setGrowState(GrowState growState) {
         this.growState = growState;
+    }
+
+
+    /**
+     * Létrehozza a MushroomThread-hez tartozó state stringet 
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder stateString = new StringBuilder();
+
+        stateString.append("Turns to die: ").append(turnsToDie).append("\n");
+        stateString.append("Turns to grow: ").append(turnsToGrow).append("\n");
+        stateString.append("Number of connected threads: ").append(connectedThreads.size()).append("\n");
+        stateString.append("Grow state ").append(growState.toString()).append("\n");
+        stateString.append("Cut state ").append(cutState.toString()).append("\n");
+
+        return stateString.toString();
     }
 
 }

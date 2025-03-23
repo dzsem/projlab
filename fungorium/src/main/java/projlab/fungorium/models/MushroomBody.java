@@ -3,10 +3,11 @@ package projlab.fungorium.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomBody implements TurnAware {
+public class MushroomBody implements TurnAware, PrintableState {
     public enum Advancement {
         NORMAL,
         ADVANCED
@@ -102,6 +103,20 @@ public class MushroomBody implements TurnAware {
      */
     public void setSporesRemaining(int remainingSpores) {
         this.remainingSpores = remainingSpores;
+    }
+
+    /**
+     * Létrehozza a MushroomBody-hoz tartozó state string-et
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder stateString = new StringBuilder();
+
+        stateString.append("Remaining Spores: ").append(remainingSpores).append("\n");
+        stateString.append("Age: ").append(age).append("\n");
+        stateString.append("Advancament Level: ").append(advancement.toString()).append("\n");
+
+        return stateString.toString();
     }
 
 }
