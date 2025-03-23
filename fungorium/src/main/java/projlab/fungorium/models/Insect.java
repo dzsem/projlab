@@ -104,14 +104,13 @@ public class Insect implements TurnAware {
 	/**
 	 * A rovar megeszi a vele azonos tektonon lévő egyik spórát.
 	 *
-	 * @throws RuntimeException amennyiben nincs spóra a tektonon, a
-	 *                          getRandomSpore() kivétele feljebb halad.
+	 * @throws Exception amennyiben nincs spóra a tektonon, a
+	 *                   getRandomSpore() kivétele feljebb halad.
 	 */
 	public void eatMushroomSpore() throws Exception {
 		MushroomSpore spore = tecton.getRandomSpore();
 
-		// TODO: spóra interfész
-		// spore.applyEffect(this);
+		spore.applyEffect(this);
 	}
 
 	/**
