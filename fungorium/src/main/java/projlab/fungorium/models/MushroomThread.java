@@ -30,6 +30,10 @@ public class MushroomThread implements TurnAware {
     private GrowState growState;
     private CutState cutState;
 
+    /**
+     * Beállítja az attribútumait az alapértelmezett értékekre és hozzáadja magát a tekton listájához.
+     * @param tecton
+     */
     public MushroomThread(Tecton tecton) {
         this.tecton = tecton;
         this.cutState = CutState.UNCUT;
