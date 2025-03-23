@@ -32,8 +32,12 @@ public final class TectonTester {
         MushroomSpore ms2 = new MushroomSpore(t);
         MushroomSpore ms3 = new MushroomSpore(t);
 
+        Logger.printState(t);
+
         // test
         MushroomBody mb = new MushroomBody(t);
+
+        Logger.printState(t);
     }
 
     /**
@@ -48,12 +52,20 @@ public final class TectonTester {
         MushroomThread mt1 = new MushroomThread(t1);
         MushroomThread mt2 = new MushroomThread(t2);
 
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
         // test
         try {
             mt1.createConnection(t2);
         } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
@@ -67,12 +79,20 @@ public final class TectonTester {
         MushroomThread mt1 = new MushroomThread(t1);
         MushroomThread mt2 = new MushroomThread(t2);
 
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
+
         // test
         try {
             mt1.createConnection(t3);
         } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+        Logger.printState(t3);
     }
 
     /**
@@ -87,8 +107,12 @@ public final class TectonTester {
         MushroomSpore ms3 = new MushroomSpore(t1);
         MushroomBody mb1 = new MushroomBody(t1);
 
+        Logger.printState(t1);
+
         // test
         MushroomBody mb2 = new MushroomBody(t1);
+
+        Logger.printState(t1);
     }
 
     /**
@@ -104,8 +128,14 @@ public final class TectonTester {
         MushroomSpore ms2 = new MushroomSpore(t2);
         MushroomSpore ms3 = new MushroomSpore(t2);
 
+        Logger.printState(t1);
+        Logger.printState(t2);
+
         // test
         MushroomBody mb = new MushroomBody(t1);
+
+        Logger.printState(t1);
+        Logger.printState(t2);
     }
 
     /**
@@ -121,8 +151,14 @@ public final class TectonTester {
         MushroomSpore ms2 = new MushroomSpore(t1);
         MushroomSpore ms3 = new MushroomSpore(t1);
 
+        Logger.printState(t1);
+        Logger.printState(t2);
+
         // test
         MushroomBody mb = new MushroomBody(t1);
+
+        Logger.printState(t1);
+        Logger.printState(t2);
     }
 
     /**
@@ -138,8 +174,14 @@ public final class TectonTester {
         MushroomSpore ms2 = new MushroomSpore(t2);
         MushroomSpore ms3 = new MushroomSpore(t2);
 
+        Logger.printState(t1);
+        Logger.printState(t2);
+
         // test
         MushroomBody mb = new MushroomBody(t2);
+
+        Logger.printState(t1);
+        Logger.printState(t2);
     }
 
     /**
@@ -178,6 +220,8 @@ public final class TectonTester {
         MushroomThread mt2 = new MushroomThread(t);
         MushroomBody mb = new MushroomBody(t);
 
+        Logger.printState(t);
+
         // test
         Logger.print("void", "Tecton::killThreads", "");
         try {
@@ -186,6 +230,8 @@ public final class TectonTester {
         catch (Exception e) {
             Logger.printError(e.getMessage());
         }
+
+        Logger.printState(t);
     }
 
     /**
@@ -198,14 +244,14 @@ public final class TectonTester {
         MushroomThread mt1 = new MushroomThread(t);
         MushroomThread mt2 = new MushroomThread(t);
         MushroomBody mb = new MushroomBody(t);
+        
+        Logger.printState(t);
 
         // test
-        
-
         Logger.print("void", "Tecton::split", "");
         t.split();
 
-
+        Logger.printState(t);
     }
 
     /**
@@ -216,8 +262,12 @@ public final class TectonTester {
         ThreadKillingTecton t = new ThreadKillingTecton();
         MushroomThread mt = new MushroomThread(t);
 
+        Logger.printState(t);
+
         // test
         Logger.print("void", "ThreadKillingTecton::killThreads", "");
         t.killThreads();
+
+        Logger.printState(t);
     }
 }
