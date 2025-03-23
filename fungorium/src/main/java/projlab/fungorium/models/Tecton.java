@@ -322,20 +322,20 @@ public class Tecton implements TurnAware, PrintableState {
     public String getStateString() {
         StringBuilder stateString = new StringBuilder();
 
-        // Body
+        // Gombatest
         if (mushroomBody != null) {
-            stateString.append("Mushroom Body: ").append(mushroomBody.toString()).append("\n");
+            stateString.append("Mushroom Body: ").append(mushroomBody.getStateString()).append("\n");
         } else {
             stateString.append("Mushroom Body: None\n");
         }
 
-        // Fonalak
+        // Gombafonalak
         stateString.append("Mushroom Threads:\n");
         if (mushroomThreads.isEmpty()) {
             stateString.append("  No threads present.\n");
         } else {
             for (MushroomThread thread : mushroomThreads) {
-                stateString.append("  - ").append(thread.toString()).append("\n");
+                stateString.append("  - ").append(thread.getStateString()).append("\n");
             }
         }
 
@@ -345,7 +345,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No spores present.\n");
         } else {
             for (MushroomSpore spore : mushroomSpores) {
-                stateString.append("  - ").append(spore.toString()).append("\n");
+                stateString.append("  - ").append(spore.getStateString()).append("\n");
             }
         }
 
@@ -355,7 +355,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No insects present.\n");
         } else {
             for (Insect insect : insects) {
-                stateString.append("  - ").append(insect.toString()).append("\n");
+                stateString.append("  - ").append(insect.getStateString()).append("\n");
             }
         }
 
@@ -365,7 +365,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No neighbors present.\n");
         } else {
             for (Tecton neighbour : neighbours) {
-                stateString.append("  - ").append(neighbour.toString()).append("\n");
+                stateString.append("  - ").append(neighbour.getStateString()).append("\n");
             }
         }
 
