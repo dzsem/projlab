@@ -13,10 +13,11 @@ import projlab.fungorium.utilities.Logger;
  * <li>{@link #testEatMushroomSpore1()}: EatMushroomSpore success</li>
  * <li>{@link #testEatMushroomSpore2()}: EatMushroomSpore fail (no spore on
  * tecton)</li>
- * <li>TODO: MoveToTecton success</li>
- * <li>TODO: MoveToTecton fail (non-neighboring tecton)</li>
- * <li>TODO: MoveToTecton fail (unconnected tecton)</li>
- * <li>TODO: MoveToTecton fail (while stunned)</li>
+ * <li>{@link #testMoveToTecton1()}: MoveToTecton success</li>
+ * <li>{@link #testMoveToTecton2()}: MoveToTecton fail (non-neighboring
+ * tecton)</li>
+ * <li>{@link #testMoveToTecton3()}: MoveToTecton fail (unconnected tecton)</li>
+ * <li>{@link #testMoveToTecton4()}: MoveToTecton fail (while stunned)</li>
  * </ul>
  */
 public class InsectTester {
@@ -34,6 +35,10 @@ public class InsectTester {
 	private static MushroomSpore spore;
 	private static Insect insect;
 
+	/**
+	 * Visszanulláz minden statikus változót, hogy egy teszt lefutása ne hathasson
+	 * ki egy másikéra.
+	 */
 	private static void initClearVariables() {
 		t1 = null;
 		t2 = null;
@@ -98,6 +103,9 @@ public class InsectTester {
 		}
 	}
 
+	/**
+	 * A MoveToTecton bénított tesztesetének inicializációja.
+	 */
 	private static void initMoveToTectonStun() {
 		initClearVariables();
 
@@ -125,6 +133,8 @@ public class InsectTester {
 	 * Itt a rovar a vele azonos tektonon lévő egyetlen spórát eszi meg. Az effekt
 	 * hatása nem számít, a lényeg, hogy az eatMushroomSpore függvény ne dobjon
 	 * kivételt, és ne legyen spóra a tektonon a művelet elvégézése után.
+	 * 
+	 * @see #initMushroomSporeSuccess()
 	 */
 	public static void testEatMushroomSpore1() {
 		initMushroomSporeSuccess();
@@ -148,6 +158,8 @@ public class InsectTester {
 	 * <p>
 	 * Itt a rovar megpróbál spórát enni a saját tektonjáról, azonban nincs.
 	 * Ilyenkor az eatMushroomSpore-nak kivételt kell dobnia.
+	 * 
+	 * @see #initMushroomSporeFail()
 	 */
 	public static void testEatMushroomSpore2() {
 		initMushroomSporeFail();
@@ -165,6 +177,14 @@ public class InsectTester {
 		}
 	}
 
+	/**
+	 * A "MoveToTecton Success" teszt szekvenciadiagramot megvalósító függvény.
+	 * <p>
+	 * Itt a rovar egy gombafonálon sikeresen átlép egy vele szomszédos tektonra,
+	 * amihez köti egy gombafonál. A rovar nincsen megbénítva.
+	 * 
+	 * @see #initMoveToTecton()
+	 */
 	public static void testMoveToTecton1() {
 		initMoveToTecton();
 
@@ -180,6 +200,16 @@ public class InsectTester {
 		}
 	}
 
+	/**
+	 * A "MoveToTecton fail (non-neighboring tecton)" teszt szekvenciadiagramot
+	 * megvalósító függvény.
+	 * <p>
+	 * A rovar megpróbál átlépni egy másik tektonra, ahová egyébként vezet
+	 * gombafonál, de a rovar tektonjának nem közvetlen szomszédja. Ezért a
+	 * moveToTecton kivételt dob.
+	 * 
+	 * @see #initMoveToTecton()
+	 */
 	public static void testMoveToTecton2() {
 		initMoveToTecton();
 
@@ -197,6 +227,16 @@ public class InsectTester {
 		}
 	}
 
+	/**
+	 * A "MoveToTecton fail (unconnected)" teszt szekvenciadiagramot megvalósító
+	 * függvény.
+	 * <p>
+	 * Itt a rovar megpróbál átlépni egy szomszédos tektonra, amit nem köt össze
+	 * gombafonal a rovar tektonjával; így a lépés nem sikerül, a moveToTecton
+	 * kivételt dob.
+	 * 
+	 * @see #initMoveToTecton()
+	 */
 	public static void testMoveToTecton3() {
 		initMoveToTecton();
 
@@ -215,6 +255,16 @@ public class InsectTester {
 		}
 	}
 
+	/**
+	 * A "MoveToTecton fail (while stunned)" teszt szekvenciadiagramot megvalósító
+	 * függvény.
+	 * <p>
+	 * A rovar megpróbál átlépni egy vele szomszédos tektonra, ahová köt gombafonál,
+	 * viszont bénító effekt hatása alatt van (ld. kommunikációs diagram). Ezért a
+	 * moveToTecton kivételt dob.
+	 * 
+	 * @see #initMoveToTectonStun()
+	 */
 	public static void testMoveToTecton4() {
 		initMoveToTectonStun();
 
