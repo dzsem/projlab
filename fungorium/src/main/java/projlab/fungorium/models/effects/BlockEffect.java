@@ -13,5 +13,9 @@ public class BlockEffect implements Effect, PrintableState {
         insect.setCanCut(false);
     }
 
-
+    @Override
+    public String getStateString() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
