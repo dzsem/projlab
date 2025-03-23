@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <exec.mainClass>projlab.fungorium.Main</exec.mainClass>
     </properties>
 
 </project>
