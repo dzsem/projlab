@@ -3,14 +3,15 @@ package projlab.fungorium.tests;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
+import projlab.fungorium.models.MushroomBody.Advancement;
 import projlab.fungorium.utilities.Logger;
 
 public class MushroomTester {
     private static Tecton t1, t2, t3, t4, t5;
     private static MushroomThread mt1, mt2, mt3, mt4, mt5;
-    private static MushroomBody mb, mb1, mb2;
+    private static MushroomBody mb, mb1, mb2, advnacedBody, normalBody, lastSporeBody;
 
-    private static void cutConnectionOnyOneBody() {
+    private static void cutConnectionOnyOneBodyInit() {
         t1 = new Tecton();
         t2 = new Tecton();
         t3 = new Tecton();
@@ -34,7 +35,7 @@ public class MushroomTester {
         mb = new MushroomBody(t3);
     }
 
-    private static void cutConnectionWithTwoBodies() {
+    private static void cutConnectionWithTwoBodiesInit() {
         t1 = new Tecton();
         t2 = new Tecton();
         t3 = new Tecton();
@@ -71,6 +72,23 @@ public class MushroomTester {
     
 
     private static void mushroomBodyTestInit() {
-        
+        t1 = new Tecton();
+        t2 = new Tecton();
+        t3 = new Tecton();
+
+        t1.registerNeighbour(t2);
+
+        t2.registerNeighbour(t1);
+        t2.registerNeighbour(t3);
+
+        t3.registerNeighbour(t2);
+
+        advnacedBody = new MushroomBody(t1);
+        advnacedBody.setAdvancement(Advancement.ADVANCED);
+
+        normalBody = new MushroomBody(t2);
+
+        lastSporeBody = new MushroomBody(t3);
+        lastSporeBody.setSporesRemaining(1);
     }
 }

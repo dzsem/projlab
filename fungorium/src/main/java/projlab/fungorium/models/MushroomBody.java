@@ -85,4 +85,22 @@ public class MushroomBody implements TurnAware {
             }
         }
     } 
+
+    /**
+     * Beállítja a gomba test advancement szintjét.
+     * Teszteléshez használt.
+     * @param advancement az új advancement szint
+     */
+    public void setAdvancement(Advancement advancement) {
+        this.advancement = advancement;
+    }
+
+    /**
+     * Beállítja a gomba test maradék spóráit szintjét.
+     * Teszteléshez használt.
+     * @param remainingSpores a maradék spórák új értéke
+     */
+    public void setSporesRemaining(int remainingSpores) {
+        this.remainingSpores = remainingSpores;
+    }
 }
