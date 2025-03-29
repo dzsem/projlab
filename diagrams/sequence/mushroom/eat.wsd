@@ -1,0 +1,42 @@
+@startuml Mushroom Thread eat
+
+title MushroomThread.eat()
+
+actor "Mycologist" as mycologist
+participant "mt: MushroomThread" as mt
+participant "mt.tecton: Tecton" as t
+participant "stunnedInsect: Insect" as i
+participant "mb: MushroomBody" as mb
+
+activate mycologist
+mycologist -> mt: eat()
+activate mt
+
+mt -> t: getStunned()
+activate t
+t --> mt: stunnedInsect
+deactivate t
+
+opt stunnedInsect != null
+    mt -> i: die()
+    activate i
+    i --> mt
+    deactivate i
+
+    mt -> mb: Initialize(t)
+    activate mb
+
+    mb -> t: setTecton(mb)
+    activate t
+    t --> mb
+    deactivate t
+
+    mb --> mt
+    deactivate mb
+end
+
+
+mt --> mycologist
+deactivate mt
+
+@enduml
