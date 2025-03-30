@@ -1,0 +1,25 @@
+@startuml delete
+
+participant "gameObject: GameObject" as go
+participant "game: Game" as g
+
+-> go: delete()
+activate go
+
+go -> g: removeObject(gameObject.objectId):
+activate g
+
+loop for each object in objects
+    alt object.getId() == gameObject.objectId
+        g -> g: objects.remove(object)
+        go <-- g
+    end
+end
+
+go <-- g
+deactivate g
+
+<-- go
+deactivate go
+
+@enduml
