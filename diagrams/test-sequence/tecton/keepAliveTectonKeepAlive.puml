@@ -1,0 +1,25 @@
+@startuml tectonSplitTest
+
+title KeepAliveTecton Keep Alive
+
+actor "Tester" as tst
+participant "s: Skeleton" as s
+participant "t: Tecton" as t
+
+activate tst
+
+tst -> s: KeepAliveTectonKeepAlive()
+activate s
+
+s -> t: keepThreadsAlive()
+activate t
+
+s <-- t:
+deactivate t
+
+tst <-- s
+deactivate s
+
+deactivate tst
+
+@enduml

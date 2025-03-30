@@ -1,17 +1,12 @@
 @startuml endofround_tecton
 
-title Tecton.onEndOfTheRound
+title keepThreadsAlive
 
 participant "t: Tecton" as tecton
 participant "thread: MushroomThread" as thread
 
--> tecton: onEndOfTheRound()
-note right: hívó fél: PassRound
+-> tecton: keepThreadsAlive()
 activate tecton
-
-opt random generated number lower than splitchance
-	tecton -> tecton: split()
-end
 
 loop for each thread on tecton
     tecton -> thread: resetTurnsToDie()
