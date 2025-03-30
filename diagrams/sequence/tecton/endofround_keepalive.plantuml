@@ -1,6 +1,6 @@
 @startuml endofround_tecton
 
-title Tecton.onEndOfTheRound
+title Tecton.onEndOfTheRound (KeepAliveTecton)
 
 participant "t: KeepAliveTecton" as tecton
 
