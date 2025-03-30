@@ -51,6 +51,12 @@ activate insect
 		spore <-- tecton
 		deactivate tecton
 
+		spore -> spore: delete()
+		activate spore
+
+		spore --> spore
+		deactivate spore
+
 	insect <-- spore
 	deactivate spore
 

@@ -86,6 +86,12 @@ activate t2
 t2 --> lsmb
 deactivate t2
 
+lsmb -> lsmb: delete()
+activate lsmb
+
+lsmb --> lsmb
+deactivate lsmb
+
 lsmb --> skeleton
 deactivate lsmb
 

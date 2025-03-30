@@ -58,8 +58,15 @@ deactivate tectons
     opt body.remainingSpore == 0
         body -> tecton : removeBody(body)
         activate tecton
+
         tecton --> body
         deactivate tecton
+
+        body -> body: delete()
+        activate body
+
+        body --> body
+        deactivate body
     end
 
 mycologist <-- body
