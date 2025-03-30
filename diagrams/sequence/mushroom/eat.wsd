@@ -20,6 +20,22 @@ deactivate t
 opt stunnedInsect != null
     mt -> i: die()
     activate i
+
+
+    i -> t: unregisterInsect(stunnedInsect)
+    activate t
+
+    i <-- t
+    deactivate t
+
+
+    i -> i: delete()
+    activate i
+
+    i --> i
+    deactivate i
+
+
     i --> mt
     deactivate i
 
