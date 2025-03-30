@@ -1,0 +1,19 @@
+@startuml endofround_tecton
+
+title keepThreadsAlive
+
+participant "t: Tecton" as tecton
+participant "thread: MushroomThread" as thread
+
+-> tecton: keepThreadsAlive()
+activate tecton
+
+loop for each thread on tecton
+    tecton -> thread: resetTurnsToDie()
+    activate thread
+    tecton <-- thread
+    deactivate thread
+end
+<-- tecton
+deactivate tecton
+@enduml
