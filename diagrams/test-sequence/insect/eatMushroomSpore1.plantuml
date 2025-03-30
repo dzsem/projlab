@@ -48,6 +48,12 @@ activate ske
 			spore <-- t1
 			deactivate t1
 
+			spore -> spore: delete()
+			activate spore
+
+			spore --> spore
+			deactivate spore
+
 		i <-- spore
 		deactivate spore
 
