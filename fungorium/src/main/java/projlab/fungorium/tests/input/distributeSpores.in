@@ -1,0 +1,18 @@
+# Title
+# ------------------------------------------
+# Init state
+# ------------------------------------------
+# 0
+ADD TECTON
+# 1
+ADD MUSHROOMBODY 0 0
+# 2
+ADD TECTON
+REGISTER NEIGHBOUR 0 2
+# Input
+# ------------------------------------------
+MUSHROOMBODY 1 DISTRIBUTESPORES
+# Print states
+# ------------------------------------------
+LIST TECTON
+LIST MUSHROOMBODY
