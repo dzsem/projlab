@@ -1,12 +1,11 @@
 package projlab.fungorium.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.TurnAware;
-
-import java.util.ArrayList;
 
 /**
  * A Tecton modellje.
@@ -24,7 +23,7 @@ public class Tecton implements TurnAware, PrintableState {
     }
 
     /**
-     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * Létrehoz egy új Tectont, a megadott szomszédokkal.
      * @param neighbours Szomszédos tektonok.
      */
     public Tecton(List<Tecton> neighbours) {
@@ -235,6 +234,11 @@ public class Tecton implements TurnAware, PrintableState {
         return false;
     }
 
+    /**
+     * Visszaadja a tektonon növő gombatestet. Ha nincs rajta gombatest Exceptiont dob.
+     * @return A gombatest
+     * @throws Exception Ha nincs gombatest
+     */
     public MushroomBody getBody() throws Exception {
         if (mushroomBody == null) {
             throw new Exception("Tecton does not hav a MushroomBody");
@@ -243,6 +247,9 @@ public class Tecton implements TurnAware, PrintableState {
     }
 
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
+    /**
+     * Eltávolítja a gombatestet a tektonról.
+     */
     final public void removeBody() {
         mushroomBody = null;
     }
@@ -318,6 +325,10 @@ public class Tecton implements TurnAware, PrintableState {
         splitChance = p;
     }
 
+    /**
+     * Visszaad egy listát a szomszédos tektonokról.
+     * @return Lista a szomszédos tektonokról
+     */
     public List<Tecton> getNeighbours() {
         return neighbours;
     }
@@ -346,7 +357,7 @@ public class Tecton implements TurnAware, PrintableState {
 
         // Gombatest
         if (mushroomBody != null) {
-            stateString.append("Mushroom Body: ").append(mushroomBody.getStateString()).append("\n");
+            stateString.append("Mushroom Body: ").append(mushroomBody.toString()).append("\n");
         } else {
             stateString.append("Mushroom Body: None\n");
         }
@@ -357,7 +368,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No threads present.\n");
         } else {
             for (MushroomThread thread : mushroomThreads) {
-                stateString.append("  - ").append(thread.getStateString()).append("\n");
+                stateString.append("  - ").append(thread.toString()).append("\n");
             }
         }
 
@@ -367,7 +378,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No spores present.\n");
         } else {
             for (MushroomSpore spore : mushroomSpores) {
-                stateString.append("  - ").append(spore.getStateString()).append("\n");
+                stateString.append("  - ").append(spore.toString()).append("\n");
             }
         }
 
@@ -377,7 +388,7 @@ public class Tecton implements TurnAware, PrintableState {
             stateString.append("  No insects present.\n");
         } else {
             for (Insect insect : insects) {
-                stateString.append("  - ").append(insect.getStateString()).append("\n");
+                stateString.append("  - ").append(insect.toString()).append("\n");
             }
         }
 
