@@ -1,0 +1,26 @@
+# Tecton Split
+# ------------------------------------------
+# Init state
+# ------------------------------------------
+# ID: 1
+ADD TECTON
+# 2
+ADD TECTON
+REGISTER NEIGHBOUR 1 2
+# 3
+ADD MUSHROOMBODY 1 1
+# 4
+ADD MUSHROOMSPORE 1 1
+# 5 
+ADD MUSHROOMTHREAD 1 1
+# 6
+ADD MUSHROOMTHREAD 1 2
+REGISTER CONNECTION 5 6
+# 7
+ADD INSECT 1 1
+# Input
+# ------------------------------------------
+NEXTROUND
+# Print states
+# ------------------------------------------
+LIST TECTON
