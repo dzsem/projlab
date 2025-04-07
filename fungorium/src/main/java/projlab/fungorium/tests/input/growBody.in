@@ -1,0 +1,23 @@
+# Grow Body
+# ------------------------------------------
+# Init state
+# ------------------------------------------
+# 0
+ADD TECTON
+# 1
+ADD MUSHROOMSPORE 0 0
+# 2
+ADD MUSHROOMSPORE 0 0
+# 3
+ADD MUSHROOMSPORE 0 0
+# 4
+ADD MUSHROOMTHREAD 0 0
+# Input
+# ------------------------------------------
+# 5
+MUSHROOMTHREAD 4 GROWBODY
+# Print states
+# ------------------------------------------
+LIST TECTON
+LIST MUSHROOMTHREAD
+LIST MUSHROOMBODY
