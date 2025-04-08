@@ -1,0 +1,20 @@
+# Duplicate Spore
+# ------------------------------------------
+# Init state
+# ------------------------------------------
+# 0
+ADD TECTON
+# 1
+ADD MUSHROOMSPORE 0 0
+SET EFFECTGENERATION DUPLICATE
+# 2
+ADD INSECT 1 0
+# Input
+# ------------------------------------------
+# Duplicate insect
+# 3
+INSECT 2 EATSPORE
+# Print states
+# ------------------------------------------
+LIST MUSHROOMSPORE
+LIST INSECT
