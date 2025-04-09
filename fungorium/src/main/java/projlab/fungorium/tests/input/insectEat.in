@@ -1,14 +1,5 @@
 # Insect Eat
 # ------------------------------------------
-# Init state
-# ------------------------------------------
-# 0
-ADD TECTON
-# 1
-ADD INSECT 0 0
-# 2
-ADD MUSHROOMSPORE 1 0
-SET EFFECTGENERATION 1 NONE
 # Input
 # ------------------------------------------
 INSECT 1 EATSPORE
