@@ -1,16 +1,5 @@
 # Thread Eat
 # ------------------------------------------
-# Init state
-# ------------------------------------------
-# 0
-ADD TECTON
-# 1
-ADD MUSHROOMTHREAD 0 0
-# 2
-ADD MUSHROOMSPORE 0 0
-SET EFFECTGENERATION 2 STUN
-# 3
-ADD INSECT 1 0
 # Input
 # ------------------------------------------
 # Insect gets stunned
