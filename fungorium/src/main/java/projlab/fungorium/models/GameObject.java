@@ -15,5 +15,7 @@ public abstract class GameObject {
     protected GameObject() {
         this.objectID = NEXT_ID;
         NEXT_ID++;
+
+        Game.getInstance().addObject(this);
     }
 }
