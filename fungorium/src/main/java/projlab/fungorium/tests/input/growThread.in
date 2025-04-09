@@ -1,16 +1,5 @@
 # Grow Thread
 # ------------------------------------------
-# Init state
-# ------------------------------------------
-# 0
-ADD TECTON
-# 1
-ADD TECTON
-REGISTER NEIGHBOUR 0 1
-# 2
-ADD MUSHROOMBODY 0 0
-# 3
-ADD MUSHROOMTHREAD 0 0
 # Input
 # ------------------------------------------
 # 4, t0 -> t1
