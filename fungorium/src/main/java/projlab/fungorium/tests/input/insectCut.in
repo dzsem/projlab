@@ -1,19 +1,5 @@
 # Insect Cut
 # ------------------------------------------
-# Init state
-# ------------------------------------------
-# 0
-ADD TECTON
-# 1
-ADD TECTON
-REGISTER NEIGHBOUR 0 1
-# 2
-ADD MUSHROOMTHREAD 0 0
-# 3
-ADD MUSHROOMTHREAD 0 1
-REGISTER CONNECTION 2 3
-# 4
-ADD INSECT 1 0
 # Input
 # ------------------------------------------
 INSECT 4 CUTTHREAD 2
