@@ -1,12 +1,5 @@
 # Kill Thread
 # ------------------------------------------
-# Init state
-# ------------------------------------------
-# 0
-ADD THREADKILLINGTECTON
-SET TECTONKILLCHANCE 100
-# 1
-ADD MUSHROOMTHREAD 0 0
 # Input
 # ------------------------------------------
 # Tecton kills thread on the end of the round
