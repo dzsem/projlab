@@ -2,6 +2,10 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
-
+INSECT 5 CUTTHREAD 3
+NEXTROUND
+NEXTROUND
+NEXTROUND
 # Print states
 # ------------------------------------------
+LIST MUSHROOMTHREAD
