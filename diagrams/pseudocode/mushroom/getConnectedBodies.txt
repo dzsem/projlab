@@ -16,8 +16,8 @@ procedure MushroomThread.getConnectedBodies() is
 
     visited.add(this)
 
-    while queue is not isEmpty
-        let t := queue.remove(0)
+    while queue is not empty
+        t := queue.remove(0)
 
         if t.tecton has body then
             result.add(t.tecton.body)

@@ -1,0 +1,30 @@
+procedure MushroomThread.isConnectedToBody() is
+    if this.cutState is CUT then
+        return false
+
+    if this.tecon.hasBody() then
+        return true
+
+    let queue be a List of MushroomThreads
+    let visited be a List of MushroomThreads
+
+    for all thread in this.connectedThreads do
+        if thread.cutState is UNCUT then
+            queue.add(thread)
+
+    visited.add(this)
+
+    while queue is not empty
+        t := queue.remove(0)
+
+        if t.tecton has body then
+            return true
+
+        else
+            for all connectedThread in t.connectedThreads do
+                if visited does not cointain connectedThread and connectedThread.cutState is UNCUT
+                    queue.add(connectedThread)
+
+            visited.add(t)
+    
+    return false
