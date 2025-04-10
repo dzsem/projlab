@@ -5,7 +5,7 @@ procedure MushroomThread.onEndOfTheRound() is
             this.kill()
 
     else
-        if this.growSate is SPROUT then
+        if this.growState is SPROUT then
             this.turnsToGrow = this.turnsToGrow - 1
 
             if this.turnsToGrow is 0 then
