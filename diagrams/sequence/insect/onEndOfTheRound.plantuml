@@ -30,6 +30,10 @@ opt not canCut && counter == 0
 	deactivate i
 end
 
+opt counter != 0
+	i -> i: counter--
+end
+
 <-- i
 deactivate i
 
