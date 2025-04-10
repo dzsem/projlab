@@ -4,7 +4,7 @@ procedure MushroomThread.getConnectedBodies() is
     if this.cutState is CUT then
         return result
     
-    if this.tecton has body then
+    if this.tecton has body and this.tecton.body.mycologistID == this.mycologistID then 
         result.add(this.tecton.body)
 
     let queue be a List of MushroomThreads
@@ -17,9 +17,9 @@ procedure MushroomThread.getConnectedBodies() is
     visited.add(this)
 
     while queue is not empty
-        t := queue.remove(0)
+        t := queue.remove(0)    // Törli és visszaadja a queue első elemét
 
-        if t.tecton has body then
+        if t.tecton has body and t.tecton.body.mycologistID == this.mycologistID then
             result.add(t.tecton.body)
 
         else
