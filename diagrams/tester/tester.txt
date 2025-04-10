@@ -1,0 +1,21 @@
+procedure Tester.Assert(assertfile: File, outputfile: File) is
+    List<String> err;
+    String assert, String output;
+    boolean found;
+
+    for each line A in assertfile
+        found = false;
+        assert = A;
+        for each line O in outputfile
+            output = O;
+            if assert == output
+                found = true
+                return
+        if found == false
+            err.Add(assert)
+    
+    if err is empty
+        print SUCCESS
+    else
+        print FAIL
+        print err
