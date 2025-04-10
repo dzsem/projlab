@@ -1,0 +1,12 @@
+procedure MushroomThread.onEndOfTheRound() is
+    if this is not connected to body then
+        this.turnsToDie = this.turnsToDie - 1
+        if (this.turnsToDie is 0) then
+            this.kill()
+
+    else
+        if this.growSate is SPROUT then
+            this.turnsToGrow = this.turnsToGrow - 1
+
+            if this.turnsToGrow is 0 then
+                this.growState = GROWN
