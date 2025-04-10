@@ -5,9 +5,9 @@ procedure Tester.Assert(assertfile: File, outputfile: File) is
 
     for each non-comment line in assertfile
         found = false;
-        assert = nextLine;
+        assert = assertfile.readLine;
         for each non-comment line in outputfile
-            output = nextLine;
+            output = outputfile.readLine;
             if assert == output
                 found = true
                 return
