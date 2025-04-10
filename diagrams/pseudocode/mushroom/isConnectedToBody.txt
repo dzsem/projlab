@@ -1,0 +1,6 @@
+procedure MushroomThread.isConnectedToBody() is
+    if this.getConnectedBodies() == 0 then
+        return false
+    else 
+        return true
+    

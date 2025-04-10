@@ -1,0 +1,32 @@
+procedure MushroomThread.getConnectedBodies() is 
+    let result be a List of MushroomBodies
+
+    if this.cutState is CUT then
+        return result
+    
+    if this.tecton has body and this.tecton.body.mycologistID == this.mycologistID then 
+        result.add(this.tecton.body)
+
+    let queue be a List of MushroomThreads
+    let visited be a List of MushroomThreads
+
+    for all thread in this.connectedThreads do
+        if thread.cutState is UNCUT then
+            queue.add(thread)
+
+    visited.add(this)
+
+    while queue is not empty
+        t := queue.remove(0)    // Törli és visszaadja a queue első elemét
+
+        if t.tecton has body and t.tecton.body.mycologistID == this.mycologistID then
+            result.add(t.tecton.body)
+
+        else
+            for all connectedThread in t.connectedThreads do
+                if visited does not cointain connectedThread and connectedThread.cutState is UNCUT
+                    queue.add(connectedThread)
+
+            visited.add(t)
+    
+    return result
