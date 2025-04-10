@@ -1,0 +1,21 @@
+procedure MushroomBody.distibuteSpores() is
+    let tectonsToSpore be a List of Tectons
+    neighbours := this.tecton.getNeighbours()
+
+    tectonToSpore.add(this.tecton)
+    tectonsToSpore.add(neighbours)
+
+    if this.advancement is ADVANCED then
+        for all neighbour in neighbours do
+            for all neighbourOfNeighbour in neighbour.getNeighbours() do
+                if tectonsToSpore does not conatain neighbourOfNeighbour then
+                    tectonsToSpore.add(neighbourOfNeighbour)
+
+    for all tectonSoSpore in tectonsToSpore do
+        let ms be MushroomSpore
+        
+    this.remainingSpores = this.remainingSpores - 1
+
+    if this.remainingSpores is 0 then
+        this.tecton.removeBody()
+    
