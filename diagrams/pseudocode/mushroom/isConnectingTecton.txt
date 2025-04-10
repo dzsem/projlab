@@ -1,0 +1,10 @@
+procedure MushroomThread.isConnectingTecton(t: Tecton) is
+    for all connnecteThread in connectedThreads do
+        if connectedThread.cutState is not UNCUT or connectedThread.growState is not GROWN then
+            continue
+
+        if connectedThread.tecton is t
+            return true
+
+    return false
+    
