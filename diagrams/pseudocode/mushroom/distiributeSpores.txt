@@ -12,7 +12,7 @@ procedure MushroomBody.distibuteSpores() is
                     tectonsToSpore.add(neighbourOfNeighbour)
 
     for all tectonSoSpore in tectonsToSpore do
-        let ms be MushroomSpore
+        let ms be MushroomSpore(tectonToSpore)
         
     this.remainingSpores = this.remainingSpores - 1
 
