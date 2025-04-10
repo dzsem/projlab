@@ -10,7 +10,7 @@ procedure Tester.Assert(assertfile: File, outputfile: File) is
             output = outputfile.readLine;
             if assert == output
                 found = true
-                return
+                break
         if found == false
             add assert to err
     
