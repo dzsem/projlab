@@ -1,0 +1,9 @@
+# Distribute Spores
+# ------------------------------------------
+# Input
+# ------------------------------------------
+MUSHROOMBODY 1 DISTRIBUTESPORES
+# Print states
+# ------------------------------------------
+LIST TECTON
+LIST MUSHROOMBODY

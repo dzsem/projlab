@@ -1,0 +1,10 @@
+# Insect Eat
+# ------------------------------------------
+# Input
+# ------------------------------------------
+INSECT 1 EATSPORE
+# Print states
+# ------------------------------------------
+LIST TECTON
+LIST INSECT
+LIST MUSHROOMSPORE

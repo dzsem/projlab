@@ -1,0 +1,11 @@
+# Grow Body
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# 5
+MUSHROOMTHREAD 4 GROWBODY
+# Print states
+# ------------------------------------------
+LIST TECTON
+LIST MUSHROOMTHREAD
+LIST MUSHROOMBODY

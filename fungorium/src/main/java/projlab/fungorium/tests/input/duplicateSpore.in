@@ -1,0 +1,11 @@
+# Duplicate Spore
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# Duplicate insect
+# 3
+INSECT 2 EATSPORE
+# Print states
+# ------------------------------------------
+LIST MUSHROOMSPORE
+LIST INSECT
