@@ -8,7 +8,7 @@ public abstract class GameObject {
         return objectID;
     }
 
-    protected final void delete() {
+    protected void delete() {
         Game.getInstance().removeObject(objectID);
     }
 

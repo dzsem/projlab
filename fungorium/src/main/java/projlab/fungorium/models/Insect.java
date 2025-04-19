@@ -1,7 +1,6 @@
 package projlab.fungorium.models;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
 
 /**
  * A rovarászok által irányított rovarokat megvalósító osztály.
@@ -9,7 +8,7 @@ import projlab.fungorium.interfaces.TurnAware;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect implements TurnAware, PrintableState {
+public class Insect extends TurnAware implements PrintableState {
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
