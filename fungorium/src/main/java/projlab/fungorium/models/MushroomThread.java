@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread implements TurnAware, PrintableState {
+public class MushroomThread extends TurnAware implements PrintableState {
     public enum GrowState {
         SPROUT,
         GROWN
