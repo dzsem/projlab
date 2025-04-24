@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomBody extends TurnAware implements PrintableState {
+public class MushroomBody extends TurnAware implements PrintableState, WritableGameObject {
     public enum Advancement {
         NORMAL,
         ADVANCED
@@ -132,6 +133,18 @@ public class MushroomBody extends TurnAware implements PrintableState {
         stateString.append("Advancement Level: ").append(advancement.toString()).append("\n");
 
         return stateString.toString();
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMBODY ");
+        sb.append(getID() + " ");
+        sb.append(remainingSpores + " ");
+        sb.append(age + " ");
+        sb.append(advancement.toString() + " ");
+        sb.append(tecton.getID());
+
+        return sb.toString();
     }
 
 }
