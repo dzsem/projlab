@@ -62,7 +62,7 @@ public class Skeleton {
 
         while (true) {
             System.out.print("> ");
-            List<String> inputTokens = InputHandler.getTokens();
+            List<String> inputTokens = IOHandler.getTokens();
 
             String input = inputTokens.get(0);
 

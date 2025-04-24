@@ -1,10 +1,13 @@
 package projlab.fungorium.utilities;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,17 +48,31 @@ public class IOHandler {
         String output = wgo.getOutputString();
 
         // Append the outputstring to the file
-        OutputStream os = null;
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
+        
 		try {
-			os = new FileOutputStream(file, true);
-            os.write(output.getBytes(), 0, output.length());
+            fw = new FileWriter(file, true);
+            bw = new BufferedWriter(fw);
+            pw = new PrintWriter(bw);
+            
+            pw.println(output);
 		} catch (IOException e) {
 			Logger.printError(e.getMessage());
 		} finally {
 			try {
-				if (os != null) {
-					os.close();
-				}
+                if (pw != null) {
+                    pw.close();
+                }
+
+                if (bw != null) {
+                    bw.close();
+                }
+
+                if (fw != null) {
+                    fw.close();
+                }
 			} catch (IOException e) {
 				Logger.printError(e.getMessage());
 			}
