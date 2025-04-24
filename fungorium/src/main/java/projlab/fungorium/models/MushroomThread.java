@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread extends TurnAware implements PrintableState {
+public class MushroomThread extends TurnAware implements PrintableState, WritableGameObject {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -382,6 +383,19 @@ public class MushroomThread extends TurnAware implements PrintableState {
         stateString.append("Cut state ").append(cutState.toString()).append("\n");
 
         return stateString.toString();
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMTHREAD ");
+        sb.append(getID() + " ");
+        sb.append(mushroomID + " ");
+        sb.append(tecton.getID() + " ");
+        sb.append(connectedThreads.size() + " ");
+        sb.append(cutState.toString() + " ");
+        sb.append(growState.toString());
+
+        return sb.toString();
     }
 
 }
