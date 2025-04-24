@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 
 import java.util.ArrayList;
 
 /**
  * A Tecton modellje.
  */
-public class Tecton extends TurnAware implements PrintableState {
+public class Tecton extends TurnAware implements PrintableState, WritableGameObject {
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */
@@ -334,6 +335,18 @@ public class Tecton extends TurnAware implements PrintableState {
         }
     }
 
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("TECTON ");
+        sb.append(getID() + " ");
+        sb.append(neighbours.size() + " ");
+        sb.append(hasBody() ? mushroomBody.getID() + " " : -1 + " ");
+        sb.append(mushroomThreads.size() + " ");
+        sb.append(mushroomSpores.size());
+
+        return sb.toString();
+    }
+
     /**
      * String az állapotból.
      */
@@ -396,8 +409,9 @@ public class Tecton extends TurnAware implements PrintableState {
 
     protected MushroomBody mushroomBody;
     protected List<MushroomThread> mushroomThreads;
-    private List<MushroomSpore> mushroomSpores;
+    protected List<MushroomSpore> mushroomSpores;
     private List<Insect> insects;
-    private List<Tecton> neighbours;
+    protected List<Tecton> neighbours;
     protected static double splitChance = 0.1f;
+
 }

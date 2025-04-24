@@ -35,4 +35,16 @@ public final class SingleThreadTecton extends Tecton {
 
         super.addConnection(mt);
     }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("SINGLETHREADTECTON ");
+        sb.append(getID() + " ");
+        sb.append(neighbours.size() + " ");
+        sb.append(hasBody() ? mushroomBody.getID() + " " : -1 + " ");
+        sb.append(mushroomThreads.size() + " ");
+        sb.append(mushroomSpores.size());
+
+        return sb.toString();
+    }
 }
