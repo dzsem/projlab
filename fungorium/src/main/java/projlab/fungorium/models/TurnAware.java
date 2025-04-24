@@ -1,7 +1,7 @@
 package projlab.fungorium.models;
 
 public abstract class TurnAware extends GameObject {
-    private TurnAware() {
+    protected TurnAware() {
         super();
         Game.getInstance().addTurnAware(this);
     }

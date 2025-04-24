@@ -78,12 +78,12 @@ public class MushroomThread extends TurnAware implements PrintableState {
             return result;
         }
 
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
-            try {
+        try {
+            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
-            } catch (Exception e) {
-                Logger.printError(e.getMessage());
             }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
         }
 
         List<MushroomThread> queue = new ArrayList<>();
@@ -103,9 +103,11 @@ public class MushroomThread extends TurnAware implements PrintableState {
             MushroomThread thread = queue.remove(0);
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
-                                           // visszatérítendő listába
                 try {
-                    result.add(tecton.getBody());
+                    if (thread.tecton.getBody().getID() == mushroomID){
+                        // visszatérítendő listába
+                        result.add(tecton.getBody());
+                    }
                 } catch (Exception e) {
                     Logger.printError(e.getMessage());
                 }
@@ -131,49 +133,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
      * @return true, ha van összeköttetés; false, ha nincs
      */
     public boolean isConnectedToBody() {
-        if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel
-            return false;
-        }
-
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor biztosan van össze van kötve gomba
-                                // testtel
-            return true;
-        }
-
-        List<MushroomThread> queue = new ArrayList<>();
-        List<MushroomThread> visited = new ArrayList<>();
-
-        for (MushroomThread connectedThread : connectedThreads) { // Felvsezi a sorba azokat a fonalakat, amik nincsenek
-                                                                  // átvágva és benne vannak a connectedThreads listban
-            if (connectedThread.cutState == CutState.UNCUT) {
-                queue.add(connectedThread);
-            }
-        }
-
-        visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra
-                           // magát
-
-        while (!queue.isEmpty()) {
-            MushroomThread thread = queue.remove(0);
-
-            if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor visszatérhet
-                                           // igazzal
-                return true;
-            } else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó
-                     // fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd
-                     // felveszi a vizsgált fonalat a már megvizsgáltak közé
-                for (MushroomThread connectedThread : thread.connectedThreads) {
-                    if (!visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT) {
-                        queue.add(connectedThread);
-                    }
-                }
-
-                visited.add(thread);
-            }
-        }
-
-        return false; // Ha a sor kiürült és nem talált gomba testet, akkor nincs összeköttetésen egy
-                      // testtel sem.
+        return !getConnectedBodies().isEmpty();
     }
 
     /**
