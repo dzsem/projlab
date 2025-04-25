@@ -260,6 +260,7 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 		StringBuilder sb = new StringBuilder("INSECT ");
 
 		sb.append(getID() + " ");
+		sb.append(insectologistID + " ");
 		sb.append(tecton.getID() + " ");
 		sb.append(canCut + " ");
 		sb.append(canMove + " ");
