@@ -47,5 +47,18 @@ public final class ThreadKillingTecton extends Tecton {
         killChance = p;
     } 
 
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("THREADKILLINGTECTON ");
+        sb.append(getID() + " ");
+        sb.append(neighbours.size() + " ");
+        sb.append(hasBody() ? mushroomBody.getID() + " " : -1 + " ");
+        sb.append(mushroomThreads.size() + " ");
+        sb.append(mushroomSpores.size());
+
+        return sb.toString();
+    }
+
+
     private static double killChance = 0.05;
 }

@@ -1,16 +1,21 @@
 package projlab.fungorium.models;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.effects.*;
 
 import java.util.Random;
 
-public class MushroomSpore implements PrintableState {
+public class MushroomSpore extends GameObject implements PrintableState, WritableGameObject {
+    private Tecton tecton;
+
     /**
      * mikor egy spóra létrejön, akkor hozzáadja magát a tecton listájához, amin rajta van
      * @param tecton a Tetcon, amin a spóra rajta van
      */
     public MushroomSpore(Tecton tecton) {
+        super();
+        this.tecton = tecton;
         tecton.addSpore(this);
     }
     /**
@@ -39,5 +44,13 @@ public class MushroomSpore implements PrintableState {
     @Override
     public String getStateString() {
         return "This is a Mushroom Spore, which  can be eaten or used";
+    }
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMSPORE ");
+        sb.append(getID() + " ");
+        sb.append(tecton.getID());
+
+        return sb.toString();
     }
 }

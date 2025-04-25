@@ -1,6 +1,14 @@
 package projlab.fungorium.models;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.utilities.Logger;
 
 /**
  * A rovarászok által irányított rovarokat megvalósító osztály.
@@ -8,7 +16,7 @@ import projlab.fungorium.interfaces.PrintableState;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect extends TurnAware implements PrintableState {
+public class Insect extends TurnAware implements PrintableState, WritableGameObject {
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
@@ -238,4 +246,17 @@ public class Insect extends TurnAware implements PrintableState {
 	}
 
 	private static final int COUNTER_DEFAULT_VALUE = 3;
+
+	@Override
+	public String getOutputString() {
+		StringBuilder sb = new StringBuilder("INSECT ");
+
+		sb.append(getID() + " ");
+		sb.append(tecton.getID() + " ");
+		sb.append(canCut + " ");
+		sb.append(canMove + " ");
+		sb.append(counter);
+
+		return sb.toString();
+	}
 }
