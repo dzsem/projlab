@@ -139,6 +139,7 @@ public class MushroomBody extends TurnAware implements PrintableState, WritableG
     public String getOutputString() {
         StringBuilder sb = new StringBuilder("MUSHROOMBODY ");
         sb.append(getID() + " ");
+        sb.append(mushroomID + " ");
         sb.append(remainingSpores + " ");
         sb.append(age + " ");
         sb.append(advancement.toString() + " ");
