@@ -24,7 +24,8 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
     }
 
     /**
-     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * Létrehoz egy új Tectont, a szomszédjait paraméterként kapja meg, és nincs
+     * rajta semmi.
      * 
      * @param neighbours Szomszédos tektonok.
      */

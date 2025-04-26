@@ -44,7 +44,7 @@ public class IOHandler {
             Logger.printError(file.getName() + " is not a file");
         }
 
-        // Get the outptutstring
+        // Get the outputstring
         String output = wgo.getOutputString();
 
         // Append the outputstring to the file

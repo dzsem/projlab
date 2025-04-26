@@ -11,7 +11,7 @@ import java.io.File;
 import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 
-public class Interpreter implements Command {
+public class Interpreter {
     private static IOHandler iohandler;
     private static Game game;
 
@@ -45,6 +45,45 @@ public class Interpreter implements Command {
         commands.put("REGISTER", args);
         commands.put("SET", args);
     };
+
+    private void add(List<String> args) {
+        switch (args.get(0).toLowerCase()) {
+            case "tecton":
+                Tecton t = new Tecton();
+                game.addObject(t);
+                break;
+            case "threadkillingtecton":
+                ThreadKillingTecton tkt = new ThreadKillingTecton();
+                game.addObject(tkt);
+                break;
+            case "singlethreadtecton":
+                SingleThreadTecton stt = new SingleThreadTecton();
+                game.addObject(stt);
+                break;
+            case "infertiletecton":
+                InfertileTecton it = new InfertileTecton();
+                game.addObject(it);
+                break;
+            /*
+             * case "keepalivetecton":
+             * KeepAliveTecton kat = new KeepAliveTecton();
+             * game.addObject(kat);
+             * break;
+             */
+            case "mushroomthread":
+                Tecton threadtecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
+
+                break;
+            case "mushroombody":
+                break;
+            case "mushroomspore":
+                break;
+            case "insect":
+                break;
+            default:
+                break;
+        }
+    }
 
     private void load(File filename) {
         if (!filename.exists()) {
