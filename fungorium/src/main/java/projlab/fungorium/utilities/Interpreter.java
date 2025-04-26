@@ -51,34 +51,106 @@ public class Interpreter {
             case "tecton":
                 Tecton t = new Tecton();
                 game.addObject(t);
+                System.out.println("Tecton added");
                 break;
             case "threadkillingtecton":
                 ThreadKillingTecton tkt = new ThreadKillingTecton();
                 game.addObject(tkt);
+                System.out.println("ThreadKillingTecton added");
+
                 break;
             case "singlethreadtecton":
                 SingleThreadTecton stt = new SingleThreadTecton();
                 game.addObject(stt);
+                System.out.println("SingleThreadTecton added");
+
                 break;
             case "infertiletecton":
                 InfertileTecton it = new InfertileTecton();
                 game.addObject(it);
+                System.out.println("InfertileTecton added");
+
                 break;
             /*
              * case "keepalivetecton":
              * KeepAliveTecton kat = new KeepAliveTecton();
              * game.addObject(kat);
+             * System.out.println("KeepAliveTecton added");
              * break;
              */
             case "mushroomthread":
                 Tecton threadtecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
-
+                int threadmycid = Integer.valueOf(args.get(1));
+                MushroomThread mt = new MushroomThread(threadtecton, threadmycid);
+                game.addObject(mt);
+                System.out.println(
+                        "MushroomThread added to Mycologist " + threadmycid + " and Tecton " + threadtecton.getID());
                 break;
             case "mushroombody":
+                Tecton bodytecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
+                int bodymycid = Integer.valueOf(args.get(1));
+                MushroomBody mb = new MushroomBody(bodytecton, bodymycid);
+                game.addObject(mb);
+                System.out.println(
+                        "MushroomBody added to Mycologist " + bodymycid + " and Tecton " + bodytecton.getID());
                 break;
             case "mushroomspore":
+                Tecton sporetecton = (Tecton) game.getObject(Integer.valueOf(args.get(1)));
+                MushroomSpore ms = new MushroomSpore(sporetecton);
+                game.addObject(ms);
+                System.out.println(
+                        "MushroomSpore added to Tecton " + sporetecton.getID());
                 break;
             case "insect":
+                Tecton insecttecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
+                int insectologistid = Integer.valueOf(args.get(1));
+                Insect insect = new Insect(insectologistid, insecttecton);
+                game.addObject(insect);
+                System.out.println(
+                        "Insect added to Insectologist " + insectologistid + " and Tecton " + insecttecton.getID());
+                break;
+            default:
+                System.err.println("Command not recognized. Possible parameters:");
+                System.err.println("ADD <tectontype>");
+                System.err.println("ADD MUSHROOMTHREAD <mycologistID> <tectonID>");
+                System.err.println("ADD MUSHROOMBODY <mycologistID> <tectonID>");
+                System.err.println("ADD MUSHROOMSPORE <mycologistID> <tectonID>");
+                System.err.println("ADD INSECT <insectologistID> <tectonID>");
+                break;
+        }
+    }
+
+    private void register(List<String> args) {
+        switch (args.get(0).toLowerCase()) {
+            case "neighbour":
+                Tecton t1 = (Tecton) game.getObject(Integer.valueOf(args.get(1)));
+                Tecton t2 = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
+                t1.registerNeighbour(t2);
+                break;
+            case "connection":
+                MushroomThread mt1 = (MushroomThread) game.getObject(Integer.valueOf(args.get(1)));
+                MushroomThread mt2 = (MushroomThread) game.getObject(Integer.valueOf(args.get(2)));
+                mt1.addConnection(mt2);
+                mt2.addConnection(mt1);
+                break;
+            default:
+                System.err.println("Command not recognized. Possible parameters:");
+                System.err.println("REGISTER NEIGHBOUR <tectonID1> <tectonID2>");
+                System.err.println("REGISTER CONNECTION <mushroomThreadID1> <mushroomThreadID2>");
+                break;
+        }
+    }
+
+    private void set(List<String> args) {
+        switch (args.get(0).toLowerCase()) {
+            /*
+             * case "effectgeneration":
+             * 
+             * break;
+             */
+            case "tectonsplitchance":
+                break;
+            case "tectonkillchance":
                 break;
             default:
                 break;
