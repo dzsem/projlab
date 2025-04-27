@@ -2,7 +2,8 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
+LOAD config/insectCut.cfg
 INSECT 4 CUTTHREAD 2
 # Print states
 # ------------------------------------------
-LIST MUSHROOMTHREAD
+SAVE insectCut.out

@@ -2,8 +2,8 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
+LOAD config/moveInsect.cfg
 INSECT 4 MOVE 1
 # Print states
 # ------------------------------------------
-LIST TECTON
-LIST INSECT
+SAVE moveInsect

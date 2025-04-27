@@ -4,8 +4,8 @@
 # ------------------------------------------
 # Duplicate insect
 # 3
+LOAD config/duplicateSpore.cfg
 INSECT 2 EATSPORE
 # Print states
 # ------------------------------------------
-LIST MUSHROOMSPORE
-LIST INSECT
+SAVE duplicateSpore.out
