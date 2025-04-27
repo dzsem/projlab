@@ -11,10 +11,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
+import projlab.fungorium.models.effects.EffectTypes;
 
 public class Interpreter {
     private static Game game;
@@ -108,11 +108,9 @@ public class Interpreter {
         inputmap.put("MUSHROOMBODY DISTRIBUTESPORES", args -> {
             distributespores(args);
         });
-        /*
-         * inputmap.put("MUSHROOMTHREAD EATINSECT", args -> {
-         * load(args);
-         * });
-         */
+        inputmap.put("MUSHROOMTHREAD EATINSECT", args -> {
+            eatinsect(args);
+        });
         inputmap.put("MUSHROOMTHREAD GROWBODY", args -> {
             growbody(args);
         });
@@ -177,11 +175,9 @@ public class Interpreter {
         configmap.put("SET TECTONKILLCHANCE", args -> {
             setTectonkillchance(args);
         });
-        /*
-         * configmap.put("SET EFFECTGENERATION", args -> {
-         * 
-         * });
-         */
+        configmap.put("SET EFFECTGENERATION", args -> {
+            setEffectgeneration(args);
+        });
         configmap.put("SET MUSHROOMTHREAD STATE", args -> {
             setMushroomthreadstate(args);
         });
@@ -370,6 +366,53 @@ public class Interpreter {
     }
 
     /**
+     * beállítja adott spórának az effektjét
+     * 
+     * @param args(0) a spóra id-je
+     * @param args(1) az effekt
+     */
+    private void setEffectgeneration(List<String> args) {
+        GameObject obj = game.getObject(Integer.valueOf(args.get(0)));
+        if (obj instanceof MushroomSpore msp) {
+            switch (args.get(1)) {
+                case "BLOCK":
+                    msp.setEffectGeneration(EffectTypes.BLOCK);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "SLOW":
+                    msp.setEffectGeneration(EffectTypes.SLOW);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "SPEED":
+                    msp.setEffectGeneration(EffectTypes.SPEED);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "STUN":
+                    msp.setEffectGeneration(EffectTypes.STUN);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "NO":
+                    msp.setEffectGeneration(EffectTypes.NO);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "DUPLICATE":
+                    msp.setEffectGeneration(EffectTypes.DUPLICATE);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "RANDOM":
+                    msp.setEffectGeneration(EffectTypes.RANDOM);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                default:
+                    System.err.println("Effect not recognised.");
+                    break;
+            }
+        } else {
+            System.err.println("The id does not belong to a MushroomSpore.");
+        }
+    }
+
+    /**
      * beállítja egy adott gombafonál növekedési és vágási állapotát
      * 
      * @param args(0) a gombafonál ID-ja
@@ -544,18 +587,15 @@ public class Interpreter {
         }
     }
 
-    /**
-     * TODO: finish after insect eating mushroomthread implemented
-     * public void eatinsect(int id) {
-     * GameObject mushroom = game.getObject(id);
-     * if (mushroom instanceof MushroomThread mush) {
-     * 
-     * System.out.println("Insect eaten successfully");
-     * } else {
-     * System.err.println("");
-     * }
-     * }
-     */
+    public void eatinsect(List<String> args) {
+        GameObject mt = game.getObject(Integer.valueOf(args.get(0)));
+        if (mt instanceof MushroomThread) {
+            ((MushroomThread) mt).eat();
+            System.out.println("Insect eaten successfully");
+        } else {
+            System.err.println("The object with the specified ID isn't a MushroomThread");
+        }
+    }
 
     /**
      * gombatestet növeszt az adott id-jű gombafonal tektonjára
