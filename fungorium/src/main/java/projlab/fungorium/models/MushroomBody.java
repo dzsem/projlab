@@ -7,7 +7,7 @@ import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomBody extends TurnAware implements PrintableState, WritableGameObject {
+public class MushroomBody extends TurnAware implements PrintableState {
     public enum Advancement {
         NORMAL,
         ADVANCED

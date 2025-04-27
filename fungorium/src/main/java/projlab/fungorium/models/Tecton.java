@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.MushroomThread.CutState;
 
 /**
  * A Tecton modellje.
  */
-public class Tecton extends TurnAware implements PrintableState, WritableGameObject {
+public class Tecton extends TurnAware implements PrintableState {
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */

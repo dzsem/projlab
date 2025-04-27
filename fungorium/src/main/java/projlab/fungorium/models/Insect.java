@@ -17,7 +17,7 @@ import projlab.fungorium.utilities.Logger;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect extends TurnAware implements PrintableState, WritableGameObject {
+public class Insect extends TurnAware implements PrintableState {
 	/** A rovarász játékos azonosítója */
 	private int insectologistID;
 
