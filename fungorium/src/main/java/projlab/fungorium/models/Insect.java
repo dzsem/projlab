@@ -1,15 +1,7 @@
 package projlab.fungorium.models;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.MushroomThread.CutState;
-import projlab.fungorium.utilities.Logger;
 
 /**
  * A rovarászok által irányított rovarokat megvalósító osztály.
@@ -263,8 +255,8 @@ public class Insect extends TurnAware implements PrintableState {
 		sb.append(getID() + " ");
 		sb.append(insectologistID + " ");
 		sb.append(tecton.getID() + " ");
-		sb.append(canCut + " ");
-		sb.append(canMove + " ");
+		sb.append((canCut ? 1 : 0) + " ");
+		sb.append((canMove ? 1 : 0) + " ");
 		sb.append(counter);
 
 		return sb.toString();
