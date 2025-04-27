@@ -34,7 +34,7 @@ public class Interpreter {
     public void input() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        while (scanner.hasNextLine()) {
             System.out.print("Parancs: ");
             String line = scanner.nextLine().trim();
 
