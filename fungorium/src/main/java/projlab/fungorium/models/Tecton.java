@@ -293,6 +293,21 @@ public class Tecton extends TurnAware implements PrintableState {
         return mushroomBody != null;
     }
 
+
+    /**
+     * Visszaad egy random insect-et ami rajta van a tektonon
+     * @return Egy insect ami rajta volt a tectonon
+     * @throws Exception Ha nem volt insect a tectonon
+     */
+    public Insect getRandomInsect() throws Exception {
+        if (insects.isEmpty()) {
+            throw new Exception("There's no insect on tecton");
+        }
+
+        Random rnd = new Random();
+        return insects.get(rnd.nextInt(insects.size()));
+    }
+
     // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami
     // rajta van
     /**
