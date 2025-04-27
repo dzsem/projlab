@@ -38,17 +38,23 @@ public class Interpreter {
             System.out.print("Parancs: ");
             String line = scanner.nextLine().trim();
 
+            if (line.startsWith("#")) {
+                continue;
+            }
+
             if (line.equalsIgnoreCase("EXIT")) {
                 System.out.println("Kilépés...");
                 break;
             }
 
-            if (line.isEmpty())
+            if (line.isEmpty()) {
                 continue;
+            }
 
             List<String> tokens = Arrays.asList(line.split("\\s+"));
-            if (tokens.isEmpty())
+            if (tokens.isEmpty()) {
                 continue;
+            }
 
             String key;
             if (tokens.size() >= 3 && (tokens.get(0).equalsIgnoreCase("MUSHROOMBODY") ||
