@@ -419,6 +419,11 @@ public class Interpreter {
      */
     public void processConfig(List<String> args) {
         String key;
+        /*
+         * Egy három szavas parancs van, a SET MUSHROOMTHREAD STATE, a többihez mind 2
+         * szavas parancs kell, így a SET MUSHROOMTHREAD STATE-t külön kell kezelni az
+         * elején hogy a STATE-t ne argumentumként vegye át értelmetlen parancshoz
+         */
         if (args.size() >= 2 && args.get(0).equalsIgnoreCase("SET") && args.get(1).equalsIgnoreCase("MUSHROOMTHREAD")) {
             key = "SET MUSHROOMTHREAD STATE";
         } else {
