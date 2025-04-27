@@ -1,16 +1,12 @@
 package projlab.fungorium.utilities;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
@@ -19,18 +15,20 @@ public class Interpreter {
     private static Game game;
 
     protected Interpreter() {
-        init();
+        inputinit();
+        configinit();
     }
 
     protected Interpreter(Game g) {
         game = g;
-        init();
+        inputinit();
+        configinit();
     }
 
     private Map<String, InterpreterCommand> configmap = new HashMap<>();
     private Map<String, InterpreterCommand> inputmap = new HashMap<>();
 
-    private void init() {
+    private void inputinit() {
         inputmap.put("LOAD", args -> {
             load(args.get(0));
         });
@@ -69,7 +67,57 @@ public class Interpreter {
         inputmap.put("NEXTROUND", args -> {
             nextround();
         });
-    };
+    }
+
+    private void configinit() {
+        configmap.put("ADD TECTON", args -> {
+            addTecton();
+        });
+        configmap.put("ADD THREADKILLINGTECTON", args -> {
+            addThreadKillingTecton();
+        });
+        configmap.put("ADD SINGLETHREADTECTON", args -> {
+            addSingleThreadTecton();
+        });
+        configmap.put("ADD INFERTILETECTON", args -> {
+            addInfertileTecton();
+        });
+        configmap.put("ADD KEEPALIVETECTON", args -> {
+            addKeepAliveTecton();
+        });
+        configmap.put("ADD MUSHROOMTHREAD", args -> {
+            addMushroomThread(args);
+        });
+        configmap.put("ADD MUSHROOMBODY", args -> {
+            addMushroomBody(args);
+        });
+        configmap.put("ADD MUSHROOMSPORE", args -> {
+            addMushroomSpore(args);
+        });
+        configmap.put("ADD INSECT", args -> {
+            addInsect(args);
+        });
+        configmap.put("REGISTER NEIGHBOUR", args -> {
+            registerNeighbour(args);
+        });
+        configmap.put("REGISTER CONNECTION", args -> {
+            registerConnection(args);
+        });
+        configmap.put("SET TECTONSPLITCHANCE", args -> {
+            setTectonsplitchance(args);
+        });
+        configmap.put("SET TECTONKILLCHANCE", args -> {
+            setTectonkillchance(args);
+        });
+        /*
+         * configmap.put("SET EFFECTGENERATION", args -> {
+         * 
+         * });
+         */
+        configmap.put("SET MUSHROOMTHREAD STATE", args -> {
+            setMushroomthreadstate(args);
+        });
+    }
 
     private void addTecton() {
         Tecton t = new Tecton();
@@ -77,31 +125,31 @@ public class Interpreter {
         System.out.println("Tecton added");
     }
 
-    private void addThreadkillingtecton() {
+    private void addThreadKillingTecton() {
         ThreadKillingTecton tkt = new ThreadKillingTecton();
         game.addObject(tkt);
         System.out.println("ThreadKillingTecton added");
     }
 
-    private void addSinglethreadtecton() {
+    private void addSingleThreadTecton() {
         SingleThreadTecton stt = new SingleThreadTecton();
         game.addObject(stt);
         System.out.println("SingleThreadTecton added");
     }
 
-    private void addInfertiletecton() {
+    private void addInfertileTecton() {
         InfertileTecton it = new InfertileTecton();
         game.addObject(it);
         System.out.println("InfertileTecton added");
     }
 
-    private void addKeepalivetecton() {
+    private void addKeepAliveTecton() {
         KeepAliveTecton kat = new KeepAliveTecton();
         game.addObject(kat);
         System.out.println("KeepAliveTecton added");
     }
 
-    private void addMushroomthread(List<String> args) {
+    private void addMushroomThread(List<String> args) {
         Tecton threadtecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
         int threadmycid = Integer.valueOf(args.get(1));
         MushroomThread mt = new MushroomThread(threadtecton, threadmycid);
@@ -109,7 +157,7 @@ public class Interpreter {
         System.out.println("MushroomThread added to Mycologist " + threadmycid + " and Tecton " + threadtecton.getID());
     }
 
-    private void addMushroombody(List<String> args) {
+    private void addMushroomBody(List<String> args) {
         Tecton bodytecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
         int bodymycid = Integer.valueOf(args.get(1));
         MushroomBody mb = new MushroomBody(bodytecton, bodymycid);
@@ -117,7 +165,7 @@ public class Interpreter {
         System.out.println("MushroomBody added to Mycologist " + bodymycid + " and Tecton " + bodytecton.getID());
     }
 
-    private void addMushroomspore(List<String> args) {
+    private void addMushroomSpore(List<String> args) {
         Tecton sporetecton = (Tecton) game.getObject(Integer.valueOf(args.get(1)));
         MushroomSpore ms = new MushroomSpore(sporetecton);
         game.addObject(ms);
@@ -181,7 +229,7 @@ public class Interpreter {
         System.out.println("ThreadKillingTecton kill chance set to: " + args.get(1) + "%");
     }
 
-    private void setMushroomthread(List<String> args) {
+    private void setMushroomthreadstate(List<String> args) {
         MushroomThread mt = (MushroomThread) game.getObject(Integer.valueOf(args.get(2)));
         if (!args.get(1).toLowerCase().equals("state")) {
             System.err.println("Command not recognized.");
