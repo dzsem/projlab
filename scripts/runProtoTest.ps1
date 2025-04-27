@@ -26,8 +26,8 @@ function Compile {
 
 	Set-Location -Path $wd
 
-	mvn compile
-	mvn jar:jar
+	mvn.cmd compile
+	mvn.cmd jar:jar
 }
 
 Compile $fungorium_path
@@ -43,12 +43,12 @@ Write-Output "Testing output..."
 
 $result = java -jar $testprocessor_jar $expected_path $output_path
 
-$result_first_line = Write-Output $result | head -1
+# $result_first_line = Write-Output $result | head -1
 
 Write-Output $result
 
-if ($result_first_line -eq "SUCCESS") {
-	Write-Output "SUCCESS"
-}
+# if ($result_first_line -eq "SUCCESS") {
+# 	Write-Output "SUCCESS"
+# }
 
 Set-Location $original_location
