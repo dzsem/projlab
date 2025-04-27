@@ -1,12 +1,11 @@
 package projlab.fungorium.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
-
-import java.util.ArrayList;
 
 /**
  * A Tecton modellje.
@@ -303,6 +302,12 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
     public void killThreads() throws Exception {
         throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
     }
+
+    public void keepThreadsAlive() throws Exception {
+        throw new Exception("Non-KeepAliveTectons can't keep MushroomThreads alive");
+    }
+
+
 
     // -------------------------------------
     // Egyéb
