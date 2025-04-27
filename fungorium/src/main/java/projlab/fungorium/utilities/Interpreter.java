@@ -188,6 +188,8 @@ public class Interpreter {
 
     /**
      * Hozzáad egy tektont a játékhoz
+     * a konstruktorhívás elég, mert a GameObject a kontruktorában implicit
+     * hozzáadja magát a game-hez
      */
     private void addTecton() {
         new Tecton();
