@@ -1,14 +1,17 @@
 package projlab.fungorium.utilities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.Scanner;
 import java.util.HashMap;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
@@ -27,66 +30,112 @@ public class Interpreter {
         configinit();
     }
 
-    public void processConfig(List<String> args) {
-        String key;
-        if (args.size() >= 2 && args.get(0).equalsIgnoreCase("SET") && args.get(1).equalsIgnoreCase("MUSHROOMTHREAD")) {
-            key = "SET MUSHROOMTHREAD STATE"; // Speciális SET MUSHROOMTHREAD eset
-        } else {
-            key = args.get(0).toUpperCase() + " " + args.get(1).toUpperCase();
+    /**
+     * Beolvassa a standard inputra írt sorokat.
+     * Szétválasztja a kulcsot(első és ha van, harmadik token) és az
+     * argumentumokat(második, és ha van, negyedik token) és a HashMapban tárolt
+     * parancsok közül meghívja a megfelelőt
+     */
+    private void input() {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Parancs: ");
+            String line = scanner.nextLine().trim();
+
+            if (line.equalsIgnoreCase("EXIT")) {
+                System.out.println("Kilépés...");
+                break;
+            }
+
+            if (line.isEmpty())
+                continue;
+
+            List<String> tokens = Arrays.asList(line.split("\\s+"));
+            if (tokens.isEmpty())
+                continue;
+
+            String key;
+            if (tokens.size() >= 3 && (tokens.get(0).equalsIgnoreCase("MUSHROOMBODY") ||
+                    tokens.get(0).equalsIgnoreCase("MUSHROOMTHREAD") ||
+                    tokens.get(0).equalsIgnoreCase("INSECT"))) {
+                key = tokens.get(0).toUpperCase() + " " + tokens.get(2).toUpperCase();
+            } else {
+                key = tokens.get(0).toUpperCase();
+            }
+
+            InterpreterCommand cmd = inputmap.get(key);
+            if (cmd != null) {
+                if (key.contains(" ")) {
+                    List<String> args = new ArrayList<>();
+                    args.add(tokens.get(1));
+                    if (tokens.size() > 3) {
+                        args.addAll(tokens.subList(3, tokens.size()));
+                    }
+                    cmd.execute(args);
+                } else {
+                    cmd.execute(tokens.subList(1, tokens.size()));
+                }
+            } else {
+                System.err.println("Unknown command: " + line);
+            }
         }
 
-        InterpreterCommand command = configmap.get(key);
-        if (command != null) {
-            command.execute(args.subList(2, args.size())); // Csak a paramétereket adja tovább
-        } else {
-            System.err.println("Unknown command: " + key);
-        }
+        scanner.close();
     }
 
     private Map<String, InterpreterCommand> configmap = new HashMap<>();
     private Map<String, InterpreterCommand> inputmap = new HashMap<>();
 
+    /**
+     * feltölti az input nyelv parancsait tartalmazó HashMapet a megfelelő
+     * kulcsokkal és értékekkel
+     */
     private void inputinit() {
         inputmap.put("LOAD", args -> {
-            load(args.get(0));
+            load(args);
         });
         inputmap.put("SAVE", args -> {
-            save(args.get(0));
+            save(args);
         });
         inputmap.put("LIST", args -> {
-            list(args.get(0));
+            list(args);
         });
         inputmap.put("SHOW", args -> {
-            show(Integer.valueOf(args.get(0)));
+            show(args);
         });
-        inputmap.put("DISTRIBUTESPORES", args -> {
-            distributespores(Integer.valueOf(args.get(0)));
+        inputmap.put("MUSHROOMBODY DISTRIBUTESPORES", args -> {
+            distributespores(args);
         });
         /*
-         * inputmap.put("EATINSECT", args -> {
+         * inputmap.put("MUSHROOMTHREAD EATINSECT", args -> {
          * load(args);
          * });
          */
-        inputmap.put("GROWBODY", args -> {
-            growbody(Integer.valueOf(args.get(0)));
+        inputmap.put("MUSHROOMTHREAD GROWBODY", args -> {
+            growbody(args);
         });
-        inputmap.put("GROW", args -> {
-            grow(Integer.valueOf(args.get(0)), Integer.valueOf(args.get(1)));
+        inputmap.put("MUSHROOMTHREAD GROW", args -> {
+            grow(args);
         });
-        inputmap.put("MOVE", args -> {
-            move(Integer.valueOf(args.get(0)), Integer.valueOf(args.get(1)));
+        inputmap.put("INSECT MOVE", args -> {
+            move(args);
         });
-        inputmap.put("EATSPORE", args -> {
-            eatspore(Integer.valueOf(args.get(0)));
+        inputmap.put("INSECT EATSPORE", args -> {
+            eatspore(args);
         });
-        inputmap.put("CUTTHREAD", args -> {
-            cutthread(Integer.valueOf(args.get(0)), Integer.valueOf(args.get(1)));
+        inputmap.put("INSECT CUTTHREAD", args -> {
+            cutthread(args);
         });
         inputmap.put("NEXTROUND", args -> {
             nextround();
         });
     }
 
+    /**
+     * feltölti a config nyelv parancsait tartalmazó HashMapet a megfelelő
+     * kulcsokkal és értékekkel
+     */
     private void configinit() {
         configmap.put("ADD TECTON", args -> {
             addTecton();
@@ -137,36 +186,58 @@ public class Interpreter {
         });
     }
 
+    /**
+     * Hozzáad egy tektont a játékhoz
+     */
     private void addTecton() {
         Tecton t = new Tecton();
         game.addObject(t);
         System.out.println("Tecton added");
     }
 
+    /**
+     * Hozzáad egy gombafonál-ölő tektont a játékhoz
+     */
     private void addThreadKillingTecton() {
         ThreadKillingTecton tkt = new ThreadKillingTecton();
         game.addObject(tkt);
         System.out.println("ThreadKillingTecton added");
     }
 
+    /**
+     * Hozzáad egy csak egy fonalat elbíró tektont a játékhoz
+     */
     private void addSingleThreadTecton() {
         SingleThreadTecton stt = new SingleThreadTecton();
         game.addObject(stt);
         System.out.println("SingleThreadTecton added");
     }
 
+    /**
+     * Hozzáad egy terméketlen, gombatestet nem növesztő tektont a játékhoz
+     */
     private void addInfertileTecton() {
         InfertileTecton it = new InfertileTecton();
         game.addObject(it);
         System.out.println("InfertileTecton added");
     }
 
+    /**
+     * Hozzáad egy fonal nélküli gombatestet életben tartó tektont a játékhoz
+     */
     private void addKeepAliveTecton() {
         KeepAliveTecton kat = new KeepAliveTecton();
         game.addObject(kat);
         System.out.println("KeepAliveTecton added");
     }
 
+    /**
+     * hozzáad egy gombafonalat egy adott tektonhoz, egy adott játékos alá tartozva
+     * 
+     * @param args(0) a játékos ID-ja
+     * 
+     * @param args(1) a tekton ID-ja
+     */
     private void addMushroomThread(List<String> args) {
         GameObject threadtecton = game.getObject(Integer.valueOf(args.get(1)));
         if (threadtecton instanceof Tecton) {
@@ -180,6 +251,13 @@ public class Interpreter {
         }
     }
 
+    /**
+     * hozzáad egy gombatestet egy adott tektonhoz, egy adott játékos alá tartozva
+     * 
+     * @param args(0) a játékos ID-ja
+     * 
+     * @param args(1) a tekton ID-ja
+     */
     private void addMushroomBody(List<String> args) {
         GameObject bodytecton = game.getObject(Integer.valueOf(args.get(1)));
         if (bodytecton instanceof Tecton) {
@@ -192,6 +270,11 @@ public class Interpreter {
         }
     }
 
+    /**
+     * rak egy spórát egy adott tektonra
+     * 
+     * @param args(0) a játékos ID-ja
+     */
     private void addMushroomSpore(List<String> args) {
         GameObject sporetecton = game.getObject(Integer.valueOf(args.get(0)));
         if (sporetecton instanceof Tecton) {
@@ -203,6 +286,13 @@ public class Interpreter {
         }
     }
 
+    /**
+     * rak egy rovart egy adott tektonra, egy adott játékos alá tartozva
+     * 
+     * @param args(0) a játékos ID-ja
+     * 
+     * @param args(1) a tekton ID-ja
+     */
     private void addInsect(List<String> args) {
         GameObject insecttecton = game.getObject(Integer.valueOf(args.get(1)));
         if (insecttecton instanceof Tecton) {
@@ -216,6 +306,13 @@ public class Interpreter {
         }
     }
 
+    /**
+     * szomszédossá teszi a megadott tektonokat
+     * 
+     * @param args(0) az első tekton ID-ja
+     * 
+     * @param args(1) a második tekton ID-ja
+     */
     private void registerNeighbour(List<String> args) {
         GameObject t1 = game.getObject(Integer.valueOf(args.get(0)));
         GameObject t2 = game.getObject(Integer.valueOf(args.get(1)));
@@ -231,6 +328,13 @@ public class Interpreter {
         }
     }
 
+    /**
+     * összeköti a megadott gombafonalakat
+     * 
+     * @param args(0) az első gombafonál ID-ja
+     * 
+     * @param args(1) a második gombafonál ID-ja
+     */
     private void registerConnection(List<String> args) {
         GameObject mt1 = game.getObject(Integer.valueOf(args.get(0)));
         GameObject mt2 = game.getObject(Integer.valueOf(args.get(1)));
@@ -248,6 +352,11 @@ public class Interpreter {
         }
     }
 
+    /**
+     * beállítja a tektonok törési esélyét egy adott számra (százalékban megadva)
+     * 
+     * @param args(0) a törés esélye százalékban
+     */
     private void setTectonsplitchance(List<String> args) {
         List<GameObject> gos = game.getGameObjects();
         double chance = Double.valueOf(args.get(0)) / 100;
@@ -259,6 +368,12 @@ public class Interpreter {
         System.out.println("Global Tecton split chance set to: " + args.get(0) + "%");
     }
 
+    /**
+     * beállítja a gombafonál-ölő tektonok ölési esélyét egy adott számra
+     * (százalékban megadva)
+     * 
+     * @param args(0) az ölés esélye százalékban
+     */
     private void setTectonkillchance(List<String> args) {
         List<GameObject> gos = game.getGameObjects();
         double chance = Double.valueOf(args.get(0)) / 100;
@@ -270,6 +385,15 @@ public class Interpreter {
         System.out.println("ThreadKillingTecton kill chance set to: " + args.get(0) + "%");
     }
 
+    /**
+     * beállítja egy adott gombafonál növekedési és vágási állapotát
+     * 
+     * @param args(0) a gombafonál ID-ja
+     * 
+     * @param args(1) a vágási állapot
+     * 
+     * @param args(2) a növekedési állapot
+     */
     private void setMushroomthreadstate(List<String> args) {
         GameObject obj = game.getObject(Integer.valueOf(args.get(0)));
         if (obj instanceof MushroomThread) {
@@ -302,7 +426,43 @@ public class Interpreter {
         }
     }
 
-    public void load(String filename) {
+    /**
+     * Szétválasztja a paraméterként kapott listából (egy fájl sora szavakra bontva)
+     * a kulcsot(első és második token) és az
+     * argumentumokat(ha van, harmadik, és ha van, negyedik token) és a HashMapban
+     * tárolt parancsok közül meghívja a megfelelőt
+     * 
+     * @param args(0) és
+     * @param args(1) az elvégzendő parancs típusa, és az objektum amin
+     *                el kell végezni
+     * 
+     * @param args(2) és
+     * @param args(3) a parancsok paraméterei, nem feltétlenül vannak
+     */
+    public void processConfig(List<String> args) {
+        String key;
+        if (args.size() >= 2 && args.get(0).equalsIgnoreCase("SET") && args.get(1).equalsIgnoreCase("MUSHROOMTHREAD")) {
+            key = "SET MUSHROOMTHREAD STATE";
+        } else {
+            key = args.get(0).toUpperCase() + " " + args.get(1).toUpperCase();
+        }
+
+        InterpreterCommand command = configmap.get(key);
+        if (command != null) {
+            command.execute(args.subList(2, args.size()));
+        } else {
+            System.err.println("Unknown command: " + key);
+        }
+    }
+
+    /**
+     * a paraméterként kapott fájlnévhez tartozó fájl sorait beolvassa, és a
+     * processConfig() függvénnyel feldogoztatja
+     * 
+     * @param args(0) a betöltendő fájl neve
+     */
+    public void load(List<String> args) {
+        String filename = args.get(0);
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -310,8 +470,8 @@ public class Interpreter {
                 if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
-                List<String> args = Arrays.asList(line.split("\\s+"));
-                processConfig(args);
+                List<String> configargs = Arrays.asList(line.split("\\s+"));
+                processConfig(configargs);
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + filename);
@@ -319,12 +479,44 @@ public class Interpreter {
         }
     }
 
-    // TODO
-    private void save(String filename) {
+    /**
+     * elmenti a paraméterként kapott néven egy fájlba a kiírhatóü játékbeli
+     * objektumokat
+     * 
+     * @param args(0) a fájl neve, ahova a játék a mentést végzi
+     */
+    private void save(List<String> args) {
+        String filename = args.get(0);
+        File file = new File(filename);
 
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+        } catch (IOException e) {
+            Logger.printError("Could not prepare file: " + e.getMessage());
+            return;
+        }
+
+        for (GameObject obj : game.getGameObjects()) {
+            if (obj instanceof WritableGameObject) {
+                WritableGameObject wgo = (WritableGameObject) obj;
+                IOHandler.save(file, wgo);
+            }
+        }
+
+        System.out.println("Save complete: " + filename);
     }
 
-    public void list(String typeName) {
+    /**
+     * Kiírja a standard kimenetre az összes objektumot, ami a paraméterként kapott
+     * típussal rendelkezik
+     * 
+     * @param args(0) a listázandó típus
+     */
+    public void list(List<String> args) {
+        String typeName = args.get(0);
         System.out.println("Objects of type '" + typeName + "':");
 
         boolean found = false;
@@ -340,11 +532,23 @@ public class Interpreter {
         }
     }
 
-    public void show(int id) {
+    /**
+     * kiírja standard kimenetre az adott id-vel rendelkező objektumot
+     * 
+     * @param args(0) az id
+     */
+    public void show(List<String> args) {
+        int id = Integer.valueOf(args.get(0));
         System.out.println(game.getObject(id).getOutputString());
     }
 
-    public void distributespores(int id) {
+    /**
+     * adott gombatesttel spórát szórat
+     * 
+     * @param args(0) a gombatest id-ja
+     */
+    public void distributespores(List<String> args) {
+        int id = Integer.valueOf(args.get(0));
         GameObject mushroombody = game.getObject(id);
         if (mushroombody instanceof MushroomBody mb) {
             mb.distributeSpores();
@@ -354,7 +558,7 @@ public class Interpreter {
         }
     }
 
-    /*
+    /**
      * TODO: finish after insect eating mushroomthread implemented
      * public void eatinsect(int id) {
      * GameObject mushroom = game.getObject(id);
@@ -367,7 +571,13 @@ public class Interpreter {
      * }
      */
 
-    public void growbody(int threadid) {
+    /**
+     * gombatestet növeszt az adott id-jű gombafonal tektonjára
+     * 
+     * @param args(0) a gombafonál id-je
+     */
+    public void growbody(List<String> args) {
+        int threadid = Integer.valueOf(args.get(0));
         GameObject mushroomthread = game.getObject(threadid);
         if (mushroomthread instanceof MushroomThread mt) {
             try {
@@ -381,7 +591,15 @@ public class Interpreter {
         }
     }
 
-    public void grow(int threadid, int tectonid) {
+    /**
+     * adott gombafonál létrehoz egy új gombafonalat az adott tecton felé
+     * 
+     * @param args(0) a gombafonál id-je
+     * @param args(1) a tekton id-je
+     */
+    public void grow(List<String> args) {
+        int threadid = Integer.valueOf(args.get(0));
+        int tectonid = Integer.valueOf(args.get(1));
         GameObject mushroomthread = game.getObject(threadid);
         if (mushroomthread instanceof MushroomThread mt) {
             try {
@@ -399,7 +617,15 @@ public class Interpreter {
         }
     }
 
-    public void move(int insectid, int tectonid) {
+    /**
+     * adott rovart átmozget egy adott tektonra
+     * 
+     * @param args(0) a rovar id-je
+     * @param args(1) a tekton id-je
+     */
+    public void move(List<String> args) {
+        int insectid = Integer.valueOf(args.get(0));
+        int tectonid = Integer.valueOf(args.get(1));
         GameObject insect = game.getObject(insectid);
         GameObject tecton = game.getObject(tectonid);
         if (insect instanceof Insect) {
@@ -417,7 +643,13 @@ public class Interpreter {
         }
     }
 
-    public void eatspore(int insectid) {
+    /**
+     * adott rovar megeszik egy spórát a tektonról, amin van
+     * 
+     * @param args(0) a rovar id-je
+     */
+    public void eatspore(List<String> args) {
+        int insectid = Integer.valueOf(args.get(0));
         GameObject insect = game.getObject(insectid);
         if (insect instanceof Insect) {
             try {
@@ -430,7 +662,15 @@ public class Interpreter {
         }
     }
 
-    public void cutthread(int insectid, int threadid) {
+    /**
+     * adott rovar elvág egy adott id-jű gombafonalat
+     * 
+     * @param args(0) a rovar id-je
+     * @param args(0) a gombafonál id-je
+     */
+    public void cutthread(List<String> args) {
+        int insectid = Integer.valueOf(args.get(0));
+        int threadid = Integer.valueOf(args.get(1));
         GameObject insect = game.getObject(insectid);
         GameObject thread = game.getObject(threadid);
         if (insect instanceof Insect) {
@@ -444,6 +684,9 @@ public class Interpreter {
         }
     }
 
+    /**
+     * az összes köröket figyelő objektumot átléptet a következő körbe
+     */
     public void nextround() {
         for (TurnAware ta : game.getTurnAwares()) {
             ta.onEndOfTheRound();
