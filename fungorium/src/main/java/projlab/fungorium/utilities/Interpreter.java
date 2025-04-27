@@ -15,6 +15,7 @@ import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
+import projlab.fungorium.models.effects.EffectTypes;
 
 public class Interpreter {
     private static Game game;
@@ -177,11 +178,9 @@ public class Interpreter {
         configmap.put("SET TECTONKILLCHANCE", args -> {
             setTectonkillchance(args);
         });
-        /*
-         * configmap.put("SET EFFECTGENERATION", args -> {
-         * 
-         * });
-         */
+        configmap.put("SET EFFECTGENERATION", args -> {
+            setEffectgeneration(args);
+        });
         configmap.put("SET MUSHROOMTHREAD STATE", args -> {
             setMushroomthreadstate(args);
         });
@@ -367,6 +366,53 @@ public class Interpreter {
         double chance = Double.valueOf(args.get(0)) / 100;
         ThreadKillingTecton.setKillChance(chance);
         System.out.println("ThreadKillingTecton kill chance set to: " + args.get(0) + "%");
+    }
+
+    /**
+     * beállítja adott spórának az effektjét
+     * 
+     * @param args(0) a spóra id-je
+     * @param args(1) az effekt
+     */
+    private void setEffectgeneration(List<String> args) {
+        GameObject obj = game.getObject(Integer.valueOf(args.get(0)));
+        if (obj instanceof MushroomSpore msp) {
+            switch (args.get(1)) {
+                case "BLOCK":
+                    msp.setEffectGeneration(EffectTypes.BLOCK);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "SLOW":
+                    msp.setEffectGeneration(EffectTypes.SLOW);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "SPEED":
+                    msp.setEffectGeneration(EffectTypes.SPEED);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "STUN":
+                    msp.setEffectGeneration(EffectTypes.STUN);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "NO":
+                    msp.setEffectGeneration(EffectTypes.NO);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "DUPLICATE":
+                    msp.setEffectGeneration(EffectTypes.DUPLICATE);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                case "RANDOM":
+                    msp.setEffectGeneration(EffectTypes.RANDOM);
+                    System.out.println("Effect of spore " + args.get(0) + " set to " + args.get(1));
+                    break;
+                default:
+                    System.err.println("Effect not recognised.");
+                    break;
+            }
+        } else {
+            System.err.println("The id does not belong to a MushroomSpore.");
+        }
     }
 
     /**
