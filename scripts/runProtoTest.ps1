@@ -45,6 +45,8 @@ $result = java -jar $testprocessor_jar $expected_path $output_path
 
 $result_first_line = Write-Output $result | head -1
 
+Write-Output $result
+
 if ($result_first_line -eq "SUCCESS") {
 	Write-Output "SUCCESS"
 }
