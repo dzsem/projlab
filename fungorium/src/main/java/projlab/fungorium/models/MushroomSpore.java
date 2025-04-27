@@ -1,23 +1,44 @@
 package projlab.fungorium.models;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.effects.*;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Supplier;
 
-public class MushroomSpore implements PrintableState {
+public class MushroomSpore extends GameObject implements PrintableState, WritableGameObject {
+    private Tecton tecton;
+    private EffectTypes effectType;
+    private static final Map<EffectTypes, Supplier<Effect>> effectMap = Map.of(
+            EffectTypes.BLOCK, BlockEffect::new,
+            EffectTypes.SLOW, SlowEffect::new,
+            EffectTypes.SPEED, SpeedEffect::new,
+            EffectTypes.STUN, StunEffect::new,
+            EffectTypes.NO, NoEffect::new
+    );
+
     /**
      * mikor egy spóra létrejön, akkor hozzáadja magát a tecton listájához, amin rajta van
      * @param tecton a Tetcon, amin a spóra rajta van
      */
     public MushroomSpore(Tecton tecton) {
+        super();
+        this.tecton = tecton;
         tecton.addSpore(this);
+        effectType=EffectTypes.RANDOM;
+    }
+
+    public void setEffectGeneration(EffectTypes effectType) {
+        this.effectType = effectType;
     }
     /**
      * vissza add egy random effectet
      * @return egy random effectet, ami lehet blockkoló, lassító, gyorsító, bénító vagy semmilyen
      */
     protected Effect generateEffect(){
+        if(effectType==EffectTypes.RANDOM){
         Random rand = new Random();
         return switch (rand.nextInt(5)) {
             case 1 -> new BlockEffect();
@@ -26,6 +47,8 @@ public class MushroomSpore implements PrintableState {
             case 4 -> new StunEffect();
             default -> new NoEffect();
         };
+        }
+        return effectMap.get(effectType).get();
     }
 
     /**
@@ -39,5 +62,13 @@ public class MushroomSpore implements PrintableState {
     @Override
     public String getStateString() {
         return "This is a Mushroom Spore, which  can be eaten or used";
+    }
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMSPORE");
+        sb.append(getID() + " ");
+        sb.append(tecton.getID());
+
+        return sb.toString();
     }
 }
