@@ -33,4 +33,16 @@ public final class InfertileTecton extends Tecton {
     public final void growBody(int mushroomID) throws Exception{
         throw new Exception("InfertileTecton can't grow a body");
     }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("INFERTILETECTON ");
+        sb.append(getID() + " ");
+        sb.append(neighbours.size() + " ");
+        sb.append(hasBody() ? mushroomBody.getID() + " " : -1 + " ");
+        sb.append(mushroomThreads.size() + " ");
+        sb.append(mushroomSpores.size());
+
+        return sb.toString();
+    }
 }

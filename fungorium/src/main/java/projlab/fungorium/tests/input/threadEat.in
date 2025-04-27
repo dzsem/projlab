@@ -3,12 +3,11 @@
 # Input
 # ------------------------------------------
 # Insect gets stunned
-INSECT 3 EATSPORE
+LOAD config/threadEat.cfg
+INSECT 6 EATSPORE
 # Thread eats insect
-# 4
+# 7
 MUSHROOMTHREAD 1 EATINSECT
 # Print states
 # ------------------------------------------
-LIST INSECT
-LIST MUSHROOMTHREAD
-LIST MUSHROOMBODY
+SAVE threadEat.out

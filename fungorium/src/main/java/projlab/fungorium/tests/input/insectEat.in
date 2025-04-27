@@ -2,9 +2,8 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
+LOAD config/insectEat.cfg
 INSECT 1 EATSPORE
 # Print states
 # ------------------------------------------
-LIST TECTON
-LIST INSECT
-LIST MUSHROOMSPORE
+SAVE insectEat.out

@@ -14,10 +14,12 @@ import projlab.fungorium.models.ThreadKillingTecton;
 import projlab.fungorium.utilities.Logger;
 
 /**
- * Ez az osztály felelős a Tectonhoz tartozó tesztesetekért és azok inicializásáért.
+ * Ez az osztály felelős a Tectonhoz tartozó tesztesetekért és azok
+ * inicializásáért.
  */
 public final class TectonTester {
     private static final int MUSHROOM_ID = 1;
+    private static final int INSECT_ID = 0;
 
     // -------------------------------------
     // Teszt függvények
@@ -258,7 +260,7 @@ public final class TectonTester {
     public static final void tectonKillThread() {
         // init
         Tecton t = new Tecton();
-        Insect i = new Insect(t);
+        Insect i = new Insect(INSECT_ID, t);
         MushroomThread mt1 = new MushroomThread(t, MUSHROOM_ID);
         MushroomThread mt2 = new MushroomThread(t, MUSHROOM_ID);
         MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
@@ -269,8 +271,7 @@ public final class TectonTester {
         Logger.print("void", "Tecton::killThreads", "");
         try {
             t.killThreads();
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
 
@@ -283,11 +284,11 @@ public final class TectonTester {
     public static final void tectonSplit() {
         // init
         Tecton t = new Tecton();
-        Insect i = new Insect(t);
+        Insect i = new Insect(INSECT_ID, t);
         MushroomThread mt1 = new MushroomThread(t, MUSHROOM_ID);
         MushroomThread mt2 = new MushroomThread(t, MUSHROOM_ID);
         MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
-        
+
         Logger.printState(t);
 
         // test

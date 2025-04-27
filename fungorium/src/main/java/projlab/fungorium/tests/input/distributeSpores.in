@@ -2,8 +2,8 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
+LOAD config/distributeSpores.cfg
 MUSHROOMBODY 1 DISTRIBUTESPORES
 # Print states
 # ------------------------------------------
-LIST TECTON
-LIST MUSHROOMBODY
+SAVE distributeSpores.out

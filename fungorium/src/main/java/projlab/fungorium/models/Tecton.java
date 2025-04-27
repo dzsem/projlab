@@ -1,17 +1,16 @@
 package projlab.fungorium.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
-
-import java.util.ArrayList;
+import projlab.fungorium.models.MushroomThread.CutState;
 
 /**
  * A Tecton modellje.
  */
-public class Tecton implements TurnAware, PrintableState {
+public class Tecton extends TurnAware implements PrintableState {
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */
@@ -24,7 +23,9 @@ public class Tecton implements TurnAware, PrintableState {
     }
 
     /**
-     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * Létrehoz egy új Tectont, a szomszédjait paraméterként kapja meg, és nincs
+     * rajta semmi.
+     * 
      * @param neighbours Szomszédos tektonok.
      */
     public Tecton(List<Tecton> neighbours) {
@@ -33,7 +34,7 @@ public class Tecton implements TurnAware, PrintableState {
         this.mushroomSpores = new ArrayList<>();
         this.insects = new ArrayList<>();
         this.neighbours = new ArrayList<>();
-    
+
         for (Tecton t : neighbours) {
             registerNeighbour(t);
         }
@@ -43,7 +44,8 @@ public class Tecton implements TurnAware, PrintableState {
     // Tecton stuff
 
     /**
-     * Tekton szakadás. Létrehoz egy új Tectont, aminek beregisztálja magát és az összes szomszédját szomszédnak. Elszakítja a Tectonon lévő összes fonalat.
+     * Tekton szakadás. Létrehoz egy új Tectont, aminek beregisztálja magát és az
+     * összes szomszédját szomszédnak. Elszakítja a Tectonon lévő összes fonalat.
      */
     public final void split() {
         List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
@@ -52,7 +54,7 @@ public class Tecton implements TurnAware, PrintableState {
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {
-            mushroomThread.cut();
+            mushroomThread.setCutState(CutState.CUT);
         }
     }
 
@@ -67,7 +69,8 @@ public class Tecton implements TurnAware, PrintableState {
     }
 
     /**
-     * Hozzáadja a megadott Tectont ennek a Tectonnak a szomszédjai közé, aztán ezt a Tectont is hozzáadja a megadott Tecton szomszédjai közé.
+     * Hozzáadja a megadott Tectont ennek a Tectonnak a szomszédjai közé, aztán ezt
+     * a Tectont is hozzáadja a megadott Tecton szomszédjai közé.
      * 
      * @param t A másik tekton
      */
@@ -83,7 +86,8 @@ public class Tecton implements TurnAware, PrintableState {
     }
 
     /**
-     * Eltávolítja a megadott Tectont ennek a Tectonnak a szomszédjai közül, aztán ezt a Tectont is eltávolítja a megadott Tecton szomszédjai közül.
+     * Eltávolítja a megadott Tectont ennek a Tectonnak a szomszédjai közül, aztán
+     * ezt a Tectont is eltávolítja a megadott Tecton szomszédjai közül.
      * 
      * @param t A másik tekton
      */
@@ -97,8 +101,6 @@ public class Tecton implements TurnAware, PrintableState {
 
         t.unregisterNeighbour(this);
     }
-
-
 
     // -------------------------------------
     // MushroomThread stuff
@@ -141,8 +143,6 @@ public class Tecton implements TurnAware, PrintableState {
         mushroomThreads.remove(mt);
     }
 
-
-
     // -------------------------------------
     // Insect stuff
 
@@ -163,8 +163,6 @@ public class Tecton implements TurnAware, PrintableState {
     public final void unregisterInsect(Insect i) {
         insects.remove(i);
     }
-
-
 
     // -------------------------------------
     // MushroomSpore stuff
@@ -211,8 +209,6 @@ public class Tecton implements TurnAware, PrintableState {
         return mushroomSpores.size();
     }
 
-
-
     // -------------------------------------
     // MushroomBody stuff
 
@@ -255,11 +251,14 @@ public class Tecton implements TurnAware, PrintableState {
     public void setBody(MushroomBody mb) {
         mushroomBody = mb;
     }
-    
+
     /**
      * Növeszt egy gombatestet a megadott mushroomID-val
+     * 
      * @param mushroomID az új gombatest mushroomID-ja
-     * @throws Exception Ha a Tectonon már nő egy gombatest, vagy ha a Tectonon nincs legalább 3 MushroomSpore, vagy ha a Tectonon nem nő még MushroomThread mb-től.
+     * @throws Exception Ha a Tectonon már nő egy gombatest, vagy ha a Tectonon
+     *                   nincs legalább 3 MushroomSpore, vagy ha a Tectonon nem nő
+     *                   még MushroomThread mb-től.
      */
     public void growBody(int mushroomID) throws Exception {
         if (mushroomBody != null) {
@@ -294,7 +293,28 @@ public class Tecton implements TurnAware, PrintableState {
         return mushroomBody != null;
     }
 
-    // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami rajta van
+
+    /**
+     * Visszaad egy random insect-et ami rajta van a tektonon
+     * @return Egy insect ami rajta volt a tectonon
+     * @throws Exception Ha nem volt insect a tectonon
+     */
+    public Insect getStunnedInsect() throws Exception {
+        if (insects.isEmpty()) {
+            throw new Exception("There's no insect on tecton");
+        }
+
+        for (Insect insect : insects) {
+            if (!insect.getCanMove()) {
+                return insect;
+            }
+        }
+
+        throw new Exception("Tecton has no stunnedinsect");
+    }
+
+    // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami
+    // rajta van
     /**
      * Nem csinál semmit, mivel ezt csak a ThreadKillingTecton tudja végrehajtani.
      * 
@@ -304,7 +324,9 @@ public class Tecton implements TurnAware, PrintableState {
         throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
     }
 
-
+    public void keepThreadsAlive() throws Exception {
+        throw new Exception("Non-KeepAliveTectons can't keep MushroomThreads alive");
+    }
 
     // -------------------------------------
     // Egyéb
@@ -335,6 +357,18 @@ public class Tecton implements TurnAware, PrintableState {
         if (r.nextDouble() < splitChance) {
             this.split();
         }
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("TECTON ");
+        sb.append(getID() + " ");
+        sb.append(neighbours.size() + " ");
+        sb.append(hasBody() ? mushroomBody.getID() + " " : -1 + " ");
+        sb.append(mushroomThreads.size() + " ");
+        sb.append(mushroomSpores.size());
+
+        return sb.toString();
     }
 
     /**
@@ -399,8 +433,9 @@ public class Tecton implements TurnAware, PrintableState {
 
     protected MushroomBody mushroomBody;
     protected List<MushroomThread> mushroomThreads;
-    private List<MushroomSpore> mushroomSpores;
+    protected List<MushroomSpore> mushroomSpores;
     private List<Insect> insects;
-    private List<Tecton> neighbours;
+    protected List<Tecton> neighbours;
     protected static double splitChance = 0.1f;
+
 }

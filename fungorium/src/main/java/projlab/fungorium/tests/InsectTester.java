@@ -27,6 +27,7 @@ public class InsectTester {
 	}
 
 	private static final int MUSHROOM_ID = 0;
+	private static final int INSECT_ID = 1;
 
 	private static Tecton t1;
 	private static Tecton t2;
@@ -62,7 +63,7 @@ public class InsectTester {
 		initClearVariables();
 
 		t1 = new Tecton();
-		insect = new Insect(t1);
+		insect = new Insect(INSECT_ID, t1);
 		spore = new MushroomSpore(t1);
 	}
 
@@ -74,7 +75,7 @@ public class InsectTester {
 		initClearVariables();
 
 		t1 = new Tecton();
-		insect = new Insect(t1);
+		insect = new Insect(INSECT_ID, t1);
 		spore = null;
 	}
 
@@ -95,7 +96,7 @@ public class InsectTester {
 
 		t4.registerNeighbour(t3);
 
-		insect = new Insect(t1);
+		insect = new Insect(INSECT_ID, t1);
 		mt1 = new MushroomThread(t1, MUSHROOM_ID);
 
 		mt1.setGrowState(GrowState.GROWN);
@@ -122,7 +123,7 @@ public class InsectTester {
 
 		t1.registerNeighbour(t2);
 
-		insect = new Insect(t1);
+		insect = new Insect(INSECT_ID, t1);
 
 		mt1 = new MushroomThread(t1, MUSHROOM_ID);
 		mt1.setGrowState(GrowState.GROWN);

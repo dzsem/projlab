@@ -1,9 +1,11 @@
 package projlab.fungorium.utilities;
 
 import projlab.fungorium.interfaces.PrintableState;
+import projlab.fungorium.interfaces.WritableGameObject;
 
 public class Logger {
-    private Logger() {}
+    private Logger() {
+    }
 
     public static void print(String returnValue, String method, String... parameters) {
         System.out.print(method + "(");
@@ -16,8 +18,12 @@ public class Logger {
                 }
             }
         }
-        
-        System.out.println( ") = " + returnValue);
+
+        System.out.println(") = " + returnValue);
+    }
+
+    public static void printObject(WritableGameObject wgo) {
+        System.out.println(wgo.getOutputString());
     }
 
     public static void printError(String errorMessage) {
