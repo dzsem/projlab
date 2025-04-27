@@ -19,13 +19,8 @@ import projlab.fungorium.models.MushroomThread.GrowState;
 public class Interpreter {
     private static Game game;
 
-    protected Interpreter() {
-        inputinit();
-        configinit();
-    }
-
-    protected Interpreter(Game g) {
-        game = g;
+    public Interpreter() {
+        game = Game.getInstance();
         inputinit();
         configinit();
     }
