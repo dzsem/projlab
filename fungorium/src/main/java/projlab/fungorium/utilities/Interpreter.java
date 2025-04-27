@@ -34,6 +34,13 @@ public class Interpreter {
 
     };
 
+    /*
+     * A konfig nyelv ADD parancsát megvalósító függvény.
+     * Az első argumentumként megadott objektumot adja hozzá a játéhoz, a többi
+     * argumentumot az objektum konstruktorának adja át.
+     * 
+     * @param args a parancsnak megadott argumentumok listája
+     */
     private void add(List<String> args) {
         switch (args.get(0).toLowerCase()) {
             case "tecton":
@@ -45,28 +52,22 @@ public class Interpreter {
                 ThreadKillingTecton tkt = new ThreadKillingTecton();
                 game.addObject(tkt);
                 System.out.println("ThreadKillingTecton added");
-
                 break;
             case "singlethreadtecton":
                 SingleThreadTecton stt = new SingleThreadTecton();
                 game.addObject(stt);
                 System.out.println("SingleThreadTecton added");
-
                 break;
             case "infertiletecton":
                 InfertileTecton it = new InfertileTecton();
                 game.addObject(it);
                 System.out.println("InfertileTecton added");
-
                 break;
-            /*
-             * TODO: After KeepAliveTecton is implemented
-             * case "keepalivetecton":
-             * KeepAliveTecton kat = new KeepAliveTecton();
-             * game.addObject(kat);
-             * System.out.println("KeepAliveTecton added");
-             * break;
-             */
+            case "keepalivetecton":
+                KeepAliveTecton kat = new KeepAliveTecton();
+                game.addObject(kat);
+                System.out.println("KeepAliveTecton added");
+                break;
             case "mushroomthread":
                 Tecton threadtecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
                 int threadmycid = Integer.valueOf(args.get(1));
@@ -109,18 +110,39 @@ public class Interpreter {
         }
     }
 
+    /*
+     * A konfig nyelv REGISTER parancsát megvalósító függvény. Két Tecton vagy
+     * MushroomThread között létesít kapcsolatot.
+     * 
+     * @param args első eleme a kapcsolat típusa, a második és harmadik pedig a két
+     * objektum azonosítói
+     */
     private void register(List<String> args) {
         switch (args.get(0).toLowerCase()) {
             case "neighbour":
-                Tecton t1 = (Tecton) game.getObject(Integer.valueOf(args.get(1)));
-                Tecton t2 = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
-                t1.registerNeighbour(t2);
+                GameObject t1 = game.getObject(Integer.valueOf(args.get(1)));
+                GameObject t2 = game.getObject(Integer.valueOf(args.get(2)));
+                if (t1 instanceof Tecton) {
+                    if (t2 instanceof Tecton) {
+                        ((Tecton) t1).registerNeighbour(((Tecton) t2));
+                    }
+                    System.err.println("The second id does not belong to a Tecton.");
+                } else {
+                    System.err.println("The first id does not belong to a Tecton.");
+                }
                 break;
             case "connection":
-                MushroomThread mt1 = (MushroomThread) game.getObject(Integer.valueOf(args.get(1)));
-                MushroomThread mt2 = (MushroomThread) game.getObject(Integer.valueOf(args.get(2)));
-                mt1.addConnection(mt2);
-                mt2.addConnection(mt1);
+                GameObject mt1 = game.getObject(Integer.valueOf(args.get(1)));
+                GameObject mt2 = game.getObject(Integer.valueOf(args.get(2)));
+                if (mt1 instanceof MushroomThread) {
+                    if (mt2 instanceof MushroomThread) {
+                        ((MushroomThread) mt1).addConnection((MushroomThread) mt2);
+                        ((MushroomThread) mt2).addConnection((MushroomThread) mt1);
+                    }
+                    System.err.println("The second id does not belong to a Tecton.");
+                } else {
+                    System.err.println("The first id does not belong to a Tecton.");
+                }
                 break;
             default:
                 System.err.println("Command not recognized. Possible parameters:");
@@ -130,6 +152,12 @@ public class Interpreter {
         }
     }
 
+    /*
+     * A konfig nyelv SET parancsát megvalósító függvény. Be lehet vele állítani egy
+     * spóra effektjét, a tektonok szakadási esélyét, a fonálölő tekton fonálölési
+     * esélyét, és egy gombafonál vágási/növekedési állapotát.
+     * 
+     */
     private void set(List<String> args) {
         switch (args.get(0).toLowerCase()) {
             /*
@@ -273,8 +301,8 @@ public class Interpreter {
      * }
      */
 
-    public void GrowBody(int id) {
-        GameObject mushroomthread = game.getObject(id);
+    public void GrowBody(int threadid) {
+        GameObject mushroomthread = game.getObject(threadid);
         if (mushroomthread instanceof MushroomThread mt) {
             try {
                 mt.getTecton().growBody(mt.getMushroomID());
@@ -287,7 +315,35 @@ public class Interpreter {
         }
     }
 
-    public void grow(int id, int tectonid) {
+    public void grow(int threadid, int tectonid) {
+        GameObject mushroomthread = game.getObject(threadid);
+        if (mushroomthread instanceof MushroomThread mt) {
+            try {
+                GameObject tecton = game.getObject(tectonid);
+                if (tecton instanceof Tecton tec) {
+                    mt.createConnection(tec);
+                } else {
+                    System.err.println("The object with the specified ID isn't a Tecton");
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+        } else {
+            System.err.println("The object with the specified ID isn't a MushroomThread");
+        }
+    }
 
+    public void move(int insectid, int tectonid) {
+        GameObject insect = game.getObject(insectid);
+        GameObject tecton = game.getObject(tectonid);
+        if (insect instanceof Insect) {
+            if (tecton instanceof Tecton) {
+                try {
+                    ((Insect) insect).moveToTecton((Tecton) tecton);
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+            }
+        }
     }
 }
