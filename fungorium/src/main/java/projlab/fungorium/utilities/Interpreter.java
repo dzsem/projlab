@@ -708,9 +708,9 @@ public class Interpreter {
         if (insect instanceof Insect) {
             if (thread instanceof MushroomThread) {
                 ((Insect) insect).cutMushroomThread((MushroomThread) thread);
+            } else {
+                System.err.println("The second id does not belong to a MushroomThread.");
             }
-            System.err.println("The second id does not belong to a MushroomThread.");
-
         } else {
             System.err.println("The first id does not belong to an Insect.");
         }
