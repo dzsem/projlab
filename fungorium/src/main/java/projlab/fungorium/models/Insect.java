@@ -8,6 +8,7 @@ import java.io.OutputStream;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.utilities.Logger;
 
 /**
@@ -16,7 +17,10 @@ import projlab.fungorium.utilities.Logger;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect extends TurnAware implements PrintableState, WritableGameObject {
+public class Insect extends TurnAware implements PrintableState {
+	/** A rovarász játékos azonosítója */
+	private int insectologistID;
+
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
@@ -55,6 +59,8 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 	 */
 	private Tecton tecton;
 
+	private static final int COUNTER_DEFAULT_VALUE = 3;
+
 	/**
 	 * Létrehoz egy rovart, a megadott tektonon.
 	 *
@@ -62,7 +68,8 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 	 *                       tektonra a rovar regisztálásra kerül a konstruktor
 	 *                       lefutásakor.
 	 */
-	public Insect(Tecton startingTecton) {
+	public Insect(int playerID, Tecton startingTecton) {
+		insectologistID = playerID;
 		tecton = startingTecton;
 		canMove = true;
 		canCut = true;
@@ -71,16 +78,19 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 		tecton.registerInsect(this);
 	}
 
+	public void die() {
+		tecton.unregisterInsect(this);
+		delete();
+	}
+
 	/**
 	 * Elvágja a bemenetként adott gombafonalat, amennyiben
 	 * 
 	 * @param mt Az elvágandó gombafonál
 	 */
 	public void cutMushroomThread(MushroomThread mt) {
-		// TODO: ez így akármilyen gombafonalat el tud vágni, lehet módosítani kéne a
-		// diagramokon? ~tams
 		if (canCut) {
-			mt.cut();
+			mt.setCutState(CutState.CUT);
 		}
 	}
 
@@ -220,9 +230,10 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 		counter = COUNTER_DEFAULT_VALUE;
 	}
 
-	/**
-	 * Visszaadja a tektont, amin a rovar áll.
-	 */
+	public int getInsectologistID() {
+		return insectologistID;
+	}
+
 	public Tecton getTecton() {
 		return tecton;
 	}
@@ -245,13 +256,12 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 		return counter != 0;
 	}
 
-	private static final int COUNTER_DEFAULT_VALUE = 3;
-
 	@Override
 	public String getOutputString() {
 		StringBuilder sb = new StringBuilder("INSECT ");
 
 		sb.append(getID() + " ");
+		sb.append(insectologistID + " ");
 		sb.append(tecton.getID() + " ");
 		sb.append(canCut + " ");
 		sb.append(canMove + " ");

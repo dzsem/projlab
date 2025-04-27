@@ -1,17 +1,16 @@
 package projlab.fungorium.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.WritableGameObject;
-
-import java.util.ArrayList;
+import projlab.fungorium.models.MushroomThread.CutState;
 
 /**
  * A Tecton modellje.
  */
-public class Tecton extends TurnAware implements PrintableState, WritableGameObject {
+public class Tecton extends TurnAware implements PrintableState {
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */
@@ -24,7 +23,8 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
     }
 
     /**
-     * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * Létrehoz egy új Tectont, a szomszédjait paraméterként kapja meg, és nincs
+     * rajta semmi.
      * 
      * @param neighbours Szomszédos tektonok.
      */
@@ -54,7 +54,7 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {
-            mushroomThread.cut();
+            mushroomThread.setCutState(CutState.CUT);
         }
     }
 
@@ -302,6 +302,10 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
      */
     public void killThreads() throws Exception {
         throw new Exception("Non-ThreadKillingTectons can't kill MushroomThreads");
+    }
+
+    public void keepThreadsAlive() throws Exception {
+        throw new Exception("Non-KeepAliveTectons can't keep MushroomThreads alive");
     }
 
     // -------------------------------------

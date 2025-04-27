@@ -1,6 +1,5 @@
 package projlab.fungorium.models;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,7 +16,7 @@ public final class ThreadKillingTecton extends Tecton {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
-     * @param neighbour Szomszédos tektonok.
+     * @param neighbours Szomszédos tektonok.
      */
     public ThreadKillingTecton(List<Tecton> neighbours) {
         super(neighbours);
@@ -35,6 +34,18 @@ public final class ThreadKillingTecton extends Tecton {
                 mt.kill();
                 removeConnection(mt);
             }
+        }
+    }
+
+    /**
+     * Kör végi tevékenységek. Megöli a fonalakat egyenként killChance eséllyel.
+     */
+    @Override
+    public void onEndOfTheRound() {
+        killThreads();
+        Random r = new Random();
+        if (r.nextDouble() < splitChance) {
+            this.split();
         }
     }
 
