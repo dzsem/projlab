@@ -190,8 +190,7 @@ public class Interpreter {
      * Hozzáad egy tektont a játékhoz
      */
     private void addTecton() {
-        Tecton t = new Tecton();
-        game.addObject(t);
+        new Tecton();
         System.out.println("Tecton added");
     }
 
@@ -199,8 +198,7 @@ public class Interpreter {
      * Hozzáad egy gombafonál-ölő tektont a játékhoz
      */
     private void addThreadKillingTecton() {
-        ThreadKillingTecton tkt = new ThreadKillingTecton();
-        game.addObject(tkt);
+        new ThreadKillingTecton();
         System.out.println("ThreadKillingTecton added");
     }
 
@@ -208,8 +206,7 @@ public class Interpreter {
      * Hozzáad egy csak egy fonalat elbíró tektont a játékhoz
      */
     private void addSingleThreadTecton() {
-        SingleThreadTecton stt = new SingleThreadTecton();
-        game.addObject(stt);
+        new SingleThreadTecton();
         System.out.println("SingleThreadTecton added");
     }
 
@@ -217,8 +214,7 @@ public class Interpreter {
      * Hozzáad egy terméketlen, gombatestet nem növesztő tektont a játékhoz
      */
     private void addInfertileTecton() {
-        InfertileTecton it = new InfertileTecton();
-        game.addObject(it);
+        new InfertileTecton();
         System.out.println("InfertileTecton added");
     }
 
@@ -226,8 +222,7 @@ public class Interpreter {
      * Hozzáad egy fonal nélküli gombatestet életben tartó tektont a játékhoz
      */
     private void addKeepAliveTecton() {
-        KeepAliveTecton kat = new KeepAliveTecton();
-        game.addObject(kat);
+        new KeepAliveTecton();
         System.out.println("KeepAliveTecton added");
     }
 
@@ -242,8 +237,7 @@ public class Interpreter {
         GameObject threadtecton = game.getObject(Integer.valueOf(args.get(1)));
         if (threadtecton instanceof Tecton) {
             int threadmycid = Integer.valueOf(args.get(0));
-            MushroomThread mt = new MushroomThread((Tecton) threadtecton, threadmycid);
-            game.addObject(mt);
+            new MushroomThread((Tecton) threadtecton, threadmycid);
             System.out.println(
                     "MushroomThread added to Mycologist " + threadmycid + " and Tecton " + threadtecton.getID());
         } else {
@@ -262,8 +256,7 @@ public class Interpreter {
         GameObject bodytecton = game.getObject(Integer.valueOf(args.get(1)));
         if (bodytecton instanceof Tecton) {
             int bodymycid = Integer.valueOf(args.get(0));
-            MushroomBody mb = new MushroomBody((Tecton) bodytecton, bodymycid);
-            game.addObject(mb);
+            new MushroomBody((Tecton) bodytecton, bodymycid);
             System.out.println("MushroomBody added to Mycologist " + bodymycid + " and Tecton " + bodytecton.getID());
         } else {
             System.err.println("The id does not belong to a Tecton.");
@@ -278,8 +271,7 @@ public class Interpreter {
     private void addMushroomSpore(List<String> args) {
         GameObject sporetecton = game.getObject(Integer.valueOf(args.get(0)));
         if (sporetecton instanceof Tecton) {
-            MushroomSpore ms = new MushroomSpore((Tecton) sporetecton);
-            game.addObject(ms);
+            new MushroomSpore((Tecton) sporetecton);
             System.out.println("MushroomSpore added to Tecton " + sporetecton.getID());
         } else {
             System.err.println("The id does not belong to a Tecton.");
@@ -297,8 +289,7 @@ public class Interpreter {
         GameObject insecttecton = game.getObject(Integer.valueOf(args.get(1)));
         if (insecttecton instanceof Tecton) {
             int insectologistid = Integer.valueOf(args.get(0));
-            Insect insect = new Insect(insectologistid, (Tecton) insecttecton);
-            game.addObject(insect);
+            new Insect(insectologistid, (Tecton) insecttecton);
             System.out.println(
                     "Insect added to Insectologist " + insectologistid + " and Tecton " + insecttecton.getID());
         } else {
