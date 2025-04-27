@@ -119,7 +119,7 @@ public class Insect extends TurnAware implements PrintableState {
 	 */
 	public void eatMushroomSpore() throws Exception {
 		MushroomSpore spore = tecton.getRandomSpore();
-
+		tecton.removeSpore(spore);
 		spore.applyEffect(this);
 	}
 

@@ -4,9 +4,9 @@
 # ------------------------------------------
 # Insect gets stunned
 LOAD config/threadEat.cfg
-INSECT 3 EATSPORE
+INSECT 6 EATSPORE
 # Thread eats insect
-# 4
+# 7
 MUSHROOMTHREAD 1 EATINSECT
 # Print states
 # ------------------------------------------
