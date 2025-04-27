@@ -483,10 +483,7 @@ public class Interpreter {
         }
 
         for (GameObject obj : game.getGameObjects()) {
-            if (obj instanceof WritableGameObject) {
-                WritableGameObject wgo = (WritableGameObject) obj;
-                IOHandler.save(file, wgo);
-            }
+            IOHandler.save(file, obj);
         }
 
         System.out.println("Save complete: " + filename);
