@@ -3,9 +3,11 @@ package projlab.fungorium.utilities;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
@@ -23,6 +25,22 @@ public class Interpreter {
         game = g;
         inputinit();
         configinit();
+    }
+
+    public void processConfig(List<String> args) {
+        String key;
+        if (args.size() >= 2 && args.get(0).equalsIgnoreCase("SET") && args.get(1).equalsIgnoreCase("MUSHROOMTHREAD")) {
+            key = "SET MUSHROOMTHREAD STATE"; // Speciális SET MUSHROOMTHREAD eset
+        } else {
+            key = args.get(0).toUpperCase() + " " + args.get(1).toUpperCase();
+        }
+
+        InterpreterCommand command = configmap.get(key);
+        if (command != null) {
+            command.execute(args.subList(2, args.size())); // Csak a paramétereket adja tovább
+        } else {
+            System.err.println("Unknown command: " + key);
+        }
     }
 
     private Map<String, InterpreterCommand> configmap = new HashMap<>();
@@ -150,42 +168,61 @@ public class Interpreter {
     }
 
     private void addMushroomThread(List<String> args) {
-        Tecton threadtecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
-        int threadmycid = Integer.valueOf(args.get(1));
-        MushroomThread mt = new MushroomThread(threadtecton, threadmycid);
-        game.addObject(mt);
-        System.out.println("MushroomThread added to Mycologist " + threadmycid + " and Tecton " + threadtecton.getID());
+        GameObject threadtecton = game.getObject(Integer.valueOf(args.get(1)));
+        if (threadtecton instanceof Tecton) {
+            int threadmycid = Integer.valueOf(args.get(0));
+            MushroomThread mt = new MushroomThread((Tecton) threadtecton, threadmycid);
+            game.addObject(mt);
+            System.out.println(
+                    "MushroomThread added to Mycologist " + threadmycid + " and Tecton " + threadtecton.getID());
+        } else {
+            System.err.println("The id does not belong to a Tecton.");
+        }
     }
 
     private void addMushroomBody(List<String> args) {
-        Tecton bodytecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
-        int bodymycid = Integer.valueOf(args.get(1));
-        MushroomBody mb = new MushroomBody(bodytecton, bodymycid);
-        game.addObject(mb);
-        System.out.println("MushroomBody added to Mycologist " + bodymycid + " and Tecton " + bodytecton.getID());
+        GameObject bodytecton = game.getObject(Integer.valueOf(args.get(1)));
+        if (bodytecton instanceof Tecton) {
+            int bodymycid = Integer.valueOf(args.get(0));
+            MushroomBody mb = new MushroomBody((Tecton) bodytecton, bodymycid);
+            game.addObject(mb);
+            System.out.println("MushroomBody added to Mycologist " + bodymycid + " and Tecton " + bodytecton.getID());
+        } else {
+            System.err.println("The id does not belong to a Tecton.");
+        }
     }
 
     private void addMushroomSpore(List<String> args) {
-        Tecton sporetecton = (Tecton) game.getObject(Integer.valueOf(args.get(1)));
-        MushroomSpore ms = new MushroomSpore(sporetecton);
-        game.addObject(ms);
-        System.out.println("MushroomSpore added to Tecton " + sporetecton.getID());
+        GameObject sporetecton = game.getObject(Integer.valueOf(args.get(0)));
+        if (sporetecton instanceof Tecton) {
+            MushroomSpore ms = new MushroomSpore((Tecton) sporetecton);
+            game.addObject(ms);
+            System.out.println("MushroomSpore added to Tecton " + sporetecton.getID());
+        } else {
+            System.err.println("The id does not belong to a Tecton.");
+        }
     }
 
     private void addInsect(List<String> args) {
-        Tecton insecttecton = (Tecton) game.getObject(Integer.valueOf(args.get(2)));
-        int insectologistid = Integer.valueOf(args.get(1));
-        Insect insect = new Insect(insectologistid, insecttecton);
-        game.addObject(insect);
-        System.out.println("Insect added to Insectologist " + insectologistid + " and Tecton " + insecttecton.getID());
+        GameObject insecttecton = game.getObject(Integer.valueOf(args.get(1)));
+        if (insecttecton instanceof Tecton) {
+            int insectologistid = Integer.valueOf(args.get(0));
+            Insect insect = new Insect(insectologistid, (Tecton) insecttecton);
+            game.addObject(insect);
+            System.out.println(
+                    "Insect added to Insectologist " + insectologistid + " and Tecton " + insecttecton.getID());
+        } else {
+            System.err.println("The id does not belong to a Tecton.");
+        }
     }
 
     private void registerNeighbour(List<String> args) {
-        GameObject t1 = game.getObject(Integer.valueOf(args.get(1)));
-        GameObject t2 = game.getObject(Integer.valueOf(args.get(2)));
+        GameObject t1 = game.getObject(Integer.valueOf(args.get(0)));
+        GameObject t2 = game.getObject(Integer.valueOf(args.get(1)));
         if (t1 instanceof Tecton) {
             if (t2 instanceof Tecton) {
                 ((Tecton) t1).registerNeighbour((Tecton) t2);
+                System.out.println("Registered neighbours: " + t1.getID() + " <-> " + t2.getID());
             } else {
                 System.err.println("The second id does not belong to a Tecton.");
             }
@@ -195,12 +232,14 @@ public class Interpreter {
     }
 
     private void registerConnection(List<String> args) {
-        GameObject mt1 = game.getObject(Integer.valueOf(args.get(1)));
-        GameObject mt2 = game.getObject(Integer.valueOf(args.get(2)));
+        GameObject mt1 = game.getObject(Integer.valueOf(args.get(0)));
+        GameObject mt2 = game.getObject(Integer.valueOf(args.get(1)));
         if (mt1 instanceof MushroomThread) {
             if (mt2 instanceof MushroomThread) {
                 ((MushroomThread) mt1).addConnection((MushroomThread) mt2);
                 ((MushroomThread) mt2).addConnection((MushroomThread) mt1);
+                System.out.println(
+                        "Registered connection between MushroomThreads: " + mt1.getID() + " <-> " + mt2.getID());
             } else {
                 System.err.println("The second id does not belong to a MushroomThread.");
             }
@@ -211,77 +250,72 @@ public class Interpreter {
 
     private void setTectonsplitchance(List<String> args) {
         List<GameObject> gos = game.getGameObjects();
+        double chance = Double.valueOf(args.get(0)) / 100;
         for (GameObject g : gos) {
             if (g instanceof Tecton) {
-                ((Tecton) g).setSplitChance(Double.valueOf(args.get(1)) / 100);
+                ((Tecton) g).setSplitChance(chance);
             }
         }
-        System.out.println("Global Tecton split chance set to: " + args.get(1) + "%");
+        System.out.println("Global Tecton split chance set to: " + args.get(0) + "%");
     }
 
     private void setTectonkillchance(List<String> args) {
         List<GameObject> gos = game.getGameObjects();
+        double chance = Double.valueOf(args.get(0)) / 100;
         for (GameObject g : gos) {
             if (g instanceof ThreadKillingTecton) {
-                ((ThreadKillingTecton) g).setKillChance(Double.valueOf(args.get(1)) / 100);
+                ((ThreadKillingTecton) g).setKillChance(chance);
             }
         }
-        System.out.println("ThreadKillingTecton kill chance set to: " + args.get(1) + "%");
+        System.out.println("ThreadKillingTecton kill chance set to: " + args.get(0) + "%");
     }
 
     private void setMushroomthreadstate(List<String> args) {
-        MushroomThread mt = (MushroomThread) game.getObject(Integer.valueOf(args.get(2)));
-        if (!args.get(1).toLowerCase().equals("state")) {
-            System.err.println("Command not recognized.");
-            System.err.println("SET MUSHROOMTHREAD STATE <mushroomThreadID> <cutState> <growState>");
-            return;
-        }
+        GameObject obj = game.getObject(Integer.valueOf(args.get(0)));
+        if (obj instanceof MushroomThread) {
+            MushroomThread mt = (MushroomThread) obj;
+            switch (args.get(1).toLowerCase()) {
+                case "cut":
+                    mt.setCutState(CutState.CUT);
+                    break;
+                case "uncut":
+                    mt.setCutState(CutState.UNCUT);
+                    break;
+                default:
+                    System.err.println("Cut state not recognized. Possible states: CUT, UNCUT");
+                    break;
+            }
 
-        switch (args.get(3).toLowerCase()) {
-            case "cut":
-                mt.setCutState(CutState.CUT);
-                break;
-            case "uncut":
-                mt.setCutState(CutState.UNCUT);
-                break;
-            default:
-                System.err.println("Cut state not recognized. Possible states: CUT, UNCUT");
-                break;
-        }
-
-        switch (args.get(4).toLowerCase()) {
-            case "sprout":
-                mt.setGrowState(GrowState.SPROUT);
-                break;
-            case "grow":
-                mt.setGrowState(GrowState.GROWN);
-                break;
-            default:
-                System.err.println("Grow state not recognized. Possible states: GROW, SPROUT");
-                break;
+            switch (args.get(2).toLowerCase()) {
+                case "sprout":
+                    mt.setGrowState(GrowState.SPROUT);
+                    break;
+                case "grow":
+                    mt.setGrowState(GrowState.GROWN);
+                    break;
+                default:
+                    System.err.println("Grow state not recognized. Possible states: GROW, SPROUT");
+                    break;
+            }
+        } else {
+            System.err.println("The id does not belong to a MushroomThread.");
         }
     }
 
-    private void load(String filename) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
-            String fileline;
-            while ((fileline = br.readLine()) != null) {
-                List<String> fl = Arrays.asList(fileline.split(" "));
-                String commandName = fl.get(0);
-                if (commandName.startsWith("#")) {
+    public void load(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) {
                     continue;
                 }
-                List<String> loadargs = fl.subList(1, fl.size());
-                InterpreterCommand command = inputmap.get(commandName);
-                if (command != null) {
-                    command.execute(loadargs);
-                } else {
-                    System.out.println("Unknown command: " + commandName);
-                }
+                List<String> args = Arrays.asList(line.split("\\s+"));
+                processConfig(args);
             }
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + filename);
+            e.printStackTrace();
         }
     }
 

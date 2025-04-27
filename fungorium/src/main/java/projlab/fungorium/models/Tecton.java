@@ -6,6 +6,7 @@ import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.models.MushroomThread.CutState;
 
 /**
  * A Tecton modellje.
@@ -54,7 +55,7 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {
-            mushroomThread.cut();
+            mushroomThread.setCutState(CutState.CUT);
         }
     }
 
@@ -307,8 +308,6 @@ public class Tecton extends TurnAware implements PrintableState, WritableGameObj
     public void keepThreadsAlive() throws Exception {
         throw new Exception("Non-KeepAliveTectons can't keep MushroomThreads alive");
     }
-
-
 
     // -------------------------------------
     // Egyéb
