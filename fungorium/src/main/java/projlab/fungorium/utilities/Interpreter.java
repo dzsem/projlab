@@ -351,13 +351,8 @@ public class Interpreter {
      * @param args(0) a törés esélye százalékban
      */
     private void setTectonsplitchance(List<String> args) {
-        List<GameObject> gos = game.getGameObjects();
         double chance = Double.valueOf(args.get(0)) / 100;
-        for (GameObject g : gos) {
-            if (g instanceof Tecton) {
-                ((Tecton) g).setSplitChance(chance);
-            }
-        }
+        Tecton.setSplitChance(chance);
         System.out.println("Global Tecton split chance set to: " + args.get(0) + "%");
     }
 
@@ -368,13 +363,8 @@ public class Interpreter {
      * @param args(0) az ölés esélye százalékban
      */
     private void setTectonkillchance(List<String> args) {
-        List<GameObject> gos = game.getGameObjects();
         double chance = Double.valueOf(args.get(0)) / 100;
-        for (GameObject g : gos) {
-            if (g instanceof ThreadKillingTecton) {
-                ((ThreadKillingTecton) g).setKillChance(chance);
-            }
-        }
+        ThreadKillingTecton.setKillChance(chance);
         System.out.println("ThreadKillingTecton kill chance set to: " + args.get(0) + "%");
     }
 
