@@ -3,7 +3,7 @@ package projlab.fungorium.models;
 import projlab.fungorium.interfaces.WritableGameObject;
 
 public abstract class GameObject implements WritableGameObject {
-    private static int NEXT_ID = 1;
+    private static int NEXT_ID = 0;
     private int objectID;
 
     public int getID() {
