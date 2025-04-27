@@ -4,6 +4,9 @@ import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.Insect;
 
 public class BlockEffect implements Effect, PrintableState {
+    public BlockEffect() {
+    }
+
     /**
      * mikor a rovar megeszi az effectet, elindul egy számláló és letiltja a fonál vágást
      * @param insect a rovar ami megeszi ezt az effectet

@@ -293,6 +293,20 @@ public class MushroomThread extends TurnAware implements PrintableState {
         }
     }
 
+    public void eat() {
+        try {
+            Insect i = tecton.getStunnedInsect();
+            tecton.unregisterInsect(i);
+            i.die();
+
+            if (!tecton.hasBody()) {
+                tecton.growBody(mushroomID);
+            }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+    }
+
     /*
      * Visszaadja a Tectont, amin a gombafonál van.
      */
@@ -329,6 +343,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
     public void setGrowState(GrowState growState) {
         this.growState = growState;
     }
+
 
     /**
      * Létrehozza a MushroomThread-hez tartozó state stringet
