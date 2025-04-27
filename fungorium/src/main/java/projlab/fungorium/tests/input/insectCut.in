@@ -1,0 +1,9 @@
+# Insect Cut
+# ------------------------------------------
+# Input
+# ------------------------------------------
+LOAD config/insectCut.cfg
+INSECT 4 CUTTHREAD 2
+# Print states
+# ------------------------------------------
+SAVE insectCut.out

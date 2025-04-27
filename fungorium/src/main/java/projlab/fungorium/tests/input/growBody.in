@@ -1,0 +1,10 @@
+# Grow Body
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# 5
+LOAD config/growBody.cfg
+MUSHROOMTHREAD 4 GROWBODY
+# Print states
+# ------------------------------------------
+SAVE growBody.out

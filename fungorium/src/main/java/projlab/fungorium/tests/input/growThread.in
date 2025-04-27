@@ -1,0 +1,10 @@
+# Grow Thread
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# 4, t0 -> t1
+LOAD config/growThread.cfg
+MUSHROOMTHREAD 3 GROW 1
+# Print states
+# ------------------------------------------
+SAVE growThread.out

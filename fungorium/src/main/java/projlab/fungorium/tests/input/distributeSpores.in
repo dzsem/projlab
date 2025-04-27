@@ -1,0 +1,9 @@
+# Distribute Spores
+# ------------------------------------------
+# Input
+# ------------------------------------------
+LOAD config/distributeSpores.cfg
+MUSHROOMBODY 1 DISTRIBUTESPORES
+# Print states
+# ------------------------------------------
+SAVE distributeSpores.out

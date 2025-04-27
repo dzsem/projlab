@@ -1,0 +1,9 @@
+# Insect Eat
+# ------------------------------------------
+# Input
+# ------------------------------------------
+LOAD config/insectEat.cfg
+INSECT 1 EATSPORE
+# Print states
+# ------------------------------------------
+SAVE insectEat.out

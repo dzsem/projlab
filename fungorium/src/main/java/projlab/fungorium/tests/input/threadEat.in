@@ -1,0 +1,13 @@
+# Thread Eat
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# Insect gets stunned
+LOAD config/threadEat.cfg
+INSECT 6 EATSPORE
+# Thread eats insect
+# 7
+MUSHROOMTHREAD 1 EATINSECT
+# Print states
+# ------------------------------------------
+SAVE threadEat.out

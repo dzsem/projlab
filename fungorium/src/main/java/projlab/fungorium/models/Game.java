@@ -51,7 +51,8 @@ public class Game {
      * beregisztrált turnAware objektumon.
      */
     public void nextRound() {
-        for (TurnAware ta : turnAwares.values()) {
+        List<TurnAware> turnAwaresCopy = new ArrayList<>(turnAwares.values());
+        for (TurnAware ta : turnAwaresCopy) {
             ta.onEndOfTheRound();
         }
     }

@@ -1,0 +1,10 @@
+# Tecton Split
+# ------------------------------------------
+
+LOAD config/tectonSplit.cfg
+
+# Input
+# ------------------------------------------
+NEXTROUND
+
+SAVE tectonSplit.out

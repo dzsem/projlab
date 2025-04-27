@@ -1,0 +1,11 @@
+# Duplicate Spore
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# Duplicate insect
+# 3
+LOAD config/duplicateSpore.cfg
+INSECT 2 EATSPORE
+# Print states
+# ------------------------------------------
+SAVE duplicateSpore.out

@@ -78,7 +78,7 @@ public class MushroomSpore extends GameObject implements PrintableState, Writabl
 
     @Override
     public String getOutputString() {
-        StringBuilder sb = new StringBuilder("MUSHROOMSPORE");
+        StringBuilder sb = new StringBuilder("MUSHROOMSPORE ");
         sb.append(getID() + " ");
         sb.append(tecton.getID());
 

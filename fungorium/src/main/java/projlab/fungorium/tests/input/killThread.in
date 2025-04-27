@@ -1,0 +1,10 @@
+# Kill Thread
+# ------------------------------------------
+# Input
+# ------------------------------------------
+# Tecton kills thread on the end of the round
+LOAD config/killThread.cfg
+NEXTROUND
+# Print states
+# ------------------------------------------
+SAVE killThread.out
