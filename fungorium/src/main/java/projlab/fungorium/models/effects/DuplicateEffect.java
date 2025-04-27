@@ -4,10 +4,14 @@ import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.Insect;
 
 public class DuplicateEffect implements Effect, PrintableState {
+
+    /**
+     * mikor a rovar megeszi a spórát, létrejön belőle egy új rovar, ugyanazzal a Insectologisttal
+     * @param insect
+     */
     @Override
     public void applyEffect(Insect insect) {
-        Insect newInsect=new Insect(insect.getTecton());
-        //TODO kellene egy
+        new Insect(insect.getInsectologistID(), insect.getTecton());
     }
 
     @Override
