@@ -249,17 +249,8 @@ public class MushroomThread extends TurnAware implements PrintableState {
      */
     public boolean isConnectingTecton(Tecton t) {
         for (MushroomThread connectedThread : connectedThreads) {
-            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) { // Átugorja
-                                                                                                              // azokat
-                                                                                                              // a
-                                                                                                              // fonalakat,
-                                                                                                              // amik le
-                                                                                                              // vannak
-                                                                                                              // vágva
-                                                                                                              // vagy
-                                                                                                              // még
-                                                                                                              // nincsenek
-                                                                                                              // megnőve
+            // Átugorja azokat a fonalakat, amik le vannak vágva vagy még nincsenek megnőve
+            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) {
                 continue;
             }
 
