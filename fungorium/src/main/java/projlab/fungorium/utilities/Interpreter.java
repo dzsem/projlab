@@ -36,7 +36,7 @@ public class Interpreter {
      * argumentumokat(második, és ha van, negyedik token) és a HashMapban tárolt
      * parancsok közül meghívja a megfelelőt
      */
-    private void input() {
+    public void input() {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
