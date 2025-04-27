@@ -1,0 +1,18 @@
+@startuml endofround_tecton
+
+title Tecton.onEndOfTheRound (KeepAliveTecton)
+
+participant "t: KeepAliveTecton" as tecton
+
+-> tecton: onEndOfTheRound()
+activate tecton
+
+tecton -> tecton: keepThreadsAlive()
+
+opt random generated number lower than splitchance
+	tecton -> tecton: split()
+end
+
+<-- tecton
+deactivate tecton
+@enduml

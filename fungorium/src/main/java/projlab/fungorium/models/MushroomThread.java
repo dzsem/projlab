@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread implements TurnAware, PrintableState {
+public class MushroomThread extends TurnAware implements PrintableState, WritableGameObject {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -33,7 +33,9 @@ public class MushroomThread implements TurnAware, PrintableState {
     private CutState cutState;
 
     /**
-     * Beállítja az attribútumait az alapértelmezett értékekre és hozzáadja magát a tekton listájához.
+     * Beállítja az attribútumait az alapértelmezett értékekre és hozzáadja magát a
+     * tekton listájához.
+     * 
      * @param tecton
      */
     public MushroomThread(Tecton tecton, int mushroomID) {
@@ -51,7 +53,7 @@ public class MushroomThread implements TurnAware, PrintableState {
         } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
-    } 
+    }
 
     /**
      * Törli magát a connectedThreads listájának elemeiből és a tektonjáról
@@ -64,49 +66,58 @@ public class MushroomThread implements TurnAware, PrintableState {
     }
 
     /**
-     * BFS szerűen összegűjti és visszaadja azoknak a MushromoBody-k listáját, amivel kapcsolatban van
+     * BFS szerűen összegűjti és visszaadja azoknak a MushromoBody-k listáját,
+     * amivel kapcsolatban van
+     * 
      * @return Azoknak a MushroomBody-k listája, amikkel kapcsolatban van a thread
      */
     public List<MushroomBody> getConnectedBodies() {
         List<MushroomBody> result = new ArrayList<>();
 
-        if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel, visszatér az üres listával
+        if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel, visszatér az
+                                        // üres listával
             return result;
         }
 
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
-            try {
+        try {
+            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
-            } catch (Exception e) {
-                Logger.printError(e.getMessage());
             }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
         }
 
         List<MushroomThread> queue = new ArrayList<>();
         List<MushroomThread> visited = new ArrayList<>();
 
-        for (MushroomThread connectedThread : connectedThreads) { // Felveszi a sorba azokat a fonalakat, amik nincsenek átvágva és benne vannak a connectedThreads listban
+        for (MushroomThread connectedThread : connectedThreads) { // Felveszi a sorba azokat a fonalakat, amik nincsenek
+                                                                  // átvágva és benne vannak a connectedThreads listban
             if (connectedThread.cutState == CutState.UNCUT) {
-                queue.addLast(connectedThread);
+                queue.add(connectedThread);
             }
         }
 
-        visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra magát
+        visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra
+                           // magát
 
         while (!queue.isEmpty()) {
-            MushroomThread thread = queue.removeFirst();
+            MushroomThread thread = queue.remove(0);
 
-            if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
+            if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
                 try {
-                    result.add(tecton.getBody());
+                    if (thread.tecton.getBody().getID() == mushroomID){
+                        // visszatérítendő listába
+                        result.add(tecton.getBody());
+                    }
                 } catch (Exception e) {
                     Logger.printError(e.getMessage());
                 }
-            }
-            else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd felveszi a vizsgált fonalat a már megvizsgáltak közé
+            } else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó
+                     // fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd
+                     // felveszi a vizsgált fonalat a már megvizsgáltak közé
                 for (MushroomThread connectedThread : thread.connectedThreads) {
                     if (!visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT) {
-                        queue.addLast(connectedThread);
+                        queue.add(connectedThread);
                     }
                 }
 
@@ -114,55 +125,22 @@ public class MushroomThread implements TurnAware, PrintableState {
             }
         }
 
-        return result; 
+        return result;
     }
 
     /**
      * BFS szerűen megvizsgálja, hogy van-e összeköttetés gomba testtel.
+     * 
      * @return true, ha van összeköttetés; false, ha nincs
      */
     public boolean isConnectedToBody() {
-        if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel
-            return false;
-        }
-
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor biztosan van össze van kötve gomba testtel
-            return true;
-        }
-
-        List<MushroomThread> queue = new ArrayList<>();
-        List<MushroomThread> visited = new ArrayList<>();
-
-        for (MushroomThread connectedThread : connectedThreads) { // Felvsezi a sorba azokat a fonalakat, amik nincsenek átvágva és benne vannak a connectedThreads listban
-            if (connectedThread.cutState == CutState.UNCUT) {
-                queue.addLast(connectedThread);
-            }
-        }
-
-        visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra magát
-
-        while (!queue.isEmpty()) {
-            MushroomThread thread = queue.removeFirst();
-
-            if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor visszatérhet igazzal
-                return true;
-            }
-            else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd felveszi a vizsgált fonalat a már megvizsgáltak közé
-                for (MushroomThread connectedThread : thread.connectedThreads) {
-                    if (!visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT) {
-                        queue.addLast(connectedThread);
-                    }
-                }
-
-                visited.add(thread);
-            }
-        }
-
-        return false; // Ha a sor kiürült és nem talált gomba testet, akkor nincs összeköttetésen egy testtel sem.
+        return !getConnectedBodies().isEmpty();
     }
 
     /**
-     * Összegűjti és visszaadja azoknak a Tektonoknak listáját, amivel közvetlen kapcsolatban van
+     * Összegűjti és visszaadja azoknak a Tektonoknak listáját, amivel közvetlen
+     * kapcsolatban van
+     * 
      * @return Azoknak a Tektonoknak listáját, amivel közvetlen kapcsolatban van
      */
     public List<Tecton> getConnectedTectons() {
@@ -173,7 +151,8 @@ public class MushroomThread implements TurnAware, PrintableState {
         }
 
         for (MushroomThread connectedThread : connectedThreads) {
-            if (connectedThread.cutState == CutState.UNCUT) { // Csak azokra a tectonokra van szükség, amiknek a fonala az nincs elvágva
+            if (connectedThread.cutState == CutState.UNCUT) { // Csak azokra a tectonokra van szükség, amiknek a fonala
+                                                              // az nincs elvágva
                 result.add(connectedThread.tecton);
             }
         }
@@ -187,7 +166,7 @@ public class MushroomThread implements TurnAware, PrintableState {
     public void decreaseTurnsToDie() {
         turnsToDie--;
     }
-    
+
     /**
      * Visszaállítja a turns to die értékét az alapértelmezettre
      */
@@ -195,7 +174,6 @@ public class MushroomThread implements TurnAware, PrintableState {
         turnsToDie = DEFAULT_TURNS_TO_DIE;
     }
 
-    
     /**
      * Meghívja a kill függvényt, ha a turnsToDie értéke 0
      */
@@ -220,9 +198,11 @@ public class MushroomThread implements TurnAware, PrintableState {
     }
 
     /**
-     * Létrehoz egy új MushroomThread-et a to tecton felé, majd ezt felveszi a listájába
+     * Létrehoz egy új MushroomThread-et a to tecton felé, majd ezt felveszi a
+     * listájába
+     * 
      * @param to az a tecton, ahol az új fonál létrejön
-     * @throws Exception ha nem tod 
+     * @throws Exception ha nem tod
      */
     public MushroomThread createConnection(Tecton to) throws Exception {
         if (to.isNeighbour(tecton)) {
@@ -238,7 +218,8 @@ public class MushroomThread implements TurnAware, PrintableState {
 
     /**
      * Felveszi a paraméterként kapott thread-et a connectedThreads listájába
-     * @param thread az a fonál, amit a connectedThreads listába vesz fel 
+     * 
+     * @param thread az a fonál, amit a connectedThreads listába vesz fel
      */
     public void addConnection(MushroomThread thread) {
         connectedThreads.add(thread);
@@ -246,6 +227,7 @@ public class MushroomThread implements TurnAware, PrintableState {
 
     /**
      * Kiveszi a paraméterként kapott thread-et a connectedThreads listájából
+     * 
      * @param thread az a fonál, amit a connectedThreads listából vesz ki
      */
     public void removeConnection(MushroomThread thread) {
@@ -253,14 +235,27 @@ public class MushroomThread implements TurnAware, PrintableState {
     }
 
     /**
-     * Megvizsgálja, hogy a paraméterkén kapott tektonnal össze van-e kötve közvetenül. 
-     * (Fontos, hogy a fonál, amivel össze van kötve meg legyen nőve [GROWN] és ne legyen elvágva [UNCUT] )
+     * Megvizsgálja, hogy a paraméterkén kapott tektonnal össze van-e kötve
+     * közvetenül.
+     * (Fontos, hogy a fonál, amivel össze van kötve meg legyen nőve [GROWN] és ne
+     * legyen elvágva [UNCUT] )
+     * 
      * @param t a vizsgálandó tekton
      * @return igaz, ha össze van kötve; hamis, ha nincs
      */
     public boolean isConnectingTecton(Tecton t) {
         for (MushroomThread connectedThread : connectedThreads) {
-            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) { // Átugorja azokat a fonalakat, amik le vannak vágva vagy még nincsenek megnőve
+            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) { // Átugorja
+                                                                                                              // azokat
+                                                                                                              // a
+                                                                                                              // fonalakat,
+                                                                                                              // amik le
+                                                                                                              // vannak
+                                                                                                              // vágva
+                                                                                                              // vagy
+                                                                                                              // még
+                                                                                                              // nincsenek
+                                                                                                              // megnőve
                 continue;
             }
 
@@ -274,19 +269,19 @@ public class MushroomThread implements TurnAware, PrintableState {
 
     /**
      * Visszaadja a gombához tartozó mushroomID-t
+     * 
      * @return gombához tartozó mushroomID
      */
     public int getMushroomID() {
         return mushroomID;
     }
 
-
     /**
-     * Vizsgálja, hogy össze van-e kötve, gomba testtel és ez alapján: 
+     * Vizsgálja, hogy össze van-e kötve, gomba testtel és ez alapján:
      * - Csökkenti a turnsToDie attributumának értékét eggyel
      * - Megöli a fonalat, ha turnsToDie értéke 0
      * - Csökkenti a fonál turnsToGrow értékét eggyel
-     * - Beállítja a fonál growState állapotát GROWN-ra, ha a trunsToGrow értéke 0 
+     * - Beállítja a fonál growState állapotát GROWN-ra, ha a trunsToGrow értéke 0
      */
     @Override
     public void onEndOfTheRound() {
@@ -294,8 +289,7 @@ public class MushroomThread implements TurnAware, PrintableState {
             decreaseTurnsToDie();
             dieIfUnconnected();
         } else {
-            if (growState == GrowState.SPROUT)
-            {
+            if (growState == GrowState.SPROUT) {
                 grow();
                 if (turnsToGrow == 0) {
                     growState = GrowState.GROWN;
@@ -307,6 +301,7 @@ public class MushroomThread implements TurnAware, PrintableState {
     /**
      * Beállítja a fonál turnsToDie változóját.
      * Tesztekhez szükséges
+     * 
      * @param turnsToDie turnsToDie új értéke
      */
     public void setTurnsToDie(int turnsToDie) {
@@ -316,6 +311,7 @@ public class MushroomThread implements TurnAware, PrintableState {
     /**
      * Beállítja a fonál turnsToDie változóját.
      * Tesztekhez szükséges
+     * 
      * @param turnsToGrow turnsToGrow új értéke
      */
     public void setTurnsToGrow(int turnsToGrow) {
@@ -325,15 +321,15 @@ public class MushroomThread implements TurnAware, PrintableState {
     /**
      * Beállítja a fonál growState változóját.
      * Tesztekhez szükséges
+     * 
      * @param growState growState új értéke
      */
     public void setGrowState(GrowState growState) {
         this.growState = growState;
     }
 
-
     /**
-     * Létrehozza a MushroomThread-hez tartozó state stringet 
+     * Létrehozza a MushroomThread-hez tartozó state stringet
      */
     @Override
     public String getStateString() {
@@ -349,5 +345,17 @@ public class MushroomThread implements TurnAware, PrintableState {
         return stateString.toString();
     }
 
-}
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMTHREAD ");
+        sb.append(getID() + " ");
+        sb.append(mushroomID + " ");
+        sb.append(tecton.getID() + " ");
+        sb.append(connectedThreads.size() + " ");
+        sb.append(cutState.toString() + " ");
+        sb.append(growState.toString());
 
+        return sb.toString();
+    }
+
+}

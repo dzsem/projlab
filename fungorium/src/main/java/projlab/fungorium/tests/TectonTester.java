@@ -37,7 +37,10 @@ public final class TectonTester {
         Logger.printState(t);
 
         // test
-        MushroomBody mb = new MushroomBody(t, MUSHROOM_ID);
+        try {
+            t.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t);
     }
@@ -107,7 +110,11 @@ public final class TectonTester {
         MushroomSpore ms1 = new MushroomSpore(t1);
         MushroomSpore ms2 = new MushroomSpore(t1);
         MushroomSpore ms3 = new MushroomSpore(t1);
-        MushroomBody mb1 = new MushroomBody(t1, MUSHROOM_ID);
+
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
 
@@ -134,7 +141,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -157,7 +167,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t1, MUSHROOM_ID);
+        try {
+            t1.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -180,7 +193,10 @@ public final class TectonTester {
         Logger.printState(t2);
 
         // test
-        MushroomBody mb = new MushroomBody(t2, MUSHROOM_ID);
+        try {
+            t2.growBody(MUSHROOM_ID);
+        } catch (Exception e) {
+        }
 
         Logger.printState(t1);
         Logger.printState(t2);
@@ -189,27 +205,52 @@ public final class TectonTester {
     /**
      * Tecton Grow Thread Fail teszteset megvalósítása.
      */
-    // TODO: ez nem ide tartozik, hanem inkabb a fonalhoz
-    // public static final void TectonGrowThreadFail() {
+    public static final void TectonGrowThreadFail() {
+        // init
+        Tecton t1 = new Tecton();
+        Tecton t2 = new Tecton();
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
 
-    // }
+        // test
+        Logger.printState(t1);
+        Logger.printState(t2);
+
+        // test
+        try {
+            mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+    }
 
     /**
      * Tecton Grow Thread Success teszteset megvalósítása.
      */
-    // TODO: ez nem ide tartozik, hanem inkabb a fonalhoz
-    // public static final void tectonGrowThreadSuccess() {
-    //     // init
-    //     Tecton t1 = new Tecton();
-    //     Tecton t2 = new Tecton(List.of(t1));
-    //     MushroomThread mt1 = new MushroomThread(t1);
-    //     MushroomSpore ms1 = new MushroomSpore(t1);
-    //     MushroomSpore ms2 = new MushroomSpore(t1);
-    //     MushroomSpore ms3 = new MushroomSpore(t1);
+    public static final void tectonGrowThreadSuccess() {
+        // init
+        Tecton t1 = new Tecton();
+        Tecton t2 = new Tecton(List.of(t1));
+        MushroomThread mt1 = new MushroomThread(t1, MUSHROOM_ID);
+        MushroomSpore ms1 = new MushroomSpore(t1);
+        MushroomSpore ms2 = new MushroomSpore(t1);
+        MushroomSpore ms3 = new MushroomSpore(t1);
 
-    //     // test
-    //     Logger.print("void", "Tecton::addConnection", "");
-    // }
+        Logger.printState(t1);
+        Logger.printState(t2);
+
+        // test
+        try {
+            mt1.createConnection(t2);
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
+
+        Logger.printState(t1);
+        Logger.printState(t2);
+    }
 
     /**
      * Tecton Kill Thread teszteset megvalósítása.

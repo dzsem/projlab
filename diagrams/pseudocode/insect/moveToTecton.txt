@@ -1,0 +1,10 @@
+procedure Insect.moveToTecton(t: Tecton) is
+	let isNeighbour = this.tecton.isNeighbour(t)
+	let isConnected = this.tecton.verifyConnection(t)
+
+	if isNeighbour and isConnected and this.canMove then
+		this.tecton.unregisterInsect(this)
+		t.registerInsect(this)
+		this.tecton := t
+	else
+		throw Exception

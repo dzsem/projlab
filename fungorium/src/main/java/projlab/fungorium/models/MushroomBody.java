@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomBody implements TurnAware, PrintableState {
+public class MushroomBody extends TurnAware implements PrintableState, WritableGameObject {
     public enum Advancement {
         NORMAL,
         ADVANCED
@@ -26,21 +26,19 @@ public class MushroomBody implements TurnAware, PrintableState {
     private Advancement advancement;
 
     /**
-     * Beállítja az attributumait az alapértelmezett értékekre és felhelyezi magát a paraméterként kapott tektonra
+     * Beállítja az attributumait az alapértelmezett értékekre és felhelyezi magát a
+     * paraméterként kapott tektonra
+     * 
      * @param tecton A tekton, amire a gombatest fog kerülni
      */
-    public MushroomBody(Tecton tecton, int mushroomID) {    
+    public MushroomBody(Tecton tecton, int mushroomID) {
         this.mushroomID = mushroomID;
         this.tecton = tecton;
         this.advancement = Advancement.NORMAL;
         this.age = 0;
         this.remainingSpores = MAX_SPORES;
 
-        try {
-            tecton.setBody(this);
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
-        }
+        tecton.setBody(this);
     }
 
     /**
@@ -54,9 +52,11 @@ public class MushroomBody implements TurnAware, PrintableState {
 
         tectonsToSpore.add(tecton); // 0 távolságra a saját tekton van
         tectonsToSpore.addAll(neighbours); // 1 távolságra a szomszédos tektonok
-    
-        if (advancement == Advancement.ADVANCED) { // Összegyűjti azokat a szomszédokkal szomszédos tektonakat, amik még nincsenek benne a spórázandó tektonok listájában (így minden csak egyszer szerepel benne)
-            for (Tecton neighbour : neighbours) { 
+
+        if (advancement == Advancement.ADVANCED) { // Összegyűjti azokat a szomszédokkal szomszédos tektonakat, amik még
+                                                   // nincsenek benne a spórázandó tektonok listájában (így minden csak
+                                                   // egyszer szerepel benne)
+            for (Tecton neighbour : neighbours) {
                 for (Tecton neighbourOfNeighbour : neighbour.getNeighbours()) {
                     if (!tectonsToSpore.contains(neighbourOfNeighbour)) {
                         tectonsToSpore.add(neighbourOfNeighbour);
@@ -71,13 +71,15 @@ public class MushroomBody implements TurnAware, PrintableState {
 
         remainingSpores--; // Spóra mennyiség cskkentés
 
-        if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a tektonról
-            tecton.removeBody(); 
+        if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a
+                                    // tektonról
+            tecton.removeBody();
         }
     }
 
     /**
      * Visszaadja a gombához tartozó mushroomID-t
+     * 
      * @return gombához tartozó mushroomID
      */
     public int getMushroomID() {
@@ -91,16 +93,17 @@ public class MushroomBody implements TurnAware, PrintableState {
     public void onEndOfTheRound() {
         if (advancement == Advancement.NORMAL) {
             age++;
-    
+
             if (age >= ADVANCED_AGE) {
                 advancement = Advancement.ADVANCED;
             }
         }
-    } 
+    }
 
     /**
      * Beállítja a gomba test advancement szintjét.
      * Teszteléshez használt.
+     * 
      * @param advancement az új advancement szint
      */
     public void setAdvancement(Advancement advancement) {
@@ -110,6 +113,7 @@ public class MushroomBody implements TurnAware, PrintableState {
     /**
      * Beállítja a gomba test maradék spóráit szintjét.
      * Teszteléshez használt.
+     * 
      * @param remainingSpores a maradék spórák új értéke
      */
     public void setSporesRemaining(int remainingSpores) {
@@ -129,6 +133,19 @@ public class MushroomBody implements TurnAware, PrintableState {
         stateString.append("Advancement Level: ").append(advancement.toString()).append("\n");
 
         return stateString.toString();
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMBODY ");
+        sb.append(getID() + " ");
+        sb.append(mushroomID + " ");
+        sb.append(remainingSpores + " ");
+        sb.append(age + " ");
+        sb.append(advancement.toString() + " ");
+        sb.append(tecton.getID());
+
+        return sb.toString();
     }
 
 }
