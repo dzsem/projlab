@@ -468,6 +468,7 @@ public class Interpreter {
      */
     public void processConfig(List<String> args) {
         String key;
+        boolean state = false;
         /*
          * Egy három szavas parancs van, a SET MUSHROOMTHREAD STATE, a többihez mind 2
          * szavas parancs kell, így a SET MUSHROOMTHREAD STATE-t külön kell kezelni az
@@ -475,13 +476,18 @@ public class Interpreter {
          */
         if (args.size() >= 2 && args.get(0).equalsIgnoreCase("SET") && args.get(1).equalsIgnoreCase("MUSHROOMTHREAD")) {
             key = "SET MUSHROOMTHREAD STATE";
+            state = true;
         } else {
             key = args.get(0).toUpperCase() + " " + args.get(1).toUpperCase();
         }
 
         InterpreterCommand command = configmap.get(key);
         if (command != null) {
-            command.execute(args.subList(2, args.size()));
+            if (state) {
+                command.execute(args.subList(3, args.size()));
+            } else {
+                command.execute(args.subList(2, args.size()));
+            }
         } else {
             System.err.println("Unknown command: " + key);
         }
