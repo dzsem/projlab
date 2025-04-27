@@ -502,7 +502,7 @@ public class Interpreter {
         boolean found = false;
         for (GameObject obj : game.getGameObjects()) {
             if (obj.getClass().getSimpleName().equalsIgnoreCase(typeName)) {
-                System.out.println(" - ID: " + obj.getID());
+                System.out.println(obj.getOutputString());
                 found = true;
             }
         }
