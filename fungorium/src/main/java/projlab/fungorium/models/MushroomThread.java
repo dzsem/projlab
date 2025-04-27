@@ -7,7 +7,7 @@ import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread extends TurnAware implements PrintableState, WritableGameObject {
+public class MushroomThread extends TurnAware implements PrintableState {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -80,7 +80,8 @@ public class MushroomThread extends TurnAware implements PrintableState, Writabl
         }
 
         try {
-            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
+            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor
+                                                                              // azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
             }
         } catch (Exception e) {
@@ -105,7 +106,7 @@ public class MushroomThread extends TurnAware implements PrintableState, Writabl
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
                 try {
-                    if (thread.tecton.getBody().getID() == mushroomID){
+                    if (thread.tecton.getBody().getID() == mushroomID) {
                         // visszatérítendő listába
                         result.add(tecton.getBody());
                     }
@@ -191,10 +192,13 @@ public class MushroomThread extends TurnAware implements PrintableState, Writabl
     }
 
     /**
-     * A fonál CutState értékét cut-ra állítja
+     * Beállítja a fonál cutState változóját.
+     * Tesztekhez szükséges
+     * 
+     * @param cutState cutState új értéke
      */
-    public void cut() {
-        cutState = CutState.CUT;
+    public void setCutState(CutState cutState) {
+        this.cutState = cutState;
     }
 
     /**
@@ -245,17 +249,8 @@ public class MushroomThread extends TurnAware implements PrintableState, Writabl
      */
     public boolean isConnectingTecton(Tecton t) {
         for (MushroomThread connectedThread : connectedThreads) {
-            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) { // Átugorja
-                                                                                                              // azokat
-                                                                                                              // a
-                                                                                                              // fonalakat,
-                                                                                                              // amik le
-                                                                                                              // vannak
-                                                                                                              // vágva
-                                                                                                              // vagy
-                                                                                                              // még
-                                                                                                              // nincsenek
-                                                                                                              // megnőve
+            // Átugorja azokat a fonalakat, amik le vannak vágva vagy még nincsenek megnőve
+            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) {
                 continue;
             }
 
@@ -296,6 +291,13 @@ public class MushroomThread extends TurnAware implements PrintableState, Writabl
                 }
             }
         }
+    }
+
+    /*
+     * Visszaadja a Tectont, amin a gombafonál van.
+     */
+    public Tecton getTecton() {
+        return tecton;
     }
 
     /**

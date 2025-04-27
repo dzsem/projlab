@@ -8,6 +8,7 @@ import java.io.OutputStream;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.utilities.Logger;
 
 /**
@@ -16,7 +17,7 @@ import projlab.fungorium.utilities.Logger;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect extends TurnAware implements PrintableState, WritableGameObject {
+public class Insect extends TurnAware implements PrintableState {
 	/** A rovarász játékos azonosítója */
 	private int insectologistID;
 
@@ -89,7 +90,7 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 	 */
 	public void cutMushroomThread(MushroomThread mt) {
 		if (canCut) {
-			mt.cut();
+			mt.setCutState(CutState.CUT);
 		}
 	}
 

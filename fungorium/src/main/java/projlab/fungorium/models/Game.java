@@ -2,6 +2,8 @@ package projlab.fungorium.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Játékobjektumokat számon tartó singleton osztály.
@@ -56,5 +58,17 @@ public class Game {
 
     public GameObject getObject(int id) {
         return gameObjects.get(id);
+    }
+
+    public TurnAware getTurnAware(int id) {
+        return turnAwares.get(id);
+    }
+
+    public List<GameObject> getGameObjects() {
+        return new ArrayList<GameObject>(gameObjects.values());
+    }
+
+    public List<TurnAware> getTurnAwares() {
+        return new ArrayList<TurnAware>(turnAwares.values());
     }
 }

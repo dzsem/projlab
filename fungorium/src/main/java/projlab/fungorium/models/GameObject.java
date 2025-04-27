@@ -1,7 +1,9 @@
 package projlab.fungorium.models;
 
-public abstract class GameObject {
-    private static int NEXT_ID = 1;
+import projlab.fungorium.interfaces.WritableGameObject;
+
+public abstract class GameObject implements WritableGameObject {
+    private static int NEXT_ID = 0;
     private int objectID;
 
     public int getID() {
@@ -18,4 +20,6 @@ public abstract class GameObject {
 
         Game.getInstance().addObject(this);
     }
+
+    public abstract String getOutputString();
 }

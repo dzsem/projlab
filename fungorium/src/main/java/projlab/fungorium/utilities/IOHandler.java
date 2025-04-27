@@ -18,7 +18,8 @@ import projlab.fungorium.interfaces.WritableGameObject;
 public class IOHandler {
     private static Scanner scanner = null;
 
-    private IOHandler() {}
+    private IOHandler() {
+    }
 
     public static List<String> getTokens() {
         if (scanner == null) {
@@ -27,8 +28,7 @@ public class IOHandler {
 
         String userInput = scanner.nextLine();
         return new ArrayList<>(
-            Arrays.asList(userInput.split(" "))
-        );
+                Arrays.asList(userInput.split(" ")));
     }
 
     public static void save(File file, WritableGameObject wgo) {
@@ -44,24 +44,24 @@ public class IOHandler {
             Logger.printError(file.getName() + " is not a file");
         }
 
-        // Get the outptutstring
+        // Get the outputstring
         String output = wgo.getOutputString();
 
         // Append the outputstring to the file
         FileWriter fw = null;
         BufferedWriter bw = null;
         PrintWriter pw = null;
-        
-		try {
+
+        try {
             fw = new FileWriter(file, true);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
-            
+
             pw.println(output);
-		} catch (IOException e) {
-			Logger.printError(e.getMessage());
-		} finally {
-			try {
+        } catch (IOException e) {
+            Logger.printError(e.getMessage());
+        } finally {
+            try {
                 if (pw != null) {
                     pw.close();
                 }
@@ -73,9 +73,9 @@ public class IOHandler {
                 if (fw != null) {
                     fw.close();
                 }
-			} catch (IOException e) {
-				Logger.printError(e.getMessage());
-			}
-		}
+            } catch (IOException e) {
+                Logger.printError(e.getMessage());
+            }
+        }
     }
 }
