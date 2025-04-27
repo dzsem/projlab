@@ -1,5 +1,6 @@
 package projlab.fungorium.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -28,12 +29,17 @@ public final class ThreadKillingTecton extends Tecton {
     @Override
     public final void killThreads() {
         Random r = new Random();
+        List<MushroomThread> mtsToDelete = new ArrayList<MushroomThread>();
 
         for (MushroomThread mt : mushroomThreads) {
             if (r.nextDouble() < killChance) {
-                mt.kill();
-                removeConnection(mt);
+                mtsToDelete.add(mt);
             }
+        }
+
+        for (MushroomThread mt : mtsToDelete) {
+            removeConnection(mt);
+            mt.kill();
         }
     }
 

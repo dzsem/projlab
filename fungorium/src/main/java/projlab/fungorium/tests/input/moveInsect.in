@@ -6,4 +6,4 @@ LOAD config/moveInsect.cfg
 INSECT 4 MOVE 1
 # Print states
 # ------------------------------------------
-SAVE moveInsect
+SAVE moveInsect.out
