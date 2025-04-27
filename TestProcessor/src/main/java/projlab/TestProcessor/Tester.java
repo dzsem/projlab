@@ -1,7 +1,6 @@
 package projlab.TestProcessor;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -66,7 +65,7 @@ public class Tester {
 
 			// A hibák listája. Ide kerül az összes sor az assert fájlból, aminek nem
 			// volt párja az output fájlban.
-			List<String> errors = new ArrayList();
+			List<String> errors = new ArrayList<>();
 
 			for (String assertLine : assertLines) {
 				boolean found = false;
