@@ -1,21 +1,23 @@
 package projlab.fungorium.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Az egy fonalat növesztő Tecton modellje.
+ * Annak a tektonnak a modellje, ami az összes rajta lévő gombafonalat életben
+ * tartja.
+ * 
+ * @see #keepThreadsAlive()
  */
 public final class KeepAliveTecton extends Tecton {
 	/**
-	 * Konstuktor.
+	 * Konstuktor. Létrehoz egy tektont, aminek nincsenek szomszédjai.
 	 */
 	public KeepAliveTecton() {
 		super();
 	}
 
 	/**
-	 * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+	 * Létrehoz egy új Tectont, a megadott szomszédokkal.
 	 * 
 	 * @param neighbour Szomszédos tektonok.
 	 */
