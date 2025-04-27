@@ -6,17 +6,15 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
 import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 
 public class Interpreter {
-    private static IOHandler iohandler;
     private static Game game;
-
-    public void execute(List<Object> args) {
-    }
 
     protected Interpreter() {
         init();
@@ -27,23 +25,11 @@ public class Interpreter {
         init();
     }
 
-    List<String> input = iohandler.getTokens();
-
-    private Map<String, Command> commands = new HashMap<>();
+    private Map<String, InterpreterCommand> configmap = new HashMap<>();
+    private Map<String, InterpreterCommand> inputmap = new HashMap<>();
 
     private void init() {
-        commands.put("LOAD", args);
-        commands.put("SAVE", args);
-        commands.put("LIST", args);
-        commands.put("SHOW", args);
-        commands.put("INFERTILETECTON", args);
-        commands.put("MUSHROOMBODY", args);
-        commands.put("MUSHROOMTHREAD", args);
-        commands.put("INSECT", args);
-        commands.put("NEXTROUND", args);
-        commands.put("ADD", args);
-        commands.put("REGISTER", args);
-        commands.put("SET", args);
+
     };
 
     private void add(List<String> args) {
@@ -72,6 +58,7 @@ public class Interpreter {
 
                 break;
             /*
+             * TODO: After KeepAliveTecton is implemented
              * case "keepalivetecton":
              * KeepAliveTecton kat = new KeepAliveTecton();
              * game.addObject(kat);
@@ -144,30 +131,66 @@ public class Interpreter {
     private void set(List<String> args) {
         switch (args.get(0).toLowerCase()) {
             /*
+             * TODO: after effectgeneration is implemented
              * case "effectgeneration":
              * 
              * break;
              */
             case "tectonsplitchance":
+                List<GameObject> gos = game.getGameObjects();
+                for (int i = 0; i < gos.size(); i++) {
+                    GameObject g = gos.get(i);
+                    if (g instanceof Tecton) {
+                        ((Tecton) g).setSplitChance(Double.valueOf(args.get(1)) / 100);
+                    }
+                }
+                System.out.println("Global Tecton split chance set to: " + args.get(1) + "%");
                 break;
             case "tectonkillchance":
+                List<GameObject> kgos = game.getGameObjects();
+                for (int i = 0; i < kgos.size(); i++) {
+                    GameObject g = kgos.get(i);
+                    if (g instanceof ThreadKillingTecton) {
+                        ((ThreadKillingTecton) g).setKillChance(Double.valueOf(args.get(1)) / 100);
+                    }
+                }
+                System.out.println("ThreadKillingTecton kill chance set to: " + args.get(1) + "%");
                 break;
             default:
+                System.err.println("Command not recognized. Possible parameters:");
+                System.err.println("SET EFFECTGENERATION <mushroomSporeID> <effect>");
+                System.err.println("SET TECTONSPLITCHANCE <chance>");
+                System.err.println("SET TECTONKILLCHANCE <chance>");
                 break;
         }
     }
 
-    private void load(File filename) {
-        if (!filename.exists()) {
-            System.err.println("Error: this file does not exist.");
-        }
+    private void load(List<String> args) {
+        try {
+            BufferedReader br = new BufferedReader(
+                    new FileReader(args.get(0)));
 
+            String fileline;
+            while ((fileline = br.readLine()) != null) {
+                List<String> fl = Arrays.asList(fileline.split(" "));
+                String commandName = fl.get(0);
+                List<String> loadargs = fl.subList(1, fl.size());
+                InterpreterCommand command = inputmap.get(commandName);
+                if (command != null) {
+                    command.execute(args);
+                } else {
+                    System.out.println("Unknown command: " + commandName);
+                }
+            }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
     }
 
     private void save(File filename) {
         for (GameObject obj : game.gameObjects) {
             if (obj instanceof WritableGameObject writable) {
-                iohandler.save(filename, writable);
+                IOHandler.save(filename, writable);
             }
         }
     }
