@@ -482,10 +482,12 @@ public class Interpreter {
         }
 
         InterpreterCommand command = configmap.get(key);
-        if (state) {
-            command.execute(args.subList(3, args.size()));
-        } else if (command != null) {
-            command.execute(args.subList(2, args.size()));
+        if (command != null) {
+            if (state) {
+                command.execute(args.subList(3, args.size()));
+            } else {
+                command.execute(args.subList(2, args.size()));
+            }
         } else {
             System.err.println("Unknown command: " + key);
         }
