@@ -397,11 +397,11 @@ public class Interpreter {
                 case "sprout":
                     mt.setGrowState(GrowState.SPROUT);
                     break;
-                case "grow":
+                case "grown":
                     mt.setGrowState(GrowState.GROWN);
                     break;
                 default:
-                    System.err.println("Grow state not recognized. Possible states: GROW, SPROUT");
+                    System.err.println("Grow state not recognized. Possible states: GROWN, SPROUT");
                     break;
             }
         } else {
