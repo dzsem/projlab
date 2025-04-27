@@ -668,8 +668,6 @@ public class Interpreter {
      * az összes köröket figyelő objektumot átléptet a következő körbe
      */
     public void nextround() {
-        for (TurnAware ta : game.getTurnAwares()) {
-            ta.onEndOfTheRound();
-        }
+        game.nextRound();
     }
 }
