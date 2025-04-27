@@ -11,12 +11,14 @@ import java.util.function.Supplier;
 public class MushroomSpore extends GameObject implements PrintableState, WritableGameObject {
     private Tecton tecton;
     private EffectTypes effectType;
+    private Random rand = new Random();
     private static final Map<EffectTypes, Supplier<Effect>> effectMap = Map.of(
             EffectTypes.BLOCK, BlockEffect::new,
             EffectTypes.SLOW, SlowEffect::new,
             EffectTypes.SPEED, SpeedEffect::new,
             EffectTypes.STUN, StunEffect::new,
-            EffectTypes.NO, NoEffect::new
+            EffectTypes.NO, NoEffect::new,
+            EffectTypes.DUPLICATE, DuplicateEffect::new
     );
 
     /**
@@ -39,7 +41,6 @@ public class MushroomSpore extends GameObject implements PrintableState, Writabl
      */
     protected Effect generateEffect(){
         if(effectType==EffectTypes.RANDOM){
-        Random rand = new Random();
         return switch (rand.nextInt(5)) {
             case 1 -> new BlockEffect();
             case 2 -> new SlowEffect();

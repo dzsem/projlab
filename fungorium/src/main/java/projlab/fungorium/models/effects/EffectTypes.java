@@ -7,5 +7,6 @@ public enum EffectTypes
     SLOW,
     SPEED,
     STUN,
+    DUPLICATE,
     RANDOM
 }
