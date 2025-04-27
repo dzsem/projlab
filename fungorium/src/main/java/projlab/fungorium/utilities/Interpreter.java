@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
@@ -109,11 +108,9 @@ public class Interpreter {
         inputmap.put("MUSHROOMBODY DISTRIBUTESPORES", args -> {
             distributespores(args);
         });
-        /*
-         * inputmap.put("MUSHROOMTHREAD EATINSECT", args -> {
-         * load(args);
-         * });
-         */
+        inputmap.put("MUSHROOMTHREAD EATINSECT", args -> {
+            eatinsect(args);
+        });
         inputmap.put("MUSHROOMTHREAD GROWBODY", args -> {
             growbody(args);
         });
@@ -590,18 +587,15 @@ public class Interpreter {
         }
     }
 
-    /**
-     * TODO: finish after insect eating mushroomthread implemented
-     * public void eatinsect(int id) {
-     * GameObject mushroom = game.getObject(id);
-     * if (mushroom instanceof MushroomThread mush) {
-     * 
-     * System.out.println("Insect eaten successfully");
-     * } else {
-     * System.err.println("");
-     * }
-     * }
-     */
+    public void eatinsect(List<String> args) {
+        GameObject mt = game.getObject(Integer.valueOf(args.get(0)));
+        if (mt instanceof MushroomThread) {
+            ((MushroomThread) mt).eat();
+            System.out.println("Insect eaten successfully");
+        } else {
+            System.err.println("The object with the specified ID isn't a MushroomThread");
+        }
+    }
 
     /**
      * gombatestet növeszt az adott id-jű gombafonal tektonjára
