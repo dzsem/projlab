@@ -295,7 +295,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
     public void eat() {
         try {
-            Insect i = tecton.getRandomInsect();
+            Insect i = tecton.getStunnedInsect();
             tecton.unregisterInsect(i);
 
             if (!tecton.hasBody()) {

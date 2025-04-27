@@ -299,13 +299,18 @@ public class Tecton extends TurnAware implements PrintableState {
      * @return Egy insect ami rajta volt a tectonon
      * @throws Exception Ha nem volt insect a tectonon
      */
-    public Insect getRandomInsect() throws Exception {
+    public Insect getStunnedInsect() throws Exception {
         if (insects.isEmpty()) {
             throw new Exception("There's no insect on tecton");
         }
 
-        Random rnd = new Random();
-        return insects.get(rnd.nextInt(insects.size()));
+        for (Insect insect : insects) {
+            if (!insect.getCanMove()) {
+                return insect;
+            }
+        }
+
+        throw new Exception("Tecton has no stunnedinsect");
     }
 
     // TODO: killThread átnevezése killThreads-re, mert mindegyiket megöli, ami
