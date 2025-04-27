@@ -125,8 +125,9 @@ public class Interpreter {
                 if (t1 instanceof Tecton) {
                     if (t2 instanceof Tecton) {
                         ((Tecton) t1).registerNeighbour(((Tecton) t2));
+                    } else {
+                        System.err.println("The second id does not belong to a Tecton.");
                     }
-                    System.err.println("The second id does not belong to a Tecton.");
                 } else {
                     System.err.println("The first id does not belong to a Tecton.");
                 }
@@ -138,8 +139,9 @@ public class Interpreter {
                     if (mt2 instanceof MushroomThread) {
                         ((MushroomThread) mt1).addConnection((MushroomThread) mt2);
                         ((MushroomThread) mt2).addConnection((MushroomThread) mt1);
+                    } else {
+                        System.err.println("The second id does not belong to a Tecton.");
                     }
-                    System.err.println("The second id does not belong to a Tecton.");
                 } else {
                     System.err.println("The first id does not belong to a Tecton.");
                 }
@@ -343,7 +345,44 @@ public class Interpreter {
                 } catch (Exception e) {
                     System.err.println(e);
                 }
+            } else {
+                System.err.println("The second id does not belong to a Tecton.");
             }
+        } else {
+            System.err.println("The first id does not belong to an Insect.");
+        }
+    }
+
+    public void eatspore(int insectid) {
+        GameObject insect = game.getObject(insectid);
+        if (insect instanceof Insect) {
+            try {
+                ((Insect) insect).eatMushroomSpore();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.err.println("The id does not belong to an Insect.");
+        }
+    }
+
+    public void cutthread(int insectid, int threadid) {
+        GameObject insect = game.getObject(insectid);
+        GameObject thread = game.getObject(threadid);
+        if (insect instanceof Insect) {
+            if (thread instanceof MushroomThread) {
+                ((Insect) insect).cutMushroomThread((MushroomThread) thread);
+            }
+            System.err.println("The second id does not belong to a MushroomThread.");
+
+        } else {
+            System.err.println("The first id does not belong to an Insect.");
+        }
+    }
+
+    public void nextround() {
+        for (TurnAware ta : game.getTurnAwares()) {
+            ta.onEndOfTheRound();
         }
     }
 }

@@ -8,6 +8,7 @@ import java.io.OutputStream;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.utilities.Logger;
 
 /**
@@ -89,7 +90,7 @@ public class Insect extends TurnAware implements PrintableState, WritableGameObj
 	 */
 	public void cutMushroomThread(MushroomThread mt) {
 		if (canCut) {
-			mt.cut();
+			mt.setCutState(CutState.CUT);
 		}
 	}
 

@@ -60,10 +60,22 @@ public class Game {
         return gameObjects.get(id);
     }
 
+    public TurnAware getTurnAware(int id) {
+        return turnAwares.get(id);
+    }
+
     public List<GameObject> getGameObjects() {
         List<GameObject> objects = new ArrayList<GameObject>();
         for (int i = 0; i < gameObjects.size(); i++) {
             objects.add(getObject(i));
+        }
+        return objects;
+    }
+
+    public List<TurnAware> getTurnAwares() {
+        List<TurnAware> objects = new ArrayList<TurnAware>();
+        for (int i = 0; i < gameObjects.size(); i++) {
+            objects.add(getTurnAware(i));
         }
         return objects;
     }
