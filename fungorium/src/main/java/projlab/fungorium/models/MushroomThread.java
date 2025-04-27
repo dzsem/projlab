@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
+import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
-public class MushroomThread implements TurnAware, PrintableState {
+public class MushroomThread extends TurnAware implements PrintableState {
     public enum GrowState {
         SPROUT,
         GROWN
@@ -79,12 +79,13 @@ public class MushroomThread implements TurnAware, PrintableState {
             return result;
         }
 
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor azt felveszi a visszatérítendő listába
-            try {
+        try {
+            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor
+                                                                              // azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
-            } catch (Exception e) {
-                Logger.printError(e.getMessage());
             }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
         }
 
         List<MushroomThread> queue = new ArrayList<>();
@@ -104,9 +105,11 @@ public class MushroomThread implements TurnAware, PrintableState {
             MushroomThread thread = queue.remove(0);
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
-                                           // visszatérítendő listába
                 try {
-                    result.add(tecton.getBody());
+                    if (thread.tecton.getBody().getID() == mushroomID) {
+                        // visszatérítendő listába
+                        result.add(tecton.getBody());
+                    }
                 } catch (Exception e) {
                     Logger.printError(e.getMessage());
                 }
@@ -132,49 +135,7 @@ public class MushroomThread implements TurnAware, PrintableState {
      * @return true, ha van összeköttetés; false, ha nincs
      */
     public boolean isConnectedToBody() {
-        if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel
-            return false;
-        }
-
-        if (tecton.hasBody()) { // Ha a tektonján van gomba test, akkor biztosan van össze van kötve gomba
-                                // testtel
-            return true;
-        }
-
-        List<MushroomThread> queue = new ArrayList<>();
-        List<MushroomThread> visited = new ArrayList<>();
-
-        for (MushroomThread connectedThread : connectedThreads) { // Felvsezi a sorba azokat a fonalakat, amik nincsenek
-                                                                  // átvágva és benne vannak a connectedThreads listban
-            if (connectedThread.cutState == CutState.UNCUT) {
-                queue.add(connectedThread);
-            }
-        }
-
-        visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra
-                           // magát
-
-        while (!queue.isEmpty()) {
-            MushroomThread thread = queue.remove(0);
-
-            if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor visszatérhet
-                                           // igazzal
-                return true;
-            } else { // Ha nincs rajta gomba test, akkor a sorba rakja a vizsgált fonálhoz kapcsolodó
-                     // fonalak közül azokaz, amik nincsenek elvágva és még nem vizsgálták őket. Majd
-                     // felveszi a vizsgált fonalat a már megvizsgáltak közé
-                for (MushroomThread connectedThread : thread.connectedThreads) {
-                    if (!visited.contains(connectedThread) && connectedThread.cutState == CutState.UNCUT) {
-                        queue.add(connectedThread);
-                    }
-                }
-
-                visited.add(thread);
-            }
-        }
-
-        return false; // Ha a sor kiürült és nem talált gomba testet, akkor nincs összeköttetésen egy
-                      // testtel sem.
+        return !getConnectedBodies().isEmpty();
     }
 
     /**
@@ -231,10 +192,13 @@ public class MushroomThread implements TurnAware, PrintableState {
     }
 
     /**
-     * A fonál CutState értékét cut-ra állítja
+     * Beállítja a fonál cutState változóját.
+     * Tesztekhez szükséges
+     * 
+     * @param cutState cutState új értéke
      */
-    public void cut() {
-        cutState = CutState.CUT;
+    public void setCutState(CutState cutState) {
+        this.cutState = cutState;
     }
 
     /**
@@ -285,17 +249,8 @@ public class MushroomThread implements TurnAware, PrintableState {
      */
     public boolean isConnectingTecton(Tecton t) {
         for (MushroomThread connectedThread : connectedThreads) {
-            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) { // Átugorja
-                                                                                                              // azokat
-                                                                                                              // a
-                                                                                                              // fonalakat,
-                                                                                                              // amik le
-                                                                                                              // vannak
-                                                                                                              // vágva
-                                                                                                              // vagy
-                                                                                                              // még
-                                                                                                              // nincsenek
-                                                                                                              // megnőve
+            // Átugorja azokat a fonalakat, amik le vannak vágva vagy még nincsenek megnőve
+            if (connectedThread.cutState != CutState.UNCUT || connectedThread.growState != GrowState.GROWN) {
                 continue;
             }
 
@@ -336,6 +291,13 @@ public class MushroomThread implements TurnAware, PrintableState {
                 }
             }
         }
+    }
+
+    /*
+     * Visszaadja a Tectont, amin a gombafonál van.
+     */
+    public Tecton getTecton() {
+        return tecton;
     }
 
     /**
@@ -383,6 +345,19 @@ public class MushroomThread implements TurnAware, PrintableState {
         stateString.append("Cut state ").append(cutState.toString()).append("\n");
 
         return stateString.toString();
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("MUSHROOMTHREAD ");
+        sb.append(getID() + " ");
+        sb.append(mushroomID + " ");
+        sb.append(tecton.getID() + " ");
+        sb.append(connectedThreads.size() + " ");
+        sb.append(cutState.toString() + " ");
+        sb.append(growState.toString());
+
+        return sb.toString();
     }
 
 }

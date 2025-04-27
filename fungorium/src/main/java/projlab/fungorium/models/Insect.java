@@ -1,7 +1,15 @@
 package projlab.fungorium.models;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.TurnAware;
+import projlab.fungorium.interfaces.WritableGameObject;
+import projlab.fungorium.models.MushroomThread.CutState;
+import projlab.fungorium.utilities.Logger;
 
 /**
  * A rovarászok által irányított rovarokat megvalósító osztály.
@@ -9,7 +17,10 @@ import projlab.fungorium.interfaces.TurnAware;
  * Számon tartja a tektont, amin van, illetve van (a spórák és a
  * körök eltelése által változtatott) állapota.
  */
-public class Insect implements TurnAware, PrintableState {
+public class Insect extends TurnAware implements PrintableState {
+	/** A rovarász játékos azonosítója */
+	private int insectologistID;
+
 	/**
 	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
 	 * <p>
@@ -48,6 +59,8 @@ public class Insect implements TurnAware, PrintableState {
 	 */
 	private Tecton tecton;
 
+	private static final int COUNTER_DEFAULT_VALUE = 3;
+
 	/**
 	 * Létrehoz egy rovart, a megadott tektonon.
 	 *
@@ -55,7 +68,8 @@ public class Insect implements TurnAware, PrintableState {
 	 *                       tektonra a rovar regisztálásra kerül a konstruktor
 	 *                       lefutásakor.
 	 */
-	public Insect(Tecton startingTecton) {
+	public Insect(int playerID, Tecton startingTecton) {
+		insectologistID = playerID;
 		tecton = startingTecton;
 		canMove = true;
 		canCut = true;
@@ -64,16 +78,19 @@ public class Insect implements TurnAware, PrintableState {
 		tecton.registerInsect(this);
 	}
 
+	public void die() {
+		tecton.unregisterInsect(this);
+		delete();
+	}
+
 	/**
 	 * Elvágja a bemenetként adott gombafonalat, amennyiben
 	 * 
 	 * @param mt Az elvágandó gombafonál
 	 */
 	public void cutMushroomThread(MushroomThread mt) {
-		// TODO: ez így akármilyen gombafonalat el tud vágni, lehet módosítani kéne a
-		// diagramokon? ~tams
 		if (canCut) {
-			mt.cut();
+			mt.setCutState(CutState.CUT);
 		}
 	}
 
@@ -213,9 +230,10 @@ public class Insect implements TurnAware, PrintableState {
 		counter = COUNTER_DEFAULT_VALUE;
 	}
 
-	/**
-	 * Visszaadja a tektont, amin a rovar áll.
-	 */
+	public int getInsectologistID() {
+		return insectologistID;
+	}
+
 	public Tecton getTecton() {
 		return tecton;
 	}
@@ -238,5 +256,17 @@ public class Insect implements TurnAware, PrintableState {
 		return counter != 0;
 	}
 
-	private static final int COUNTER_DEFAULT_VALUE = 3;
+	@Override
+	public String getOutputString() {
+		StringBuilder sb = new StringBuilder("INSECT ");
+
+		sb.append(getID() + " ");
+		sb.append(insectologistID + " ");
+		sb.append(tecton.getID() + " ");
+		sb.append(canCut + " ");
+		sb.append(canMove + " ");
+		sb.append(counter);
+
+		return sb.toString();
+	}
 }

@@ -1,11 +1,12 @@
 package projlab.fungorium;
 
+import projlab.fungorium.utilities.Interpreter;
 import projlab.fungorium.utilities.Skeleton;
 
 public class Main {
     public static void main(String[] args) {
-        Skeleton.init();
+        Interpreter interpreter = new Interpreter();
 
-        Skeleton.run();
+        interpreter.input();
     }
 }

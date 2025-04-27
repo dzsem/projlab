@@ -1,0 +1,11 @@
+procedure Insect.onEndOfTheRound() is
+	if this.canMove then
+		this.refreshActions()
+	else
+		this.setCanMove(true)
+	
+	if not this.canCut and this.counter == 0 then
+		this.setCanCut(true)
+	
+	if this.counter != 0 then
+		this.counter := this.counter - 1

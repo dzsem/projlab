@@ -24,7 +24,7 @@ public class EffectTester {
      * ez a függvény mindig inicializálja a változókat, és vissza teszi alap állapotba
      */
     public static void init(){
-        insect=new Insect(new Tecton());
+        insect=new Insect(0, new Tecton());
         blockEffect=new BlockEffect();
         stunEffect=new StunEffect();
         speedEffect=new SpeedEffect();

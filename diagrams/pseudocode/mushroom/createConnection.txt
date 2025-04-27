@@ -1,0 +1,8 @@
+procedure MushroomThread.createConnection(to: Tecton) is
+    if to.isNeighbour(this.tecton) then
+        let newThread be MushroomThread
+        newThread.addConnection(this)
+
+        return newThread
+
+    throw Exception
