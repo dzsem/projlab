@@ -12,6 +12,8 @@ import java.io.FileReader;
 
 import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.models.*;
+import projlab.fungorium.models.MushroomThread.CutState;
+import projlab.fungorium.models.MushroomThread.GrowState;
 
 public class Interpreter {
     private static Game game;
@@ -156,28 +158,60 @@ public class Interpreter {
                 }
                 System.out.println("ThreadKillingTecton kill chance set to: " + args.get(1) + "%");
                 break;
+            case "mushroomthread":
+                MushroomThread mt = (MushroomThread) game.getObject(Integer.valueOf(args.get(2)));
+                if (!args.get(1).toLowerCase().equals("STATE")) {
+                    System.err.println("Command not recognized.");
+                    System.err.println("SET MUSHROOMTHREAD STATE <mushroomThreadID> <cutState> <growState>");
+                    break;
+                }
+                switch (args.get(2).toLowerCase()) {
+                    case "CUT":
+                        mt.setCutState(CutState.CUT);
+                        break;
+                    case "UNCUT":
+                        mt.setCutState(CutState.UNCUT);
+                        break;
+                    default:
+                        System.err.println("Cut state not recognized. Possible states: CUT, UNCUT");
+                        break;
+                }
+                switch (args.get(2).toLowerCase()) {
+                    case "SPROUT":
+                        mt.setGrowState(GrowState.SPROUT);
+                        break;
+                    case "GROW":
+                        mt.setGrowState(GrowState.GROWN);
+                        break;
+                    default:
+                        System.err.println("Grow state not recognized. Possible states: GROW, SPROUT");
+                        break;
+                }
+                break;
             default:
                 System.err.println("Command not recognized. Possible parameters:");
                 System.err.println("SET EFFECTGENERATION <mushroomSporeID> <effect>");
                 System.err.println("SET TECTONSPLITCHANCE <chance>");
                 System.err.println("SET TECTONKILLCHANCE <chance>");
+                System.err.println("SET MUSHROOMTHREAD STATE <mushroomThreadID> <cutState> <growState>");
                 break;
         }
     }
 
     private void load(List<String> args) {
         try {
-            BufferedReader br = new BufferedReader(
-                    new FileReader(args.get(0)));
-
+            BufferedReader br = new BufferedReader(new FileReader(args.get(0)));
             String fileline;
             while ((fileline = br.readLine()) != null) {
                 List<String> fl = Arrays.asList(fileline.split(" "));
                 String commandName = fl.get(0);
+                if (commandName.startsWith("#")) {
+                    continue;
+                }
                 List<String> loadargs = fl.subList(1, fl.size());
                 InterpreterCommand command = inputmap.get(commandName);
                 if (command != null) {
-                    command.execute(args);
+                    command.execute(loadargs);
                 } else {
                     System.out.println("Unknown command: " + commandName);
                 }
@@ -187,6 +221,7 @@ public class Interpreter {
         }
     }
 
+    // TODO
     private void save(File filename) {
         for (GameObject obj : game.gameObjects) {
             if (obj instanceof WritableGameObject writable) {
@@ -199,7 +234,7 @@ public class Interpreter {
         System.out.println("Objects of type '" + typeName + "':");
 
         boolean found = false;
-        for (GameObject obj : game.gameObjects) {
+        for (GameObject obj : game.getGameObjects()) {
             if (obj.getClass().getSimpleName().equalsIgnoreCase(typeName)) {
                 System.out.println(" - ID: " + obj.getID());
                 found = true;
@@ -215,18 +250,44 @@ public class Interpreter {
         System.out.println(game.getObject(id).getOutputString());
     }
 
-    public void distributespores(int id, String dist) {
-        if (!dist.equalsIgnoreCase("distributespores")) {
-            System.err.println("Command not understood. Did you mean to write \"DISTRIBUTESPORES?\"");
-        }
-        GameObject mushroom = game.getObject(id);
-
-        if (mushroom instanceof MushroomBody mush) {
-            mush.distributeSpores();
+    public void distributespores(int id) {
+        GameObject mushroombody = game.getObject(id);
+        if (mushroombody instanceof MushroomBody mb) {
+            mb.distributeSpores();
             System.out.println("Spore distribution successful");
         } else {
             System.err.println("The object with the specified ID isn't a MushroomBody");
         }
     }
 
+    /*
+     * TODO: finish after insect eating mushroomthread implemented
+     * public void eatinsect(int id) {
+     * GameObject mushroom = game.getObject(id);
+     * if (mushroom instanceof MushroomThread mush) {
+     * 
+     * System.out.println("Insect eaten successfully");
+     * } else {
+     * System.err.println("");
+     * }
+     * }
+     */
+
+    public void GrowBody(int id) {
+        GameObject mushroomthread = game.getObject(id);
+        if (mushroomthread instanceof MushroomThread mt) {
+            try {
+                mt.getTecton().growBody(mt.getMushroomID());
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+            System.out.println("MushroomBody successfully grown on Tecton " + mt.getTecton().getID());
+        } else {
+            System.err.println("The object with the specified ID isn't a MushroomThread");
+        }
+    }
+
+    public void grow(int id, int tectonid) {
+
+    }
 }

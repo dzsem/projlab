@@ -18,4 +18,6 @@ public abstract class GameObject {
 
         Game.getInstance().addObject(this);
     }
+
+    public abstract String getOutputString();
 }
