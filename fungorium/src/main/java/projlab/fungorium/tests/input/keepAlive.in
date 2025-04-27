@@ -2,10 +2,11 @@
 # ------------------------------------------
 # Input
 # ------------------------------------------
+LOAD config/keepAlive.cfg
 INSECT 5 CUTTHREAD 3
 NEXTROUND
 NEXTROUND
 NEXTROUND
 # Print states
 # ------------------------------------------
-LIST MUSHROOMTHREAD
+SAVE keepAlive.out
