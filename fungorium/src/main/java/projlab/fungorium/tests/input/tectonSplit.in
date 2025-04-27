@@ -1,8 +1,10 @@
 # Tecton Split
 # ------------------------------------------
+
+LOAD config/tectonSplit.cfg
+
 # Input
 # ------------------------------------------
 NEXTROUND
-# Print states
-# ------------------------------------------
-LIST TECTON
+
+SAVE tectonSplit.out
