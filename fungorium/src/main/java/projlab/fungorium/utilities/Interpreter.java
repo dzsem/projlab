@@ -1,19 +1,29 @@
 package projlab.fungorium.utilities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-import projlab.fungorium.models.*;
+import projlab.fungorium.models.Game;
+import projlab.fungorium.models.GameObject;
+import projlab.fungorium.models.InfertileTecton;
+import projlab.fungorium.models.Insect;
+import projlab.fungorium.models.KeepAliveTecton;
+import projlab.fungorium.models.MushroomBody;
+import projlab.fungorium.models.MushroomSpore;
+import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.MushroomThread.GrowState;
+import projlab.fungorium.models.SingleThreadTecton;
+import projlab.fungorium.models.Tecton;
+import projlab.fungorium.models.ThreadKillingTecton;
 import projlab.fungorium.models.effects.EffectTypes;
 
 public class Interpreter {
@@ -74,8 +84,10 @@ public class Interpreter {
                         args.addAll(tokens.subList(3, tokens.size()));
                     }
                     cmd.execute(args);
+                    System.out.println(key + " executed");
                 } else {
                     cmd.execute(tokens.subList(1, tokens.size()));
+                    System.out.println(key + " executed");
                 }
             } else {
                 System.err.println("Unknown command: " + line);
@@ -485,8 +497,10 @@ public class Interpreter {
         if (command != null) {
             if (state) {
                 command.execute(args.subList(3, args.size()));
+                System.out.println(key + " executed");
             } else {
                 command.execute(args.subList(2, args.size()));
+                System.out.println(key + " executed");
             }
         } else {
             System.err.println("Unknown command: " + key);
