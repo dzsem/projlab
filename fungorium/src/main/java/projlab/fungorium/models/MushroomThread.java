@@ -2,6 +2,7 @@ package projlab.fungorium.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.interfaces.WritableGameObject;
@@ -80,7 +81,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
         }
 
         try {
-            if (tecton.hasBody() && tecton.getBody().getID() == mushroomID) { // Ha a tektonján van gomba test, akkor
+            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test, akkor
                                                                               // azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
             }
@@ -209,15 +210,22 @@ public class MushroomThread extends TurnAware implements PrintableState {
      * @throws Exception ha nem tod
      */
     public MushroomThread createConnection(Tecton to) throws Exception {
-        if (to.isNeighbour(tecton)) {
+        if (!to.isNeighbour(tecton)) {
+            throw new Exception("Tecton was not neighour");
+        }
+
+        try {
+            var mt = to.getThread(mushroomID);
+            mt.cutState = CutState.UNCUT;
+        } catch (NoSuchElementException e) {
             MushroomThread newThread = new MushroomThread(to, mushroomID);
             newThread.addConnection(this);
             addConnection(newThread);
 
             return newThread;
         }
-
-        throw new Exception("Tecton was not neighour");
+        
+        throw new Exception("Cretaing connection failed");
     }
 
     /**
