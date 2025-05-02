@@ -2,6 +2,7 @@ package projlab.fungorium.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import projlab.fungorium.interfaces.PrintableState;
@@ -342,6 +343,20 @@ public class Tecton extends TurnAware implements PrintableState {
 
     public List<Tecton> getNeighbours() {
         return neighbours;
+    }
+
+    /**
+     * Visszaadja a paraméterként kapott gombaID-vel rendelkező fonalat
+     * @param mushroomID a fonálnak az azonosítója
+     * @return Az a fonál, ami a mushroomID-vel rendelkezik
+     * @throws Exception Ha nem volt fonál aminek a mushroomID-je megegyezett volna.
+     */
+    public MushroomThread getThread(int mushroomID) throws Exception {
+        for (MushroomThread thread : mushroomThreads) {
+            return thread;
+        }
+
+        throw new NoSuchElementException("No thread has this id");
     }
 
     // -------------------------------------
