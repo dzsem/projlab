@@ -6,7 +6,7 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Main",
+            "name": "TestProcessor",
             "request": "launch",
             "mainClass": "projlab.TestProcessor.Main",
             "projectName": ""
@@ -25,10 +25,17 @@
         },
         {
             "type": "java",
-            "name": "Main",
+            "name": "Fungorium Main",
             "request": "launch",
             "mainClass": "projlab.fungorium.Main",
             "projectName": "fungorium"
+        },
+        {
+            "type": "java",
+            "name": "GFX Main",
+            "request": "launch",
+            "mainClass": "dzsem.Main",
+            "projectName": ""
         }
     ]
 }
