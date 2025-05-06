@@ -1,0 +1,41 @@
+@startuml eatSporeAction
+
+title EatSporeAction.actionPerformed
+
+actor "Insectologist" as i
+participant "action: EatSporeAction" as a
+participant "action.controller:\nInsectologistController" as c
+participant "GameController.instance:\nGameController" as gc
+participant "i: Insect" as ins
+
+i -> a: actionPerformed()
+note right: "eat spore" gombra kattintáskor
+activate a
+activate i
+
+	a -> c: getSelectedInsect()
+	activate c
+
+	a <-- c: i
+	deactivate c
+
+	a -> ins: eatMushroomSpore()
+	note right: ld. Insect.eatMushroomSpore\nszekvenciadiagram
+	activate ins
+
+	a <-- ins
+	deactivate ins
+	
+	opt eatMushroomSpore threw exception e
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+	end
+
+i <-- a
+deactivate i
+deactivate a
+
+@enduml
