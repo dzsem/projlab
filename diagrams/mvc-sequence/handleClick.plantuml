@@ -1,0 +1,54 @@
+@startuml handleClick
+
+title GameController.handleClick\n(*) GCV = GameComponentView<? extends GameObject>
+
+actor "Player" as p
+participant "GameController.instance:\nGameController" as gc
+
+participant "point: Point" as point
+participant "gcView: GCV(*)" as c
+participant "highestPriorityView: GCV(*)" as hc
+
+p -> gc: handleClick(x, y)
+note right: a játék panelre kattintáskor\n(x, y) a kattintás helye
+activate p
+activate gc
+
+	gc -> gc: getPoint(x, y)
+	activate gc
+
+	gc --> gc: point
+	deactivate gc
+
+	loop for each gcView
+		gc -> c: isPointInside(point)
+		activate c
+
+		gc <-- c: result
+		deactivate c
+
+		opt result and\n(gcView.priority > highestPriorityView.priority or highestPriorityView is null)
+			gc -> gc: highestPriorityView = gcView
+		end
+	end
+
+	opt highestPriorityView is not null
+		gc -> hc: accept(GameController.instance)
+		activate hc
+
+			hc -> gc: visit(gcView)
+			note right: visit minden egyes view\ntípusra külön implementálva\n(visitor pattern)
+			activate gc
+
+			gc --> hc
+			deactivate gc
+
+		hc --> gc
+		deactivate hc
+	end
+
+p <-- gc
+deactivate p
+deactivate gc
+
+@enduml
