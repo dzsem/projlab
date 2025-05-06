@@ -21,7 +21,7 @@ activate i
 	a <-- c: i
 	deactivate c
 
-	opt getSelectedInsect threw exception
+	opt getSelectedInsect threw exception e
 		a -> gc: showError(e)
 		activate gc
 
