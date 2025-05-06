@@ -1,0 +1,59 @@
+@startuml cutThreadAction
+
+title CutThreadAction.actionPerformed
+
+actor "Insectologist" as i
+participant "action: CutThreadAction" as a
+participant "action.controller:\nInsectologistController" as c
+participant "GameController.instance:\nGameController" as gc
+participant "i: Insect" as ins
+participant "t: Thread" as tec
+
+i -> a: actionPerformed()
+note right: "cut thread" gombra kattintáskor
+activate a
+activate i
+
+	a -> c: getSelectedInsect()
+	note right: ld. InsectologistController.getSelectedInsect\nszekvenciadiagram
+	activate c
+
+	a <-- c: i
+	deactivate c
+
+	opt getSelectedInsect threw exception e
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+
+		i <-- a
+	end
+
+	a -> gc: getSelectedThread()
+	activate gc
+
+	a <-- gc: t
+	deactivate gc
+
+	a -> ins: cutMushroomThread(t)
+	note right: ld. Insect.cutMushroomThread\nszekvenciadiagram
+	activate ins
+
+	a <-- ins
+	deactivate ins
+	
+	opt cutMushroomThread threw exception e
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+	end
+
+i <-- a
+deactivate i
+deactivate a
+
+@enduml

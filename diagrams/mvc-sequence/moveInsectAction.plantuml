@@ -1,0 +1,59 @@
+@startuml moveInsectAction
+
+title MoveInsectAction.actionPerformed
+
+actor "Insectologist" as i
+participant "action: MoveInsectAction" as a
+participant "action.controller:\nInsectologistController" as c
+participant "GameController.instance:\nGameController" as gc
+participant "i: Insect" as ins
+participant "t: Tecton" as tec
+
+i -> a: actionPerformed()
+note right: Move gombra kattintáskor
+activate a
+activate i
+
+	a -> c: getSelectedInsect()
+	note right: ld. InsectologistController.getSelectedInsect\nszekvenciadiagram
+	activate c
+
+	a <-- c: i
+	deactivate c
+
+	opt getSelectedInsect threw exception e
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+
+		i <-- a
+	end
+
+	a -> gc: getSelectedTecton()
+	activate gc
+
+	a <-- gc: t
+	deactivate gc
+
+	a -> ins: moveToTecton(t)
+	note right: ld. Insect.moveToTecton\nszekvenciadiagram
+	activate ins
+
+	a <-- ins
+	deactivate ins
+	
+	opt moveToTecton threw exception e
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+	end
+
+i <-- a
+deactivate i
+deactivate a
+
+@enduml

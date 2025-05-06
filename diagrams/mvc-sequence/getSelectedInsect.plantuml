@@ -1,0 +1,29 @@
+@startuml getSelectedInsect
+
+title InsectologistController.getSelectedInsect
+
+participant "Action" as a
+participant "action.controller:\nInsectologistController" as c
+participant "GameController.instance:\nGameController" as gc
+participant "i: Insect" as ins
+
+a -> c: getSelectedInsect()
+note right: hívó fél: CutThreadAction.performAction()\nEatSporeAction.performAction()\nMoveInsectAction.performAction()
+activate a
+activate c
+
+	c -> gc: getSelectedInsect()
+	activate gc
+
+	c <-- gc: i
+	deactivate gc
+
+	opt i.getInsectologistID() != c.activeInsectID
+		a <-- c: throw Exception
+	end
+
+a <-- c: i
+deactivate c
+deactivate a
+
+@enduml
