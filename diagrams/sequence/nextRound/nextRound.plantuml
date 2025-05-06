@@ -1,0 +1,68 @@
+@startuml NextRound 
+title PassAction button pressed
+
+actor "ActivePlayer" as player
+participant "PassAction" as action
+participant "GameController" as controller
+activate player
+
+player->action : performAction()
+activate action
+
+
+alt activePlayerType == INSECTOLOGIST
+    action->controller: setInsectologistIdx(insectologistIdx+1)
+    activate controller
+    controller-->action
+    deactivate controller
+    action->controller : setActivePlayer(MYCOLOGIST)
+    activate controller
+    controller-->action
+    deactivate controller
+    
+else 
+    action->controller: setMycologistIdx(myclogistIdx+1)
+    activate controller
+    controller-->action
+    deactivate controller
+    action->controller : setActivePlayer(INSECTOLOGIST)
+    activate controller
+    controller-->action
+    deactivate controller
+end
+action->controller : checkIfLastActive()
+activate controller
+controller-->action : result 
+deactivate controller
+opt result
+    
+    action ->controller 
+    activate controller
+
+    controller->Game : nextRound()
+    
+    activate Game
+
+    Game --> controller
+    deactivate Game
+
+    controller --> action
+    deactivate controller
+
+    action->controller: setInsectologistIdx(0)
+    activate controller
+    controller-->action
+    deactivate controller
+    action->controller: setMycologistIdx(0)
+    activate controller
+    controller-->action
+    deactivate controller
+end
+
+action-->player
+
+deactivate action
+
+deactivate player
+
+@enduml

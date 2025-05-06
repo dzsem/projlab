@@ -1,0 +1,33 @@
+@startuml BlockEffect
+title BlockEffect.applyEffect
+
+participant "spore: MushroomSpore" as spore
+participant "d: duplicate" as effect
+participant "i: Insect" as insect
+participant "i2: Insect" as insect2
+
+spore-> effect : applyEffect(i)
+note left: eatMushroomSpore hívja meg
+activate spore
+activate effect
+
+effect->insect:getInsectologistID()
+activate insect
+
+effect<--insect:Id
+
+effect->insect:getTecton()
+effect<--insect:Tecton
+deactivate insect
+
+
+effect->insect2:Insect(Id,Tecton)
+activate insect2
+effect<--insect2
+deactivate insect2
+
+spore<--effect
+deactivate effect
+deactivate spore
+
+@enduml
