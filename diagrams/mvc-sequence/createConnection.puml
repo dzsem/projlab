@@ -14,7 +14,9 @@ activate act
 act -> ctr: getSelectedThread()
 activate ctr
 act <-- ctr: mt: MushroomThread
+deactivate ctr
 act -> ctr:  getSelectedTecton()
+activate ctr
 act <-- ctr: t: Tecton
 deactivate ctr
 
