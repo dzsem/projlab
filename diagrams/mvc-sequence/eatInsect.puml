@@ -1,0 +1,30 @@
+@startuml eatInsectMVC
+
+title eatInsect
+actor "Mycologist" as mc
+participant "action: EatInsectAction" as act
+participant "controller: GameController" as ctr
+participant "mt: MushroomThread" as mt
+
+mc -> act: actionPerformed()
+activate mc
+activate act
+
+act -> ctr: getSelectedThread()
+activate ctr
+
+act <-- ctr: mt: MushroomThread
+deactivate ctr
+
+act -> mt: eat()
+activate mt
+
+act <-- mt
+deactivate mt
+
+mc <-- act
+deactivate act
+
+deactivate mc
+
+@enduml
