@@ -1,0 +1,49 @@
+@startuml handleClick
+
+title GameController.handleClick
+
+actor "Player" as p
+participant "GameController.instance:\nGameController" as gc
+
+participant "point: Point" as point
+participant "gcView:\nGameComponentView<? extends GameObject>" as c
+
+p -> gc: handleClick(x, y)
+note right: a játék panelre kattintáskor\n(x, y) a kattintás helye
+activate p
+activate gc
+
+	gc -> gc: getPoint(x, y)
+	activate gc
+
+	gc --> gc: point
+	deactivate gc
+
+	loop for each gameComponentView
+		gc -> c: isPointInside(point)
+		activate c
+
+		gc <-- c: result
+		deactivate c
+
+		opt result is true
+			gc -> c: accept(GameController.instance)
+			activate c
+
+				c -> gc: visit(gcView)
+				note right: visit minden egyes view\ntípusra külön implementálva\n(visitor pattern)
+				activate gc
+
+				gc --> c
+				deactivate gc
+
+			c --> gc
+			deactivate c
+		end
+	end
+
+p <-- gc
+deactivate p
+deactivate gc
+
+@enduml
