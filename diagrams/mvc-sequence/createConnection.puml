@@ -26,6 +26,14 @@ activate mt
 act <-- mt
 deactivate mt
 
+opt createConnection threw exception e
+    act -> ctr: showError(e)
+    activate ctr
+
+    act <-- ctr
+    deactivate ctr
+end
+
 mc <-- act
 deactivate act
 

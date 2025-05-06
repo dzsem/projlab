@@ -29,6 +29,14 @@ activate t
 act <-- t
 deactivate t
 
+opt growBody threw exception e
+    act -> ctr: showError(e)
+    activate ctr
+
+    act <-- ctr
+    deactivate ctr
+end
+
 mc <-- act
 deactivate act
 
