@@ -1,5 +1,6 @@
 @startuml createConnectionMVC
 
+title createConnection
 actor "Mycologist" as mc
 participant "action: CreateConnectionAction" as act
 participant "controller: GameController" as ctr
