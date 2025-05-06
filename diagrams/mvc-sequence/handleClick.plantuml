@@ -7,7 +7,7 @@ participant "GameController.instance:\nGameController" as gc
 
 participant "point: Point" as point
 participant "gcView: GCV(*)" as c
-participant "highestPriorityView: GCV(*)"
+participant "highestPriorityView: GCV(*)" as hc
 
 p -> gc: handleClick(x, y)
 note right: a játék panelre kattintáskor\n(x, y) a kattintás helye
@@ -33,18 +33,18 @@ activate gc
 	end
 
 	opt highestPriorityView is not null
-		gc -> c: accept(GameController.instance)
-		activate c
+		gc -> hc: accept(GameController.instance)
+		activate hc
 
-			c -> gc: visit(gcView)
+			hc -> gc: visit(gcView)
 			note right: visit minden egyes view\ntípusra külön implementálva\n(visitor pattern)
 			activate gc
 
-			gc --> c
+			gc --> hc
 			deactivate gc
 
-		c --> gc
-		deactivate c
+		hc --> gc
+		deactivate hc
 	end
 
 p <-- gc
