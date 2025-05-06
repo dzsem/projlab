@@ -1,0 +1,31 @@
+@startuml distributeSporeMVC
+
+title distributeSpore
+actor "Mycologist" as mc
+participant "action: DistributeSporeAction" as act
+participant "mController: MycologistController" as mctr
+participant "mb: MushroomBody" as mb
+
+
+mc -> act: actionPerformed()
+activate mc
+activate act
+
+act -> mctr: getSelectedBody()
+activate mctr
+
+act <-- mctr: mb: MushroomBody
+deactivate mctr
+
+act -> mb: distributeSpores()
+activate mb
+
+act <-- mb
+deactivate mb
+
+mc <-- act
+deactivate act
+
+deactivate mc
+
+@enduml
