@@ -41,6 +41,7 @@ activate gc
 			activate gc
 
 			gc --> hc
+			note right: A visit() függvények az adott\ntípusra vonatkozóan eltárolják a\nhívó view-t.\n\nPéldául a visit(t: TectonView) a\nselectedTecton privát mezőben\neltárolja "t"-t.\n\nA triviális működés miatt\na visit() függvények nincsenek\nkülön diagramon kifejtve.
 			deactivate gc
 
 		hc --> gc
