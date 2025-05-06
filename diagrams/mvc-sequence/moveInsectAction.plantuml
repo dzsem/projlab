@@ -15,10 +15,21 @@ activate a
 activate i
 
 	a -> c: getSelectedInsect()
+	note right: ld. InsectologistController.getSelectedInsect\nszekvenciadiagram
 	activate c
 
 	a <-- c: i
 	deactivate c
+
+	opt getSelectedInsect threw exception
+		a -> gc: showError(e)
+		activate gc
+
+		a <-- gc
+		deactivate gc
+
+		i <-- a
+	end
 
 	a -> gc: getSelectedTecton()
 	activate gc
