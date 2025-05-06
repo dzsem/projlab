@@ -1,0 +1,45 @@
+@startuml growBodyMVC
+
+title growBody
+actor "Mycologist" as mc
+participant "action: GrowBodyAction" as act
+participant "controller: GameController" as ctr
+participant "mController: MycologistController" as mctr
+participant "t: Tecton" as t
+
+mc -> act: actionPerformed()
+activate mc
+activate act
+
+act -> ctr: getSelectedTecton()
+activate ctr
+
+act <-- ctr: t: Tecton
+deactivate ctr
+
+act -> mctr: getMushroomID()
+activate mctr
+
+act <-- mctr: id: int 
+deactivate mctr
+
+act -> t: growBody(id)
+activate t
+
+act <-- t
+deactivate t
+
+opt growBody threw exception e
+    act -> ctr: showError(e)
+    activate ctr
+
+    act <-- ctr
+    deactivate ctr
+end
+
+mc <-- act
+deactivate act
+
+deactivate mc
+
+@enduml

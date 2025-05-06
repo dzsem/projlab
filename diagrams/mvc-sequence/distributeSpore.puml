@@ -1,0 +1,40 @@
+@startuml distributeSporeMVC
+
+title distributeSpore
+actor "Mycologist" as mc
+participant "action: DistributeSporeAction" as act
+participant "mController: MycologistController" as mctr
+participant "mb: MushroomBody" as mb
+participant "controller: GameController" as ctr
+
+
+mc -> act: actionPerformed()
+activate mc
+activate act
+
+act -> mctr: getSelectedBody()
+activate mctr
+
+act <-- mctr: mb: MushroomBody
+deactivate mctr
+
+act -> mb: distributeSpore()
+activate mb
+
+act <-- mb
+deactivate mb
+
+opt distributeSpore threw exception e
+    act -> ctr: showError(e)
+    activate ctr
+
+    act <-- ctr
+    deactivate ctr
+end
+
+mc <-- act
+deactivate act
+
+deactivate mc
+
+@enduml

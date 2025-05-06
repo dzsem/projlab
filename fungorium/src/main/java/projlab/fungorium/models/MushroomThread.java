@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import projlab.fungorium.interfaces.PrintableState;
-import projlab.fungorium.interfaces.WritableGameObject;
 import projlab.fungorium.utilities.Logger;
 
 public class MushroomThread extends TurnAware implements PrintableState {

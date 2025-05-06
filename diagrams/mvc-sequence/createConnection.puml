@@ -1,0 +1,42 @@
+@startuml createConnectionMVC
+
+title createConnection
+actor "Mycologist" as mc
+participant "action: CreateConnectionAction" as act
+participant "controller: GameController" as ctr
+participant "mt: MushroomThread" as mt
+
+mc -> act: actionPerformed()
+activate mc
+
+activate act
+
+act -> ctr: getSelectedThread()
+activate ctr
+act <-- ctr: mt: MushroomThread
+deactivate ctr
+act -> ctr:  getSelectedTecton()
+activate ctr
+act <-- ctr: t: Tecton
+deactivate ctr
+
+act -> mt: createConnection(t)
+activate mt
+
+act <-- mt
+deactivate mt
+
+opt createConnection threw exception e
+    act -> ctr: showError(e)
+    activate ctr
+
+    act <-- ctr
+    deactivate ctr
+end
+
+mc <-- act
+deactivate act
+
+deactivate mc
+
+@enduml
