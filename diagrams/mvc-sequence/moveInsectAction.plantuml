@@ -5,7 +5,7 @@ title MoveInsectAction.actionPerformed
 actor "Insectologist" as i
 participant "action: MoveInsectAction" as a
 participant "action.controller:\nInsectologistController" as c
-participant "gc: GameController" as gc
+participant "GameController.instance:\nGameController" as gc
 participant "i: Insect" as ins
 participant "t: Tecton" as tec
 
