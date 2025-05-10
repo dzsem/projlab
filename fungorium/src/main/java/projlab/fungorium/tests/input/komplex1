@@ -1,0 +1,26 @@
+# Komplex teszt 1
+# ------------------------------------------
+LOAD config/komplex.cfg
+
+# Input
+# ------------------------------------------
+# 7
+MUSHROOMTHREAD 5 GROW 1
+# 8
+MUSHROOMTHREAD 5 GROW 3
+
+NEXTROUND
+NEXTROUND
+NEXTROUND
+
+# 9
+MUSHROOMTHREAD 7 GROW 2
+
+NEXTROUND
+NEXTROUND
+NEXTROUND
+
+INSECT 6 MOVE 1
+# Print states
+# ------------------------------------------
+SAVE komplex1.out
