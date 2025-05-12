@@ -16,7 +16,7 @@ public class MenuWindow extends JFrame  {
 
     public MenuWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Fungorium (dzrem) - Main Menu");
+        setTitle("Fungorium (dzsem) - Main Menu");
         setLayout(new BorderLayout());
         setSize(SIZE);
         setResizable(false);

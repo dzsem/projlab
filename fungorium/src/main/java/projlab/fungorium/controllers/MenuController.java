@@ -39,6 +39,10 @@ public class MenuController {
     }
 
     public void startGame() {
+        if (players.isEmpty()) {
+            return;
+        }
+
         new MainWindow(new GameController());
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         window.dispose();
