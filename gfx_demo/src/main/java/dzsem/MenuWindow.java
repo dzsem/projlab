@@ -1,7 +1,6 @@
 package dzsem;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -9,11 +8,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
 
 public class MenuWindow extends JFrame {
     public static final Dimension SIZE = new Dimension(450, 400);
@@ -27,7 +24,6 @@ public class MenuWindow extends JFrame {
         setLocationRelativeTo(null);
 
         var controlPanel = new JPanel(new BorderLayout());
-
         var controlBottom = new JPanel();
         controlBottom.add(new JButton("Start Game"));
         controlBottom.add(new JButton("Add New Player"));
