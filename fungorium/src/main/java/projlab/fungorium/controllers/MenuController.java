@@ -3,27 +3,55 @@ package projlab.fungorium.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.WindowConstants;
+
 import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.Player;
 import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.views.menu.PlayerTableModel;
-import projlab.fungorium.windowing.menu.MainMenuPanel;
+import projlab.fungorium.windowing.game.MainWindow;
+import projlab.fungorium.windowing.menu.MenuPanel;
+import projlab.fungorium.windowing.menu.MenuWindow;
 
 public class MenuController {
 
     private PlayerTableModel ptm;
     private List<Player> players;
 
-    private MainMenuPanel menuPanel;
+    private MenuPanel menuPanel;
 
-    public MenuController() {
+    private MenuWindow window;
+
+    public MenuController(MenuWindow window) {
         players = new ArrayList<>();
         ptm = new PlayerTableModel(players);
+
+        this.window = window;
     }
 
-    public void setPanel(MainMenuPanel menuPanel) {
+    public void setPanel(MenuPanel menuPanel) {
         this.menuPanel = menuPanel;
+    }
+
+    public PlayerTableModel getPlayerTableModel() {
+        return ptm;
+    }
+
+    public void startGame() {
+        new MainWindow(new GameController());
+        window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        window.dispose();
+    }
+
+    public void removePlayer() {
+        int selectedRow = menuPanel.getSelectedRow();
+        if (selectedRow == -1) {
+            return;
+        }
+
+        players.remove(selectedRow);
+        ptm.removeRow(selectedRow);
     }
 
     public void addNewPlayer() {
@@ -47,16 +75,6 @@ public class MenuController {
         menuPanel.clearTextField();
     }
 
-    public void removePlayer() {
-        int selectedRow = menuPanel.getSelectedRow();
-        if (selectedRow == -1) {
-            return;
-        }
-
-        players.remove(selectedRow);
-        ptm.removeRow(selectedRow);
-    }
-
     private void addNewMycologist(Mycologist mycologist) {
         players.add(mycologist);
         ptm.addNewRow(PlayerType.MYCOLOGIST);
@@ -66,9 +84,4 @@ public class MenuController {
         players.add(insectologist);
         ptm.addNewRow(PlayerType.INSECTOLOGIST);
     }
-
-    public PlayerTableModel getPlayerTableModel() {
-        return ptm;
-    }
-
 }

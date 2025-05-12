@@ -8,11 +8,11 @@ import javax.swing.WindowConstants;
 
 import projlab.fungorium.controllers.MenuController;
 
-public class MenuWindow extends JFrame {
+public class MenuWindow extends JFrame  {
     public static final Dimension SIZE = new Dimension(450, 400);
 
     private MenuController menuController;
-    private MainMenuPanel menuPanel;
+    private MenuPanel menuPanel;
 
     public MenuWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -22,11 +22,12 @@ public class MenuWindow extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        menuController = new MenuController();
-        menuPanel = new MainMenuPanel(menuController);
+        menuController = new MenuController(this);
+        menuPanel = new MenuPanel(menuController);
         menuController.setPanel(menuPanel);
         add(menuPanel);
 
         setVisible(true);
     }
+
 }

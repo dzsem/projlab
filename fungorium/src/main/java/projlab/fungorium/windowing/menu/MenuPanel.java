@@ -12,21 +12,23 @@ import javax.swing.JTextField;
 
 import projlab.fungorium.actions.menu.AddNewPlayerAction;
 import projlab.fungorium.actions.menu.RemovePlayerAction;
+import projlab.fungorium.actions.menu.StartGameAction;
 import projlab.fungorium.controllers.MenuController;
 import projlab.fungorium.models.player.PlayerType;
 
-public class MainMenuPanel extends JPanel {
+public class MenuPanel extends JPanel {
 
     private MenuController controller;
 
     private AddNewPlayerAction anpa;
     private RemovePlayerAction rpa;
+    private StartGameAction sga;
 
     private JTextField nameTextField;
     private JComboBox<PlayerType> typeComboBox;
     private JTable playersTable; 
 
-    public MainMenuPanel(MenuController controller) {
+    public MenuPanel(MenuController controller) {
         // Get Cotnroller
         this.controller = controller;
 
@@ -39,8 +41,9 @@ public class MainMenuPanel extends JPanel {
         var controlPanel = new JPanel(new BorderLayout()); // Panel with buttons and textboxes
 
         var controlBottom = new JPanel(); // Bottom of the controlPanel
+        sga = new StartGameAction(controller);
+        controlBottom.add(new JButton(sga));
         anpa = new AddNewPlayerAction(controller);
-        controlBottom.add(new JButton("Start Game"));
         controlBottom.add(new JButton(anpa));
         rpa = new RemovePlayerAction(controller);
         controlBottom.add(new JButton(rpa));
