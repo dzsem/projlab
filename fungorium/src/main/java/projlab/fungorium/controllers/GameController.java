@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
 
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Game;
+import projlab.fungorium.models.Insect;
+import projlab.fungorium.models.MushroomBody;
+import projlab.fungorium.models.MushroomThread;
+import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
@@ -25,6 +29,12 @@ public class GameController implements GameComponentViewVisitor {
 
 		insectologists = new ArrayList<>();
 		mycologists = new ArrayList<>();
+
+		selectedInsect = null;
+		selectedThread = null;
+		selectedBody = null;
+		selectedTecton = null;
+		tectonViews = new ArrayList<>();
 	}
 
 	private static GameController instance = null;
@@ -40,12 +50,26 @@ public class GameController implements GameComponentViewVisitor {
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
+	private InsectView selectedInsect;
+	private ThreadView selectedThread;
+	private MushroomBodyView selectedBody;
+	private TectonView selectedTecton;
+
+	private List<TectonView> tectonViews;
+
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
 	public int getMycologistIdx() { return mycologistIdx; }
 	public InsectologistController getInsectologistController() { return insectologistController; }
 	public MycologistController getMycologistController() { return mycologistController; }
+
+	public Insect getSelectedInsect() { return selectedInsect != null ? selectedInsect.getGameObject() : null; }
+	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
+	public MushroomBody getSelectedBody() { return selectedBody != null ? selectedBody.getGameObject() : null; }
+	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
+
+	public List<TectonView> getTectonViews() { return tectonViews; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
 	// @formatter:on
