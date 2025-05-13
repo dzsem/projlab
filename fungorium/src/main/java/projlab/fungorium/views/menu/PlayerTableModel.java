@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import projlab.fungorium.models.player.Insectologist;
+import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.Player;
 import projlab.fungorium.models.player.PlayerType;
 
-public class PlayerTableModel extends AbstractTableModel{
-    private List<Player> players;  // Reference to controllers players
+public class PlayerTableModel extends AbstractTableModel {
+    private List<Player> players; // Reference to controllers players
     private List<PlayerType> playerTypes;
 
     public PlayerTableModel(List<Player> players) {
@@ -25,6 +27,26 @@ public class PlayerTableModel extends AbstractTableModel{
     public void removeRow(int rowIndex) {
         playerTypes.remove(rowIndex);
         fireTableDataChanged();
+    }
+
+    public List<Insectologist> getInsectologists() {
+        List<Insectologist> result = new ArrayList<>();
+
+        for (int idx = 0; idx < players.size(); idx++)
+            if (playerTypes.get(idx) == PlayerType.INSECTOLOGIST)
+                result.add((Insectologist) players.get(idx));
+
+        return result;
+    }
+
+    public List<Mycologist> getMycologists() {
+        List<Mycologist> result = new ArrayList<>();
+
+        for (int idx = 0; idx < players.size(); idx++)
+            if (playerTypes.get(idx) == PlayerType.MYCOLOGIST)
+                result.add((Mycologist) players.get(idx));
+
+        return result;
     }
 
     @Override
