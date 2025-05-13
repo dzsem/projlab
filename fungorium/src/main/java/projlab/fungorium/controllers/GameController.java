@@ -136,6 +136,16 @@ public class GameController implements GameComponentViewVisitor {
 		JOptionPane.showMessageDialog(null, "Error:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
+	public void handleClick(int x, int y) {
+		throw new UnsupportedOperationException("handleClick not implemented");
+		// TODO: implement
+	}
+
+	public void redraw() {
+		throw new UnsupportedOperationException("redraw not implemented");
+		// TODO: implement
+	}
+
 	@Override
 	public void visit(TectonView tectonView) {
 		selectedTecton = tectonView;
