@@ -1,6 +1,11 @@
 package projlab.fungorium.controllers;
 
+import java.util.List;
+
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
+import projlab.fungorium.models.Game;
+import projlab.fungorium.models.player.Insectologist;
+import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
@@ -9,6 +14,12 @@ import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
 
 public class GameController implements GameComponentViewVisitor {
+	// Ne példányosítsuk kívülről.
+	private GameController() {
+	}
+
+	private static GameController instance = null;
+
 	private PlayerType activeType;
 
 	private int insectologistIdx;
@@ -23,6 +34,14 @@ public class GameController implements GameComponentViewVisitor {
 	public void setInsectologistIdx(int idx) { insectologistIdx = idx; }
 	public void setMycologistIdx(int idx) { mycologistIdx = idx; }
 	// @formatter:on
+
+	public static GameController getInstance() {
+		if (instance == null) {
+			instance = new GameController();
+		}
+
+		return instance;
+	}
 
 	@Override
 	public void visit(TectonView tectonView) {
