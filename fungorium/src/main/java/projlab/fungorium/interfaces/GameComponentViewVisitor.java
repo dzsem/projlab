@@ -2,7 +2,6 @@ package projlab.fungorium.interfaces;
 
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
-import projlab.fungorium.views.gamecomponents.SporeView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
 
@@ -19,6 +18,4 @@ public interface GameComponentViewVisitor {
 	void visit(InsectView insectView);
 
 	void visit(MushroomBodyView mushroomBodyView);
-
-	void visit(SporeView sporeView);
 }
