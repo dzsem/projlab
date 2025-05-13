@@ -25,6 +25,9 @@ public class GameController implements GameComponentViewVisitor {
 	private int insectologistIdx;
 	private int mycologistIdx;
 
+	private List<Insectologist> insectologists;
+	private List<Mycologist> mycologists;
+
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
@@ -34,6 +37,15 @@ public class GameController implements GameComponentViewVisitor {
 	public void setInsectologistIdx(int idx) { insectologistIdx = idx; }
 	public void setMycologistIdx(int idx) { mycologistIdx = idx; }
 	// @formatter:on
+
+	public void setPlayers(List<Insectologist> insectologists, List<Mycologist> mycologists) {
+		this.insectologists = insectologists;
+		this.mycologists = mycologists;
+
+		// újraindításkor jól jöhet:
+		this.insectologistIdx = 0;
+		this.mycologistIdx = 0;
+	}
 
 	public static GameController getInstance() {
 		if (instance == null) {
