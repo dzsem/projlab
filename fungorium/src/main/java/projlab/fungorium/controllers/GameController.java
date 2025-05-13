@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
@@ -37,6 +38,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		tectonViews = new ArrayList<>();
 		gameComponentViews = new ArrayList<>();
+		nextRoundAction = new PassAction(this);
 	}
 
 	private static GameController instance = null;
@@ -61,6 +63,8 @@ public class GameController implements GameComponentViewVisitor {
 
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
 
+	private PassAction nextRoundAction;
+
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
@@ -75,6 +79,7 @@ public class GameController implements GameComponentViewVisitor {
 	
 	public List<TectonView> getTectonViews() { return tectonViews; }
 	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
+	public PassAction getNextRoundAction() { return nextRoundAction; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
 	// @formatter:on
@@ -108,6 +113,23 @@ public class GameController implements GameComponentViewVisitor {
 
 	public Point getPoint(int x, int y) {
 		return new Point(x, y);
+	}
+
+	/**
+	 * Ellenőrzi, hogy az előbb elvégzett kis kör az utolsó volt-e a nagy körben.
+	 * 
+	 * Pl.: 3-3 player esetén:
+	 * <code>
+	 * ActiveType    M -> I -> M -> I -> M -> I
+	 * Insectologist 0    0    1    1    2    2
+	 * Mycologist    0    1    1    2    2    3
+	 * </code>
+	 * 
+	 * TODO: megoldani nem egyenlő számú player típusokra,
+	 * TODO: ezt jelenleg a PassAction tervezett logikája nem engedi meg! ~tams
+	 */
+	public boolean checkIfLastActive() {
+		return mycologistIdx == mycologists.size() || insectologistIdx == insectologists.size();
 	}
 
 	public void showError(Exception e) {
