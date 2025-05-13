@@ -10,7 +10,7 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public static final int CELL_SIZE = 32; // 32 jó lesz?
 
-    protected Point coords;
+    protected Point center;
     protected Point size;
     protected boolean isInteracteble;
     protected int drawPriority;
@@ -26,22 +26,23 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public Point getGridPosition() {
         return new Point(
-            (int)coords.getX() / CELL_SIZE, 
-            (int)coords.getY() / CELL_SIZE);
+            (int)center.getX() / CELL_SIZE, 
+            (int)center.getY() / CELL_SIZE);
     }
 
     public boolean isPointInside(Point point) {
         int cursorX = (int)point.getX();
         int cursorY = (int)point.getY();
-        int coordsX = (int)coords.getX();
-        int coordsY = (int)coords.getY();
+        int centerX = (int)center.getX();
+        int centerY = (int)center.getY();
 
-        int halfCellSize = CELL_SIZE / 2;
+        int halfSizeX = (int)size.getX() / 2;
+        int halfSizeY = (int)size.getY() / 2;
 
-        if (cursorX < coordsX - halfCellSize || 
-            cursorX > coordsX + halfCellSize || 
-            cursorY < coordsY - halfCellSize || 
-            cursorY > coordsX + halfCellSize) {
+        if (cursorX < centerX - halfSizeX || 
+            cursorX > centerX + halfSizeX || 
+            cursorY < centerY - halfSizeY || 
+            cursorY > centerX + halfSizeY) {
 
             return false;
         }
