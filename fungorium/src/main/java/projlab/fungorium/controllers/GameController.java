@@ -1,5 +1,7 @@
 package projlab.fungorium.controllers;
 
-public class GameController {
+import projlab.fungorium.interfaces.GameComponentViewVisitor;
+
+public class GameController implements GameComponentViewVisitor {
 
 }
