@@ -2,6 +2,8 @@ package projlab.fungorium.controllers;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Game;
 import projlab.fungorium.models.player.Insectologist;
@@ -12,6 +14,7 @@ import projlab.fungorium.views.gamecomponents.MushroomBodyView;
 import projlab.fungorium.views.gamecomponents.SporeView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
+import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
 	// Ne példányosítsuk kívülről.
@@ -53,6 +56,14 @@ public class GameController implements GameComponentViewVisitor {
 		}
 
 		return instance;
+	}
+
+	public Point getPoint(int x, int y) {
+		return new Point(x, y);
+	}
+
+	public void showError(Exception e) {
+		JOptionPane.showMessageDialog(null, "Error:\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
