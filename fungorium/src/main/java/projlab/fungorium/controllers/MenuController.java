@@ -39,7 +39,7 @@ public class MenuController {
     }
 
     public void startGame() {
-        if (players.isEmpty()) {
+        if (players.size() < 2) {
             return;
         }
 
