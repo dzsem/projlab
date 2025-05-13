@@ -1,5 +1,6 @@
 package projlab.fungorium.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -19,6 +20,11 @@ import java.awt.Point;
 public class GameController implements GameComponentViewVisitor {
 	// Ne példányosítsuk kívülről.
 	private GameController() {
+		insectologistController = new InsectologistController();
+		mycologistController = new MycologistController();
+
+		insectologists = new ArrayList<>();
+		mycologists = new ArrayList<>();
 	}
 
 	private static GameController instance = null;
@@ -31,23 +37,36 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
+	private InsectologistController insectologistController;
+	private MycologistController mycologistController;
+
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
 	public int getMycologistIdx() { return mycologistIdx; }
+	public InsectologistController getInsectologistController() { return insectologistController; }
+	public MycologistController getMycologistController() { return mycologistController; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
-	public void setInsectologistIdx(int idx) { insectologistIdx = idx; }
-	public void setMycologistIdx(int idx) { mycologistIdx = idx; }
 	// @formatter:on
+
+	public void setInsectologistIdx(int idx) {
+		insectologistIdx = idx;
+		insectologistController.updateActive(insectologists.get(insectologistIdx));
+	}
+
+	public void setMycologistIdx(int idx) {
+		mycologistIdx = idx;
+		mycologistController.updateActive(mycologists.get(mycologistIdx));
+	}
 
 	public void setPlayers(List<Insectologist> insectologists, List<Mycologist> mycologists) {
 		this.insectologists = insectologists;
 		this.mycologists = mycologists;
 
 		// újraindításkor jól jöhet:
-		this.insectologistIdx = 0;
-		this.mycologistIdx = 0;
+		setInsectologistIdx(0);
+		setMycologistIdx(0);
 	}
 
 	public static GameController getInstance() {
