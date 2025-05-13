@@ -42,7 +42,7 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
         if (cursorX < centerX - halfSizeX || 
             cursorX > centerX + halfSizeX || 
             cursorY < centerY - halfSizeY || 
-            cursorY > centerX + halfSizeY) {
+            cursorY > centerY + halfSizeY) {
 
             return false;
         }
