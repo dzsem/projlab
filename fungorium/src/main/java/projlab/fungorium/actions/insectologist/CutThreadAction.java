@@ -4,12 +4,17 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import projlab.fungorium.controllers.GameController;
+import projlab.fungorium.controllers.InsectologistController;
+
 public class CutThreadAction extends AbstractAction {
+
+    private GameController controller;
+    private InsectologistController insectologist;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        Insect i = insectologist.getSelectedInsect();
     }
 
 }
