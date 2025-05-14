@@ -12,6 +12,8 @@ public class EatInsectAction extends AbstractAction {
     private GameController controller;
 
     public EatInsectAction(GameController controller) {
+        super();
+
         this.controller = controller;
     }
 

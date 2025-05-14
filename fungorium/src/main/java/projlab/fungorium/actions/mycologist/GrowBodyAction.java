@@ -11,17 +11,19 @@ import projlab.fungorium.models.Tecton;
 public class GrowBodyAction extends AbstractAction {
     
     private GameController controller;
-    private MycologistController mycologistcontroller;
+    private MycologistController mycologist;
 
-    public GrowBodyAction(GameController controller, MycologistController mycologistcontroller) {
+    public GrowBodyAction(GameController controller, MycologistController mycologist) {
+        super();
+        
         this.controller = controller;
-        this.mycologistcontroller = mycologistcontroller;
+        this.mycologist = mycologist;
     } 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Tecton t = controller.getSelectedTecton();
-        int id = mycologistcontroller.getMushroomID();
+        int id = mycologist.getMushroomID();
         try {
             t.growBody(id);
         } catch (Exception ex) {

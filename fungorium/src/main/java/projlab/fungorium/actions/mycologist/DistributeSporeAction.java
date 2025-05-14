@@ -11,19 +11,19 @@ import projlab.fungorium.models.MushroomBody;
 public class DistributeSporeAction extends AbstractAction {
     
     private GameController controller;
-    private MycologistController mycologistcontroller;
+    private MycologistController mycologist;
 
-    public DistributeSporeAction(GameController controller, MycologistController mycologistcontroller) {
+    public DistributeSporeAction(GameController controller, MycologistController mycologist) {
         super();
 
         this.controller = controller;
-        this.mycologistcontroller = mycologistcontroller;
+        this.mycologist = mycologist;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            MushroomBody mb = mycologistcontroller.getSelectedBody();
+            MushroomBody mb = mycologist.getSelectedBody();
             mb.distributeSpores();
         } catch (Exception ex) {
             controller.showError(ex);
