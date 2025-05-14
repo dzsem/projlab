@@ -24,6 +24,6 @@ public class TectonView extends GameComponentView<Tecton> {
 
     @Override
     public void accept(GameComponentViewVisitor visitor) {
-        
+        visitor.visit(this);
     }
 }
