@@ -43,7 +43,10 @@ public class MenuController {
             return;
         }
 
-        new MainWindow(new GameController());
+        GameController.getInstance().setPlayers(
+                ptm.getInsectologists(), ptm.getMycologists());
+
+        new MainWindow(GameController.getInstance());
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         window.dispose();
     }
@@ -67,7 +70,7 @@ public class MenuController {
             case INSECTOLOGIST:
                 addNewInsectologist(new Insectologist(menuPanel.getPlayerName()));
                 break;
-            
+
             case MYCOLOGIST:
                 addNewMycologist(new Mycologist(menuPanel.getPlayerName()));
                 break;
