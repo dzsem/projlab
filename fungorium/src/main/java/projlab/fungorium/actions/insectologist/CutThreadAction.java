@@ -17,6 +17,8 @@ public class CutThreadAction extends AbstractAction {
     public CutThreadAction(GameController controller, InsectologistController insectologist) {
         super();
 
+        putValue(NAME, "Cut Thread");
+
         this.controller = controller;
         this.insectologist = insectologist;
     }

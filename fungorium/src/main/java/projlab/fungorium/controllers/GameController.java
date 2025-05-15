@@ -40,6 +40,8 @@ public class GameController implements GameComponentViewVisitor {
 		tectonViews = new ArrayList<>();
 		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
+
+		activeType = PlayerType.MYCOLOGIST; 
 	}
 
 	private static GameController instance = null;
