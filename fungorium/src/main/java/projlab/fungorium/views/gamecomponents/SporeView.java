@@ -1,22 +1,22 @@
 package projlab.fungorium.views.gamecomponents;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.MushroomSpore;
 
 public class SporeView extends GameComponentView<MushroomSpore> {
-
+    // TODO: Tektonon belüli offset számolás, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'draw'");
+        g.drawImage(imagePath, null, center.x, center.y);
     }
 
     @Override
     public void accept(GameComponentViewVisitor visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        // TODO: Ez kell egyáltalán? Nem is csináltunk rá visitort.
     }
 
+    private BufferedImage imagePath;
 }
