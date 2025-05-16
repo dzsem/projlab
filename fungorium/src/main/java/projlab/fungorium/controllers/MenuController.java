@@ -39,14 +39,16 @@ public class MenuController {
     }
 
     public void startGame() {
-        if (players.size() < 2) {
+        List<Insectologist> insectologists = ptm.getInsectologists();
+        List<Mycologist> mycologists = ptm.getMycologists();
+
+        if (insectologists.size() < 2 || mycologists.size() < 2) {
             return;
         }
 
-        GameController.getInstance().setPlayers(
-                ptm.getInsectologists(), ptm.getMycologists());
+        GameController controller = new GameController(insectologists, mycologists);
 
-        new MainWindow(GameController.getInstance());
+        new MainWindow(controller);
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         window.dispose();
     }

@@ -2,11 +2,14 @@ package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
+import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
@@ -23,13 +26,15 @@ import projlab.fungorium.views.gamecomponents.ThreadView;
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
-	// Ne példányosítsuk kívülről.
-	private GameController() {
-		insectologistController = new InsectologistController();
-		mycologistController = new MycologistController();
+	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
+		insectologistController = new InsectologistController(this);
+		mycologistController = new MycologistController(this);
 
-		insectologists = new ArrayList<>();
-		mycologists = new ArrayList<>();
+		this.insectologists = insectologists;
+		this.mycologists = mycologists;
+
+		setInsectologistIdx(0);
+		setMycologistIdx(0);
 
 		selectedInsect = null;
 		selectedThread = null;
@@ -39,9 +44,11 @@ public class GameController implements GameComponentViewVisitor {
 		tectonViews = new ArrayList<>();
 		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
-	}
 
-	private static GameController instance = null;
+		buildMap(insectologists.size() + mycologists.size());
+
+		activeType = PlayerType.MYCOLOGIST;
+	}
 
 	private PlayerType activeType;
 
@@ -64,6 +71,8 @@ public class GameController implements GameComponentViewVisitor {
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
 
 	private PassAction nextRoundAction;
+
+	private Random random = new Random();
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -92,23 +101,6 @@ public class GameController implements GameComponentViewVisitor {
 	public void setMycologistIdx(int idx) {
 		mycologistIdx = idx;
 		mycologistController.updateActive(mycologists.get(mycologistIdx));
-	}
-
-	public void setPlayers(List<Insectologist> insectologists, List<Mycologist> mycologists) {
-		this.insectologists = insectologists;
-		this.mycologists = mycologists;
-
-		// újraindításkor jól jöhet:
-		setInsectologistIdx(0);
-		setMycologistIdx(0);
-	}
-
-	public static GameController getInstance() {
-		if (instance == null) {
-			instance = new GameController();
-		}
-
-		return instance;
 	}
 
 	public Point getPoint(int x, int y) {
@@ -144,6 +136,58 @@ public class GameController implements GameComponentViewVisitor {
 	public void redraw() {
 		throw new UnsupportedOperationException("redraw not implemented");
 		// TODO: implement
+	}
+
+	public List<AbstractAction> getActions() {
+		List<AbstractAction> actions = new ArrayList<>();
+
+		actions.add(nextRoundAction);
+
+		switch (activeType) {
+			case MYCOLOGIST:
+				actions.addAll(mycologistController.getActions());
+				break;
+
+			case INSECTOLOGIST:
+				actions.addAll(insectologistController.getActions());
+				break;
+
+			default:
+				break;
+		}
+
+		return actions;
+	}
+
+	/**
+	 * Elkészíti a játék pályát viewokkal és game objectekkel a játékosszám alapján. <p>
+	 * Tektonokat, hoz létre és ezekre véletlenszerűen felhelyezi az insecteket és a gombákat
+	 * @param numOfPlayers A játékosok száma
+	 */
+	private void buildMap(int numOfPlayers) {
+		List<Tecton> tectons = Game.getInstance().buildMap(numOfPlayers);
+
+
+		// Create mushroom bodies and threads
+		for (Mycologist mycologist : mycologists) {
+			int tectonIdx = random.nextInt(tectons.size());
+			Tecton tecton = tectons.get(tectonIdx);
+
+			new MushroomBody(tecton, mycologist.getID());
+			new MushroomThread(tecton, mycologist.getID());
+
+			tectons.remove(tectonIdx);
+		} 
+
+		// Create insects
+		for (Insectologist insectologist : insectologists) {
+			int tectonIdx = random.nextInt(tectons.size());
+			Tecton tecton = tectons.get(tectonIdx);
+
+			new Insect(insectologist.getID(), tecton);
+
+			tectons.remove(tectonIdx);
+		}
 	}
 
 	@Override

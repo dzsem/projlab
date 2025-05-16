@@ -7,6 +7,11 @@ import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Insect;
 
 public class InsectView extends GameComponentView<Insect> {
+
+    public InsectView(Insect gameObject) {
+        super(gameObject);
+    }
+    
     // TODO: Tectonról lekérdezni, hogy hány Insect van összesen és a GameControllertől kapott sorszám alapján kiszámolni rá egy offsetet.
     @Override
     public void draw(Graphics2D g) {

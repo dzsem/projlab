@@ -7,6 +7,11 @@ import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.MushroomSpore;
 
 public class SporeView extends GameComponentView<MushroomSpore> {
+
+    public SporeView(MushroomSpore gameObject) {
+        super(gameObject);
+    }
+    
     // TODO: Tektonon belüli offset számolás, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {

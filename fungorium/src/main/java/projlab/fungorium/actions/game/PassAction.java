@@ -13,6 +13,7 @@ public class PassAction extends AbstractAction {
 
     public PassAction(GameController controller) {
         super();
+        putValue(NAME, "Pass");
 
         this.controller = controller;
     }

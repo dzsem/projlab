@@ -7,6 +7,11 @@ import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.MushroomThread;
 
 public class ThreadView extends GameComponentView<MushroomThread> {
+
+    public ThreadView(MushroomThread gameObject) {
+        super(gameObject);
+    }
+    
     // TODO: Ennél is megoldani a tektonon belüli eltolást, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {

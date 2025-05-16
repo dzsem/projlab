@@ -6,8 +6,13 @@ import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Tecton;
 
 public class TectonView extends GameComponentView<Tecton> {
+
     // Ezt nem kellene priváttá tenni?
     public String type;
+    
+    public TectonView(Tecton gameObject) {
+        super(gameObject);
+    }
     
     @Override
     public void draw(Graphics2D g) {
