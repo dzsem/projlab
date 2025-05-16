@@ -23,11 +23,14 @@ public class MenuController {
 
     private MenuWindow window;
 
+    private GameController gameController;
+
     public MenuController(MenuWindow window) {
         players = new ArrayList<>();
         ptm = new PlayerTableModel(players);
 
         this.window = window;
+        gameController = new GameController();
     }
 
     public void setPanel(MenuPanel menuPanel) {
@@ -46,10 +49,10 @@ public class MenuController {
             return;
         }
 
-        GameController.getInstance().setPlayers(
+        gameController.setPlayers(
                 insectologists, mycologists);
 
-        new MainWindow(GameController.getInstance());
+        new MainWindow(gameController);
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         window.dispose();
     }
