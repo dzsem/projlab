@@ -16,6 +16,8 @@ public class MoveInsectAction extends AbstractAction {
     public MoveInsectAction(GameController controller, InsectologistController insectologist) {
         super();
 
+        putValue(NAME, "Move Insect");
+
         this.controller = controller;
         this.insectologist = insectologist;
     }

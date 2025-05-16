@@ -3,6 +3,7 @@ package projlab.fungorium.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import projlab.fungorium.actions.game.PassAction;
@@ -25,8 +26,8 @@ import java.awt.Point;
 public class GameController implements GameComponentViewVisitor {
 	// Ne példányosítsuk kívülről.
 	private GameController() {
-		insectologistController = new InsectologistController();
-		mycologistController = new MycologistController();
+		insectologistController = new InsectologistController(this);
+		mycologistController = new MycologistController(this);
 
 		insectologists = new ArrayList<>();
 		mycologists = new ArrayList<>();
@@ -39,6 +40,8 @@ public class GameController implements GameComponentViewVisitor {
 		tectonViews = new ArrayList<>();
 		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
+
+		activeType = PlayerType.MYCOLOGIST; 
 	}
 
 	private static GameController instance = null;
@@ -144,6 +147,27 @@ public class GameController implements GameComponentViewVisitor {
 	public void redraw() {
 		throw new UnsupportedOperationException("redraw not implemented");
 		// TODO: implement
+	}
+
+	public List<AbstractAction> getActions() {
+		List<AbstractAction> actions = new ArrayList<>();
+
+		actions.add(nextRoundAction);
+
+		switch (activeType) {
+			case MYCOLOGIST:
+				actions.addAll(mycologistController.getActions());
+				break;
+			
+			case INSECTOLOGIST:
+				actions.addAll(insectologistController.getActions());
+				break;
+			
+			default:
+				break;
+		}
+
+		return actions;
 	}
 
 	@Override

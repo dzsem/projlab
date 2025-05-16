@@ -21,7 +21,7 @@ public class MainWindow extends JFrame {
 
         setLayout(new BorderLayout());
 
-        add(new SidePanel(null /* TODO: Replace null with the actions from the controller */), BorderLayout.WEST);
+        add(new SidePanel(gameController.getActions()), BorderLayout.WEST);
         add(new MainPanel(), BorderLayout.CENTER);
 
         setVisible(true);

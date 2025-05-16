@@ -16,6 +16,8 @@ public class EatSporeAction extends AbstractAction {
     public EatSporeAction(GameController controller, InsectologistController insectologist) {
         super();
 
+        putValue(NAME, "Eat Spore");
+
         this.controller = controller;
         this.insectologist = insectologist;
     }

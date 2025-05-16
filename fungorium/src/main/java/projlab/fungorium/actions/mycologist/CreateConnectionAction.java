@@ -15,6 +15,8 @@ public class CreateConnectionAction extends AbstractAction {
     public CreateConnectionAction(GameController controller) {
         super();
 
+        putValue(NAME, "Create Connection");
+
         this.controller = controller;
     }
 

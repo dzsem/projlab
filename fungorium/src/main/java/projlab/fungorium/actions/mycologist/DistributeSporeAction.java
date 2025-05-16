@@ -16,6 +16,8 @@ public class DistributeSporeAction extends AbstractAction {
     public DistributeSporeAction(GameController controller, MycologistController mycologist) {
         super();
 
+        putValue(NAME, "Distribute Spore");
+
         this.controller = controller;
         this.mycologist = mycologist;
     }

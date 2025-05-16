@@ -1,6 +1,7 @@
 package projlab.fungorium.actions.mycologist;
 
 import java.awt.event.ActionEvent;
+import java.util.jar.Attributes.Name;
 
 import javax.swing.AbstractAction;
 
@@ -15,6 +16,8 @@ public class GrowBodyAction extends AbstractAction {
 
     public GrowBodyAction(GameController controller, MycologistController mycologist) {
         super();
+
+        putValue(NAME, "Grow Body");
         
         this.controller = controller;
         this.mycologist = mycologist;
