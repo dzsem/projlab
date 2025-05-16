@@ -13,6 +13,8 @@ import java.util.ArrayList;
  * {@link GameObject#delete()} hívásra törlik magukat a nyilvántartásból.
  */
 public class Game {
+    private static final int NUM_OF_TECTONS_PER_PLAYER = 2;
+
     private static Game instance = null;
     private Map<Integer, GameObject> gameObjects;
     private Map<Integer, TurnAware> turnAwares;
@@ -77,5 +79,15 @@ public class Game {
 
     public List<TurnAware> getTurnAwares() {
         return new ArrayList<TurnAware>(turnAwares.values());
+    }
+
+    public List<Tecton> buildMap(int numOfPlayers) {
+        List<Tecton> result = new ArrayList<>();
+
+        for (int i = 0; i < numOfPlayers * NUM_OF_TECTONS_PER_PLAYER; i++) {
+            result.add(new Tecton());
+        }
+
+        return result;
     }
 }
