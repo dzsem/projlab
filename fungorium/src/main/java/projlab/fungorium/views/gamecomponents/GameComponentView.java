@@ -10,6 +10,10 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public static final int CELL_SIZE = 32; // 32 jó lesz?
 
+    public GameComponentView(T gameObject) {
+        this.gameObject = gameObject;
+    }
+
     protected Point center;
     protected Point size;
     protected boolean isInteracteble;

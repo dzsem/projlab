@@ -7,6 +7,10 @@ import projlab.fungorium.models.Tecton;
 
 public class TectonView extends GameComponentView<Tecton> {
 
+    public TectonView(Tecton gameObject) {
+        super(gameObject);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         // TODO Auto-generated method stub
