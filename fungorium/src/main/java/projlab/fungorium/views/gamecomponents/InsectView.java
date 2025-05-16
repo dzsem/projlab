@@ -9,8 +9,19 @@ import projlab.fungorium.models.Insect;
 public class InsectView extends GameComponentView<Insect> {
     private static final int INSECT_DRAWPRIORITY = 1;
 
-    public InsectView(Insect gameObject, Point position, Point size) {
-        super(gameObject, position, size, INSECT_DRAWPRIORITY);
+    /**
+     * Megadja, milyen távolságra legyen kirajzolva a rovar a tekton közepétől.
+     * 1.0-s érték esetén a tekton szélén lesz, 0.0-nál a tekton közepén.
+     */
+    public static final double RADIUS_MULTIPLIER = 0.7;
+
+    /**
+     * A rovarok grafikus mérete, pixelben.
+     */
+    private static final Point INSECT_SIZE = new Point(32, 32);
+
+    public InsectView(Insect gameObject, Point position) {
+        super(gameObject, position, INSECT_SIZE, INSECT_DRAWPRIORITY);
     }
 
     @Override

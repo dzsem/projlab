@@ -30,7 +30,11 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     // @formatter:off
     public T getGameObject() { return gameObject; }
-    
+    public Point getCenter() { return center; }
+    public Point getSize() { return size; }
+    public int getDrawPriority() { return drawPriority; }
+    public boolean getInteractable() { return isInteracteble; }
+
     public void setCenter(Point center) { this.center = center; }
     public void setSize(Point size) { this.size = size; }
     public void setInteractable(boolean toggle) { this.isInteracteble = toggle; }
