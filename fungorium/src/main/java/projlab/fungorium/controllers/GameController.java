@@ -75,6 +75,7 @@ public class GameController implements GameComponentViewVisitor {
 	private PassAction nextRoundAction;
 
 	private MainPanel mainPanel;
+
 	private Random random = new Random();
 
 	// @formatter:off
