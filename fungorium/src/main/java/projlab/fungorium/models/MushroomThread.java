@@ -82,8 +82,9 @@ public class MushroomThread extends TurnAware implements PrintableState {
         }
 
         try {
-            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test, akkor
-                                                                              // azt felveszi a visszatérítendő listába
+            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test,
+                                                                                      // akkor
+                // azt felveszi a visszatérítendő listába
                 result.add(tecton.getBody());
             }
         } catch (Exception e) {
@@ -225,7 +226,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
             return newThread;
         }
-        
+
         throw new Exception("Cretaing connection failed");
     }
 
@@ -352,7 +353,6 @@ public class MushroomThread extends TurnAware implements PrintableState {
     public void setGrowState(GrowState growState) {
         this.growState = growState;
     }
-
 
     /**
      * Létrehozza a MushroomThread-hez tartozó state stringet

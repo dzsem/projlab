@@ -17,12 +17,13 @@ public final class ThreadKillingTecton extends Tecton {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * 
      * @param neighbours Szomszédos tektonok.
      */
     public ThreadKillingTecton(List<Tecton> neighbours) {
         super(neighbours);
     }
-    
+
     /**
      * A Tectonon növő MushroomThreadeket egyenként killChance eséllyel megöli.
      */
@@ -62,7 +63,7 @@ public final class ThreadKillingTecton extends Tecton {
      */
     public static final void setKillChance(double p) {
         killChance = p;
-    } 
+    }
 
     @Override
     public String getOutputString() {
@@ -75,7 +76,6 @@ public final class ThreadKillingTecton extends Tecton {
 
         return sb.toString();
     }
-
 
     private static double killChance = 0.05;
 }
