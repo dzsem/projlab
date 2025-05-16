@@ -32,6 +32,9 @@ import projlab.fungorium.windowing.game.MainPanel;
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
+	private static final int GRID_SPACING_PX = 25;
+	private static final int GRID_MARGIN_PX = 50;
+
 	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
 		insectologistController = new InsectologistController(this);
 		mycologistController = new MycologistController(this);
@@ -154,7 +157,10 @@ public class GameController implements GameComponentViewVisitor {
 		List<Tecton> tectons = Game.getInstance().getRegistry().getTectons();
 		int gridSize = (int) Math.ceil(Math.sqrt(tectons.size()));
 
-		int pixelsPerCell = Math.min(mainPanel.getWidth(), mainPanel.getHeight()) / gridSize;
+		int usefulCanvasSpace = Math.min(mainPanel.getWidth(), mainPanel.getHeight());
+		int pixelsPerCell = (usefulCanvasSpace - GRID_MARGIN_PX * 2 + GRID_SPACING_PX) / gridSize;
+		int contentPerCell = pixelsPerCell - GRID_SPACING_PX;
+
 		int centerOffset = pixelsPerCell / 2;
 
 		Map<Integer, TectonView> tectonViewMap = new HashMap<>();
@@ -163,13 +169,15 @@ public class GameController implements GameComponentViewVisitor {
 			int gridX = i % gridSize;
 			int gridY = i / gridSize;
 
-			Point position = new Point(gridX * pixelsPerCell + centerOffset, gridY * pixelsPerCell + centerOffset);
+			Point position = new Point(
+					GRID_MARGIN_PX - GRID_SPACING_PX / 2 + gridX * pixelsPerCell + centerOffset,
+					GRID_MARGIN_PX - GRID_SPACING_PX / 2 + gridY * pixelsPerCell + centerOffset);
 
 			Tecton tecton = tectons.get(i);
 			TectonView tectonView = new TectonView(
 					tectons.get(i),
 					position,
-					new Point(pixelsPerCell, pixelsPerCell));
+					new Point(contentPerCell, contentPerCell));
 
 			tectonViewMap.put(tecton.getID(), tectonView);
 			gameComponentViews.add(tectonView);
