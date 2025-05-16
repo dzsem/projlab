@@ -10,8 +10,11 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public static final int CELL_SIZE = 32; // 32 jó lesz?
 
-    public GameComponentView(T gameObject) {
+    public GameComponentView(T gameObject, Point center, Point size, int drawPriority) {
         this.gameObject = gameObject;
+        this.center = center;
+        this.size = size;
+        this.drawPriority = drawPriority;
     }
 
     protected Point center;
@@ -21,38 +24,36 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     private T gameObject;
 
-    public abstract void draw(Graphics2D g); 
+    public abstract void draw(Graphics2D g);
+
     public abstract void accept(GameComponentViewVisitor visitor);
 
-    public T getGameObject() {
-        return gameObject;
-    }
-
-    public Point getGridPosition() {
-        return new Point(
-            (int)center.getX() / CELL_SIZE, 
-            (int)center.getY() / CELL_SIZE);
-    }
+    // @formatter:off
+    public T getGameObject() { return gameObject; }
+    
+    public void setCenter(Point center) { this.center = center; }
+    public void setSize(Point size) { this.size = size; }
+    public void setInteractable(boolean toggle) { this.isInteracteble = toggle; }
+    // @formatter:on
 
     public boolean isPointInside(Point point) {
-        int cursorX = (int)point.getX();
-        int cursorY = (int)point.getY();
-        int centerX = (int)center.getX();
-        int centerY = (int)center.getY();
+        int cursorX = (int) point.getX();
+        int cursorY = (int) point.getY();
+        int centerX = (int) center.getX();
+        int centerY = (int) center.getY();
 
-        int halfSizeX = (int)size.getX() / 2;
-        int halfSizeY = (int)size.getY() / 2;
+        int halfSizeX = (int) size.getX() / 2;
+        int halfSizeY = (int) size.getY() / 2;
 
-        if (cursorX < centerX - halfSizeX || 
-            cursorX > centerX + halfSizeX || 
-            cursorY < centerY - halfSizeY || 
-            cursorY > centerY + halfSizeY) {
+        if (cursorX < centerX - halfSizeX ||
+                cursorX > centerX + halfSizeX ||
+                cursorY < centerY - halfSizeY ||
+                cursorY > centerY + halfSizeY) {
 
             return false;
         }
 
         return true;
     }
-
 
 }

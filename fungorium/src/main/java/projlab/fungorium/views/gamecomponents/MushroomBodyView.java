@@ -1,14 +1,16 @@
 package projlab.fungorium.views.gamecomponents;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.MushroomBody;
 
 public class MushroomBodyView extends GameComponentView<MushroomBody> {
+    private static final int MUSHROOMBODY_DRAWPRIORITY = 1;
 
-    public MushroomBodyView(MushroomBody gameObject) {
-        super(gameObject);
+    public MushroomBodyView(MushroomBody gameObject, Point center, Point size) {
+        super(gameObject, center, size, MUSHROOMBODY_DRAWPRIORITY);
     }
 
     @Override
