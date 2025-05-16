@@ -168,20 +168,13 @@ public class GameController implements GameComponentViewVisitor {
 		List<Tecton> tectons = Game.getInstance().buildMap(numOfPlayers);
 
 
-		// Add tectons to views
-		for (Tecton tecton : tectons) {
-			TectonView tectonView = new TectonView(tecton);
-			gameComponentViews.add(tectonView);
-			tectonViews.add(tectonView);
-		}
-
 		// Create mushroom bodies and threads
 		for (Mycologist mycologist : mycologists) {
 			int tectonIdx = random.nextInt(tectons.size());
 			Tecton tecton = tectons.get(tectonIdx);
 
-			gameComponentViews.add(new MushroomBodyView(new MushroomBody(tecton, mycologist.getID())));
-			gameComponentViews.add(new ThreadView(new MushroomThread(tecton, mycologist.getID())));
+			new MushroomBody(tecton, mycologist.getID());
+			new MushroomThread(tecton, mycologist.getID());
 
 			tectons.remove(tectonIdx);
 		} 
@@ -191,7 +184,7 @@ public class GameController implements GameComponentViewVisitor {
 			int tectonIdx = random.nextInt(tectons.size());
 			Tecton tecton = tectons.get(tectonIdx);
 
-			gameComponentViews.add(new InsectView(new Insect(insectologist.getID(), tecton)));
+			new Insect(insectologist.getID(), tecton);
 
 			tectons.remove(tectonIdx);
 		}
