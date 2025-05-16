@@ -22,7 +22,10 @@ public class MainWindow extends JFrame {
         setLayout(new BorderLayout());
 
         add(new SidePanel(gameController.getActions()), BorderLayout.WEST);
-        add(new MainPanel(), BorderLayout.CENTER);
+        MainPanel mainPanel = new MainPanel();
+        add(mainPanel, BorderLayout.CENTER);
+        gameController.setMainPanel(mainPanel);
+        gameController.redraw();
 
         setVisible(true);
     }

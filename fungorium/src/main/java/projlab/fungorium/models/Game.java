@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
+
 /**
  * Játékobjektumokat számon tartó singleton osztály.
  * 
@@ -16,6 +17,8 @@ public class Game {
     private static Game instance = null;
     private Map<Integer, GameObject> gameObjects;
     private Map<Integer, TurnAware> turnAwares;
+    
+    private static final int NUM_OF_TECTONS_PER_PLAYER = 3;
 
     private Game() {
         gameObjects = new HashMap<>();
@@ -71,5 +74,14 @@ public class Game {
 
     public List<TurnAware> getTurnAwares() {
         return new ArrayList<TurnAware>(turnAwares.values());
+    }
+
+    public List<Tecton> buildDefaultMap(int numOfPlayers) {
+        List<Tecton> result = new ArrayList<>();
+        for (int i = 0; i < numOfPlayers * NUM_OF_TECTONS_PER_PLAYER; i++) {
+            result.add(new Tecton());
+        }
+
+        return result;
     }
 }

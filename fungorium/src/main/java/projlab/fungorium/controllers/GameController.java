@@ -2,12 +2,15 @@ package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
+import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
@@ -21,6 +24,9 @@ import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
+import projlab.fungorium.windowing.game.MainPanel;
+
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
@@ -42,6 +48,7 @@ public class GameController implements GameComponentViewVisitor {
 		nextRoundAction = new PassAction(this);
 
 		activeType = PlayerType.MYCOLOGIST; 
+
 	}
 
 	private static GameController instance = null;
@@ -67,6 +74,10 @@ public class GameController implements GameComponentViewVisitor {
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
 
 	private PassAction nextRoundAction;
+
+	private Random rnd = new Random();
+
+	private MainPanel mainPanel;
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -104,6 +115,12 @@ public class GameController implements GameComponentViewVisitor {
 		// újraindításkor jól jöhet:
 		setInsectologistIdx(0);
 		setMycologistIdx(0);
+
+		buildDefaultMap(insectologists, mycologists);
+	}
+
+	public void setMainPanel(MainPanel mainPanel) {
+		this.mainPanel = mainPanel;
 	}
 
 	public static GameController getInstance() {
@@ -145,8 +162,9 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void redraw() {
-		throw new UnsupportedOperationException("redraw not implemented");
-		// TODO: implement
+		mainPanel.setViews(gameComponentViews);
+		mainPanel.revalidate();
+		mainPanel.repaint();
 	}
 
 	public List<AbstractAction> getActions() {
@@ -168,6 +186,38 @@ public class GameController implements GameComponentViewVisitor {
 		}
 
 		return actions;
+	}
+
+	/**
+	 * Felépíti a kezdő pályát benne Tektonokkal, gombákkal és gombafonalakkal
+	 * @param insectologists
+	 * @param mycologists
+	 */
+	public void buildDefaultMap(List<Insectologist> insectologists, List<Mycologist> mycologists) {
+	 	List<Tecton> tectons = Game.getInstance().buildDefaultMap(insectologists.size() + mycologists.size());
+
+		for (Tecton tecton : tectons) {
+			gameComponentViews.add(new TectonView(tecton));
+		}
+
+		for (Mycologist mycologist : mycologists) {
+			int idx = rnd.nextInt(tectons.size());
+			Tecton tecton = tectons.get(idx);
+			
+			new MushroomBody(tecton, mycologist.getID());
+			new MushroomThread(tecton, mycologist.getID());
+
+			tectons.remove(idx);
+		}
+
+		for (Insectologist insectologist : insectologists) {
+			int idx = rnd.nextInt(tectons.size());
+			Tecton tecton = tectons.get(idx);
+			
+			new Insect(insectologist.getID(), tecton);
+
+			tectons.remove(idx);
+		}
 	}
 
 	@Override

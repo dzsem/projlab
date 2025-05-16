@@ -7,6 +7,10 @@ import projlab.fungorium.models.MushroomThread;
 
 public class ThreadView extends GameComponentView<MushroomThread> {
 
+    public ThreadView(MushroomThread thread) {
+        super(thread);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         // TODO Auto-generated method stub

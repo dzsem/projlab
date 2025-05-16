@@ -7,6 +7,10 @@ import projlab.fungorium.models.Insect;
 
 public class InsectView extends GameComponentView<Insect> {
 
+    public InsectView(Insect insect) {
+        super(insect);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         // TODO Auto-generated method stub

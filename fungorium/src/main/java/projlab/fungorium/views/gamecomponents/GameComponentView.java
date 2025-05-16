@@ -17,6 +17,10 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     private T gameObject;
 
+    public GameComponentView(T gameObject) {
+        this.gameObject = gameObject;
+    }
+
     public abstract void draw(Graphics2D g); 
     public abstract void accept(GameComponentViewVisitor visitor);
 
