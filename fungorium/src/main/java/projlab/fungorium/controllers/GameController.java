@@ -205,6 +205,19 @@ public class GameController implements GameComponentViewVisitor {
 		}
 	}
 
+	private void updateSporeViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
+			Tecton sporeTecton = spore.getTecton();
+			TectonView sporeTectonView = tectonViewMap.get(sporeTecton.getID());
+
+			int radius = (int) (sporeTectonView.getSize().x * 0.5 * SporeView.RADIUS_MULTIPLIER);
+
+			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
+
+			gameComponentViews.add(new SporeView(spore, position));
+		}
+	}
+
 	private void updateGameComponents() {
 		gameComponentViews.clear();
 
@@ -212,6 +225,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		updateTectonViews(tectonViewMap);
 		updateInsectViews(tectonViewMap);
+		updateSporeViews(tectonViewMap);
 
 		/*
 		 * for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
@@ -222,9 +236,6 @@ public class GameController implements GameComponentViewVisitor {
 		 * gameComponentViews.add(new ThreadView(thread));
 		 * }
 		 * 
-		 * for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
-		 * gameComponentViews.add(new SporeView(spore));
-		 * }
 		 */
 	}
 
