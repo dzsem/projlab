@@ -10,255 +10,265 @@ import projlab.fungorium.models.MushroomThread.CutState;
  * körök eltelése által változtatott) állapota.
  */
 public class Insect extends TurnAware implements PrintableState {
-	/** A rovarász játékos azonosítója */
-	private int insectologistID;
+    /** A rovarász játékos azonosítója */
+    private int insectologistID;
 
-	/**
-	 * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
-	 * <p>
-	 * Amennyiben nem, akkor a kör végén nem kapja vissza az akcióit,
-	 * viszont visszabillen igazba; tehát a következő utáni körben újra léphet.
-	 * 
-	 * @see #onEndOfTheRound()
-	 */
-	private boolean canMove;
+    /**
+     * Számon tartja, hogy a rovar tud-e jelenleg mozogni.
+     * <p>
+     * Amennyiben nem, akkor a kör végén nem kapja vissza az akcióit,
+     * viszont visszabillen igazba; tehát a következő utáni körben újra léphet.
+     * 
+     * @see #onEndOfTheRound()
+     */
+    private boolean canMove;
 
-	/**
-	 * Számon tartja, hogy a rovar tud-e fonalat vágni.
-	 * <p>
-	 * Amennyiben nem, csak akkor billen vissza igazba, amikor a {@link #counter}
-	 * eléri a 0-t.
-	 *
-	 * @see #onEndOfTheRound()
-	 */
-	private boolean canCut;
+    /**
+     * Számon tartja, hogy a rovar tud-e fonalat vágni.
+     * <p>
+     * Amennyiben nem, csak akkor billen vissza igazba, amikor a {@link #counter}
+     * eléri a 0-t.
+     *
+     * @see #onEndOfTheRound()
+     */
+    private boolean canCut;
 
-	/**
-	 * Számláló, fonálvágás-blokkolásnál használt.
-	 *
-	 * Amég a rovar nem tud vágni, ez a számláló csökken, egészen addig, amég el nem
-	 * éri a 0-t, ekkor a {@link #canCut} állapot a kör végén igazba billen.
-	 * 
-	 * @see #onEndOfTheRound()
-	 */
-	private int counter;
+    /**
+     * Számláló, fonálvágás-blokkolásnál használt.
+     *
+     * Amég a rovar nem tud vágni, ez a számláló csökken, egészen addig, amég el nem
+     * éri a 0-t, ekkor a {@link #canCut} állapot a kör végén igazba billen.
+     * 
+     * @see #onEndOfTheRound()
+     */
+    private int counter;
 
-	/**
-	 * A tekton, amin jelenleg a rovar áll. A rovar mindig regisztrálja magát a
-	 * jelenlegi tektonon, és mindig pontosan egy tektonon van regisztrálva.
-	 * 
-	 * @see Tecton#registerInsect(Insect)
-	 */
-	private Tecton tecton;
+    /**
+     * A tekton, amin jelenleg a rovar áll. A rovar mindig regisztrálja magát a
+     * jelenlegi tektonon, és mindig pontosan egy tektonon van regisztrálva.
+     * 
+     * @see Tecton#registerInsect(Insect)
+     */
+    private Tecton tecton;
 
-	private static final int COUNTER_DEFAULT_VALUE = 3;
+    private static final int COUNTER_DEFAULT_VALUE = 3;
 
-	/**
-	 * Létrehoz egy rovart, a megadott tektonon.
-	 *
-	 * @param startingTecton Az a tekton, amin a rovar eredetileg tartózkodik. A
-	 *                       tektonra a rovar regisztálásra kerül a konstruktor
-	 *                       lefutásakor.
-	 */
-	public Insect(int playerID, Tecton startingTecton) {
-		insectologistID = playerID;
-		tecton = startingTecton;
-		canMove = true;
-		canCut = true;
-		counter = 0;
+    /**
+     * Létrehoz egy rovart, a megadott tektonon.
+     *
+     * @param startingTecton Az a tekton, amin a rovar eredetileg tartózkodik. A
+     *                       tektonra a rovar regisztálásra kerül a konstruktor
+     *                       lefutásakor.
+     */
+    public Insect(int playerID, Tecton startingTecton) {
+        super();
 
-		tecton.registerInsect(this);
-	}
+        insectologistID = playerID;
+        tecton = startingTecton;
+        canMove = true;
+        canCut = true;
+        counter = 0;
 
-	public void die() {
-		tecton.unregisterInsect(this);
-		delete();
-	}
+        tecton.registerInsect(this);
 
-	/**
-	 * Elvágja a bemenetként adott gombafonalat, amennyiben
-	 * 
-	 * @param mt Az elvágandó gombafonál
-	 */
-	public void cutMushroomThread(MushroomThread mt) {
-		if (canCut) {
-			mt.setCutState(CutState.CUT);
-		}
-	}
+        Game.getInstance().getRegistry().registerInsect(this);
+    }
 
-	/**
-	 * Átlépteti a rovart a megadott céltektonra, amennyiben nincs
-	 * letiltva a mozgás, a céltekton szomszédos a jelenlegi tektonnal, és van a két
-	 * tekton között kifejlett, nem elvágott gombafonál..
-	 * 
-	 * @param t A céltekton
-	 * @throws Exception ha az átlépési követelmények nem teljesülnek.
-	 */
-	public void moveToTecton(Tecton t) throws Exception {
-		boolean isNeighbour = tecton.isNeighbour(t);
-		boolean isConnected = tecton.verifyConnection(t);
+    public void die() {
+        tecton.unregisterInsect(this);
+        delete();
+    }
 
-		if (isNeighbour && isConnected && canMove) {
-			tecton.unregisterInsect(this);
-			t.registerInsect(this);
+    @Override
+    protected void delete() {
+        Game.getInstance().getRegistry().unregisterInsect(this);
+        super.delete();
+    }
 
-			tecton = t;
-		} else {
-			throw new Exception(
-					"moveToTecton failed: isNeighbour=" + isNeighbour +
-							" isConnected=" + isConnected
-							+ " canMove=" + canMove);
-		}
-	}
+    /**
+     * Elvágja a bemenetként adott gombafonalat, amennyiben
+     * 
+     * @param mt Az elvágandó gombafonál
+     */
+    public void cutMushroomThread(MushroomThread mt) {
+        if (canCut) {
+            mt.setCutState(CutState.CUT);
+        }
+    }
 
-	/**
-	 * A rovar megeszi a vele azonos tektonon lévő egyik spórát.
-	 *
-	 * @throws Exception amennyiben nincs spóra a tektonon, a
-	 *                   getRandomSpore() kivétele feljebb halad.
-	 */
-	public void eatMushroomSpore() throws Exception {
-		MushroomSpore spore = tecton.getRandomSpore();
-		tecton.removeSpore(spore);
-		spore.applyEffect(this);
-	}
+    /**
+     * Átlépteti a rovart a megadott céltektonra, amennyiben nincs
+     * letiltva a mozgás, a céltekton szomszédos a jelenlegi tektonnal, és van a két
+     * tekton között kifejlett, nem elvágott gombafonál..
+     * 
+     * @param t A céltekton
+     * @throws Exception ha az átlépési követelmények nem teljesülnek.
+     */
+    public void moveToTecton(Tecton t) throws Exception {
+        boolean isNeighbour = tecton.isNeighbour(t);
+        boolean isConnected = tecton.verifyConnection(t);
 
-	/**
-	 * A rovar értesíti a kontrollert, hogy visszakapja az összes akcióját.
-	 */
-	public void refreshActions() {
-		// egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
-	}
+        if (isNeighbour && isConnected && canMove) {
+            tecton.unregisterInsect(this);
+            t.registerInsect(this);
 
-	/**
-	 * A rovar értesíti a kontrollert, hogy már nem végezhet több akciót ebben a
-	 * körben.
-	 */
-	public void exhaustActions() {
-		// egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
-	}
+            tecton = t;
+        } else {
+            throw new Exception(
+                    "moveToTecton failed: isNeighbour=" + isNeighbour +
+                            " isConnected=" + isConnected
+                            + " canMove=" + canMove);
+        }
+    }
 
-	/**
-	 * A rovar a kör végén frissíti az állapotát.
-	 * <p>
-	 * Amennyiben a canMove hamis volt, nem kapja vissza az akcióit a következő
-	 * körre, de viszont a {@link #canMove} visszabillen igazba. Így a következő
-	 * utáni körben újra fog tudni lépni a rovar.
-	 * <p>
-	 * Amennyiben a vágás le volt tiltva, a {@link #counter} értéke a kör végén
-	 * csökken. Amikor eléri a 0-t, a {@link #canCut} újra igazba billen.
-	 */
-	@Override
-	public void onEndOfTheRound() {
-		if (canMove) {
-			refreshActions();
-		} else {
-			setCanMove(true);
-		}
+    /**
+     * A rovar megeszi a vele azonos tektonon lévő egyik spórát.
+     *
+     * @throws Exception amennyiben nincs spóra a tektonon, a
+     *                   getRandomSpore() kivétele feljebb halad.
+     */
+    public void eatMushroomSpore() throws Exception {
+        MushroomSpore spore = tecton.getRandomSpore();
+        tecton.removeSpore(spore);
+        spore.applyEffect(this);
+    }
 
-		if (!canCut && counter == 0) {
-			setCanCut(true);
-		}
+    /**
+     * A rovar értesíti a kontrollert, hogy visszakapja az összes akcióját.
+     */
+    public void refreshActions() {
+        // egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
+    }
 
-		if (counter != 0) {
-			counter--;
-		}
-	}
+    /**
+     * A rovar értesíti a kontrollert, hogy már nem végezhet több akciót ebben a
+     * körben.
+     */
+    public void exhaustActions() {
+        // egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
+    }
 
-	/**
-	 * Visszatér egy rovar állapotát leíró stringgel.
-	 * Debug célból használandó.
-	 * 
-	 * @return A tesztelőnek megjelenítendő debug string.
-	 * @see projlab.fungorium.interfaces.PrintableState
-	 */
-	@Override
-	public String getStateString() {
-		StringBuilder resultBuilder = new StringBuilder();
+    /**
+     * A rovar a kör végén frissíti az állapotát.
+     * <p>
+     * Amennyiben a canMove hamis volt, nem kapja vissza az akcióit a következő
+     * körre, de viszont a {@link #canMove} visszabillen igazba. Így a következő
+     * utáni körben újra fog tudni lépni a rovar.
+     * <p>
+     * Amennyiben a vágás le volt tiltva, a {@link #counter} értéke a kör végén
+     * csökken. Amikor eléri a 0-t, a {@link #canCut} újra igazba billen.
+     */
+    @Override
+    public void onEndOfTheRound() {
+        if (canMove) {
+            refreshActions();
+        } else {
+            setCanMove(true);
+        }
 
-		resultBuilder.append("Insect(tecton=")
-				.append(tecton.toString());
+        if (!canCut && counter == 0) {
+            setCanCut(true);
+        }
 
-		if (!canMove) {
-			resultBuilder.append(", !canMove");
-		}
+        if (counter != 0) {
+            counter--;
+        }
+    }
 
-		if (!canCut) {
-			resultBuilder.append(", !canCut");
-		}
+    /**
+     * Visszatér egy rovar állapotát leíró stringgel.
+     * Debug célból használandó.
+     * 
+     * @return A tesztelőnek megjelenítendő debug string.
+     * @see projlab.fungorium.interfaces.PrintableState
+     */
+    @Override
+    public String getStateString() {
+        StringBuilder resultBuilder = new StringBuilder();
 
-		if (isCounterSet()) {
-			resultBuilder.append(", counter=").append(counter);
-		}
+        resultBuilder.append("Insect(tecton=")
+                .append(tecton.toString());
 
-		resultBuilder.append(")");
+        if (!canMove) {
+            resultBuilder.append(", !canMove");
+        }
 
-		return resultBuilder.toString();
-	}
+        if (!canCut) {
+            resultBuilder.append(", !canCut");
+        }
 
-	/**
-	 * Beállítja a canMove értékét.
-	 * 
-	 * @param newCanMove
-	 */
-	public void setCanMove(boolean newCanMove) {
-		canMove = newCanMove;
-	}
+        if (isCounterSet()) {
+            resultBuilder.append(", counter=").append(counter);
+        }
 
-	/**
-	 * Beállítja a canCut értékét.
-	 * 
-	 * @param newCanCut
-	 */
-	public void setCanCut(boolean newCanCut) {
-		canCut = newCanCut;
-	}
+        resultBuilder.append(")");
 
-	/**
-	 * Beállítja a {@link #canCut}-hoz tartozó számlálót egy fix értékre.
-	 * Ennyi körbe telik majd, amég a rovar újra fonalat vághat.
-	 */
-	public void setCounter() {
-		counter = COUNTER_DEFAULT_VALUE;
-	}
+        return resultBuilder.toString();
+    }
 
-	public int getInsectologistID() {
-		return insectologistID;
-	}
+    /**
+     * Beállítja a canMove értékét.
+     * 
+     * @param newCanMove
+     */
+    public void setCanMove(boolean newCanMove) {
+        canMove = newCanMove;
+    }
 
-	public Tecton getTecton() {
-		return tecton;
-	}
+    /**
+     * Beállítja a canCut értékét.
+     * 
+     * @param newCanCut
+     */
+    public void setCanCut(boolean newCanCut) {
+        canCut = newCanCut;
+    }
 
-	public boolean getCanMove() {
-		return canMove;
-	}
+    /**
+     * Beállítja a {@link #canCut}-hoz tartozó számlálót egy fix értékre.
+     * Ennyi körbe telik majd, amég a rovar újra fonalat vághat.
+     */
+    public void setCounter() {
+        counter = COUNTER_DEFAULT_VALUE;
+    }
 
-	public boolean getCanCut() {
-		return canCut;
-	}
+    public int getInsectologistID() {
+        return insectologistID;
+    }
 
-	/**
-	 * Visszatér arra, hogy a counter változó nem 0 értékre van-e állítva, azaz
-	 * éppen számol-e vissza a rovar.
-	 * 
-	 * @return
-	 */
-	public boolean isCounterSet() {
-		return counter != 0;
-	}
+    public Tecton getTecton() {
+        return tecton;
+    }
 
-	@Override
-	public String getOutputString() {
-		StringBuilder sb = new StringBuilder("INSECT ");
+    public boolean getCanMove() {
+        return canMove;
+    }
 
-		sb.append(getID() + " ");
-		sb.append(insectologistID + " ");
-		sb.append(tecton.getID() + " ");
-		sb.append((canCut ? 1 : 0) + " ");
-		sb.append((canMove ? 1 : 0) + " ");
-		sb.append(counter);
+    public boolean getCanCut() {
+        return canCut;
+    }
 
-		return sb.toString();
-	}
+    /**
+     * Visszatér arra, hogy a counter változó nem 0 értékre van-e állítva, azaz
+     * éppen számol-e vissza a rovar.
+     * 
+     * @return
+     */
+    public boolean isCounterSet() {
+        return counter != 0;
+    }
+
+    @Override
+    public String getOutputString() {
+        StringBuilder sb = new StringBuilder("INSECT ");
+
+        sb.append(getID() + " ");
+        sb.append(insectologistID + " ");
+        sb.append(tecton.getID() + " ");
+        sb.append((canCut ? 1 : 0) + " ");
+        sb.append((canMove ? 1 : 0) + " ");
+        sb.append(counter);
+
+        return sb.toString();
+    }
 }

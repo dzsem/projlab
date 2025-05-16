@@ -16,6 +16,7 @@ public final class KeepAliveTecton extends Tecton {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * 
      * @param neighbours Szomszédos tektonok.
      */
     public KeepAliveTecton(List<Tecton> neighbours) {
@@ -23,7 +24,8 @@ public final class KeepAliveTecton extends Tecton {
     }
 
     /**
-     * Minden fonalán visszaállítja az elhaláshoz szükséges körök számát a maximálisra.
+     * Minden fonalán visszaállítja az elhaláshoz szükséges körök számát a
+     * maximálisra.
      */
     @Override
     public final void keepThreadsAlive() {

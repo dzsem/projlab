@@ -1,6 +1,5 @@
 package projlab.fungorium.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,14 +15,16 @@ public final class SingleThreadTecton extends Tecton {
 
     /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
+     * 
      * @param neighbour Szomszédos tektonok.
      */
     public SingleThreadTecton(List<Tecton> neighbours) {
         super(neighbours);
     }
-    
+
     /**
-     * Ellenőrzi azt is, hogy ha már nő rajta egy fonal, akkor nem növeszthet többet.
+     * Ellenőrzi azt is, hogy ha már nő rajta egy fonal, akkor nem növeszthet
+     * többet.
      * 
      * @throws Exception Ha már nőtt rajta egy fonal.
      */
