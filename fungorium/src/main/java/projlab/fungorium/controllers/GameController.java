@@ -21,6 +21,8 @@ import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
+import projlab.fungorium.windowing.game.MainPanel;
+
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
@@ -67,6 +69,8 @@ public class GameController implements GameComponentViewVisitor {
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
 
 	private PassAction nextRoundAction;
+
+	private MainPanel mainPanel;
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -128,8 +132,20 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void redraw() {
-		throw new UnsupportedOperationException("redraw not implemented");
-		// TODO: implement
+		updateGameComponents();
+
+		mainPanel.setGameComponents(gameComponentViews);
+
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+
+	private void updateGameComponents() {
+
+	}
+
+	public void setMainPanel(MainPanel mainPanel) {
+		this.mainPanel = mainPanel;
 	}
 
 	public List<AbstractAction> getActions() {
