@@ -1,5 +1,6 @@
 package projlab.fungorium.views.gamecomponents;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -17,7 +18,9 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     // TODO: Ennél is megoldani a tektonon belüli eltolást, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(imagePath, null, center.x, center.y);
+        // g.drawImage(imagePath, null, center.x, center.y); // TODO
+        g.setColor(Color.GREEN);
+        g.drawRect(center.x - size.x / 2, center.y - size.x / 2, size.x, size.y);
     }
 
     @Override

@@ -16,7 +16,8 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(imagePath, null, center.x, center.y);
+        // g.drawImage(imagePath, null, center.x, center.y); // TODO
+        g.drawRect(center.x - size.x / 2, center.y - size.x / 2, size.x, size.y);
     }
 
     @Override
