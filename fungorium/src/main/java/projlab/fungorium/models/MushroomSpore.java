@@ -31,6 +31,8 @@ public class MushroomSpore extends GameObject implements PrintableState, Writabl
         this.tecton = tecton;
         tecton.addSpore(this);
         effectType = EffectTypes.RANDOM;
+
+        Game.getInstance().getRegistry().registerMushroomSpore(this);
     }
 
     /**
@@ -70,6 +72,12 @@ public class MushroomSpore extends GameObject implements PrintableState, Writabl
     public void applyEffect(Insect insect) {
         generateEffect().applyEffect(insect);
         delete();
+    }
+
+    @Override
+    protected void delete() {
+        Game.getInstance().getRegistry().unregisterMushroomSpore(this);
+        super.delete();
     }
 
     @Override

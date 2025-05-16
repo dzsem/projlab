@@ -39,6 +39,8 @@ public class MushroomBody extends TurnAware implements PrintableState {
         this.remainingSpores = MAX_SPORES;
 
         tecton.setBody(this);
+
+        Game.getInstance().getRegistry().registerMushroomBody(this);
     }
 
     /**
@@ -74,7 +76,14 @@ public class MushroomBody extends TurnAware implements PrintableState {
         if (remainingSpores == 0) { // Vizsgálja, hogy elfogytak-e a spórák és ha igen, akkor törli magát a
                                     // tektonról
             tecton.removeBody();
+            delete();
         }
+    }
+
+    @Override
+    protected void delete() {
+        Game.getInstance().getRegistry().unregisterMushroomBody(this);
+        super.delete();
     }
 
     /**

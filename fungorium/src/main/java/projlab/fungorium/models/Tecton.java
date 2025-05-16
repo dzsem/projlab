@@ -39,6 +39,8 @@ public class Tecton extends TurnAware implements PrintableState {
         for (Tecton t : neighbours) {
             registerNeighbour(t);
         }
+
+        Game.getInstance().getRegistry().registerTecton(this);
     }
 
     // -------------------------------------
@@ -294,9 +296,9 @@ public class Tecton extends TurnAware implements PrintableState {
         return mushroomBody != null;
     }
 
-
     /**
      * Visszaad egy random insect-et ami rajta van a tektonon
+     * 
      * @return Egy insect ami rajta volt a tectonon
      * @throws Exception Ha nem volt insect a tectonon
      */
@@ -347,6 +349,7 @@ public class Tecton extends TurnAware implements PrintableState {
 
     /**
      * Visszaadja a paraméterként kapott gombaID-vel rendelkező fonalat
+     * 
      * @param mushroomID a fonálnak az azonosítója
      * @return Az a fonál, ami a mushroomID-vel rendelkezik
      * @throws Exception Ha nem volt fonál aminek a mushroomID-je megegyezett volna.

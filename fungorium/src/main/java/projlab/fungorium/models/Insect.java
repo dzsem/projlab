@@ -61,6 +61,8 @@ public class Insect extends TurnAware implements PrintableState {
 	 *                       lefutásakor.
 	 */
 	public Insect(int playerID, Tecton startingTecton) {
+		super();
+
 		insectologistID = playerID;
 		tecton = startingTecton;
 		canMove = true;
@@ -68,12 +70,20 @@ public class Insect extends TurnAware implements PrintableState {
 		counter = 0;
 
 		tecton.registerInsect(this);
+
+		Game.getInstance().getRegistry().registerInsect(this);
 	}
 
 	public void die() {
 		tecton.unregisterInsect(this);
 		delete();
 	}
+
+	@Override
+    protected void delete() {
+        Game.getInstance().getRegistry().unregisterInsect(this);
+        super.delete();
+    }
 
 	/**
 	 * Elvágja a bemenetként adott gombafonalat, amennyiben

@@ -53,6 +53,8 @@ public class MushroomThread extends TurnAware implements PrintableState {
         } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
+
+        Game.getInstance().getRegistry().registerMushroomThread(this);
     }
 
     /**
