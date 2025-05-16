@@ -45,6 +45,8 @@ public class GameController implements GameComponentViewVisitor {
 		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
 
+		buildMap(insectologists.size() + mycologists.size());
+
 		activeType = PlayerType.MYCOLOGIST;
 	}
 
@@ -157,17 +159,42 @@ public class GameController implements GameComponentViewVisitor {
 		return actions;
 	}
 
+	/**
+	 * Elkészíti a játék pályát viewokkal és game objectekkel a játékosszám alapján. <p>
+	 * Tektonokat, hoz létre és ezekre véletlenszerűen felhelyezi az insecteket és a gombákat
+	 * @param numOfPlayers A játékosok száma
+	 */
 	private void buildMap(int numOfPlayers) {
 		List<Tecton> tectons = Game.getInstance().buildMap(numOfPlayers);
 
+
 		// Add tectons to views
 		for (Tecton tecton : tectons) {
-			gameComponentViews.add(new TectonView(tecton));
+			TectonView tectonView = new TectonView(tecton);
+			gameComponentViews.add(tectonView);
+			tectonViews.add(tectonView);
 		}
 
+		// Create mushroom bodies and threads
 		for (Mycologist mycologist : mycologists) {
-			
+			int tectonIdx = random.nextInt(tectons.size());
+			Tecton tecton = tectons.get(tectonIdx);
+
+			gameComponentViews.add(new MushroomBodyView(new MushroomBody(tecton, mycologist.getID())));
+			gameComponentViews.add(new ThreadView(new MushroomThread(tecton, mycologist.getID())));
+
+			tectons.remove(tectonIdx);
 		} 
+
+		// Create insects
+		for (Insectologist insectologist : insectologists) {
+			int tectonIdx = random.nextInt(tectons.size());
+			Tecton tecton = tectons.get(tectonIdx);
+
+			gameComponentViews.add(new InsectView(new Insect(insectologist.getID(), tecton)));
+
+			tectons.remove(tectonIdx);
+		}
 	}
 
 	@Override
