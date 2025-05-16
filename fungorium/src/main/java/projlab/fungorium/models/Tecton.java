@@ -21,6 +21,8 @@ public class Tecton extends TurnAware implements PrintableState {
         this.mushroomSpores = new ArrayList<>();
         this.insects = new ArrayList<>();
         this.neighbours = new ArrayList<>();
+
+        Game.getInstance().getRegistry().registerTecton(this);
     }
 
     /**

@@ -33,9 +33,6 @@ import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
 	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
-		canvasWidth = 512; // todo: a view visszaadhatná rögtön
-		canvasHeight = 512;
-
 		insectologistController = new InsectologistController(this);
 		mycologistController = new MycologistController(this);
 
@@ -58,9 +55,6 @@ public class GameController implements GameComponentViewVisitor {
 
 		activeType = PlayerType.MYCOLOGIST;
 	}
-
-	private int canvasWidth;
-	private int canvasHeight;
 
 	private PlayerType activeType;
 
@@ -160,7 +154,7 @@ public class GameController implements GameComponentViewVisitor {
 		List<Tecton> tectons = Game.getInstance().getRegistry().getTectons();
 		int gridSize = (int) Math.ceil(Math.sqrt(tectons.size()));
 
-		int pixelsPerCell = Math.min(canvasWidth, canvasHeight) / gridSize;
+		int pixelsPerCell = Math.min(mainPanel.getWidth(), mainPanel.getHeight()) / gridSize;
 		int centerOffset = pixelsPerCell / 2;
 
 		Map<Integer, TectonView> tectonViewMap = new HashMap<>();
