@@ -21,8 +21,11 @@ import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
+import projlab.fungorium.views.gamecomponents.SporeView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
+import projlab.fungorium.windowing.game.MainPanel;
+
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
@@ -72,6 +75,8 @@ public class GameController implements GameComponentViewVisitor {
 
 	private PassAction nextRoundAction;
 
+	private MainPanel mainPanel;
+  
 	private Random random = new Random();
 
 	// @formatter:off
@@ -134,8 +139,40 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void redraw() {
-		throw new UnsupportedOperationException("redraw not implemented");
-		// TODO: implement
+		updateGameComponents();
+
+		mainPanel.setGameComponents(gameComponentViews);
+
+		mainPanel.revalidate();
+		mainPanel.repaint();
+	}
+
+	private void updateGameComponents() {
+		gameComponentViews.clear();
+
+		for (var tecton : Game.getInstance().getRegistry().getTectons()) {
+			gameComponentViews.add(new TectonView(tecton));
+		}
+
+		for (var insect : Game.getInstance().getRegistry().getInsects()) {
+			gameComponentViews.add(new InsectView(insect));
+		}
+
+		for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
+			gameComponentViews.add(new MushroomBodyView(mb));
+		}
+
+		for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
+			gameComponentViews.add(new ThreadView(thread));
+		}
+
+		for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
+			gameComponentViews.add(new SporeView(spore));
+		}
+	}
+
+	public void setMainPanel(MainPanel mainPanel) {
+		this.mainPanel = mainPanel;
 	}
 
 	public List<AbstractAction> getActions() {
