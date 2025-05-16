@@ -46,10 +46,9 @@ public class MenuController {
             return;
         }
 
-        GameController.getInstance().setPlayers(
-                insectologists, mycologists);
+        GameController controller = new GameController(insectologists, mycologists);
 
-        new MainWindow(GameController.getInstance());
+        new MainWindow(controller);
         window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         window.dispose();
     }

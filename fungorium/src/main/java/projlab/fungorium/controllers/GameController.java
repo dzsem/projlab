@@ -24,13 +24,15 @@ import projlab.fungorium.views.gamecomponents.ThreadView;
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
-	// Ne példányosítsuk kívülről.
-	private GameController() {
+	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
 		insectologistController = new InsectologistController(this);
 		mycologistController = new MycologistController(this);
 
-		insectologists = new ArrayList<>();
-		mycologists = new ArrayList<>();
+		this.insectologists = insectologists;
+		this.mycologists = mycologists;
+
+		setInsectologistIdx(0);
+		setMycologistIdx(0);
 
 		selectedInsect = null;
 		selectedThread = null;
@@ -41,10 +43,8 @@ public class GameController implements GameComponentViewVisitor {
 		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
 
-		activeType = PlayerType.MYCOLOGIST; 
+		activeType = PlayerType.MYCOLOGIST;
 	}
-
-	private static GameController instance = null;
 
 	private PlayerType activeType;
 
@@ -97,23 +97,6 @@ public class GameController implements GameComponentViewVisitor {
 		mycologistController.updateActive(mycologists.get(mycologistIdx));
 	}
 
-	public void setPlayers(List<Insectologist> insectologists, List<Mycologist> mycologists) {
-		this.insectologists = insectologists;
-		this.mycologists = mycologists;
-
-		// újraindításkor jól jöhet:
-		setInsectologistIdx(0);
-		setMycologistIdx(0);
-	}
-
-	public static GameController getInstance() {
-		if (instance == null) {
-			instance = new GameController();
-		}
-
-		return instance;
-	}
-
 	public Point getPoint(int x, int y) {
 		return new Point(x, y);
 	}
@@ -158,11 +141,11 @@ public class GameController implements GameComponentViewVisitor {
 			case MYCOLOGIST:
 				actions.addAll(mycologistController.getActions());
 				break;
-			
+
 			case INSECTOLOGIST:
 				actions.addAll(insectologistController.getActions());
 				break;
-			
+
 			default:
 				break;
 		}

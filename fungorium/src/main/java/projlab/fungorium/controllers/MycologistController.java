@@ -41,7 +41,7 @@ public class MycologistController {
 	}
 
 	public MushroomBody getSelectedBody() throws Exception {
-		MushroomBody mb = GameController.getInstance().getSelectedBody();
+		MushroomBody mb = gameController.getSelectedBody();
 		if(mb.getMushroomID() != activeMushroomID) {
 			throw new Exception("Mycologist IDs of active player and the selected thread don't match");
 		}

@@ -37,7 +37,7 @@ public class InsectologistController {
 	}
 
 	public Insect getSelectedInsect() throws Exception {
-		Insect i = GameController.getInstance().getSelectedInsect();
+		Insect i = gameController.getSelectedInsect();
 		if(i.getInsectologistID() != activeInsectID) {
 			throw new Exception("Insectologist IDs of active player and the selected insect don't match");
 		}
