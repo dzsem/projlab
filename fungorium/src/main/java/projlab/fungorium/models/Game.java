@@ -16,10 +16,16 @@ public class Game {
     private static Game instance = null;
     private Map<Integer, GameObject> gameObjects;
     private Map<Integer, TurnAware> turnAwares;
+    private GameObjectRegistry registry;
 
     private Game() {
         gameObjects = new HashMap<>();
         turnAwares = new HashMap<>();
+        registry = new GameObjectRegistry();
+    }
+
+    public GameObjectRegistry getRegistry() {
+        return registry;
     }
 
     public static Game getInstance() {
