@@ -7,6 +7,10 @@ import projlab.fungorium.models.MushroomSpore;
 
 public class SporeView extends GameComponentView<MushroomSpore> {
 
+    public SporeView(MushroomSpore gameObject) {
+        super(gameObject);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         // TODO Auto-generated method stub

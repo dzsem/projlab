@@ -2,12 +2,14 @@ package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
+import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
@@ -67,6 +69,8 @@ public class GameController implements GameComponentViewVisitor {
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
 
 	private PassAction nextRoundAction;
+
+	private Random random = new Random();
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -151,6 +155,19 @@ public class GameController implements GameComponentViewVisitor {
 		}
 
 		return actions;
+	}
+
+	private void buildMap(int numOfPlayers) {
+		List<Tecton> tectons = Game.getInstance().buildMap(numOfPlayers);
+
+		// Add tectons to views
+		for (Tecton tecton : tectons) {
+			gameComponentViews.add(new TectonView(tecton));
+		}
+
+		for (Mycologist mycologist : mycologists) {
+			
+		} 
 	}
 
 	@Override

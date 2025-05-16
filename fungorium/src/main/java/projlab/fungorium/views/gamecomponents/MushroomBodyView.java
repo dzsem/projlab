@@ -7,6 +7,10 @@ import projlab.fungorium.models.MushroomBody;
 
 public class MushroomBodyView extends GameComponentView<MushroomBody> {
 
+    public MushroomBodyView(MushroomBody gameObject) {
+        super(gameObject);
+    }
+
     @Override
     public void draw(Graphics2D g) {
         // TODO Auto-generated method stub
