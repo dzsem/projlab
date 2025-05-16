@@ -15,6 +15,11 @@ public class InsectView extends GameComponentView<Insect> {
     // TODO: Tectonról lekérdezni, hogy hány Insect van összesen és a GameControllertől kapott sorszám alapján kiszámolni rá egy offsetet.
     @Override
     public void draw(Graphics2D g) {
+        /**
+         *  Körcikk formula:
+         *  pos_k = (x + r*cos(2πk/n), y + r*sin(2πk/n))
+         */
+
         g.drawImage(imagePath, null, center.x, center.y);
     }
 
