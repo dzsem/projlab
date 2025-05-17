@@ -27,6 +27,7 @@ import projlab.fungorium.views.gamecomponents.MushroomBodyView;
 import projlab.fungorium.views.gamecomponents.NeighbourConnectionView;
 import projlab.fungorium.views.gamecomponents.SporeView;
 import projlab.fungorium.views.gamecomponents.TectonView;
+import projlab.fungorium.views.gamecomponents.ThreadConnectionView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
 import projlab.fungorium.windowing.game.MainPanel;
 
@@ -244,6 +245,8 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	private void updateThreadViews(Map<Integer, TectonView> tectonViewMap) {
+		Map<Integer, ThreadView> threadViewMap = new HashMap<>();
+
 		for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
 			Tecton threadTecton = thread.getTecton();
 			TectonView threadTectonView = tectonViewMap.get(threadTecton.getID());
@@ -252,9 +255,38 @@ public class GameController implements GameComponentViewVisitor {
 
 			Point position = threadTectonView.calculateMobileObjectPosition(threadTecton, radius);
 
-			drawables.add(new ThreadView(thread, position));
+			threadViewMap.put(thread.getID(), new ThreadView(thread, position));
+		}
 
-			// TODO: ThreadConnectionView
+		ConnectionMap connections = new ConnectionMap();
+
+		for (var threadView : threadViewMap.values()) {
+			drawables.add(threadView);
+
+			MushroomThread thread = threadView.getGameObject();
+
+			int threadIndex = 0;
+			for (var connectedThread : threadView.getGameObject().getConnectedThreads()) {
+				if (connections.hasConnection(thread.getID(), connectedThread.getID()))
+					continue;
+
+				connections.addConnection(thread.getID(), connectedThread.getID());
+
+				int threadTectonID = thread.getTecton().getID();
+				int connectedThreadTectonID = connectedThread.getTecton().getID();
+				int smallerID = Math.min(threadTectonID, connectedThreadTectonID);
+				int biggerID = Math.max(threadTectonID, connectedThreadTectonID);
+
+				Point startingPoint = tectonViewMap.get(smallerID).getCenter();
+				Point endingPoint = tectonViewMap.get(biggerID).getCenter();
+
+				ThreadConnectionView connectionView = new ThreadConnectionView(startingPoint, endingPoint,
+						ThreadConnectionView.getVisualOffset(threadIndex, thread.getConnectedThreads().size()),
+						ThreadConnectionView.isValidConnection(thread, connectedThread));
+
+				drawables.add(connectionView);
+				threadIndex += 1;
+			}
 		}
 	}
 

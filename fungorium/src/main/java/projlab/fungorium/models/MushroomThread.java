@@ -164,6 +164,10 @@ public class MushroomThread extends TurnAware implements PrintableState {
         return result;
     }
 
+    public List<MushroomThread> getConnectedThreads() {
+        return connectedThreads;
+    }
+
     /**
      * Csökkenti a turnsToDie értékét eggyel
      */
