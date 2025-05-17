@@ -21,6 +21,9 @@ import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
+import projlab.fungorium.utilities.ConnectionMap;
+import projlab.fungorium.views.gamecomponents.ConnectionView;
+import projlab.fungorium.views.gamecomponents.DrawableComponent;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
@@ -51,7 +54,7 @@ public class GameController implements GameComponentViewVisitor {
 		selectedTecton = null;
 
 		tectonViews = new ArrayList<>();
-		gameComponentViews = new ArrayList<>();
+		drawables = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
 
 		buildMap(insectologists.size() + mycologists.size());
@@ -77,7 +80,8 @@ public class GameController implements GameComponentViewVisitor {
 
 	private List<TectonView> tectonViews;
 
-	private List<GameComponentView<? extends GameObject>> gameComponentViews;
+	private List<DrawableComponent> drawables;
+	private List<ConnectionView> connectionViews;
 
 	private PassAction nextRoundAction;
 
@@ -98,7 +102,7 @@ public class GameController implements GameComponentViewVisitor {
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
 	
 	public List<TectonView> getTectonViews() { return tectonViews; }
-	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
+	public List<GameComponentView<? extends GameObject>> getDrawables() { return drawables; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
@@ -147,7 +151,7 @@ public class GameController implements GameComponentViewVisitor {
 	public void redraw() {
 		updateGameComponents();
 
-		mainPanel.setGameComponents(gameComponentViews);
+		mainPanel.setGameComponents(drawables);
 
 		mainPanel.revalidate();
 		mainPanel.repaint();
@@ -180,15 +184,29 @@ public class GameController implements GameComponentViewVisitor {
 					new Point(contentPerCell, contentPerCell));
 
 			tectonViewMap.put(tecton.getID(), tectonView);
-			gameComponentViews.add(tectonView);
+			drawables.add(tectonView);
 		}
 
 		return tectonViewMap;
 	}
 
 	private void updateTectonViews(Map<Integer, TectonView> tectonViewMap) {
+		ConnectionMap connections = new ConnectionMap();
+
 		for (var tectonView : tectonViewMap.values()) {
-			gameComponentViews.add(tectonView);
+			drawables.add(tectonView);
+
+			Tecton tecton = tectonView.getGameObject();
+			for (Tecton neighbor : tecton.getNeighbours()) {
+				if (connections.hasConnection(tecton.getID(), neighbor.getID()))
+					continue;
+
+				connections.addConnection(tecton.getID(), neighbor.getID());
+
+				TectonView neighborView = tectonViewMap.get(neighbor.getID());
+
+				connectionViews.add(new ConnectionView(tectonView.getCenter(), neighborView.getCenter()));
+			}
 		}
 	}
 
@@ -201,7 +219,7 @@ public class GameController implements GameComponentViewVisitor {
 
 			Point position = insectTectonView.calculateMobileObjectPosition(insectTecton, radius);
 
-			gameComponentViews.add(new InsectView(insect, position));
+			drawables.add(new InsectView(insect, position));
 		}
 	}
 
@@ -214,12 +232,12 @@ public class GameController implements GameComponentViewVisitor {
 
 			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
 
-			gameComponentViews.add(new SporeView(spore, position));
+			drawables.add(new SporeView(spore, position));
 		}
 	}
 
 	private void updateThreadViews(Map<Integer, TectonView> tectonViewMap) {
-		for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
+		for (var spore : Game.getInstance().getRegistry().getMushroomThreads()) {
 			Tecton sporeTecton = spore.getTecton();
 			TectonView sporeTectonView = tectonViewMap.get(sporeTecton.getID());
 
@@ -227,12 +245,12 @@ public class GameController implements GameComponentViewVisitor {
 
 			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
 
-			gameComponentViews.add(new SporeView(spore, position));
+			drawables.add(new ThreadView(spore, position));
 		}
 	}
 
 	private void updateGameComponents() {
-		gameComponentViews.clear();
+		drawables.clear();
 
 		Map<Integer, TectonView> tectonViewMap = calculateTectonViewMap();
 

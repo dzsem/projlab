@@ -11,7 +11,7 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
     private static final int MUSHROOMBODY_DRAWPRIORITY = 1;
 
     public MushroomBodyView(MushroomBody gameObject, Point center, Point size) {
-        super(gameObject, center, size, MUSHROOMBODY_DRAWPRIORITY);
+        super(gameObject, center, size);
     }
 
     @Override
@@ -26,4 +26,9 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
     }
 
     private BufferedImage imagePath;
+
+    @Override
+    public int getDrawPriority() {
+        return MUSHROOMBODY_DRAWPRIORITY;
+    }
 }

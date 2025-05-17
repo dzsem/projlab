@@ -13,7 +13,7 @@ public class SporeView extends GameComponentView<MushroomSpore> {
     private static final Point SPORE_SIZE = new Point(32, 32);
 
     public SporeView(MushroomSpore gameObject, Point center) {
-        super(gameObject, center, SPORE_SIZE, MUSHROOMSPORE_DRAWPRIORITY);
+        super(gameObject, center, SPORE_SIZE);
     }
 
     // TODO: Tektonon belüli offset számolás, mint az InsectViewnál.
@@ -29,4 +29,9 @@ public class SporeView extends GameComponentView<MushroomSpore> {
     }
 
     private BufferedImage imagePath;
+
+    @Override
+    public int getDrawPriority() {
+        return MUSHROOMSPORE_DRAWPRIORITY;
+    }
 }

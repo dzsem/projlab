@@ -14,7 +14,7 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     private static final Point MUSHROOMTHREAD_SIZE = new Point(32, 32);
 
     public ThreadView(MushroomThread gameObject, Point center) {
-        super(gameObject, center, MUSHROOMTHREAD_SIZE, MUSHROOMTHREAD_DRAWPRIORITY);
+        super(gameObject, center, MUSHROOMTHREAD_SIZE);
     }
 
     // TODO: Ennél is megoldani a tektonon belüli eltolást, mint az InsectViewnál.
@@ -31,4 +31,9 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     }
 
     private BufferedImage imagePath;
+
+    @Override
+    public int getDrawPriority() {
+        return MUSHROOMTHREAD_DRAWPRIORITY;
+    }
 }
