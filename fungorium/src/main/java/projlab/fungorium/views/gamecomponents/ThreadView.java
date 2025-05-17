@@ -9,11 +9,13 @@ import projlab.fungorium.models.MushroomThread;
 
 public class ThreadView extends GameComponentView<MushroomThread> {
     private static final int MUSHROOMTHREAD_DRAWPRIORITY = 2;
+    public static final double RADIUS_MULTIPLIER = 0.7;
+    private static final Point MUSHROOMTHREAD_SIZE = new Point(32, 32);
 
-    public ThreadView(MushroomThread gameObject, Point center, Point size) {
-        super(gameObject, center, size, MUSHROOMTHREAD_DRAWPRIORITY);
+    public ThreadView(MushroomThread gameObject, Point center) {
+        super(gameObject, center, MUSHROOMTHREAD_SIZE, MUSHROOMTHREAD_DRAWPRIORITY);
     }
-    
+
     // TODO: Ennél is megoldani a tektonon belüli eltolást, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {
