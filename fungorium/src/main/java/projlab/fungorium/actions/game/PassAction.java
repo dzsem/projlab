@@ -22,13 +22,19 @@ public class PassAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         if (controller.getActiveType() == PlayerType.INSECTOLOGIST) {
             controller.setInsectologistIdx(controller.getInsectologistIdx() + 1);
-            controller.setActiveType(PlayerType.MYCOLOGIST);
+            //ha már a másik csapaton végig ment akkor nem vált
+            if(controller.getMycologistIdx()== controller.getMycologistsSize()) {
+                controller.setActiveType(PlayerType.MYCOLOGIST);
+            }
         } else {
             controller.setMycologistIdx(controller.getMycologistIdx() + 1);
-            controller.setActiveType(PlayerType.INSECTOLOGIST);
+            //ha már a másik csapaton végig ment akkor nem vált
+            if(controller.getInsectologistIdx()== controller.getInsectologistsSize()) {
+
+                controller.setActiveType(PlayerType.INSECTOLOGIST);
+            }
         }
 
-        // TODO: nem egyenlő számú player típusokra nem működik
         if (controller.checkIfLastActive()) {
             Game.getInstance().nextRound();
 
