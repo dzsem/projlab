@@ -9,9 +9,10 @@ import projlab.fungorium.models.MushroomBody;
 
 public class MushroomBodyView extends GameComponentView<MushroomBody> {
     private static final int MUSHROOMBODY_DRAWPRIORITY = 1;
+    private static final Point MUSHROOMBODY_SIZE = new Point(32, 32);
 
-    public MushroomBodyView(MushroomBody gameObject, Point center, Point size) {
-        super(gameObject, center, size);
+    public MushroomBodyView(MushroomBody gameObject, Point center) {
+        super(gameObject, center, MUSHROOMBODY_SIZE);
     }
 
     @Override

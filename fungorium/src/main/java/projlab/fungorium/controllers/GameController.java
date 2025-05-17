@@ -237,15 +237,28 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	private void updateThreadViews(Map<Integer, TectonView> tectonViewMap) {
-		for (var spore : Game.getInstance().getRegistry().getMushroomThreads()) {
-			Tecton sporeTecton = spore.getTecton();
-			TectonView sporeTectonView = tectonViewMap.get(sporeTecton.getID());
+		for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
+			Tecton threadTecton = thread.getTecton();
+			TectonView threadTectonView = tectonViewMap.get(threadTecton.getID());
 
-			int radius = (int) (sporeTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
+			int radius = (int) (threadTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
 
-			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
+			Point position = threadTectonView.calculateMobileObjectPosition(threadTecton, radius);
 
-			drawables.add(new ThreadView(spore, position));
+			drawables.add(new ThreadView(thread, position));
+		}
+	}
+
+	private void updateMushroomBodyViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var body : Game.getInstance().getRegistry().getMushroomBodies()) {
+			Tecton bodyTecton = body.getTecton();
+			TectonView bodyTectonView = tectonViewMap.get(bodyTecton.getID());
+
+			int radius = (int) (bodyTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
+
+			Point position = bodyTectonView.calculateMobileObjectPosition(bodyTecton, radius);
+
+			drawables.add(new MushroomBodyView(body, position));
 		}
 	}
 
@@ -258,17 +271,9 @@ public class GameController implements GameComponentViewVisitor {
 		updateInsectViews(tectonViewMap);
 		updateSporeViews(tectonViewMap);
 		updateThreadViews(tectonViewMap);
+		updateMushroomBodyViews(tectonViewMap);
 
-		/*
-		 * for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
-		 * gameComponentViews.add(new MushroomBodyView(mb));
-		 * }
-		 * 
-		 * for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
-		 * gameComponentViews.add(new ThreadView(thread));
-		 * }
-		 * 
-		 */
+		// TODO: thread connection-ök
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {
