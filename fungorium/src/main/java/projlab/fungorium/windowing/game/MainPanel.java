@@ -28,8 +28,9 @@ public class MainPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // TODO: drawPriority-re rendezés (nagyobb rajzolódik ki előbb, kisebb később)
         for (GameComponentView<? extends GameObject> view : gameComponentViews) {
-            view.draw((Graphics2D)g);
+            view.draw((Graphics2D) g);
         }
     }
 }
