@@ -10,11 +10,10 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public static final int CELL_SIZE = 32; // 32 jó lesz?
 
-    public GameComponentView(T gameObject, Point center, Point size, int drawPriority) {
+    public GameComponentView(T gameObject, Point center, Point size) {
         this.gameObject = gameObject;
         this.center = center;
         this.size = size;
-        this.drawPriority = drawPriority;
     }
 
     protected Point center;
@@ -28,11 +27,12 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
     public abstract void accept(GameComponentViewVisitor visitor);
 
+    public abstract int getDrawPriority();
+
     // @formatter:off
     public T getGameObject() { return gameObject; }
     public Point getCenter() { return center; }
     public Point getSize() { return size; }
-    public int getDrawPriority() { return drawPriority; }
     public boolean getInteractable() { return isInteracteble; }
 
     public void setCenter(Point center) { this.center = center; }

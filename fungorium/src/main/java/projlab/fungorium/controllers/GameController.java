@@ -21,6 +21,9 @@ import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
+import projlab.fungorium.utilities.ConnectionMap;
+import projlab.fungorium.views.gamecomponents.ConnectionView;
+import projlab.fungorium.views.gamecomponents.DrawableComponent;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
@@ -32,6 +35,9 @@ import projlab.fungorium.windowing.game.MainPanel;
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
+	private static final int GRID_SPACING_PX = 25;
+	private static final int GRID_MARGIN_PX = 50;
+
 	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
 		insectologistController = new InsectologistController(this);
 		mycologistController = new MycologistController(this);
@@ -48,7 +54,7 @@ public class GameController implements GameComponentViewVisitor {
 		selectedTecton = null;
 
 		tectonViews = new ArrayList<>();
-		gameComponentViews = new ArrayList<>();
+		drawables = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
 
 		buildMap(insectologists.size() + mycologists.size());
@@ -74,7 +80,8 @@ public class GameController implements GameComponentViewVisitor {
 
 	private List<TectonView> tectonViews;
 
-	private List<GameComponentView<? extends GameObject>> gameComponentViews;
+	private List<DrawableComponent> drawables;
+	private List<ConnectionView> connectionViews;
 
 	private PassAction nextRoundAction;
 
@@ -95,7 +102,7 @@ public class GameController implements GameComponentViewVisitor {
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
 	
 	public List<TectonView> getTectonViews() { return tectonViews; }
-	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
+	public List<GameComponentView<? extends GameObject>> getDrawables() { return drawables; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
@@ -144,7 +151,7 @@ public class GameController implements GameComponentViewVisitor {
 	public void redraw() {
 		updateGameComponents();
 
-		mainPanel.setGameComponents(gameComponentViews);
+		mainPanel.setGameComponents(drawables);
 
 		mainPanel.revalidate();
 		mainPanel.repaint();
@@ -154,7 +161,10 @@ public class GameController implements GameComponentViewVisitor {
 		List<Tecton> tectons = Game.getInstance().getRegistry().getTectons();
 		int gridSize = (int) Math.ceil(Math.sqrt(tectons.size()));
 
-		int pixelsPerCell = Math.min(mainPanel.getWidth(), mainPanel.getHeight()) / gridSize;
+		int usefulCanvasSpace = Math.min(mainPanel.getWidth(), mainPanel.getHeight());
+		int pixelsPerCell = (usefulCanvasSpace - GRID_MARGIN_PX * 2 + GRID_SPACING_PX) / gridSize;
+		int contentPerCell = pixelsPerCell - GRID_SPACING_PX;
+
 		int centerOffset = pixelsPerCell / 2;
 
 		Map<Integer, TectonView> tectonViewMap = new HashMap<>();
@@ -163,24 +173,40 @@ public class GameController implements GameComponentViewVisitor {
 			int gridX = i % gridSize;
 			int gridY = i / gridSize;
 
-			Point position = new Point(gridX * pixelsPerCell + centerOffset, gridY * pixelsPerCell + centerOffset);
+			Point position = new Point(
+					GRID_MARGIN_PX - GRID_SPACING_PX / 2 + gridX * pixelsPerCell + centerOffset,
+					GRID_MARGIN_PX - GRID_SPACING_PX / 2 + gridY * pixelsPerCell + centerOffset);
 
 			Tecton tecton = tectons.get(i);
 			TectonView tectonView = new TectonView(
 					tectons.get(i),
 					position,
-					new Point(pixelsPerCell, pixelsPerCell));
+					new Point(contentPerCell, contentPerCell));
 
 			tectonViewMap.put(tecton.getID(), tectonView);
-			gameComponentViews.add(tectonView);
+			drawables.add(tectonView);
 		}
 
 		return tectonViewMap;
 	}
 
 	private void updateTectonViews(Map<Integer, TectonView> tectonViewMap) {
+		ConnectionMap connections = new ConnectionMap();
+
 		for (var tectonView : tectonViewMap.values()) {
-			gameComponentViews.add(tectonView);
+			drawables.add(tectonView);
+
+			Tecton tecton = tectonView.getGameObject();
+			for (Tecton neighbor : tecton.getNeighbours()) {
+				if (connections.hasConnection(tecton.getID(), neighbor.getID()))
+					continue;
+
+				connections.addConnection(tecton.getID(), neighbor.getID());
+
+				TectonView neighborView = tectonViewMap.get(neighbor.getID());
+
+				connectionViews.add(new ConnectionView(tectonView.getCenter(), neighborView.getCenter()));
+			}
 		}
 	}
 
@@ -193,31 +219,61 @@ public class GameController implements GameComponentViewVisitor {
 
 			Point position = insectTectonView.calculateMobileObjectPosition(insectTecton, radius);
 
-			gameComponentViews.add(new InsectView(insect, position));
+			drawables.add(new InsectView(insect, position));
+		}
+	}
+
+	private void updateSporeViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
+			Tecton sporeTecton = spore.getTecton();
+			TectonView sporeTectonView = tectonViewMap.get(sporeTecton.getID());
+
+			int radius = (int) (sporeTectonView.getSize().x * 0.5 * SporeView.RADIUS_MULTIPLIER);
+
+			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
+
+			drawables.add(new SporeView(spore, position));
+		}
+	}
+
+	private void updateThreadViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
+			Tecton threadTecton = thread.getTecton();
+			TectonView threadTectonView = tectonViewMap.get(threadTecton.getID());
+
+			int radius = (int) (threadTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
+
+			Point position = threadTectonView.calculateMobileObjectPosition(threadTecton, radius);
+
+			drawables.add(new ThreadView(thread, position));
+		}
+	}
+
+	private void updateMushroomBodyViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var body : Game.getInstance().getRegistry().getMushroomBodies()) {
+			Tecton bodyTecton = body.getTecton();
+			TectonView bodyTectonView = tectonViewMap.get(bodyTecton.getID());
+
+			int radius = (int) (bodyTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
+
+			Point position = bodyTectonView.calculateMobileObjectPosition(bodyTecton, radius);
+
+			drawables.add(new MushroomBodyView(body, position));
 		}
 	}
 
 	private void updateGameComponents() {
-		gameComponentViews.clear();
+		drawables.clear();
 
 		Map<Integer, TectonView> tectonViewMap = calculateTectonViewMap();
 
 		updateTectonViews(tectonViewMap);
 		updateInsectViews(tectonViewMap);
+		updateSporeViews(tectonViewMap);
+		updateThreadViews(tectonViewMap);
+		updateMushroomBodyViews(tectonViewMap);
 
-		/*
-		 * for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
-		 * gameComponentViews.add(new MushroomBodyView(mb));
-		 * }
-		 * 
-		 * for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
-		 * gameComponentViews.add(new ThreadView(thread));
-		 * }
-		 * 
-		 * for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
-		 * gameComponentViews.add(new SporeView(spore));
-		 * }
-		 */
+		// TODO: thread connection-ök
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {

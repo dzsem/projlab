@@ -5,6 +5,8 @@ import java.awt.Point;
 
 // TODO: Ennek amúgy nem kellene visitor pattern?
 public class ConnectionView implements DrawableComponent {
+    private static final int CONNECTIONVIEW_DRAWPRIORITY = 4;
+
     public ConnectionView(Point start, Point end) {
         this.start = start;
         this.end = end;
@@ -17,4 +19,9 @@ public class ConnectionView implements DrawableComponent {
 
     private Point start;
     private Point end;
+
+    @Override
+    public int getDrawPriority() {
+        return CONNECTIONVIEW_DRAWPRIORITY;
+    }
 }

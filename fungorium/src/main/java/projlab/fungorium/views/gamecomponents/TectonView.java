@@ -13,7 +13,7 @@ public class TectonView extends GameComponentView<Tecton> {
     private static final int TECTON_DRAWPRIORITY = 3;
 
     public TectonView(Tecton gameObject, Point center, Point size) {
-        super(gameObject, center, size, TECTON_DRAWPRIORITY);
+        super(gameObject, center, size);
 
         this.type = Integer.toString(gameObject.getID());
     }
@@ -73,5 +73,10 @@ public class TectonView extends GameComponentView<Tecton> {
     @Override
     public void accept(GameComponentViewVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public int getDrawPriority() {
+        return TECTON_DRAWPRIORITY;
     }
 }

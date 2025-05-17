@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class MushroomSpore extends GameObject implements PrintableState, WritableGameObject {
+public class MushroomSpore extends GameObject implements PrintableState {
     private Tecton tecton;
     private EffectTypes effectType;
     private Random rand = new Random();
@@ -33,6 +33,10 @@ public class MushroomSpore extends GameObject implements PrintableState, Writabl
         effectType = EffectTypes.RANDOM;
 
         Game.getInstance().getRegistry().registerMushroomSpore(this);
+    }
+
+    public Tecton getTecton() {
+        return tecton;
     }
 
     /**
