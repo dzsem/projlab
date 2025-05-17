@@ -20,16 +20,16 @@ public class PassAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (controller.getActiveType() == PlayerType.INSECTOLOGIST) {
+        if (controller.getActiveType() != PlayerType.INSECTOLOGIST) {
             controller.setInsectologistIdx(controller.getInsectologistIdx() + 1);
-            //ha már a másik csapaton végig ment akkor nem vált
-            if(controller.getMycologistIdx()== controller.getMycologistsSize()) {
+            // ha már a másik csapaton végig ment akkor nem vált
+            if (controller.getMycologistIdx() == controller.getMycologistsSize()) {
                 controller.setActiveType(PlayerType.MYCOLOGIST);
             }
         } else {
             controller.setMycologistIdx(controller.getMycologistIdx() + 1);
-            //ha már a másik csapaton végig ment akkor nem vált
-            if(controller.getInsectologistIdx()== controller.getInsectologistsSize()) {
+            // ha már a másik csapaton végig ment akkor nem vált
+            if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
 
                 controller.setActiveType(PlayerType.INSECTOLOGIST);
             }
