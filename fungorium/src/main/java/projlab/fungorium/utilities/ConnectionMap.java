@@ -30,7 +30,7 @@ public class ConnectionMap {
 	}
 
 	public void addConnection(Integer a, Integer b) {
-		if (connections.containsKey(a)) {
+		if (!connections.containsKey(a)) {
 			connections.put(a, new ArrayList<>());
 		}
 

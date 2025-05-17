@@ -1,7 +1,6 @@
 package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import javax.swing.JOptionPane;
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Game;
-import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
@@ -22,10 +20,8 @@ import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.utilities.ConnectionMap;
-import projlab.fungorium.utilities.Logger;
 import projlab.fungorium.views.gamecomponents.ConnectionView;
 import projlab.fungorium.views.gamecomponents.DrawableComponent;
-import projlab.fungorium.views.gamecomponents.GameComponentView;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
 import projlab.fungorium.views.gamecomponents.SporeView;
@@ -82,7 +78,6 @@ public class GameController implements GameComponentViewVisitor {
 	private List<TectonView> tectonViews;
 
 	private List<DrawableComponent> drawables;
-	private List<ConnectionView> connectionViews;
 
 	private PassAction nextRoundAction;
 
@@ -90,8 +85,13 @@ public class GameController implements GameComponentViewVisitor {
 
 	private Random random = new Random();
 
-	public int getMycologistsSize() {return mycologists.size();}
-	public int getInsectologistsSize() {return insectologists.size();}
+	public int getMycologistsSize() {
+		return mycologists.size();
+	}
+
+	public int getInsectologistsSize() {
+		return insectologists.size();
+	}
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -116,7 +116,8 @@ public class GameController implements GameComponentViewVisitor {
 		insectologistIdx = idx;
 		try {
 			insectologistController.updateActive(insectologists.get(insectologistIdx));
-		} catch (IndexOutOfBoundsException ignored) {}
+		} catch (IndexOutOfBoundsException ignored) {
+		}
 	}
 
 	public void setMycologistIdx(int idx) {
@@ -137,7 +138,8 @@ public class GameController implements GameComponentViewVisitor {
 	 * Insectologist 0    0    1    1    2    2
 	 * Mycologist    0    1    1    2    2    3
 	 * </code>
-	 * elég == -vel checkolni, mert a program, utána nem vált vissza arra a csapatra, amelyik elérte a megfelelő size-t
+	 * elég == -vel checkolni, mert a program, utána nem vált vissza arra a
+	 * csapatra, amelyik elérte a megfelelő size-t
 	 */
 	public boolean checkIfLastActive() {
 		return mycologistIdx == mycologists.size() && insectologistIdx == insectologists.size();
@@ -209,7 +211,7 @@ public class GameController implements GameComponentViewVisitor {
 
 				TectonView neighborView = tectonViewMap.get(neighbor.getID());
 
-				connectionViews.add(new ConnectionView(tectonView.getCenter(), neighborView.getCenter()));
+				drawables.add(new ConnectionView(tectonView.getCenter(), neighborView.getCenter()));
 			}
 		}
 	}
@@ -258,9 +260,7 @@ public class GameController implements GameComponentViewVisitor {
 			Tecton bodyTecton = body.getTecton();
 			TectonView bodyTectonView = tectonViewMap.get(bodyTecton.getID());
 
-			int radius = (int) (bodyTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
-
-			Point position = bodyTectonView.calculateMobileObjectPosition(bodyTecton, radius);
+			Point position = bodyTectonView.getCenter();
 
 			drawables.add(new MushroomBodyView(body, position));
 		}
