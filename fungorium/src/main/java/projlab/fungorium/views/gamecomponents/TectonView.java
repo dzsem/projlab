@@ -27,6 +27,7 @@ public class TectonView extends GameComponentView<Tecton> {
         List<GameObject> result = new ArrayList<>();
         result.addAll(getGameObject().getInsects());
         result.addAll(getGameObject().getSpores());
+        result.addAll(getGameObject().getThreads());
         return result;
     }
 
