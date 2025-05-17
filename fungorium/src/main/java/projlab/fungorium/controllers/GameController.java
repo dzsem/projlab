@@ -22,6 +22,7 @@ import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
 import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.utilities.ConnectionMap;
+import projlab.fungorium.utilities.Logger;
 import projlab.fungorium.views.gamecomponents.ConnectionView;
 import projlab.fungorium.views.gamecomponents.DrawableComponent;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
@@ -89,6 +90,9 @@ public class GameController implements GameComponentViewVisitor {
 
 	private Random random = new Random();
 
+	public int getMycologistsSize() {return mycologists.size();}
+	public int getInsectologistsSize() {return insectologists.size();}
+
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
@@ -100,9 +104,9 @@ public class GameController implements GameComponentViewVisitor {
 	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
 	public MushroomBody getSelectedBody() { return selectedBody != null ? selectedBody.getGameObject() : null; }
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
-	
+
 	public List<TectonView> getTectonViews() { return tectonViews; }
-	public List<GameComponentView<? extends GameObject>> getDrawables() { return drawables; }
+	public List<DrawableComponent> getDrawables() { return drawables; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
 
 	public void setActiveType(PlayerType type) { activeType = type; }
@@ -110,7 +114,9 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setInsectologistIdx(int idx) {
 		insectologistIdx = idx;
-		insectologistController.updateActive(insectologists.get(insectologistIdx));
+		try {
+			insectologistController.updateActive(insectologists.get(insectologistIdx));
+		} catch (IndexOutOfBoundsException ignored) {}
 	}
 
 	public void setMycologistIdx(int idx) {
@@ -124,19 +130,17 @@ public class GameController implements GameComponentViewVisitor {
 
 	/**
 	 * Ellenőrzi, hogy az előbb elvégzett kis kör az utolsó volt-e a nagy körben.
-	 * 
+	 *
 	 * Pl.: 3-3 player esetén:
 	 * <code>
 	 * ActiveType    M -> I -> M -> I -> M -> I
 	 * Insectologist 0    0    1    1    2    2
 	 * Mycologist    0    1    1    2    2    3
 	 * </code>
-	 * 
-	 * TODO: megoldani nem egyenlő számú player típusokra,
-	 * TODO: ezt jelenleg a PassAction tervezett logikája nem engedi meg! ~tams
+	 * elég == -vel checkolni, mert a program, utána nem vált vissza arra a csapatra, amelyik elérte a megfelelő size-t
 	 */
 	public boolean checkIfLastActive() {
-		return mycologistIdx == mycologists.size() || insectologistIdx == insectologists.size();
+		return mycologistIdx == mycologists.size() && insectologistIdx == insectologists.size();
 	}
 
 	public void showError(Exception e) {
