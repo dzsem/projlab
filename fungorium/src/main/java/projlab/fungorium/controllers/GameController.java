@@ -24,6 +24,7 @@ import projlab.fungorium.views.gamecomponents.ConnectionView;
 import projlab.fungorium.views.gamecomponents.DrawableComponent;
 import projlab.fungorium.views.gamecomponents.InsectView;
 import projlab.fungorium.views.gamecomponents.MushroomBodyView;
+import projlab.fungorium.views.gamecomponents.NeighbourConnectionView;
 import projlab.fungorium.views.gamecomponents.SporeView;
 import projlab.fungorium.views.gamecomponents.TectonView;
 import projlab.fungorium.views.gamecomponents.ThreadView;
@@ -211,7 +212,7 @@ public class GameController implements GameComponentViewVisitor {
 
 				TectonView neighborView = tectonViewMap.get(neighbor.getID());
 
-				drawables.add(new ConnectionView(tectonView.getCenter(), neighborView.getCenter()));
+				drawables.add(new NeighbourConnectionView(tectonView.getCenter(), neighborView.getCenter()));
 			}
 		}
 	}
@@ -252,6 +253,8 @@ public class GameController implements GameComponentViewVisitor {
 			Point position = threadTectonView.calculateMobileObjectPosition(threadTecton, radius);
 
 			drawables.add(new ThreadView(thread, position));
+
+			// TODO: ThreadConnectionView
 		}
 	}
 
