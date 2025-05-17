@@ -19,7 +19,7 @@ public class MainPanel extends JPanel {
         drawables = new ArrayList<>();
     }
 
-    public void setGameComponents(List<DrawableComponent> drawables) {
+    public void setDrawables(List<DrawableComponent> drawables) {
         this.drawables = drawables;
     }
 
