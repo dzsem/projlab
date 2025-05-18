@@ -10,8 +10,15 @@ public class NoEffect implements Effect, PrintableState {
      * @param insect a rovar ami megeszi ezt az effectet
      */
     public void applyEffect(Insect insect) {}
+
     @Override
     public String getStateString() {
         return "This is a nothing";
     }
+
+    @Override
+    public String getDescription() {
+        return "This effect does nothing";
+    }
+
 }

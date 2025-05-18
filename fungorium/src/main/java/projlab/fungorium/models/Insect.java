@@ -2,6 +2,7 @@ package projlab.fungorium.models;
 
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.MushroomThread.CutState;
+import projlab.fungorium.models.effects.Effect;
 
 /**
  * A rovarászok által irányított rovarokat megvalósító osztály.
@@ -134,10 +135,10 @@ public class Insect extends TurnAware implements PrintableState {
      * @throws Exception amennyiben nincs spóra a tektonon, a
      *                   getRandomSpore() kivétele feljebb halad.
      */
-    public void eatMushroomSpore() throws Exception {
+    public Effect eatMushroomSpore() throws Exception {
         MushroomSpore spore = tecton.getRandomSpore();
         tecton.removeSpore(spore);
-        spore.applyEffect(this);
+        return spore.applyEffect(this);
     }
 
     /**

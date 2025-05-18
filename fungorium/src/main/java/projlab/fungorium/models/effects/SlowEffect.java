@@ -12,8 +12,14 @@ public class SlowEffect implements Effect, PrintableState {
     public void applyEffect(Insect insect) {
         insect.exhaustActions();
     }
+
     @Override
     public String getStateString() {
         return "This is a slow spore";
+    }
+
+    @Override
+    public String getDescription() {
+        return "";
     }
 }

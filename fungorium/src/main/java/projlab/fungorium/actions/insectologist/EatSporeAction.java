@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import projlab.fungorium.controllers.GameController;
 import projlab.fungorium.controllers.InsectologistController;
 import projlab.fungorium.models.Insect;
+import projlab.fungorium.models.effects.Effect;
 
 
 public class EatSporeAction extends AbstractAction {
@@ -27,7 +28,9 @@ public class EatSporeAction extends AbstractAction {
         try {
             Insect i = insectologist.getSelectedInsect();
             
-            i.eatMushroomSpore();
+            Effect effect = i.eatMushroomSpore();
+
+            controller.showMessage(effect.getDescription())
 
             controller.redraw();
         } catch (Exception ex) {
