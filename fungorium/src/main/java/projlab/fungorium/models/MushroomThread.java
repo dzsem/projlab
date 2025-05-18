@@ -96,18 +96,15 @@ public class MushroomThread extends TurnAware implements PrintableState {
             return result;
         }
 
-        try {
-            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test,
-                                                                                      // akkor
-                // azt felveszi a visszatérítendő listába
-                result.add(tecton.getBody());
-            }
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
-        }
-
         List<MushroomThread> queue = new ArrayList<>();
         List<MushroomThread> visited = new ArrayList<>();
+
+        for (MushroomThread connectedThread : connectedThreads) { // Felveszi a sorba azokat a fonalakat, amik nincsenek
+                                                                  // átvágva és benne vannak a connectedThreads listban
+            if (connectedThread.cutState == CutState.UNCUT) {
+                queue.add(connectedThread);
+            }
+        }
 
         visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra
                            // magát
@@ -119,7 +116,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
                 try {
                     if (thread.tecton.getBody().getMushroomID() == mushroomID) {
                         // visszatérítendő listába
-                        result.add(tecton.getBody());
+                        result.add(thread.tecton.getBody());
                     }
                 } catch (Exception e) {
                     Logger.printError(e.getMessage());
@@ -231,6 +228,8 @@ public class MushroomThread extends TurnAware implements PrintableState {
         try {
             var mt = to.getThread(mushroomID);
             mt.cutState = CutState.UNCUT;
+
+            return mt;
         } catch (NoSuchElementException e) {
             MushroomThread newThread = new MushroomThread(to, mushroomID);
             newThread.addConnection(this);
@@ -238,8 +237,6 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
             return newThread;
         }
-
-        throw new Exception("Cretaing connection failed");
     }
 
     /**
