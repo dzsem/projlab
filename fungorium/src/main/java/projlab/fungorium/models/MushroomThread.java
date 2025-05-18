@@ -316,17 +316,13 @@ public class MushroomThread extends TurnAware implements PrintableState {
         }
     }
 
-    public void eat() {
-        try {
-            Insect i = tecton.getStunnedInsect();
-            tecton.unregisterInsect(i);
-            i.die();
+    public void eat() throws Exception {
+        Insect i = tecton.getStunnedInsect();
+        tecton.unregisterInsect(i);
+        i.die();
 
-            if (!tecton.hasBody()) {
-                tecton.growBody(mushroomID);
-            }
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
+        if (!tecton.hasBody()) {
+            tecton.growBody(mushroomID);
         }
     }
 
