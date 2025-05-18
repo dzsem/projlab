@@ -145,6 +145,7 @@ public class GameLayoutGenerator {
 				connections.addConnection(tecton.getID(), neighbor.getID());
 
 				TectonView neighborView = tectonViewMap.get(neighbor.getID());
+				addView(tectonView);
 
 				addView(new NeighbourConnectionView(tectonView.getCenter(), neighborView.getCenter()));
 			}
@@ -232,8 +233,9 @@ public class GameLayoutGenerator {
 
 			Point position = bodyTectonView.getCenter();
 
+
 			var mbView = new MushroomBodyView(body, position);
-			drawables.add(mbView);
+			addView(mbView);
 
 			if (activeType == PlayerType.MYCOLOGIST && body.getMushroomID() == playerID){
 				mbView.setInteractable(true);
