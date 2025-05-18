@@ -65,6 +65,8 @@ public class MushroomThread extends TurnAware implements PrintableState {
             connectedThread.removeConnection(this);
         }
         tecton.removeConnection(this);
+        this.tecton = null;
+        delete();
     }
 
     /**
@@ -319,6 +321,12 @@ public class MushroomThread extends TurnAware implements PrintableState {
         } catch (Exception e) {
             Logger.printError(e.getMessage());
         }
+    }
+
+    @Override 
+    protected void delete() {
+        Game.getInstance().getRegistry().unregisterMushroomThread(this);
+        super.delete();
     }
 
     /*

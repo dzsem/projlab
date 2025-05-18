@@ -17,7 +17,7 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     public static final double RADIUS_MULTIPLIER = 0.7;
     private static final Point MUSHROOMTHREAD_SIZE = new Point(32, 32);
     private static final String SPROUT1_Path = "images/SproutThread1.png";
-    private static final String SPROUT2_Path = "images/SproutThread1.png";
+    private static final String SPROUT2_Path = "images/SproutThread2.png";
     private static final String GROWN_PATH = "images/Thread.png";
     private static final String CUT_PATH = "images/CutThread.png";
 
@@ -44,16 +44,15 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     @Override
     public void draw(Graphics2D g) {
         MushroomThread thread = getGameObject();
+
         if (thread.getCutState() == CutState.CUT) {
             image = cutImage;
-        }
-
-        else {
+        } else {
             switch (thread.getGrowState()) {
                 case SPROUT:
                     if (thread.getTurnsToGrow() > 2) {
                         image = sprout1Image;
-                    } else if (thread.getTurnsToGrow() > 1) {
+                    } else if (thread.getTurnsToGrow() >= 1) {
                         image = sprout2Image;
                     }
                     break;
@@ -65,6 +64,10 @@ public class ThreadView extends GameComponentView<MushroomThread> {
                 default:
                     break;
             }
+        }
+
+        if (image == null) {
+            System.out.println();
         }
 
         int startX = center.x - size.x / 2;
