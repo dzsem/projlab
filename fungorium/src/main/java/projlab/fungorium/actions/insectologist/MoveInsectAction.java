@@ -24,6 +24,11 @@ public class MoveInsectAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            return;
+        }
+
         try {
             Insect i = insectologist.getSelectedInsect();
             Tecton t = controller.getSelectedTecton();

@@ -22,6 +22,10 @@ public class CreateConnectionAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            return;
+        }
 
         try {
             Tecton t = controller.getSelectedTecton();

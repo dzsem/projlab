@@ -25,6 +25,11 @@ public class GrowBodyAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            return;
+        }
+
         Tecton t = controller.getSelectedTecton();
         int id = mycologist.getMushroomID();
         try {
