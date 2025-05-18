@@ -12,7 +12,7 @@ public class MainWindow extends JFrame {
     private GameController gameController;
 
     public MainWindow(GameController gameController) {
-        this.gameController = gameController; 
+        this.gameController = gameController;
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Fungorium (dzsem)");
@@ -21,12 +21,18 @@ public class MainWindow extends JFrame {
 
         setLayout(new BorderLayout());
 
-        add(new SidePanel(gameController.getActions()), BorderLayout.WEST);
+        SidePanel sidePanel = new SidePanel(gameController.getActions());
+        add(sidePanel, BorderLayout.WEST);
+
         MainPanel mainPanel = new MainPanel();
-        gameController.setMainPanel(mainPanel);
         add(mainPanel, BorderLayout.CENTER);
 
         setVisible(true);
+        revalidate();
+
+        gameController.setMainPanel(mainPanel);
+        gameController.setSidePanel(sidePanel);
+        gameController.redraw();
     }
 
 }

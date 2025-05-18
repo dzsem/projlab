@@ -21,6 +21,8 @@ public class Tecton extends TurnAware implements PrintableState {
         this.mushroomSpores = new ArrayList<>();
         this.insects = new ArrayList<>();
         this.neighbours = new ArrayList<>();
+
+        Game.getInstance().getRegistry().registerTecton(this);
     }
 
     /**
@@ -239,6 +241,18 @@ public class Tecton extends TurnAware implements PrintableState {
             throw new Exception("Tecton does not hav a MushroomBody");
         }
         return mushroomBody;
+    }
+
+    public List<Insect> getInsects() {
+        return insects;
+    }
+
+    public List<MushroomSpore> getSpores() {
+        return mushroomSpores;
+    }
+
+    public List<MushroomThread> getThreads() {
+        return mushroomThreads;
     }
 
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.

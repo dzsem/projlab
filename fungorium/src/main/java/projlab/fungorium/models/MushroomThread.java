@@ -164,6 +164,10 @@ public class MushroomThread extends TurnAware implements PrintableState {
         return result;
     }
 
+    public List<MushroomThread> getConnectedThreads() {
+        return connectedThreads;
+    }
+
     /**
      * Csökkenti a turnsToDie értékét eggyel
      */
@@ -322,6 +326,18 @@ public class MushroomThread extends TurnAware implements PrintableState {
      */
     public Tecton getTecton() {
         return tecton;
+    }
+
+    public CutState getCutState() {
+        return cutState;
+    }
+
+    public GrowState getGrowState() {
+        return growState;
+    }
+
+    public int getTurnsToGrow() {
+        return turnsToGrow;
     }
 
     /**

@@ -1,7 +1,9 @@
 package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
@@ -15,20 +17,18 @@ import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
-import projlab.fungorium.models.player.Insectologist;
-import projlab.fungorium.models.player.Mycologist;
-import projlab.fungorium.models.player.PlayerType;
-import projlab.fungorium.views.gamecomponents.GameComponentView;
-import projlab.fungorium.views.gamecomponents.InsectView;
-import projlab.fungorium.views.gamecomponents.MushroomBodyView;
-import projlab.fungorium.views.gamecomponents.SporeView;
-import projlab.fungorium.views.gamecomponents.TectonView;
-import projlab.fungorium.views.gamecomponents.ThreadView;
+import projlab.fungorium.models.player.*;
+import projlab.fungorium.utilities.ConnectionMap;
+import projlab.fungorium.views.gamecomponents.*;
 import projlab.fungorium.windowing.game.MainPanel;
+import projlab.fungorium.windowing.game.SidePanel;
 
 import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
+	private static final int GRID_SPACING_PX = 25;
+	private static final int GRID_MARGIN_PX = 50;
+
 	public GameController(List<Insectologist> insectologists, List<Mycologist> mycologists) {
 		insectologistController = new InsectologistController(this);
 		mycologistController = new MycologistController(this);
@@ -39,13 +39,14 @@ public class GameController implements GameComponentViewVisitor {
 		setInsectologistIdx(0);
 		setMycologistIdx(0);
 
+		gameComponentViews = new ArrayList<>();
+
 		selectedInsect = null;
 		selectedThread = null;
 		selectedBody = null;
 		selectedTecton = null;
 
 		tectonViews = new ArrayList<>();
-		gameComponentViews = new ArrayList<>();
 		nextRoundAction = new PassAction(this);
 
 		buildMap(insectologists.size() + mycologists.size());
@@ -64,6 +65,8 @@ public class GameController implements GameComponentViewVisitor {
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
+	private List<GameComponentView<? extends GameObject>> gameComponentViews;
+
 	private InsectView selectedInsect;
 	private ThreadView selectedThread;
 	private MushroomBodyView selectedBody;
@@ -71,13 +74,20 @@ public class GameController implements GameComponentViewVisitor {
 
 	private List<TectonView> tectonViews;
 
-	private List<GameComponentView<? extends GameObject>> gameComponentViews;
-
 	private PassAction nextRoundAction;
 
 	private MainPanel mainPanel;
-  
+	private SidePanel sidePanel;
+
 	private Random random = new Random();
+
+	public int getMycologistsSize() {
+		return mycologists.size();
+	}
+
+	public int getInsectologistsSize() {
+		return insectologists.size();
+	}
 
 	// @formatter:off
 	public PlayerType getActiveType() { return activeType; }
@@ -90,22 +100,32 @@ public class GameController implements GameComponentViewVisitor {
 	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
 	public MushroomBody getSelectedBody() { return selectedBody != null ? selectedBody.getGameObject() : null; }
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
-	
+
 	public List<TectonView> getTectonViews() { return tectonViews; }
-	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
 
-	public void setActiveType(PlayerType type) { activeType = type; }
+	public void setActiveType(PlayerType type) {
+		if (activeType == type)
+			return;
+
+		activeType = type;
+
+		sidePanel.update(getActions());
+		sidePanel.revalidate();
+		sidePanel.repaint();
+	}
 	// @formatter:on
 
 	public void setInsectologistIdx(int idx) {
 		insectologistIdx = idx;
-		insectologistController.updateActive(insectologists.get(insectologistIdx));
+		if (insectologistIdx < insectologists.size())
+			insectologistController.updateActive(insectologists.get(insectologistIdx));
 	}
 
 	public void setMycologistIdx(int idx) {
 		mycologistIdx = idx;
-		mycologistController.updateActive(mycologists.get(mycologistIdx));
+		if (mycologistIdx < mycologists.size())
+			mycologistController.updateActive(mycologists.get(mycologistIdx));
 	}
 
 	public Point getPoint(int x, int y) {
@@ -114,19 +134,18 @@ public class GameController implements GameComponentViewVisitor {
 
 	/**
 	 * Ellenőrzi, hogy az előbb elvégzett kis kör az utolsó volt-e a nagy körben.
-	 * 
+	 *
 	 * Pl.: 3-3 player esetén:
 	 * <code>
 	 * ActiveType    M -> I -> M -> I -> M -> I
 	 * Insectologist 0    0    1    1    2    2
 	 * Mycologist    0    1    1    2    2    3
 	 * </code>
-	 * 
-	 * TODO: megoldani nem egyenlő számú player típusokra,
-	 * TODO: ezt jelenleg a PassAction tervezett logikája nem engedi meg! ~tams
+	 * elég == -vel checkolni, mert a program, utána nem vált vissza arra a
+	 * csapatra, amelyik elérte a megfelelő size-t
 	 */
 	public boolean checkIfLastActive() {
-		return mycologistIdx == mycologists.size() || insectologistIdx == insectologists.size();
+		return mycologistIdx == mycologists.size() && insectologistIdx == insectologists.size();
 	}
 
 	public void showError(Exception e) {
@@ -139,40 +158,25 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void redraw() {
-		updateGameComponents();
+		GameLayoutGenerator generator = new GameLayoutGenerator(
+				GRID_SPACING_PX, GRID_MARGIN_PX,
+				mainPanel.getWidth(), mainPanel.getHeight());
 
-		mainPanel.setGameComponents(gameComponentViews);
+		generator.generate();
+		gameComponentViews = generator.getGameComponentViews();
+
+		mainPanel.setDrawables(generator.getDrawables());
 
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
 
-	private void updateGameComponents() {
-		gameComponentViews.clear();
-
-		for (var tecton : Game.getInstance().getRegistry().getTectons()) {
-			gameComponentViews.add(new TectonView(tecton));
-		}
-
-		for (var insect : Game.getInstance().getRegistry().getInsects()) {
-			gameComponentViews.add(new InsectView(insect));
-		}
-
-		for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
-			gameComponentViews.add(new MushroomBodyView(mb));
-		}
-
-		for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
-			gameComponentViews.add(new ThreadView(thread));
-		}
-
-		for (var spore : Game.getInstance().getRegistry().getMushroomSpores()) {
-			gameComponentViews.add(new SporeView(spore));
-		}
-	}
-
 	public void setMainPanel(MainPanel mainPanel) {
 		this.mainPanel = mainPanel;
+	}
+
+	public void setSidePanel(SidePanel sidePanel) {
+		this.sidePanel = sidePanel;
 	}
 
 	public List<AbstractAction> getActions() {
@@ -197,13 +201,15 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	/**
-	 * Elkészíti a játék pályát viewokkal és game objectekkel a játékosszám alapján. <p>
-	 * Tektonokat, hoz létre és ezekre véletlenszerűen felhelyezi az insecteket és a gombákat
+	 * Elkészíti a játék pályát viewokkal és game objectekkel a játékosszám alapján.
+	 * <p>
+	 * Tektonokat, hoz létre és ezekre véletlenszerűen felhelyezi az insecteket és a
+	 * gombákat
+	 * 
 	 * @param numOfPlayers A játékosok száma
 	 */
 	private void buildMap(int numOfPlayers) {
 		List<Tecton> tectons = Game.getInstance().buildMap(numOfPlayers);
-
 
 		// Create mushroom bodies and threads
 		for (Mycologist mycologist : mycologists) {
@@ -214,7 +220,7 @@ public class GameController implements GameComponentViewVisitor {
 			new MushroomThread(tecton, mycologist.getID());
 
 			tectons.remove(tectonIdx);
-		} 
+		}
 
 		// Create insects
 		for (Insectologist insectologist : insectologists) {
