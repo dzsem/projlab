@@ -596,8 +596,13 @@ public class Interpreter {
     public void eatinsect(List<String> args) {
         GameObject mt = game.getObject(Integer.valueOf(args.get(0)));
         if (mt instanceof MushroomThread) {
-            ((MushroomThread) mt).eat();
-            System.out.println("Insect eaten successfully");
+            try {
+                ((MushroomThread) mt).eat();
+                System.out.println("Insect eaten successfully");
+            } catch (Exception e) {
+                Logger.printError("Failed to eat insect: " + e.getMessage());
+                return;
+            }
         } else {
             System.err.println("The object with the specified ID isn't a MushroomThread");
         }
