@@ -225,6 +225,10 @@ public class MushroomThread extends TurnAware implements PrintableState {
             throw new Exception("Tecton was not neighour");
         }
 
+        if (growState != GrowState.GROWN) {
+            throw new Exception("Only grown threads can create new connections");
+        }
+
         try {
             var mt = to.getThread(mushroomID);
             mt.cutState = CutState.UNCUT;
