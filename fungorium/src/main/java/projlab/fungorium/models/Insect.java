@@ -131,6 +131,8 @@ public class Insect extends TurnAware implements PrintableState {
         tecton.unregisterInsect(this);
         t.registerInsect(this);
 
+        tecton = t;
+
         /*
         if (isNeighbour && isConnected && canMove) {
             tecton.unregisterInsect(this);
