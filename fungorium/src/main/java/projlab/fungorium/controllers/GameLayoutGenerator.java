@@ -102,7 +102,7 @@ public class GameLayoutGenerator {
 
 			int radius = (int) (threadTectonView.getSize().x * 0.5 * ThreadView.RADIUS_MULTIPLIER);
 
-			Point position = threadTectonView.calculateMobileObjectPosition(threadTecton, radius);
+			Point position = threadTectonView.calculateMobileObjectPosition(thread, radius);
 
 			threadViewMap.put(thread.getID(), new ThreadView(thread, position));
 		}
@@ -159,7 +159,7 @@ public class GameLayoutGenerator {
 
 			int radius = (int) (insectTectonView.getSize().x * 0.5 * InsectView.RADIUS_MULTIPLIER);
 
-			Point position = insectTectonView.calculateMobileObjectPosition(insectTecton, radius);
+			Point position = insectTectonView.calculateMobileObjectPosition(insect, radius);
 
 			var insectView = new InsectView(insect, position);
 			addView(insectView);
@@ -176,7 +176,7 @@ public class GameLayoutGenerator {
 
 			int radius = (int) (sporeTectonView.getSize().x * 0.5 * SporeView.RADIUS_MULTIPLIER);
 
-			Point position = sporeTectonView.calculateMobileObjectPosition(sporeTecton, radius);
+			Point position = sporeTectonView.calculateMobileObjectPosition(spore, radius);
 
 			addView(new SporeView(spore, position));
 		}

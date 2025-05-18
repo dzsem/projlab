@@ -28,6 +28,7 @@ public class GameObjectRegistry {
 	public void unregisterInsect(Insect i) { insects.remove(i); }
 	public void unregisterMushroomSpore(MushroomSpore s) { mushroomSpores.remove(s); }
 	public void unregisterMushroomBody(MushroomBody b) { mushroomBodies.remove(b); }
+	public void unregisterMushroomThread(MushroomThread t) { mushroomThreads.remove(t); }
 
 	public List<Tecton> getTectons() { return tectons; }
 	public List<MushroomBody> getMushroomBodies() { return mushroomBodies; }
