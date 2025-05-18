@@ -10,6 +10,8 @@ import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
+import projlab.fungorium.models.player.Player;
+import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.DrawableComponent;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
@@ -149,7 +151,7 @@ public class GameLayoutGenerator {
 		}
 	}
 
-	private void updateInsectViews() {
+	private void updateInsectViews(PlayerType activeType, int playerID) {
 		for (var insect : Game.getInstance().getRegistry().getInsects()) {
 			Tecton insectTecton = insect.getTecton();
 			TectonView insectTectonView = tectonViewMap.get(insectTecton.getID());
@@ -158,7 +160,11 @@ public class GameLayoutGenerator {
 
 			Point position = insectTectonView.calculateMobileObjectPosition(insectTecton, radius);
 
-			addView(new InsectView(insect, position));
+			var insectView = new InsectView(insect, position);
+			addView(insectView);
+			if (activeType == PlayerType.INSECTOLOGIST && insect.getInsectologistID() == playerID){
+				insectView.setInteractable(true);
+			}
 		}
 	}
 
@@ -180,13 +186,17 @@ public class GameLayoutGenerator {
 	 * tectonViewMap ismeretében. A Thread-ek tektonjai közé
 	 * ThreadConnectionView-okat vesz fel.
 	 */
-	private void updateThreadViews() {
+	private void updateThreadViews(PlayerType activeType, int playerID) {
 		Map<Integer, ThreadView> threadViewMap = calculateThreadViewMap();
 
 		ConnectionMap connections = new ConnectionMap();
 
 		for (var threadView : threadViewMap.values()) {
 			addView(threadView);
+
+			if (activeType == PlayerType.MYCOLOGIST && threadView.getGameObject().getMushroomID() == playerID){
+				threadView.setInteractable(true);
+			}
 
 			MushroomThread thread = threadView.getGameObject();
 
@@ -215,14 +225,19 @@ public class GameLayoutGenerator {
 		}
 	}
 
-	private void updateMushroomBodyViews() {
+	private void updateMushroomBodyViews(PlayerType activeType, int playerID) {
 		for (var body : Game.getInstance().getRegistry().getMushroomBodies()) {
 			Tecton bodyTecton = body.getTecton();
 			TectonView bodyTectonView = tectonViewMap.get(bodyTecton.getID());
 
 			Point position = bodyTectonView.getCenter();
 
-			drawables.add(new MushroomBodyView(body, position));
+			var mbView = new MushroomBodyView(body, position);
+			drawables.add(mbView);
+
+			if (activeType == PlayerType.MYCOLOGIST && body.getMushroomID() == playerID){
+				mbView.setInteractable(true);
+			}
 		}
 	}
 
@@ -232,15 +247,15 @@ public class GameLayoutGenerator {
 	 * A kimenet a {@link #getDrawables()} és {@link #getGameComponentViews()}
 	 * függvényekkel kérhető le.
 	 */
-	public void generate() {
+	public void generate(PlayerType activeType, int playerID) {
 		drawables.clear();
 		this.tectonViewMap = calculateTectonViewMap();
 
 		updateTectonViews();
-		updateInsectViews();
+		updateInsectViews(activeType, playerID);
 		updateSporeViews();
-		updateThreadViews();
-		updateMushroomBodyViews();
+		updateThreadViews(activeType, playerID);
+		updateMushroomBodyViews(activeType, playerID);
 	}
 
 	public List<DrawableComponent> getDrawables() {

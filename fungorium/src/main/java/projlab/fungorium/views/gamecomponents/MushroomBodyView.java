@@ -1,5 +1,6 @@
 package projlab.fungorium.views.gamecomponents;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -32,8 +33,16 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
         // g.drawImage(imagePath, null, center.x, center.y); // TODO
         // g.drawRect(center.x - size.x / 2, center.y - size.x / 2, size.x, size.y);
 
+        int startX = center.x - size.x / 2;
+        int startY = center.y - size.y / 2;
+
         if (image != null) {
-            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null);
+            g.drawImage(image, startX, startY, size.x, size.y, null);
+        }
+
+        if (isInteracteble) {
+            g.setColor(new Color(0,0,255,120));
+            g.fillRect(startX, startY, size.x, size.y);
         }
     }
 

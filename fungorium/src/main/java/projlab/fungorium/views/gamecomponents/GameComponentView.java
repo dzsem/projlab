@@ -14,6 +14,7 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
         this.gameObject = gameObject;
         this.center = center;
         this.size = size;
+        this.isInteracteble = false;
     }
 
     protected Point center;
@@ -59,5 +60,4 @@ public abstract class GameComponentView<T extends GameObject> implements Drawabl
 
         return true;
     }
-
 }
