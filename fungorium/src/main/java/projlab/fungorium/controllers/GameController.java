@@ -180,6 +180,10 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void redraw() {
+		if (mainPanel == null) {
+			return;
+		}
+
 		GameLayoutGenerator generator = new GameLayoutGenerator(
 				GRID_SPACING_PX, GRID_MARGIN_PX,
 				mainPanel.getWidth(), mainPanel.getHeight());
