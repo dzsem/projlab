@@ -63,10 +63,14 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
+	private int maxRounds=30;
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
+
+	private Mycologist winnerMycologist;
+	private Insectologist winnerInsectologist;
 
 	private InsectView selectedInsect;
 	private ThreadView selectedThread;
@@ -96,14 +100,24 @@ public class GameController implements GameComponentViewVisitor {
 	public int getMycologistIdx() { return mycologistIdx; }
 	public InsectologistController getInsectologistController() { return insectologistController; }
 	public MycologistController getMycologistController() { return mycologistController; }
+	public int getMaxRounds() { return maxRounds; }
 	
 	public Insect getSelectedInsect() { return selectedInsect != null ? selectedInsect.getGameObject() : null; }
 	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
 	public MushroomBody getSelectedBody() { return selectedBody != null ? selectedBody.getGameObject() : null; }
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
+	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
 
 	public List<TectonView> getTectonViews() { return tectonViews; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
+	public List<Insectologist> getInsectologists() {return insectologists;}
+	public List<Mycologist> getMycologists() {return mycologists;}
+
+	public void setWinnerMycologist(Mycologist winnerMycologist) {this.winnerMycologist = winnerMycologist;}
+	public void setWinnerInsectologist(Insectologist winnerInsectologist) {this.winnerInsectologist = winnerInsectologist;}
+	public void setMaxRounds(int maxRounds) { this.maxRounds = maxRounds; }
+
+
 
 	public void setActiveType(PlayerType type) {
 		if (activeType == type)
@@ -170,8 +184,7 @@ public class GameController implements GameComponentViewVisitor {
 			// gameView.getGameObject().getOutputString()));
 			gameView.accept(this);
 		}
-		// throw new UnsupportedOperationException("handleClick not implemented");
-		// TODO: implement
+
 	}
 
 	public void redraw() {
@@ -310,5 +323,7 @@ public class GameController implements GameComponentViewVisitor {
     public void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
     }
-
+	public void endgame(){
+		JOptionPane.showMessageDialog(null, "Game over!\nWinner Mycologist:...\nWinner Insectologist:...", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+	}
 }
