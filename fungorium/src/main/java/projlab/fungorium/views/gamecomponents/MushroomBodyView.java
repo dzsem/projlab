@@ -19,7 +19,7 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
     private BufferedImage image;
 
     public MushroomBodyView(MushroomBody gameObject, Point center) {
-        super(gameObject, center, MUSHROOM_BODY_SIZE, MUSHROOMBODY_DRAWPRIORITY);
+        super(gameObject, center, MUSHROOM_BODY_SIZE);
 
         try {
             image = ImageIO.read(new File(IMAGE_PATH));
@@ -41,5 +41,10 @@ public class MushroomBodyView extends GameComponentView<MushroomBody> {
     @Override
     public void accept(GameComponentViewVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public int getDrawPriority() {
+        return MUSHROOMBODY_DRAWPRIORITY;
     }
 }

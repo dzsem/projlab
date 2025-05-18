@@ -2,6 +2,7 @@ package projlab.fungorium.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,6 +15,8 @@ import java.util.ArrayList;
  */
 public class Game {
     private static final int NUM_OF_TECTONS_PER_PLAYER = 2;
+
+    private Random random = new Random();
 
     private static Game instance = null;
     private Map<Integer, GameObject> gameObjects;
@@ -85,7 +88,28 @@ public class Game {
         List<Tecton> result = new ArrayList<>();
 
         for (int i = 0; i < numOfPlayers * NUM_OF_TECTONS_PER_PLAYER; i++) {
-            result.add(new Tecton());
+            Tecton tecton = new Tecton();
+            result.add(tecton);
+
+            if (i != 0) { // If not first tecton register previous tecton as neighbour
+                tecton.registerNeighbour(result.get(i-1));
+            }
+
+            if (i == numOfPlayers * NUM_OF_TECTONS_PER_PLAYER - 1) { // If last tecton resiter first tecton as neighbour
+                tecton.registerNeighbour(result.get(0));
+            }
+        }
+
+        // Add random neighbours
+        for (int i = 0; i < numOfPlayers; i++) {
+            Tecton t1 = result.get(random.nextInt(result.size())); 
+            Tecton t2 = result.get(random.nextInt(result.size()));
+
+            while (t2 == t1) { // Choose new if tectons are the same
+                t2 = result.get(random.nextInt(result.size()));
+            }
+
+            t1.registerNeighbour(t2);
         }
 
         return result;

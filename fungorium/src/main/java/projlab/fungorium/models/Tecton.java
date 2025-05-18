@@ -251,6 +251,10 @@ public class Tecton extends TurnAware implements PrintableState {
         return mushroomSpores;
     }
 
+    public List<MushroomThread> getThreads() {
+        return mushroomThreads;
+    }
+
     // Ennek igazából nem is kell argumentum, mert csak egy Body lehet egy Tectonon.
     final public void removeBody() {
         mushroomBody = null;

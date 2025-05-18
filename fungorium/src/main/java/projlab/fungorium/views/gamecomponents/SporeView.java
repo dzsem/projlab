@@ -9,11 +9,13 @@ import projlab.fungorium.models.MushroomSpore;
 
 public class SporeView extends GameComponentView<MushroomSpore> {
     private static final int MUSHROOMSPORE_DRAWPRIORITY = 0;
+    public static final double RADIUS_MULTIPLIER = 0.8;
+    private static final Point SPORE_SIZE = new Point(32, 32);
 
-    public SporeView(MushroomSpore gameObject, Point center, Point size) {
-        super(gameObject, center, size, MUSHROOMSPORE_DRAWPRIORITY);
+    public SporeView(MushroomSpore gameObject, Point center) {
+        super(gameObject, center, SPORE_SIZE);
     }
-    
+
     // TODO: Tektonon belüli offset számolás, mint az InsectViewnál.
     @Override
     public void draw(Graphics2D g) {
@@ -27,4 +29,9 @@ public class SporeView extends GameComponentView<MushroomSpore> {
     }
 
     private BufferedImage imagePath;
+
+    @Override
+    public int getDrawPriority() {
+        return MUSHROOMSPORE_DRAWPRIORITY;
+    }
 }

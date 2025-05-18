@@ -31,7 +31,7 @@ public class InsectView extends GameComponentView<Insect> {
     private static final Point INSECT_SIZE = new Point(32, 32);
 
     public InsectView(Insect gameObject, Point position) {
-        super(gameObject, position, INSECT_SIZE, INSECT_DRAWPRIORITY);
+        super(gameObject, position, INSECT_SIZE);
         try {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
@@ -59,5 +59,10 @@ public class InsectView extends GameComponentView<Insect> {
     @Override
     public void accept(GameComponentViewVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public int getDrawPriority() {
+        return INSECT_DRAWPRIORITY;
     }
 }
