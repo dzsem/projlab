@@ -375,5 +375,6 @@ public class GameController implements GameComponentViewVisitor {
     }
 	public void endgame(){
 		JOptionPane.showMessageDialog(null, "Game over!\nWinner Mycologist:...\nWinner Insectologist:...", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		System.exit(0);
 	}
 }
