@@ -23,6 +23,11 @@ public class EatInsectAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         MushroomThread mt = controller.getSelectedThread();
         try {
+
+            if (mt.getMushroomID() != controller.getMycologistId()) {
+                throw new Exception("Can't controll someone elses thread");
+            }
+            
             mt.eat();
 
             controller.redraw();

@@ -26,6 +26,11 @@ public class EatSporeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         try {
             Insect i = insectologist.getSelectedInsect();
+
+            if (i.getInsectologistID() != controller.getInsectologistId()) {
+                throw new Exception("Can't controll someone elses insect");
+            }
+            
             i.eatMushroomSpore();
 
             controller.redraw();

@@ -28,6 +28,10 @@ public class CutThreadAction extends AbstractAction {
         try {
             Insect i = insectologist.getSelectedInsect();
             MushroomThread mt = controller.getSelectedThread();
+
+            if (i.getInsectologistID() != controller.getInsectologistId()) {
+                throw new Exception("Can't controll someone elses insect");
+            }
             i.cutMushroomThread(mt);
 
             controller.redraw();

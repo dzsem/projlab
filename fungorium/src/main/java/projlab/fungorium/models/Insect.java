@@ -89,11 +89,18 @@ public class Insect extends TurnAware implements PrintableState {
      * Elvágja a bemenetként adott gombafonalat, amennyiben
      * 
      * @param mt Az elvágandó gombafonál
+     * @throws Exception Ha az elvágandó fonál nincs a rovar tektonján, vagy ha a rovar nem tud vágni
      */
-    public void cutMushroomThread(MushroomThread mt) {
+    public void cutMushroomThread(MushroomThread mt) throws Exception {
         if (canCut) {
-            mt.setCutState(CutState.CUT);
+            if (tecton == mt.getTecton()){
+                mt.setCutState(CutState.CUT);
+                return;
+            }
+            throw new Exception("Insect can't cut thread tha is not on it's tecton");
         }
+
+        throw new Exception("Insect can't cut on this round");
     }
 
     /**
