@@ -159,7 +159,7 @@ public class GameController implements GameComponentViewVisitor {
                 if(gameView==null){
 					gameView=view;
 				}
-                if(gameView.getDrawPriority()<view.getDrawPriority()) {
+                if(gameView.getDrawPriority() > view.getDrawPriority()) {
 					gameView=view;
 				}
 			}
