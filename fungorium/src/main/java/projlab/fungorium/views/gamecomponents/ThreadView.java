@@ -66,10 +66,6 @@ public class ThreadView extends GameComponentView<MushroomThread> {
             }
         }
 
-        if (image == null) {
-            System.out.println();
-        }
-
         int startX = center.x - size.x / 2;
         int startY = center.y - size.y / 2;
 
