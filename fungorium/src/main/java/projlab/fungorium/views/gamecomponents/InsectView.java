@@ -52,7 +52,7 @@ public class InsectView extends GameComponentView<Insect> {
         // g.drawRect(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y);
         
         if (image != null) {
-            g.drawImage(image, center.x - INSECT_SIZE.x / 2, center.y - INSECT_SIZE.y / 2, INSECT_SIZE.x, INSECT_SIZE.y, null );
+            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null );
         }
     }
 

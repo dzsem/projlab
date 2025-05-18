@@ -197,6 +197,16 @@ public class GameController implements GameComponentViewVisitor {
 		}
 	}
 
+	private void updateMushroomBodyViews(Map<Integer, TectonView> tectonViewMap) {
+		for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
+			Tecton mbTecton = mb.getTecton();
+			TectonView mbTectonView = tectonViewMap.get(mbTecton.getID());
+
+			Point center = mbTectonView.getCenter();
+			gameComponentViews.add(new MushroomBodyView(mb, center));
+		}
+	}
+
 	private void updateGameComponents() {
 		gameComponentViews.clear();
 
@@ -204,12 +214,9 @@ public class GameController implements GameComponentViewVisitor {
 
 		updateTectonViews(tectonViewMap);
 		updateInsectViews(tectonViewMap);
+		updateMushroomBodyViews(tectonViewMap);
 
 		/*
-		 * for (var mb : Game.getInstance().getRegistry().getMushroomBodies()) {
-		 * gameComponentViews.add(new MushroomBodyView(mb));
-		 * }
-		 * 
 		 * for (var thread : Game.getInstance().getRegistry().getMushroomThreads()) {
 		 * gameComponentViews.add(new ThreadView(thread));
 		 * }
