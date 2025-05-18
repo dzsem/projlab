@@ -109,6 +109,10 @@ public class MushroomBody extends TurnAware implements PrintableState {
         }
     }
 
+    public Tecton getTecton() {
+        return tecton;
+    }
+
     /**
      * Beállítja a gomba test advancement szintjét.
      * Teszteléshez használt.

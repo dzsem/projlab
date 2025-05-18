@@ -4,32 +4,34 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import projlab.fungorium.models.GameObject;
-import projlab.fungorium.views.gamecomponents.GameComponentView;
+import projlab.fungorium.views.gamecomponents.DrawableComponent;
 
 public class MainPanel extends JPanel {
-
-    private List<GameComponentView<? extends GameObject>> gameComponentViews;
+    private List<DrawableComponent> drawables;
 
     public MainPanel() {
         setBackground(Color.yellow);
-        gameComponentViews = new ArrayList<>();
+        drawables = new ArrayList<>();
     }
 
-    public void setGameComponents(List<GameComponentView<? extends GameObject>> gameComponentViews) {
-        this.gameComponentViews = gameComponentViews;
+    public void setDrawables(List<DrawableComponent> drawables) {
+        this.drawables = drawables;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (GameComponentView<? extends GameObject> view : gameComponentViews) {
-            view.draw((Graphics2D)g);
+        var sortedGameComponentViews = drawables.stream().sorted(
+                Comparator.comparingInt(DrawableComponent::getDrawPriority)).toList().reversed();
+
+        for (var view : sortedGameComponentViews) {
+            view.draw((Graphics2D) g);
         }
     }
 }
