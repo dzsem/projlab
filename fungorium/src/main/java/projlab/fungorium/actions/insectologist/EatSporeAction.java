@@ -24,12 +24,22 @@ public class EatSporeAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            setEnabled(false);
+            return;
+        }
+
         try {
             Insect i = insectologist.getSelectedInsect();
 
             Effect effect = i.eatMushroomSpore();
 
             controller.getCurrentPlayer().exhaustAction();
+
+            if (!controller.getCurrentPlayer().hasMoreActions()) {
+                setEnabled(false);
+            }
 
             controller.showMessage(effect.getDescription());
 

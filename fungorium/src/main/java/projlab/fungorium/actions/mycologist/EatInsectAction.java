@@ -21,11 +21,20 @@ public class EatInsectAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            return;
+        }
+
         try {
             MushroomThread mt = controller.getMycologistController().getSelectedThread();
             mt.eat();
 
             controller.getCurrentPlayer().exhaustAction();
+
+            if (!controller.getCurrentPlayer().hasMoreActions()) {
+                setEnabled(false);
+            }
 
             controller.redraw();
         } catch (Exception ex) {

@@ -27,7 +27,8 @@ public class Insect extends TurnAware implements PrintableState {
     /**
      * Számon tartja, hogy a rovar tud-e fonalat vágni.
      * <p>
-     * Amennyiben nem, csak akkor billen vissza igazba, amikor a {@link #counter}
+     * Amennyiben nem, csak akkor billen vissza igazba, amikor a
+     * {@link #canCutCounter}
      * eléri a 0-t.
      *
      * @see #onEndOfTheRound()
@@ -42,7 +43,12 @@ public class Insect extends TurnAware implements PrintableState {
      * 
      * @see #onEndOfTheRound()
      */
-    private int counter;
+    private int canCutCounter;
+
+    /**
+     * Számláló a canMove visszaállítására a {@link #canCutCounter} mintája alapján.
+     */
+    private int canMoveCounter;
 
     /**
      * A tekton, amin jelenleg a rovar áll. A rovar mindig regisztrálja magát a
@@ -52,7 +58,8 @@ public class Insect extends TurnAware implements PrintableState {
      */
     private Tecton tecton;
 
-    private static final int COUNTER_DEFAULT_VALUE = 3;
+    private static final int CANCUT_COUNTER_DEFAULT_VALUE = 3;
+    private static final int CANMOVE_COUNTER_DEFAULT_VALUE = 2;
 
     /**
      * Létrehoz egy rovart, a megadott tektonon.
@@ -68,7 +75,8 @@ public class Insect extends TurnAware implements PrintableState {
         tecton = startingTecton;
         canMove = true;
         canCut = true;
-        counter = 0;
+        canCutCounter = 0;
+        canMoveCounter = 0;
 
         tecton.registerInsect(this);
 
@@ -183,21 +191,26 @@ public class Insect extends TurnAware implements PrintableState {
      * körre, de viszont a {@link #canMove} visszabillen igazba. Így a következő
      * utáni körben újra fog tudni lépni a rovar.
      * <p>
-     * Amennyiben a vágás le volt tiltva, a {@link #counter} értéke a kör végén
+     * Amennyiben a vágás le volt tiltva, a {@link #canCutCounter} értéke a kör
+     * végén
      * csökken. Amikor eléri a 0-t, a {@link #canCut} újra igazba billen.
      */
     @Override
     public void onEndOfTheRound() {
-        if (!canMove) {
+        if (canMoveCounter != 0) {
+            canMoveCounter--;
+        }
+
+        if (canMoveCounter == 0 && !canMove) {
             setCanMove(true);
         }
 
-        if (!canCut && counter == 0) {
+        if (!canCut && canCutCounter == 0) {
             setCanCut(true);
         }
 
-        if (counter != 0) {
-            counter--;
+        if (canCutCounter != 0) {
+            canCutCounter--;
         }
     }
 
@@ -224,7 +237,7 @@ public class Insect extends TurnAware implements PrintableState {
         }
 
         if (isCounterSet()) {
-            resultBuilder.append(", counter=").append(counter);
+            resultBuilder.append(", counter=").append(canCutCounter);
         }
 
         resultBuilder.append(")");
@@ -238,7 +251,11 @@ public class Insect extends TurnAware implements PrintableState {
      * @param newCanMove
      */
     public void setCanMove(boolean newCanMove) {
+        if (canMove == newCanMove)
+            return;
+
         canMove = newCanMove;
+        canMoveCounter = !canMove ? CANMOVE_COUNTER_DEFAULT_VALUE : 0;
     }
 
     /**
@@ -255,7 +272,7 @@ public class Insect extends TurnAware implements PrintableState {
      * Ennyi körbe telik majd, amég a rovar újra fonalat vághat.
      */
     public void setCounter() {
-        counter = COUNTER_DEFAULT_VALUE;
+        canCutCounter = CANCUT_COUNTER_DEFAULT_VALUE;
     }
 
     public int getInsectologistID() {
@@ -281,7 +298,7 @@ public class Insect extends TurnAware implements PrintableState {
      * @return
      */
     public boolean isCounterSet() {
-        return counter != 0;
+        return canCutCounter != 0;
     }
 
     @Override
@@ -293,7 +310,7 @@ public class Insect extends TurnAware implements PrintableState {
         sb.append(tecton.getID() + " ");
         sb.append((canCut ? 1 : 0) + " ");
         sb.append((canMove ? 1 : 0) + " ");
-        sb.append(counter);
+        sb.append(canCutCounter);
 
         return sb.toString();
     }
