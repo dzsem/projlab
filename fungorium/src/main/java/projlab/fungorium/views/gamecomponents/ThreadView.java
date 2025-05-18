@@ -74,7 +74,7 @@ public class ThreadView extends GameComponentView<MushroomThread> {
         }
 
         if (isInteracteble) {
-            g.setColor(new Color(0,0,255,120));
+            g.setColor(new Color(0,0,255,80));
             g.fillRect(startX, startY, size.x, size.y);
         }
     }
