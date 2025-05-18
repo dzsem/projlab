@@ -20,6 +20,6 @@ public class SpeedEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insectologist's actions has reset";
+        return "Effect: Insectologist's actions has reset";
     }
 }

@@ -23,6 +23,6 @@ public class BlockEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insect can't cut thread";
+        return "Effect: Insect can't cut thread";
     }
 }

@@ -20,6 +20,6 @@ public class SlowEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insectologist has one less action";
+        return "Effect: Insectologist has one less action";
     }
 }
