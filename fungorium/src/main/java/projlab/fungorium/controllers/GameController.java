@@ -97,6 +97,8 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	// @formatter:off
+	public int getCurrentTurn() { return currentTurn; }
+
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
 	public int getMycologistIdx() { return mycologistIdx; }
@@ -122,6 +124,12 @@ public class GameController implements GameComponentViewVisitor {
 		sidePanel.repaint();
 	}
 	// @formatter:on
+
+	public Player getCurrentPlayer() {
+		return activeType == PlayerType.INSECTOLOGIST
+				? insectologists.get(insectologistIdx)
+				: mycologists.get(mycologistIdx);
+	}
 
 	public void setInsectologistIdx(int idx) {
 		insectologistIdx = idx;
@@ -172,11 +180,8 @@ public class GameController implements GameComponentViewVisitor {
 			}
 		}
 		if (gameView != null) {
-
 			gameView.accept(this);
 		}
-		// throw new UnsupportedOperationException("handleClick not implemented");
-		// TODO: implement
 	}
 
 	public void redraw() {
@@ -204,7 +209,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		mainPanel.setDrawables(generator.getDrawables());
 
-		bottomPanel.update(currentTurn);
+		bottomPanel.update();
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
@@ -233,8 +238,16 @@ public class GameController implements GameComponentViewVisitor {
 		this.bottomPanel = bottomPanel;
 	}
 
-	public void updateBottomPanel() {
-		bottomPanel.update(currentTurn++);
+	public void nextRound() {
+		Game.getInstance().nextRound();
+
+		for (var insectologist : insectologists)
+			insectologist.refreshActions();
+
+		for (var mycologist : mycologists)
+			mycologist.refreshActions();
+
+		currentTurn = currentTurn + 1;
 	}
 
 	public List<AbstractAction> getActions() {
@@ -322,8 +335,8 @@ public class GameController implements GameComponentViewVisitor {
 				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
-    public void showMessage(String message) {
+	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
-    }
+	}
 
 }

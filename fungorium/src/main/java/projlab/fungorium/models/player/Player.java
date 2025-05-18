@@ -24,7 +24,7 @@ public abstract class Player {
     }
 
     /** Elfogyassza a játékos 1 akcióját. */
-    public void exhaustActions() {
+    public void exhaustAction() {
         actions = actions > 0 ? actions - 1 : 0;
     }
 

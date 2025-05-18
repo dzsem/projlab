@@ -35,9 +35,8 @@ public class PassAction extends AbstractAction {
         }
 
         if (controller.checkIfLastActive()) {
-            Game.getInstance().nextRound();
+            controller.nextRound();
 
-            controller.updateBottomPanel();
             controller.setInsectologistIdx(0);
             controller.setMycologistIdx(0);
 

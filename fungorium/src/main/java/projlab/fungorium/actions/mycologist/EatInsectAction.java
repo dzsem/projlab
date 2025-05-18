@@ -8,7 +8,7 @@ import projlab.fungorium.controllers.GameController;
 import projlab.fungorium.models.MushroomThread;
 
 public class EatInsectAction extends AbstractAction {
-    
+
     private GameController controller;
 
     public EatInsectAction(GameController controller) {
@@ -24,6 +24,8 @@ public class EatInsectAction extends AbstractAction {
         try {
             MushroomThread mt = controller.getMycologistController().getSelectedThread();
             mt.eat();
+
+            controller.getCurrentPlayer().exhaustAction();
 
             controller.redraw();
         } catch (Exception ex) {

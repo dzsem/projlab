@@ -29,7 +29,9 @@ public class MoveInsectAction extends AbstractAction {
             Tecton t = controller.getSelectedTecton();
 
             i.moveToTecton(t);
-            
+
+            controller.getCurrentPlayer().exhaustAction();
+
             controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
