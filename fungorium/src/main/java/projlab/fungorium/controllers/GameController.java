@@ -176,7 +176,23 @@ public class GameController implements GameComponentViewVisitor {
 				GRID_SPACING_PX, GRID_MARGIN_PX,
 				mainPanel.getWidth(), mainPanel.getHeight());
 
-		generator.generate();
+
+		int playerID = -1;
+
+		switch (activeType) {
+			case INSECTOLOGIST:
+				playerID = insectologists.get(insectologistIdx).getID();
+				break;
+			
+			case MYCOLOGIST:
+				playerID = mycologists.get(mycologistIdx).getID();
+				break;
+
+			default:
+				break;
+		}
+
+		generator.generate(activeType, playerID);
 		gameComponentViews = generator.getGameComponentViews();
 
 		mainPanel.setDrawables(generator.getDrawables());

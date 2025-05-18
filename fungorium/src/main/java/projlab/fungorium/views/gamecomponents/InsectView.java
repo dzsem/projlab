@@ -51,8 +51,16 @@ public class InsectView extends GameComponentView<Insect> {
         // g.setColor(Color.RED);
         // g.drawRect(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y);
 
+        int startX = center.x - size.x / 2;
+        int startY = center.y - size.y / 2;
+
         if (image != null) {
-            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null);
+            g.drawImage(image, startX, startY, size.x, size.y, null);
+        }
+
+        if (isInteracteble) {
+            g.setColor(new Color(0,0,255,120));
+            g.fillRect(startX, startY, size.x, size.y);
         }
     }
 

@@ -1,5 +1,6 @@
 package projlab.fungorium.views.gamecomponents;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -66,8 +67,16 @@ public class ThreadView extends GameComponentView<MushroomThread> {
             }
         }
 
+        int startX = center.x - size.x / 2;
+        int startY = center.y - size.y / 2;
+
         if (image != null) {
-            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null);
+            g.drawImage(image, startX, startY, size.x, size.y, null);
+        }
+
+        if (isInteracteble) {
+            g.setColor(new Color(0,0,255,120));
+            g.fillRect(startX, startY, size.x, size.y);
         }
     }
 

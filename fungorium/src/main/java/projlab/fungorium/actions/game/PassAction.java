@@ -44,6 +44,8 @@ public class PassAction extends AbstractAction {
                     ? PlayerType.MYCOLOGIST
                     : PlayerType.INSECTOLOGIST);
         }
+
+        controller.redraw();
     }
 
 }
