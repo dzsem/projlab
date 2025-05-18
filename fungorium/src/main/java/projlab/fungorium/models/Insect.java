@@ -90,11 +90,12 @@ public class Insect extends TurnAware implements PrintableState {
      * Elvágja a bemenetként adott gombafonalat, amennyiben
      * 
      * @param mt Az elvágandó gombafonál
-     * @throws Exception Ha az elvágandó fonál nincs a rovar tektonján, vagy ha a rovar nem tud vágni
+     * @throws Exception Ha az elvágandó fonál nincs a rovar tektonján, vagy ha a
+     *                   rovar nem tud vágni
      */
     public void cutMushroomThread(MushroomThread mt) throws Exception {
         if (canCut) {
-            if (tecton == mt.getTecton()){
+            if (tecton == mt.getTecton()) {
                 mt.setCutState(CutState.CUT);
                 return;
             }
@@ -134,18 +135,18 @@ public class Insect extends TurnAware implements PrintableState {
         tecton = t;
 
         /*
-        if (isNeighbour && isConnected && canMove) {
-            tecton.unregisterInsect(this);
-            t.registerInsect(this);
-            
-            tecton = t;
-        } else {
-            throw new Exception(
-                "moveToTecton failed: isNeighbour=" + isNeighbour +
-                " isConnected=" + isConnected
-                + " canMove=" + canMove);
-        }
-        */
+         * if (isNeighbour && isConnected && canMove) {
+         * tecton.unregisterInsect(this);
+         * t.registerInsect(this);
+         * 
+         * tecton = t;
+         * } else {
+         * throw new Exception(
+         * "moveToTecton failed: isNeighbour=" + isNeighbour +
+         * " isConnected=" + isConnected
+         * + " canMove=" + canMove);
+         * }
+         */
     }
 
     /**
@@ -163,16 +164,16 @@ public class Insect extends TurnAware implements PrintableState {
     /**
      * A rovar értesíti a kontrollert, hogy visszakapja az összes akcióját.
      */
-    public void refreshActions() {
-        // egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
+    public void refreshActions() throws Exception {
+        Game.getInstance().onInsectRefreshActions(this);
     }
 
     /**
      * A rovar értesíti a kontrollert, hogy már nem végezhet több akciót ebben a
      * körben.
      */
-    public void exhaustActions() {
-        // egyelőre semmi nem történik, majd a kontroller bevezetésekor lesz jelentősége
+    public void exhaustActions() throws Exception {
+        Game.getInstance().onInsectExhaustActions(this);
     }
 
     /**
@@ -187,9 +188,7 @@ public class Insect extends TurnAware implements PrintableState {
      */
     @Override
     public void onEndOfTheRound() {
-        if (canMove) {
-            refreshActions();
-        } else {
+        if (!canMove) {
             setCanMove(true);
         }
 

@@ -10,7 +10,7 @@ import projlab.fungorium.controllers.MycologistController;
 import projlab.fungorium.models.Tecton;
 
 public class GrowBodyAction extends AbstractAction {
-    
+
     private GameController controller;
     private MycologistController mycologist;
 
@@ -18,10 +18,10 @@ public class GrowBodyAction extends AbstractAction {
         super();
 
         putValue(NAME, "Grow Body");
-        
+
         this.controller = controller;
         this.mycologist = mycologist;
-    } 
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -29,6 +29,8 @@ public class GrowBodyAction extends AbstractAction {
         int id = mycologist.getMushroomID();
         try {
             t.growBody(id);
+
+            controller.getCurrentPlayer().exhaustAction();
 
             controller.redraw();
         } catch (Exception ex) {

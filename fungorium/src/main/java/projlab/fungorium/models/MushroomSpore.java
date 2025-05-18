@@ -73,8 +73,8 @@ public class MushroomSpore extends GameObject implements PrintableState {
      * 
      * @param insect a rovar ami megeszi ezt az effectet
      */
-    public Effect applyEffect(Insect insect) {
-        Effect effect = generateEffect(); 
+    public Effect applyEffect(Insect insect) throws Exception {
+        Effect effect = generateEffect();
         effect.applyEffect(insect);
         delete();
 

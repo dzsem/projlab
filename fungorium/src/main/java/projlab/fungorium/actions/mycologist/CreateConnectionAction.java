@@ -9,7 +9,7 @@ import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
 
 public class CreateConnectionAction extends AbstractAction {
-    
+
     private GameController controller;
 
     public CreateConnectionAction(GameController controller) {
@@ -22,11 +22,13 @@ public class CreateConnectionAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
         try {
             Tecton t = controller.getSelectedTecton();
             MushroomThread mt = controller.getMycologistController().getSelectedThread();
             mt.createConnection(t);
+
+            controller.getCurrentPlayer().exhaustAction();
 
             controller.redraw();
         } catch (Exception ex) {

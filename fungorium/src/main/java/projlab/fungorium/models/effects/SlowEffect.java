@@ -9,7 +9,7 @@ public class SlowEffect implements Effect, PrintableState {
      * @param insect a rovar ami megeszi ezt az effectet
      */
     //
-    public void applyEffect(Insect insect) {
+    public void applyEffect(Insect insect) throws Exception {
         insect.exhaustActions();
     }
 

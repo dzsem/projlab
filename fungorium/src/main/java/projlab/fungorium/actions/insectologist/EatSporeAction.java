@@ -9,7 +9,6 @@ import projlab.fungorium.controllers.InsectologistController;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.effects.Effect;
 
-
 public class EatSporeAction extends AbstractAction {
     private GameController controller;
     private InsectologistController insectologist;
@@ -27,8 +26,10 @@ public class EatSporeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         try {
             Insect i = insectologist.getSelectedInsect();
-            
+
             Effect effect = i.eatMushroomSpore();
+
+            controller.getCurrentPlayer().exhaustAction();
 
             controller.showMessage(effect.getDescription());
 
@@ -36,6 +37,6 @@ public class EatSporeAction extends AbstractAction {
         } catch (Exception ex) {
             controller.showError(ex);
         }
-   }
+    }
 
 }

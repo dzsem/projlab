@@ -31,6 +31,8 @@ public class CutThreadAction extends AbstractAction {
 
             i.cutMushroomThread(mt);
 
+            controller.getCurrentPlayer().exhaustAction();
+
             controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);

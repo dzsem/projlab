@@ -3,6 +3,9 @@ package projlab.fungorium.models;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import projlab.fungorium.interfaces.InsectActionHandler;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,14 +22,41 @@ public class Game {
     private Random random = new Random();
 
     private static Game instance = null;
+    private InsectActionHandler insectExhaustActionsHandler;
+    private InsectActionHandler insectRefreshActionsHandler;
     private Map<Integer, GameObject> gameObjects;
     private Map<Integer, TurnAware> turnAwares;
     private GameObjectRegistry registry;
 
     private Game() {
+        insectExhaustActionsHandler = null;
+        insectRefreshActionsHandler = null;
+
         gameObjects = new HashMap<>();
         turnAwares = new HashMap<>();
         registry = new GameObjectRegistry();
+    }
+
+    public void setInsectExhaustActionHandler(InsectActionHandler handler) {
+        this.insectExhaustActionsHandler = handler;
+    }
+
+    public void setInsectRefreshActionsHandler(InsectActionHandler handler) {
+        this.insectRefreshActionsHandler = handler;
+    }
+
+    public void onInsectExhaustActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectExhaustActionsHandler is not set.");
+
+        this.insectExhaustActionsHandler.call(insect);
+    }
+
+    public void onInsectRefreshActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectRefreshActionsHandler is not set.");
+
+        this.insectRefreshActionsHandler.call(insect);
     }
 
     public GameObjectRegistry getRegistry() {

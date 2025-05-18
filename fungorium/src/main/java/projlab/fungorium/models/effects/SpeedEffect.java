@@ -6,9 +6,10 @@ import projlab.fungorium.models.Insect;
 public class SpeedEffect implements Effect, PrintableState {
     /**
      * újraezdi a rovar körét
+     * 
      * @param insect a rovar ami megeszi ezt az effectet
      */
-    public void applyEffect(Insect insect) {
+    public void applyEffect(Insect insect) throws Exception {
         insect.refreshActions();
     }
 
