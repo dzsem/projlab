@@ -20,4 +20,9 @@ public class BlockEffect implements Effect, PrintableState {
     public String getStateString() {
         return "This is a block spore";
     }
+
+    @Override
+    public String getDescription() {
+        return "Insect can't cut thread";
+    }
 }

@@ -11,8 +11,14 @@ public class SpeedEffect implements Effect, PrintableState {
     public void applyEffect(Insect insect) {
         insect.refreshActions();
     }
+
     @Override
     public String getStateString() {
         return "This is a speed spore";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Insectologist's actions has reset";
     }
 }

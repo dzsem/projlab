@@ -30,7 +30,7 @@ public class EatSporeAction extends AbstractAction {
             
             Effect effect = i.eatMushroomSpore();
 
-            controller.showMessage(effect.getDescription())
+            controller.showMessage(effect.getDescription());
 
             controller.redraw();
         } catch (Exception ex) {

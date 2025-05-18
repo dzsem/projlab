@@ -18,4 +18,9 @@ public class DuplicateEffect implements Effect, PrintableState {
     public String getStateString() {
         return "This is a block spore";
     }
+
+    @Override
+    public String getDescription() {
+        return "A new insect is created";
+    }
 }

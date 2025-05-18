@@ -17,4 +17,9 @@ public class StunEffect implements Effect, PrintableState {
     public String getStateString() {
         return "This is a stun spore";
     }
+
+    @Override
+    public String getDescription() {
+        return "Insectologist has one less action and can't move this round";
+    }
 }
