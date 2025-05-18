@@ -22,7 +22,7 @@ public class InsectView extends GameComponentView<Insect> {
      */
     public static final double RADIUS_MULTIPLIER = 0.7;
 
-    private static final String imagePath = "images\\Insect.png";
+    private static final String IMAGE_PATH = "images/Insect.png";
     private BufferedImage image;
 
     /**
@@ -33,7 +33,7 @@ public class InsectView extends GameComponentView<Insect> {
     public InsectView(Insect gameObject, Point position) {
         super(gameObject, position, INSECT_SIZE);
         try {
-            image = ImageIO.read(new File(imagePath));
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(IMAGE_PATH));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,9 +50,9 @@ public class InsectView extends GameComponentView<Insect> {
 
         // g.setColor(Color.RED);
         // g.drawRect(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y);
-        
+
         if (image != null) {
-            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null );
+            g.drawImage(image, center.x - size.x / 2, center.y - size.y / 2, size.x, size.y, null);
         }
     }
 
