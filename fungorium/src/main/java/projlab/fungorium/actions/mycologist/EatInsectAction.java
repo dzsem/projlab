@@ -24,6 +24,8 @@ public class EatInsectAction extends AbstractAction {
         MushroomThread mt = controller.getSelectedThread();
         try {
             mt.eat();
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

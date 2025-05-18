@@ -128,6 +128,14 @@ public class GameController implements GameComponentViewVisitor {
 			mycologistController.updateActive(mycologists.get(mycologistIdx));
 	}
 
+	public int getMycologistId() {
+		return mycologists.get(mycologistIdx).getID();
+	}
+
+	public int getInsectologistId(){
+		return insectologists.get(insectologistIdx).getID();
+	}
+
 	public Point getPoint(int x, int y) {
 		return new Point(x, y);
 	}
@@ -199,6 +207,17 @@ public class GameController implements GameComponentViewVisitor {
 
 		mainPanel.revalidate();
 		mainPanel.repaint();
+	}
+
+	public void onNextRound() {
+		selectedBody = null;
+		selectedInsect = null;
+		selectedTecton = null;
+		selectedThread = null;
+
+		for (var action : getActions()) {
+			action.setEnabled(true);
+		}
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {

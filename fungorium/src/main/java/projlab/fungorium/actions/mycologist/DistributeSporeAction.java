@@ -27,6 +27,10 @@ public class DistributeSporeAction extends AbstractAction {
         try {
             MushroomBody mb = mycologist.getSelectedBody();
             mb.distributeSpores();
+
+            setEnabled(false); // Mycologist can distributeSpores only once per round
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

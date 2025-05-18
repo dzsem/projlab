@@ -135,7 +135,7 @@ public class GameLayoutGenerator {
 		ConnectionMap connections = new ConnectionMap();
 
 		for (var tectonView : tectonViewMap.values()) {
-			drawables.add(tectonView);
+			addView(tectonView);
 
 			Tecton tecton = tectonView.getGameObject();
 			for (Tecton neighbor : tecton.getNeighbours()) {
@@ -145,7 +145,6 @@ public class GameLayoutGenerator {
 				connections.addConnection(tecton.getID(), neighbor.getID());
 
 				TectonView neighborView = tectonViewMap.get(neighbor.getID());
-				addView(tectonView);
 
 				addView(new NeighbourConnectionView(tectonView.getCenter(), neighborView.getCenter()));
 			}

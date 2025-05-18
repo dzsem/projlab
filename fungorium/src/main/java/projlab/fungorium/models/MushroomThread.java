@@ -96,16 +96,6 @@ public class MushroomThread extends TurnAware implements PrintableState {
             return result;
         }
 
-        try {
-            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test,
-                                                                                      // akkor
-                // azt felveszi a visszatérítendő listába
-                result.add(tecton.getBody());
-            }
-        } catch (Exception e) {
-            Logger.printError(e.getMessage());
-        }
-
         List<MushroomThread> queue = new ArrayList<>();
         List<MushroomThread> visited = new ArrayList<>();
 
@@ -124,9 +114,9 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
                 try {
-                    if (thread.tecton.getBody().getID() == mushroomID) {
+                    if (thread.tecton.getBody().getMushroomID() == mushroomID) {
                         // visszatérítendő listába
-                        result.add(tecton.getBody());
+                        result.add(thread.tecton.getBody());
                     }
                 } catch (Exception e) {
                     Logger.printError(e.getMessage());
@@ -238,6 +228,8 @@ public class MushroomThread extends TurnAware implements PrintableState {
         try {
             var mt = to.getThread(mushroomID);
             mt.cutState = CutState.UNCUT;
+
+            return mt;
         } catch (NoSuchElementException e) {
             MushroomThread newThread = new MushroomThread(to, mushroomID);
             newThread.addConnection(this);
@@ -245,8 +237,6 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
             return newThread;
         }
-
-        throw new Exception("Cretaing connection failed");
     }
 
     /**
