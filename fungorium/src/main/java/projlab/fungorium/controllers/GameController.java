@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
@@ -132,7 +133,7 @@ public class GameController implements GameComponentViewVisitor {
 		return mycologists.get(mycologistIdx).getID();
 	}
 
-	public int getInsectologistId(){
+	public int getInsectologistId() {
 		return insectologists.get(insectologistIdx).getID();
 	}
 
@@ -161,21 +162,23 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void handleClick(int x, int y) {
-		GameComponentView<? extends GameObject> gameView=null;
+		GameComponentView<? extends GameObject> gameView = null;
 		for (GameComponentView<? extends GameObject> view : gameComponentViews) {
-			if (view.isPointInside(new Point(x,y))){
-                if(gameView==null){
-					gameView=view;
+			if (view.isPointInside(new Point(x, y))) {
+				if (gameView == null) {
+					gameView = view;
 				}
-                if(gameView.getDrawPriority() > view.getDrawPriority()) {
-					gameView=view;
+				if (gameView.getDrawPriority() > view.getDrawPriority()) {
+					gameView = view;
 				}
 			}
 		}
-		if(gameView!=null) {
+		if (gameView != null) {
+			// sidePanel.add(new JTextArea("Current object selected: " +
+			// gameView.getGameObject().getOutputString()));
 			gameView.accept(this);
 		}
-		//throw new UnsupportedOperationException("handleClick not implemented");
+		// throw new UnsupportedOperationException("handleClick not implemented");
 		// TODO: implement
 	}
 
@@ -184,14 +187,13 @@ public class GameController implements GameComponentViewVisitor {
 				GRID_SPACING_PX, GRID_MARGIN_PX,
 				mainPanel.getWidth(), mainPanel.getHeight());
 
-
 		int playerID = -1;
 
 		switch (activeType) {
 			case INSECTOLOGIST:
 				playerID = insectologists.get(insectologistIdx).getID();
 				break;
-			
+
 			case MYCOLOGIST:
 				playerID = mycologists.get(mycologistIdx).getID();
 				break;
@@ -285,21 +287,32 @@ public class GameController implements GameComponentViewVisitor {
 	@Override
 	public void visit(TectonView tectonView) {
 		selectedTecton = tectonView;
+		redraw();
+		sidePanel.add(new JTextArea("Tecton selected with id: " + tectonView.getGameObject().getID()));
 	}
 
 	@Override
 	public void visit(ThreadView threadView) {
 		selectedThread = threadView;
+		redraw();
+		sidePanel.add(new JTextArea("Thread selected with id: " + threadView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + threadView.getGameObject().getMushroomID()));
 	}
 
 	@Override
 	public void visit(InsectView insectView) {
 		selectedInsect = insectView;
+		redraw();
+		sidePanel.add(new JTextArea("Insect selected with id: " + insectView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + insectView.getGameObject().getInsectologistID()));
 	}
 
 	@Override
 	public void visit(MushroomBodyView mushroomBodyView) {
 		selectedBody = mushroomBodyView;
+		redraw();
+		sidePanel.add(new JTextArea("Body selected with id: " + mushroomBodyView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
 }
