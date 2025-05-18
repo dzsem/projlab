@@ -95,10 +95,6 @@ public class MushroomBody extends TurnAware implements PrintableState {
         return mushroomID;
     }
 
-    public Tecton getTecton() {
-        return tecton;
-    }
-
     /**
      * Körök végén kell meghívni.
      * Növeli a gomba test korát, ha a test még nem érte el az advanced szintet
@@ -111,6 +107,10 @@ public class MushroomBody extends TurnAware implements PrintableState {
                 advancement = Advancement.ADVANCED;
             }
         }
+    }
+
+    public Tecton getTecton() {
+        return tecton;
     }
 
     /**

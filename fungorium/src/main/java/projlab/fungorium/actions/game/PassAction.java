@@ -30,7 +30,6 @@ public class PassAction extends AbstractAction {
             controller.setMycologistIdx(controller.getMycologistIdx() + 1);
             // ha már a másik csapaton végig ment akkor nem vált
             if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
-
                 controller.setActiveType(PlayerType.INSECTOLOGIST);
             }
         }
@@ -40,6 +39,10 @@ public class PassAction extends AbstractAction {
 
             controller.setInsectologistIdx(0);
             controller.setMycologistIdx(0);
+
+            controller.setActiveType(controller.getActiveType() == PlayerType.INSECTOLOGIST
+                    ? PlayerType.MYCOLOGIST
+                    : PlayerType.INSECTOLOGIST);
         }
     }
 

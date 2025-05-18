@@ -21,7 +21,9 @@ public class MainWindow extends JFrame {
 
         setLayout(new BorderLayout());
 
-        add(new SidePanel(gameController.getActions()), BorderLayout.WEST);
+        SidePanel sidePanel = new SidePanel(gameController.getActions());
+        add(sidePanel, BorderLayout.WEST);
+
         MainPanel mainPanel = new MainPanel(gameController);
         add(mainPanel, BorderLayout.CENTER);
 
@@ -29,6 +31,7 @@ public class MainWindow extends JFrame {
         revalidate();
 
         gameController.setMainPanel(mainPanel);
+        gameController.setSidePanel(sidePanel);
         gameController.redraw();
     }
 

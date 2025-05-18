@@ -21,6 +21,7 @@ import projlab.fungorium.models.player.*;
 import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.*;
 import projlab.fungorium.windowing.game.MainPanel;
+import projlab.fungorium.windowing.game.SidePanel;
 
 import java.awt.Point;
 
@@ -76,6 +77,7 @@ public class GameController implements GameComponentViewVisitor {
 	private PassAction nextRoundAction;
 
 	private MainPanel mainPanel;
+	private SidePanel sidePanel;
 
 	private Random random = new Random();
 
@@ -102,20 +104,28 @@ public class GameController implements GameComponentViewVisitor {
 	public List<TectonView> getTectonViews() { return tectonViews; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
 
-	public void setActiveType(PlayerType type) { activeType = type; }
+	public void setActiveType(PlayerType type) {
+		if (activeType == type)
+			return;
+
+		activeType = type;
+
+		sidePanel.update(getActions());
+		sidePanel.revalidate();
+		sidePanel.repaint();
+	}
 	// @formatter:on
 
 	public void setInsectologistIdx(int idx) {
 		insectologistIdx = idx;
-		try {
+		if (insectologistIdx < insectologists.size())
 			insectologistController.updateActive(insectologists.get(insectologistIdx));
-		} catch (IndexOutOfBoundsException ignored) {
-		}
 	}
 
 	public void setMycologistIdx(int idx) {
 		mycologistIdx = idx;
-		mycologistController.updateActive(mycologists.get(mycologistIdx));
+		if (mycologistIdx < mycologists.size())
+			mycologistController.updateActive(mycologists.get(mycologistIdx));
 	}
 
 	public Point getPoint(int x, int y) {
@@ -177,6 +187,10 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setMainPanel(MainPanel mainPanel) {
 		this.mainPanel = mainPanel;
+	}
+
+	public void setSidePanel(SidePanel sidePanel) {
+		this.sidePanel = sidePanel;
 	}
 
 	public List<AbstractAction> getActions() {

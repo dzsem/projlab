@@ -328,6 +328,18 @@ public class MushroomThread extends TurnAware implements PrintableState {
         return tecton;
     }
 
+    public CutState getCutState() {
+        return cutState;
+    }
+
+    public GrowState getGrowState() {
+        return growState;
+    }
+
+    public int getTurnsToGrow() {
+        return turnsToGrow;
+    }
+
     /**
      * Beállítja a fonál turnsToDie változóját.
      * Tesztekhez szükséges
