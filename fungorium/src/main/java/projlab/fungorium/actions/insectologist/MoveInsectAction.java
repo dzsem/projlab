@@ -28,11 +28,6 @@ public class MoveInsectAction extends AbstractAction {
             Insect i = insectologist.getSelectedInsect();
             Tecton t = controller.getSelectedTecton();
 
-            
-            if (i.getInsectologistID() != controller.getInsectologistId()) {
-                throw new Exception("Can't controll someone elses insect");
-            }
-
             i.moveToTecton(t);
             
             controller.redraw();

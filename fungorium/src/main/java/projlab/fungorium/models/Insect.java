@@ -97,7 +97,7 @@ public class Insect extends TurnAware implements PrintableState {
                 mt.setCutState(CutState.CUT);
                 return;
             }
-            throw new Exception("Insect can't cut thread tha is not on it's tecton");
+            throw new Exception("Insect can't cut thread that is not on it's tecton");
         }
 
         throw new Exception("Insect can't cut on this round");

@@ -23,12 +23,9 @@ public class CreateConnectionAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        MushroomThread mt = controller.getSelectedThread();
-        Tecton t = controller.getSelectedTecton();
         try {
-            if (mt.getMushroomID() != controller.getMycologistId()) {
-                throw new Exception("Can't controll someone elses thread");
-            }
+            Tecton t = controller.getSelectedTecton();
+            MushroomThread mt = controller.getMycologistController().getSelectedThread();
             mt.createConnection(t);
 
             controller.redraw();
