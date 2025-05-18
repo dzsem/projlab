@@ -20,6 +20,7 @@ import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.*;
 import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.*;
+import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
 import projlab.fungorium.windowing.game.SidePanel;
 
@@ -52,6 +53,8 @@ public class GameController implements GameComponentViewVisitor {
 		buildMap(insectologists.size() + mycologists.size());
 
 		activeType = PlayerType.MYCOLOGIST;
+
+		currentTurn = 0;
 	}
 
 	private PlayerType activeType;
@@ -78,8 +81,11 @@ public class GameController implements GameComponentViewVisitor {
 
 	private MainPanel mainPanel;
 	private SidePanel sidePanel;
+	private BottomPanel bottomPanel;
 
 	private Random random = new Random();
+
+	private int currentTurn;
 
 	public int getMycologistsSize() {
 		return mycologists.size();
@@ -132,7 +138,7 @@ public class GameController implements GameComponentViewVisitor {
 		return mycologists.get(mycologistIdx).getID();
 	}
 
-	public int getInsectologistId(){
+	public int getInsectologistId() {
 		return insectologists.get(insectologistIdx).getID();
 	}
 
@@ -161,21 +167,21 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void handleClick(int x, int y) {
-		GameComponentView<? extends GameObject> gameView=null;
+		GameComponentView<? extends GameObject> gameView = null;
 		for (GameComponentView<? extends GameObject> view : gameComponentViews) {
-			if (view.isPointInside(new Point(x,y))){
-                if(gameView==null){
-					gameView=view;
+			if (view.isPointInside(new Point(x, y))) {
+				if (gameView == null) {
+					gameView = view;
 				}
-                if(gameView.getDrawPriority() > view.getDrawPriority()) {
-					gameView=view;
+				if (gameView.getDrawPriority() > view.getDrawPriority()) {
+					gameView = view;
 				}
 			}
 		}
-		if(gameView!=null) {
+		if (gameView != null) {
 			gameView.accept(this);
 		}
-		//throw new UnsupportedOperationException("handleClick not implemented");
+		// throw new UnsupportedOperationException("handleClick not implemented");
 		// TODO: implement
 	}
 
@@ -184,14 +190,13 @@ public class GameController implements GameComponentViewVisitor {
 				GRID_SPACING_PX, GRID_MARGIN_PX,
 				mainPanel.getWidth(), mainPanel.getHeight());
 
-
 		int playerID = -1;
 
 		switch (activeType) {
 			case INSECTOLOGIST:
 				playerID = insectologists.get(insectologistIdx).getID();
 				break;
-			
+
 			case MYCOLOGIST:
 				playerID = mycologists.get(mycologistIdx).getID();
 				break;
@@ -218,6 +223,8 @@ public class GameController implements GameComponentViewVisitor {
 		for (var action : getActions()) {
 			action.setEnabled(true);
 		}
+
+		bottomPanel.update(++currentTurn);
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {
@@ -226,6 +233,10 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setSidePanel(SidePanel sidePanel) {
 		this.sidePanel = sidePanel;
+	}
+
+	public void setBottomPanel(BottomPanel bottomPanel) {
+		this.bottomPanel = bottomPanel;
 	}
 
 	public List<AbstractAction> getActions() {

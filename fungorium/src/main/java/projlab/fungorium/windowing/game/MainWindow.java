@@ -35,6 +35,7 @@ public class MainWindow extends JFrame {
 
         gameController.setMainPanel(mainPanel);
         gameController.setSidePanel(sidePanel);
+        gameController.setBottomPanel(bottomPanel);
         gameController.redraw();
     }
 
