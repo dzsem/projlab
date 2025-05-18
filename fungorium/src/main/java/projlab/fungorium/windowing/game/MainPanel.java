@@ -20,7 +20,7 @@ public class MainPanel extends JPanel {
 
 
     public MainPanel(GameController controller) {
-        setBackground(Color.yellow);
+        setBackground(new Color(203, 189, 163));
         drawables = new ArrayList<>();
         this.controller = controller;
 
