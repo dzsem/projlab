@@ -295,21 +295,24 @@ public class GameController implements GameComponentViewVisitor {
 	public void visit(ThreadView threadView) {
 		selectedThread = threadView;
 		redraw();
-		sidePanel.add(new JTextArea("Thread selected with id: " + threadView.getGameObject().getID()));
+		sidePanel.add(new JTextArea("Thread selected with id: " + threadView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + threadView.getGameObject().getMushroomID()));
 	}
 
 	@Override
 	public void visit(InsectView insectView) {
 		selectedInsect = insectView;
 		redraw();
-		sidePanel.add(new JTextArea("Insect selected with id: " + insectView.getGameObject().getID()));
+		sidePanel.add(new JTextArea("Insect selected with id: " + insectView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + insectView.getGameObject().getInsectologistID()));
 	}
 
 	@Override
 	public void visit(MushroomBodyView mushroomBodyView) {
 		selectedBody = mushroomBodyView;
 		redraw();
-		sidePanel.add(new JTextArea("Body selected with id: " + mushroomBodyView.getGameObject().getID()));
+		sidePanel.add(new JTextArea("Body selected with id: " + mushroomBodyView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
 }
