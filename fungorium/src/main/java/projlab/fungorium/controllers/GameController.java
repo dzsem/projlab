@@ -201,7 +201,12 @@ public class GameController implements GameComponentViewVisitor {
 		mainPanel.repaint();
 	}
 
-	public void reEnableActions() {
+	public void onNextRound() {
+		selectedBody = null;
+		selectedInsect = null;
+		selectedTecton = null;
+		selectedThread = null;
+
 		for (var action : getActions()) {
 			action.setEnabled(true);
 		}

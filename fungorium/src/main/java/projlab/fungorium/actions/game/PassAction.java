@@ -45,7 +45,7 @@ public class PassAction extends AbstractAction {
                     : PlayerType.INSECTOLOGIST);
         }
 
-        controller.reEnableActions();
+        controller.onNextRound();
 
         controller.redraw();
     }
