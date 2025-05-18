@@ -109,13 +109,6 @@ public class MushroomThread extends TurnAware implements PrintableState {
         List<MushroomThread> queue = new ArrayList<>();
         List<MushroomThread> visited = new ArrayList<>();
 
-        for (MushroomThread connectedThread : connectedThreads) { // Felveszi a sorba azokat a fonalakat, amik nincsenek
-                                                                  // átvágva és benne vannak a connectedThreads listban
-            if (connectedThread.cutState == CutState.UNCUT) {
-                queue.add(connectedThread);
-            }
-        }
-
         visited.add(this); // Felveszi magát a visited listába, hogy a későbbiekben, ne vizsgálja újra
                            // magát
 
@@ -124,7 +117,7 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
             if (thread.tecton.hasBody()) { // Ha a vizsgált fonálnak a tektonján van gomba test, akkor azt felveszi a
                 try {
-                    if (thread.tecton.getBody().getID() == mushroomID) {
+                    if (thread.tecton.getBody().getMushroomID() == mushroomID) {
                         // visszatérítendő listába
                         result.add(tecton.getBody());
                     }
