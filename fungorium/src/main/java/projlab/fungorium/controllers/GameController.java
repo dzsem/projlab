@@ -125,6 +125,24 @@ public class GameController implements GameComponentViewVisitor {
 	}
 	// @formatter:on
 
+	public void setupGameActionCallbacks() {
+		Game.getInstance().setInsectExhaustActionHandler((Insect insect) -> {
+			Player currentPlayer = getCurrentPlayer();
+			if (currentPlayer.getID() != insect.getInsectologistID())
+				throw new Exception("Failed to exhaust action: Insect is not the current player's.");
+
+			currentPlayer.exhaustAction();
+		});
+
+		Game.getInstance().setInsectRefreshActionsHandler((Insect insect) -> {
+			Player currentPlayer = getCurrentPlayer();
+			if (currentPlayer.getID() != insect.getInsectologistID())
+				throw new Exception("Failed to refresh actions: Insect is not the current player's.");
+
+			currentPlayer.refreshActions();
+		});
+	}
+
 	public Player getCurrentPlayer() {
 		return activeType == PlayerType.INSECTOLOGIST
 				? insectologists.get(insectologistIdx)
