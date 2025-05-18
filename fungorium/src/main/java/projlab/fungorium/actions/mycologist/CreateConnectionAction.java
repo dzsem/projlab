@@ -26,6 +26,8 @@ public class CreateConnectionAction extends AbstractAction {
         Tecton t = controller.getSelectedTecton();
         try {
             mt.createConnection(t);
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

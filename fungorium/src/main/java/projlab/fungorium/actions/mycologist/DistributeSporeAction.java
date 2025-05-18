@@ -27,6 +27,8 @@ public class DistributeSporeAction extends AbstractAction {
         try {
             MushroomBody mb = mycologist.getSelectedBody();
             mb.distributeSpores();
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

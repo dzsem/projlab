@@ -29,6 +29,8 @@ public class GrowBodyAction extends AbstractAction {
         int id = mycologist.getMushroomID();
         try {
             t.growBody(id);
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

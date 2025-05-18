@@ -27,6 +27,8 @@ public class EatSporeAction extends AbstractAction {
         try {
             Insect i = insectologist.getSelectedInsect();
             i.eatMushroomSpore();
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }

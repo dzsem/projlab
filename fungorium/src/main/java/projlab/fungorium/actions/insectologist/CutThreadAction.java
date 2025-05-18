@@ -29,6 +29,8 @@ public class CutThreadAction extends AbstractAction {
             Insect i = insectologist.getSelectedInsect();
             MushroomThread mt = controller.getSelectedThread();
             i.cutMushroomThread(mt);
+
+            controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);
         }
