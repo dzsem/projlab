@@ -20,17 +20,16 @@ public class PassAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (controller.getActiveType() != PlayerType.INSECTOLOGIST) {
+        if (controller.getActiveType() == PlayerType.INSECTOLOGIST) {
             controller.setInsectologistIdx(controller.getInsectologistIdx() + 1);
             // ha már a másik csapaton végig ment akkor nem vált
-            if (controller.getMycologistIdx() == controller.getMycologistsSize()) {
+            if (controller.getMycologistIdx() != controller.getMycologistsSize()) {
                 controller.setActiveType(PlayerType.MYCOLOGIST);
             }
         } else {
             controller.setMycologistIdx(controller.getMycologistIdx() + 1);
             // ha már a másik csapaton végig ment akkor nem vált
             if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
-
                 controller.setActiveType(PlayerType.INSECTOLOGIST);
             }
         }
@@ -40,6 +39,10 @@ public class PassAction extends AbstractAction {
 
             controller.setInsectologistIdx(0);
             controller.setMycologistIdx(0);
+
+            controller.setActiveType(controller.getActiveType() == PlayerType.INSECTOLOGIST
+                    ? PlayerType.MYCOLOGIST
+                    : PlayerType.INSECTOLOGIST);
         }
     }
 
