@@ -3,6 +3,9 @@ package projlab.fungorium.models;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import projlab.fungorium.interfaces.InsectActionHandler;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,14 +22,41 @@ public class Game {
     private Random random = new Random();
 
     private static Game instance = null;
+    private InsectActionHandler insectExhaustActionsHandler;
+    private InsectActionHandler insectRefreshActionsHandler;
     private Map<Integer, GameObject> gameObjects;
     private Map<Integer, TurnAware> turnAwares;
     private GameObjectRegistry registry;
 
     private Game() {
+        insectExhaustActionsHandler = null;
+        insectRefreshActionsHandler = null;
+
         gameObjects = new HashMap<>();
         turnAwares = new HashMap<>();
         registry = new GameObjectRegistry();
+    }
+
+    public void setInsectExhaustActionHandler(InsectActionHandler handler) {
+        this.insectExhaustActionsHandler = handler;
+    }
+
+    public void setInsectRefreshActionsHandler(InsectActionHandler handler) {
+        this.insectRefreshActionsHandler = handler;
+    }
+
+    public void onInsectExhaustActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectExhaustActionsHandler is not set.");
+
+        this.insectExhaustActionsHandler.call(insect);
+    }
+
+    public void onInsectRefreshActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectRefreshActionsHandler is not set.");
+
+        this.insectRefreshActionsHandler.call(insect);
     }
 
     public GameObjectRegistry getRegistry() {
@@ -92,7 +122,7 @@ public class Game {
             result.add(tecton);
 
             if (i != 0) { // If not first tecton register previous tecton as neighbour
-                tecton.registerNeighbour(result.get(i-1));
+                tecton.registerNeighbour(result.get(i - 1));
             }
 
             if (i == numOfPlayers * NUM_OF_TECTONS_PER_PLAYER - 1) { // If last tecton resiter first tecton as neighbour
@@ -102,7 +132,7 @@ public class Game {
 
         // Add random neighbours
         for (int i = 0; i < numOfPlayers; i++) {
-            Tecton t1 = result.get(random.nextInt(result.size())); 
+            Tecton t1 = result.get(random.nextInt(result.size()));
             Tecton t2 = result.get(random.nextInt(result.size()));
 
             while (t2 == t1) { // Choose new if tectons are the same

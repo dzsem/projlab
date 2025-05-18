@@ -67,7 +67,7 @@ public class PassAction extends AbstractAction {
         }
 
         if (controller.checkIfLastActive()) {
-            Game.getInstance().nextRound();
+            controller.nextRound();
             controller.setMaxRounds(controller.getMaxRounds()-1);
             if (controller.getMaxRounds()==0) {
                 Mycologist winnerM=controller.getMycologists().get(0);

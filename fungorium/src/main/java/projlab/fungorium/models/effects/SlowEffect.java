@@ -9,7 +9,7 @@ public class SlowEffect implements Effect, PrintableState {
      * @param insect a rovar ami megeszi ezt az effectet
      */
     //
-    public void applyEffect(Insect insect) {
+    public void applyEffect(Insect insect) throws Exception {
         insect.exhaustActions();
     }
 
@@ -20,6 +20,6 @@ public class SlowEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insectologist has one less action";
+        return "Effect: Insectologist has one less action";
     }
 }

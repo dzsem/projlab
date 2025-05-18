@@ -9,7 +9,7 @@ import projlab.fungorium.controllers.MycologistController;
 import projlab.fungorium.models.MushroomBody;
 
 public class DistributeSporeAction extends AbstractAction {
-    
+
     private GameController controller;
     private MycologistController mycologist;
 
@@ -24,10 +24,17 @@ public class DistributeSporeAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            return;
+        }
+
         try {
             MushroomBody mb = mycologist.getSelectedBody();
 
             mb.distributeSpores();
+
+            controller.getCurrentPlayer().exhaustAction();
 
             setEnabled(false); // Mycologist can distributeSpores only once per round
 

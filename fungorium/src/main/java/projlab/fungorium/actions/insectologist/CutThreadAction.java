@@ -25,11 +25,23 @@ public class CutThreadAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!controller.getCurrentPlayer().hasMoreActions()) {
+            controller.showMessage("Out of actions.");
+            setEnabled(false);
+            return;
+        }
+
         try {
             Insect i = insectologist.getSelectedInsect();
             MushroomThread mt = controller.getSelectedThread();
 
             i.cutMushroomThread(mt);
+
+            controller.getCurrentPlayer().exhaustAction();
+
+            if (!controller.getCurrentPlayer().hasMoreActions()) {
+                setEnabled(false);
+            }
 
             controller.redraw();
         } catch (Exception ex) {

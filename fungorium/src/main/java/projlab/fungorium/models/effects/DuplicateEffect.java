@@ -21,6 +21,6 @@ public class DuplicateEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "A new insect is created";
+        return "Effect: A new insect is created";
     }
 }

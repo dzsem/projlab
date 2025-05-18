@@ -6,9 +6,10 @@ import projlab.fungorium.models.Insect;
 public class StunEffect implements Effect, PrintableState {
     /**
      * befejezi az rovar körét és letiltja a következőt is
+     * 
      * @param insect a rovar ami megeszi ezt az effectet
      */
-    public void applyEffect(Insect insect) {
+    public void applyEffect(Insect insect) throws Exception {
         insect.exhaustActions();
         insect.setCanMove(false);
     }
@@ -20,6 +21,6 @@ public class StunEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insectologist has one less action and can't move this round";
+        return "Effect: Insectologist has one less action and can't move this round";
     }
 }

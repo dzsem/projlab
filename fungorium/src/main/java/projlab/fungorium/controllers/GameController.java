@@ -21,6 +21,7 @@ import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.*;
 import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.*;
+import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
 import projlab.fungorium.windowing.game.SidePanel;
 
@@ -53,6 +54,10 @@ public class GameController implements GameComponentViewVisitor {
 		buildMap(insectologists.size() + mycologists.size());
 
 		activeType = PlayerType.MYCOLOGIST;
+
+		currentTurn = 1;
+
+		setupGameActionCallbacks();
 	}
 
 	private PlayerType activeType;
@@ -83,8 +88,11 @@ public class GameController implements GameComponentViewVisitor {
 
 	private MainPanel mainPanel;
 	private SidePanel sidePanel;
+	private BottomPanel bottomPanel;
 
 	private Random random = new Random();
+
+	private int currentTurn;
 
 	public int getMycologistsSize() {
 		return mycologists.size();
@@ -95,6 +103,8 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	// @formatter:off
+	public int getCurrentTurn() { return currentTurn; }
+
 	public PlayerType getActiveType() { return activeType; }
 	public int getInsectologistIdx() { return insectologistIdx; }
 	public int getMycologistIdx() { return mycologistIdx; }
@@ -130,6 +140,30 @@ public class GameController implements GameComponentViewVisitor {
 		sidePanel.repaint();
 	}
 	// @formatter:on
+
+	private void setupGameActionCallbacks() {
+		Game.getInstance().setInsectExhaustActionHandler((Insect insect) -> {
+			Player currentPlayer = getCurrentPlayer();
+			if (currentPlayer.getID() != insect.getInsectologistID())
+				throw new Exception("Failed to exhaust action: Insect is not the current player's.");
+
+			currentPlayer.exhaustAction();
+		});
+
+		Game.getInstance().setInsectRefreshActionsHandler((Insect insect) -> {
+			Player currentPlayer = getCurrentPlayer();
+			if (currentPlayer.getID() != insect.getInsectologistID())
+				throw new Exception("Failed to refresh actions: Insect is not the current player's.");
+
+			currentPlayer.refreshActions();
+		});
+	}
+
+	public Player getCurrentPlayer() {
+		return activeType == PlayerType.INSECTOLOGIST
+				? insectologists.get(insectologistIdx)
+				: mycologists.get(mycologistIdx);
+	}
 
 	public void setInsectologistIdx(int idx) {
 		insectologistIdx = idx;
@@ -180,14 +214,15 @@ public class GameController implements GameComponentViewVisitor {
 			}
 		}
 		if (gameView != null) {
-			// sidePanel.add(new JTextArea("Current object selected: " +
-			// gameView.getGameObject().getOutputString()));
 			gameView.accept(this);
 		}
-
 	}
 
 	public void redraw() {
+		if (mainPanel == null) {
+			return;
+		}
+
 		GameLayoutGenerator generator = new GameLayoutGenerator(
 				GRID_SPACING_PX, GRID_MARGIN_PX,
 				mainPanel.getWidth(), mainPanel.getHeight());
@@ -212,6 +247,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		mainPanel.setDrawables(generator.getDrawables());
 
+		bottomPanel.update();
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
@@ -225,6 +261,7 @@ public class GameController implements GameComponentViewVisitor {
 		for (var action : getActions()) {
 			action.setEnabled(true);
 		}
+
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {
@@ -233,6 +270,22 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setSidePanel(SidePanel sidePanel) {
 		this.sidePanel = sidePanel;
+	}
+
+	public void setBottomPanel(BottomPanel bottomPanel) {
+		this.bottomPanel = bottomPanel;
+	}
+
+	public void nextRound() {
+		Game.getInstance().nextRound();
+
+		for (var insectologist : insectologists)
+			insectologist.refreshActions();
+
+		for (var mycologist : mycologists)
+			mycologist.refreshActions();
+
+		currentTurn = currentTurn + 1;
 	}
 
 	public List<AbstractAction> getActions() {
@@ -320,7 +373,7 @@ public class GameController implements GameComponentViewVisitor {
 				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
-    public void showMessage(String message) {
+	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
     }
 	public void endgame(){

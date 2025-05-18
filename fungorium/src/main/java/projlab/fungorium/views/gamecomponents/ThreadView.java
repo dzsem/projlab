@@ -15,7 +15,6 @@ import projlab.fungorium.models.MushroomThread.CutState;
 public class ThreadView extends GameComponentView<MushroomThread> {
     private static final int MUSHROOMTHREAD_DRAWPRIORITY = 2;
     public static final double RADIUS_MULTIPLIER = 0.7;
-    private static final Point MUSHROOMTHREAD_SIZE = new Point(32, 32);
     private static final String SPROUT1_Path = "images/SproutThread1.png";
     private static final String SPROUT2_Path = "images/SproutThread2.png";
     private static final String GROWN_PATH = "images/Thread.png";
@@ -28,8 +27,8 @@ public class ThreadView extends GameComponentView<MushroomThread> {
     private BufferedImage grownImage;
     private BufferedImage cutImage;
 
-    public ThreadView(MushroomThread gameObject, Point center) {
-        super(gameObject, center, MUSHROOMTHREAD_SIZE);
+    public ThreadView(MushroomThread gameObject, Point center, Point size) {
+        super(gameObject, center, size);
 
         try {
             sprout1Image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(SPROUT1_Path));
@@ -74,7 +73,7 @@ public class ThreadView extends GameComponentView<MushroomThread> {
         }
 
         if (isInteracteble) {
-            g.setColor(new Color(0,0,255,120));
+            g.setColor(new Color(0,0,255,80));
             g.fillRect(startX, startY, size.x, size.y);
         }
     }

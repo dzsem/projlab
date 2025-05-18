@@ -44,8 +44,9 @@ public class ThreadConnectionView extends ConnectionView {
 	 * @return
 	 */
 	public static int getVisualOffset(int k, int n) {
-		// TODO: implement
-		return 15;
+		int delta = 10;
+
+		return k * delta / n;
 	}
 
 	public static boolean isValidConnection(MushroomThread thread1, MushroomThread thread2) {

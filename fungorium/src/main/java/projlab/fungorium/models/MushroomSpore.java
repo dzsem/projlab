@@ -56,11 +56,13 @@ public class MushroomSpore extends GameObject implements PrintableState {
      */
     protected Effect generateEffect() {
         if (effectType == EffectTypes.RANDOM) {
+            // ne lehessen NoEffect-et generálni véletlenszerűen
             return switch (rand.nextInt(5)) {
-                case 1 -> new BlockEffect();
-                case 2 -> new SlowEffect();
-                case 3 -> new SpeedEffect();
-                case 4 -> new StunEffect();
+                case 0 -> new BlockEffect();
+                case 1 -> new SlowEffect();
+                case 2 -> new SpeedEffect();
+                case 3 -> new StunEffect();
+                case 4 -> new DuplicateEffect();
                 default -> new NoEffect();
             };
         }
@@ -73,8 +75,8 @@ public class MushroomSpore extends GameObject implements PrintableState {
      * 
      * @param insect a rovar ami megeszi ezt az effectet
      */
-    public Effect applyEffect(Insect insect) {
-        Effect effect = generateEffect(); 
+    public Effect applyEffect(Insect insect) throws Exception {
+        Effect effect = generateEffect();
         effect.applyEffect(insect);
         delete();
 

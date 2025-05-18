@@ -59,8 +59,15 @@ public class TectonView extends GameComponentView<Tecton> {
 
     @Override
     public void draw(Graphics2D g) {
+        int startX = center.x - size.x / 2;
+        int startY = center.y - size.y / 2;
+
+        g.setColor(new Color(208,182,136));
+        g.fillOval(startX, startY, size.x, size.y);
+
+
         g.setColor(Color.BLACK);
-        g.drawOval(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y);
+        g.drawOval(startX, startY, size.x, size.y);
 
         // TODO: ezek fogalmam sincs, hogy tényleg jók-e majd le kellene ellenőrizni, de
         // fejben nekem kijön a matek

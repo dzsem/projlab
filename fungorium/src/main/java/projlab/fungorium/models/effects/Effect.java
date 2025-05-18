@@ -6,7 +6,7 @@ import projlab.fungorium.models.Insect;
  * minden effectnek kell lennie egy applyEffect függvénye
  */
 public interface Effect {
-    void applyEffect(Insect insect);
+    void applyEffect(Insect insect) throws Exception;
 
     String getDescription();
 }
