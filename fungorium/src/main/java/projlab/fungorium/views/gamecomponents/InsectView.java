@@ -25,13 +25,8 @@ public class InsectView extends GameComponentView<Insect> {
     private static final String IMAGE_PATH = "images/Insect.png";
     private BufferedImage image;
 
-    /**
-     * A rovarok grafikus mérete, pixelben.
-     */
-    private static final Point INSECT_SIZE = new Point(32, 32);
-
-    public InsectView(Insect gameObject, Point position) {
-        super(gameObject, position, INSECT_SIZE);
+    public InsectView(Insect gameObject, Point position, Point size) {
+        super(gameObject, position, size);
         try {
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(IMAGE_PATH));
         } catch (IOException e) {

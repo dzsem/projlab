@@ -40,6 +40,8 @@ public class GameLayoutGenerator {
 
 	private Map<Integer, TectonView> tectonViewMap;
 
+	private int tectonSize;
+
 	public GameLayoutGenerator(int gridSpacing, int gridMargin, int gridWidth, int gridHeight) {
 		this.gridSpacing = gridSpacing;
 		this.gridMargin = gridMargin;
@@ -63,7 +65,8 @@ public class GameLayoutGenerator {
 
 		int usefulCanvasSpace = Math.min(gridWidth, gridHeight);
 		int pixelsPerCell = (usefulCanvasSpace - gridMargin * 2 + gridSpacing) / gridSize;
-		int contentPerCell = pixelsPerCell - gridSpacing;
+		tectonSize = pixelsPerCell - gridSpacing;
+		
 
 		int centerOffset = pixelsPerCell / 2;
 
@@ -81,7 +84,7 @@ public class GameLayoutGenerator {
 			TectonView tectonView = new TectonView(
 					tectons.get(i),
 					position,
-					new Point(contentPerCell, contentPerCell));
+					new Point(tectonSize, tectonSize));
 
 			tectonViewMap.put(tecton.getID(), tectonView);
 		}
@@ -104,7 +107,7 @@ public class GameLayoutGenerator {
 
 			Point position = threadTectonView.calculateMobileObjectPosition(thread, radius);
 
-			threadViewMap.put(thread.getID(), new ThreadView(thread, position));
+			threadViewMap.put(thread.getID(), new ThreadView(thread, position, new Point(tectonSize / 5, tectonSize / 5)));
 		}
 
 		return threadViewMap;
@@ -160,7 +163,7 @@ public class GameLayoutGenerator {
 
 			Point position = insectTectonView.calculateMobileObjectPosition(insect, radius);
 
-			var insectView = new InsectView(insect, position);
+			var insectView = new InsectView(insect, position, new Point(tectonSize / 5, tectonSize / 5));
 			addView(insectView);
 			if (activeType == PlayerType.INSECTOLOGIST && insect.getInsectologistID() == playerID){
 				insectView.setInteractable(true);
@@ -233,7 +236,7 @@ public class GameLayoutGenerator {
 			Point position = bodyTectonView.getCenter();
 
 
-			var mbView = new MushroomBodyView(body, position);
+			var mbView = new MushroomBodyView(body, position, new Point((int)(tectonSize / (float)2.5), (int)(tectonSize / (float)2.5)));
 			addView(mbView);
 
 			if (activeType == PlayerType.MYCOLOGIST && body.getMushroomID() == playerID){
