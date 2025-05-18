@@ -56,6 +56,8 @@ public class GameController implements GameComponentViewVisitor {
 		activeType = PlayerType.MYCOLOGIST;
 
 		currentTurn = 1;
+
+		setupGameActionCallbacks();
 	}
 
 	private PlayerType activeType;
@@ -125,7 +127,7 @@ public class GameController implements GameComponentViewVisitor {
 	}
 	// @formatter:on
 
-	public void setupGameActionCallbacks() {
+	private void setupGameActionCallbacks() {
 		Game.getInstance().setInsectExhaustActionHandler((Insect insect) -> {
 			Player currentPlayer = getCurrentPlayer();
 			if (currentPlayer.getID() != insect.getInsectologistID())

@@ -46,10 +46,16 @@ public class Game {
     }
 
     public void onInsectExhaustActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectExhaustActionsHandler is not set.");
+
         this.insectExhaustActionsHandler.call(insect);
     }
 
     public void onInsectRefreshActions(Insect insect) throws Exception {
+        if (insectExhaustActionsHandler == null)
+            throw new Exception("insectRefreshActionsHandler is not set.");
+
         this.insectRefreshActionsHandler.call(insect);
     }
 

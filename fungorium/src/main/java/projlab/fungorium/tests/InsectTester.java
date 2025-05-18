@@ -137,7 +137,11 @@ public class InsectTester {
 
 		StunEffect stunEffect = new StunEffect();
 
-		stunEffect.applyEffect(insect);
+		try {
+			stunEffect.applyEffect(insect);
+		} catch (Exception exc) {
+			Logger.printError("Caught exception in initialization: " + exc.getMessage());
+		}
 	}
 
 	/**
