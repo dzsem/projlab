@@ -707,7 +707,11 @@ public class Interpreter {
         GameObject thread = game.getObject(threadid);
         if (insect instanceof Insect) {
             if (thread instanceof MushroomThread) {
-                ((Insect) insect).cutMushroomThread((MushroomThread) thread);
+                try {
+                    ((Insect) insect).cutMushroomThread((MushroomThread) thread);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             } else {
                 System.err.println("The second id does not belong to a MushroomThread.");
             }

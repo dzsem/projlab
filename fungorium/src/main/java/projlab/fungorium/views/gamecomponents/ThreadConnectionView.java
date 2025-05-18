@@ -1,5 +1,6 @@
 package projlab.fungorium.views.gamecomponents;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -28,8 +29,8 @@ public class ThreadConnectionView extends ConnectionView {
 		super(start, end);
 
 		Point offsetVector = calculateOffsetVector(start, end, offset);
-		start = addPoints(start, offsetVector);
-		end = addPoints(end, offsetVector);
+		this.start = addPoints(start, offsetVector);
+		this.end = addPoints(end, offsetVector);
 
 		this.isValidConnection = isValidConnection;
 	}
@@ -44,7 +45,7 @@ public class ThreadConnectionView extends ConnectionView {
 	 */
 	public static int getVisualOffset(int k, int n) {
 		// TODO: implement
-		return 5;
+		return 15;
 	}
 
 	public static boolean isValidConnection(MushroomThread thread1, MushroomThread thread2) {
@@ -54,6 +55,7 @@ public class ThreadConnectionView extends ConnectionView {
 	@Override
 	public void draw(Graphics2D g) {
 		// TODO: más grafika mint a NeighbourConnectionView
+		g.setColor(Color.RED);
 		g.drawLine(start.x, start.y, end.x, end.y);
 	}
 }

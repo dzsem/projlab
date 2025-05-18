@@ -21,8 +21,8 @@ public class EatInsectAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        MushroomThread mt = controller.getSelectedThread();
         try {
+            MushroomThread mt = controller.getMycologistController().getSelectedThread();
             mt.eat();
 
             controller.redraw();

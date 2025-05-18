@@ -13,6 +13,12 @@ import projlab.fungorium.models.MushroomThread.CutState;
  */
 public class Tecton extends TurnAware implements PrintableState {
     /**
+     * Minden ennyiedik tekton után a játékban feleződik a tektonok szakadási
+     * esélye.
+     */
+    public static final int TECTONSPLITCHANCE_HALF_COUNT = 10;
+
+    /**
      * Létrehoz egy új Tectont, aminek nincsenek szomszédjai és nincs rajta semmi.
      */
     public Tecton() {
@@ -370,7 +376,9 @@ public class Tecton extends TurnAware implements PrintableState {
      */
     public MushroomThread getThread(int mushroomID) throws Exception {
         for (MushroomThread thread : mushroomThreads) {
-            return thread;
+            if (thread.getMushroomID() == mushroomID) {
+                return thread;
+            }
         }
 
         throw new NoSuchElementException("No thread has this id");
@@ -386,7 +394,11 @@ public class Tecton extends TurnAware implements PrintableState {
     public void onEndOfTheRound() {
         Random r = new Random();
 
-        if (r.nextDouble() < splitChance) {
+        // minden tektonra exponenciálisan csökken a tektonszakadás esélye
+        double progressiveSplitChance = splitChance
+                / Math.pow(2.0f, Game.getInstance().getRegistry().getTectons().size() / TECTONSPLITCHANCE_HALF_COUNT);
+
+        if (r.nextDouble() < progressiveSplitChance) {
             this.split();
         }
     }

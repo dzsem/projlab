@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import projlab.fungorium.actions.game.PassAction;
 import projlab.fungorium.interfaces.GameComponentViewVisitor;
@@ -134,14 +135,6 @@ public class GameController implements GameComponentViewVisitor {
 			mycologistController.updateActive(mycologists.get(mycologistIdx));
 	}
 
-	public int getMycologistId() {
-		return mycologists.get(mycologistIdx).getID();
-	}
-
-	public int getInsectologistId() {
-		return insectologists.get(insectologistIdx).getID();
-	}
-
 	public Point getPoint(int x, int y) {
 		return new Point(x, y);
 	}
@@ -179,6 +172,7 @@ public class GameController implements GameComponentViewVisitor {
 			}
 		}
 		if (gameView != null) {
+
 			gameView.accept(this);
 		}
 		// throw new UnsupportedOperationException("handleClick not implemented");
@@ -300,21 +294,32 @@ public class GameController implements GameComponentViewVisitor {
 	@Override
 	public void visit(TectonView tectonView) {
 		selectedTecton = tectonView;
+		redraw();
+		sidePanel.add(new JTextArea("Tecton selected with id: " + tectonView.getGameObject().getID()));
 	}
 
 	@Override
 	public void visit(ThreadView threadView) {
 		selectedThread = threadView;
+		redraw();
+		sidePanel.add(new JTextArea("Thread selected with id: " + threadView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + threadView.getGameObject().getMushroomID()));
 	}
 
 	@Override
 	public void visit(InsectView insectView) {
 		selectedInsect = insectView;
+		redraw();
+		sidePanel.add(new JTextArea("Insect selected with id: " + insectView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + insectView.getGameObject().getInsectologistID()));
 	}
 
 	@Override
 	public void visit(MushroomBodyView mushroomBodyView) {
 		selectedBody = mushroomBodyView;
+		redraw();
+		sidePanel.add(new JTextArea("Body selected with id: " + mushroomBodyView.getGameObject().getID() + "\n"
+				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
 }

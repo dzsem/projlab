@@ -89,11 +89,18 @@ public class Insect extends TurnAware implements PrintableState {
      * Elvágja a bemenetként adott gombafonalat, amennyiben
      * 
      * @param mt Az elvágandó gombafonál
+     * @throws Exception Ha az elvágandó fonál nincs a rovar tektonján, vagy ha a rovar nem tud vágni
      */
-    public void cutMushroomThread(MushroomThread mt) {
+    public void cutMushroomThread(MushroomThread mt) throws Exception {
         if (canCut) {
-            mt.setCutState(CutState.CUT);
+            if (tecton == mt.getTecton()){
+                mt.setCutState(CutState.CUT);
+                return;
+            }
+            throw new Exception("Insect can't cut thread that is not on it's tecton");
         }
+
+        throw new Exception("Insect can't cut on this round");
     }
 
     /**
@@ -108,17 +115,34 @@ public class Insect extends TurnAware implements PrintableState {
         boolean isNeighbour = tecton.isNeighbour(t);
         boolean isConnected = tecton.verifyConnection(t);
 
+        if (!isNeighbour) {
+            throw new Exception("Selected tecton is not neighbour");
+        }
+
+        if (!isConnected) {
+            throw new Exception("Selected tecton is not connected with threads");
+        }
+
+        if (!canMove) {
+            throw new Exception("Selected insect can't move this round");
+        }
+
+        tecton.unregisterInsect(this);
+        t.registerInsect(this);
+
+        /*
         if (isNeighbour && isConnected && canMove) {
             tecton.unregisterInsect(this);
             t.registerInsect(this);
-
+            
             tecton = t;
         } else {
             throw new Exception(
-                    "moveToTecton failed: isNeighbour=" + isNeighbour +
-                            " isConnected=" + isConnected
-                            + " canMove=" + canMove);
+                "moveToTecton failed: isNeighbour=" + isNeighbour +
+                " isConnected=" + isConnected
+                + " canMove=" + canMove);
         }
+        */
     }
 
     /**

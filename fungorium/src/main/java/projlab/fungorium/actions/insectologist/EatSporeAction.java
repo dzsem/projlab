@@ -26,6 +26,7 @@ public class EatSporeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         try {
             Insect i = insectologist.getSelectedInsect();
+            
             i.eatMushroomSpore();
 
             controller.redraw();

@@ -11,6 +11,7 @@ import projlab.fungorium.actions.mycologist.DistributeSporeAction;
 import projlab.fungorium.actions.mycologist.EatInsectAction;
 import projlab.fungorium.actions.mycologist.GrowBodyAction;
 import projlab.fungorium.models.MushroomBody;
+import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.player.Mycologist;
 
 public class MycologistController {
@@ -46,6 +47,15 @@ public class MycologistController {
 			throw new Exception("Mycologist IDs of active player and the selected thread don't match");
 		}
 		return mb;
+	}
+
+	public MushroomThread getSelectedThread() throws Exception {
+		MushroomThread thread = gameController.getSelectedThread();
+		if (thread.getMushroomID() != activeMushroomID) {
+			throw new Exception("Mycologist IDs of active player and the selected thread don't match");
+		}
+
+		return thread;
 	}
 
 	public List<AbstractAction> getActions() {
