@@ -1,5 +1,6 @@
 package projlab.fungorium.views.gamecomponents;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class TectonView extends GameComponentView<Tecton> {
 
     @Override
     public void draw(Graphics2D g) {
+        g.setColor(Color.BLACK);
         g.drawOval(center.x - size.x / 2, center.y - size.y / 2, size.x, size.y);
 
         // TODO: ezek fogalmam sincs, hogy tényleg jók-e majd le kellene ellenőrizni, de
