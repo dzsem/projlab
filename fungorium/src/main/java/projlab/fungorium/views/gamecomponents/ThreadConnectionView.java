@@ -28,8 +28,8 @@ public class ThreadConnectionView extends ConnectionView {
 		super(start, end);
 
 		Point offsetVector = calculateOffsetVector(start, end, offset);
-		start = addPoints(start, offsetVector);
-		end = addPoints(end, offsetVector);
+		this.start = addPoints(start, offsetVector);
+		this.end = addPoints(end, offsetVector);
 
 		this.isValidConnection = isValidConnection;
 	}
@@ -44,7 +44,7 @@ public class ThreadConnectionView extends ConnectionView {
 	 */
 	public static int getVisualOffset(int k, int n) {
 		// TODO: implement
-		return 5;
+		return 15;
 	}
 
 	public static boolean isValidConnection(MushroomThread thread1, MushroomThread thread2) {
