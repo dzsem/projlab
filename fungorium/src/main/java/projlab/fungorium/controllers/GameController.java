@@ -201,6 +201,12 @@ public class GameController implements GameComponentViewVisitor {
 		mainPanel.repaint();
 	}
 
+	public void reEnableActions() {
+		for (var action : getActions()) {
+			action.setEnabled(true);
+		}
+	}
+
 	public void setMainPanel(MainPanel mainPanel) {
 		this.mainPanel = mainPanel;
 	}
