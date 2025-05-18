@@ -5,13 +5,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import projlab.fungorium.controllers.GameController;
-import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.player.Insectologist;
 import projlab.fungorium.models.player.Mycologist;
-import projlab.fungorium.models.player.Player;
 import projlab.fungorium.models.player.PlayerType;
 import projlab.fungorium.views.gamecomponents.GameComponentView;
 
@@ -38,7 +36,7 @@ public class PassAction extends AbstractAction {
                     }
                 }
             }
-            controller.getInsectologists().get(controller.getInsectologistIdx()).setPoints(points);
+            controller.getCurrentPlayer().setPoints(points);
 
 
             controller.setInsectologistIdx(controller.getInsectologistIdx() + 1);
@@ -54,12 +52,12 @@ public class PassAction extends AbstractAction {
                 GameObject gameObject = view.getGameObject();
                 if(gameObject instanceof MushroomBody){
                     MushroomBody mushroomBody = (MushroomBody) gameObject;
-                    if(mushroomBody.getMushroomID()==controller.getInsectologistIdx()){
+                    if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
                         points++;
                     }
                 }
             }
-            controller.getInsectologists().get(controller.getInsectologistIdx()).setPoints(points);
+            controller.getCurrentPlayer().setPoints(points);
             // ha már a másik csapaton végig ment akkor nem vált
             if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
                 controller.setActiveType(PlayerType.INSECTOLOGIST);
@@ -68,8 +66,8 @@ public class PassAction extends AbstractAction {
 
         if (controller.checkIfLastActive()) {
             controller.nextRound();
-            controller.setMaxRounds(controller.getMaxRounds()-1);
-            if (controller.getMaxRounds()==0) {
+            controller.decraseRoundsRemaining();
+            if (controller.getRoundsRemaining()==0) {
                 Mycologist winnerM=controller.getMycologists().get(0);
                 for (Mycologist mycologist : controller.getMycologists()) {
                     if(mycologist.getPoints()>winnerM.getPoints()) {

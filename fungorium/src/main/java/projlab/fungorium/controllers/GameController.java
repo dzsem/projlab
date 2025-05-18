@@ -1,9 +1,7 @@
 package projlab.fungorium.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
@@ -19,7 +17,6 @@ import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.*;
-import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.*;
 import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
@@ -68,7 +65,7 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
-	private int maxRounds=30;
+	private int roundsRemaining =30;
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
@@ -110,7 +107,7 @@ public class GameController implements GameComponentViewVisitor {
 	public int getMycologistIdx() { return mycologistIdx; }
 	public InsectologistController getInsectologistController() { return insectologistController; }
 	public MycologistController getMycologistController() { return mycologistController; }
-	public int getMaxRounds() { return maxRounds; }
+	public int getRoundsRemaining() { return roundsRemaining; }
 	
 	public Insect getSelectedInsect() { return selectedInsect != null ? selectedInsect.getGameObject() : null; }
 	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
@@ -125,7 +122,7 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setWinnerMycologist(Mycologist winnerMycologist) {this.winnerMycologist = winnerMycologist;}
 	public void setWinnerInsectologist(Insectologist winnerInsectologist) {this.winnerInsectologist = winnerInsectologist;}
-	public void setMaxRounds(int maxRounds) { this.maxRounds = maxRounds; }
+	public void decraseRoundsRemaining() { this.roundsRemaining--; }
 
 
 
