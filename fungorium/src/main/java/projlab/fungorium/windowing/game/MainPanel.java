@@ -3,6 +3,8 @@ package projlab.fungorium.windowing.game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -28,6 +30,15 @@ public class MainPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 controller.handleClick(e.getX(), e.getY());
+            }
+        });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if (controller != null) {
+                    controller.redraw();
+                }
             }
         });
     }
