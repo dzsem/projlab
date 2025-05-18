@@ -28,7 +28,7 @@ public class MainPanel extends JPanel {
         super.paintComponent(g);
 
         var sortedGameComponentViews = drawables.stream().sorted(
-                Comparator.comparingInt(DrawableComponent::getDrawPriority)).toList().reversed();
+                Comparator.comparingInt(DrawableComponent::getDrawPriority).reversed()).toList();
 
         for (var view : sortedGameComponentViews) {
             view.draw((Graphics2D) g);

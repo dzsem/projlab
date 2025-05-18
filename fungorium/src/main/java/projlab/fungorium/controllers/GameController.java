@@ -143,7 +143,21 @@ public class GameController implements GameComponentViewVisitor {
 	}
 
 	public void handleClick(int x, int y) {
-		throw new UnsupportedOperationException("handleClick not implemented");
+		GameComponentView<? extends GameObject> gameView=null;
+		for (GameComponentView<? extends GameObject> view : gameComponentViews) {
+			if (view.isPointInside(new Point(x,y))){
+                if(gameView==null){
+					gameView=view;
+				}
+                if(gameView.getDrawPriority()<view.getDrawPriority()) {
+					gameView=view;
+				}
+			}
+		}
+		if(gameView!=null) {
+			gameView.accept(this);
+		}
+		//throw new UnsupportedOperationException("handleClick not implemented");
 		// TODO: implement
 	}
 
