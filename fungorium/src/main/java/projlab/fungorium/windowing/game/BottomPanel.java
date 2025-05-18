@@ -3,6 +3,7 @@ package projlab.fungorium.windowing.game;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 public class BottomPanel extends JPanel {
     public static final int HEIGHT = 30;
@@ -12,9 +13,11 @@ public class BottomPanel extends JPanel {
     }
 
     public void update(int turn) {
-        JTextArea jta = new JTextArea("Current turn: " + turn +
-        "svbhbbujbasougggggggggggg");
-        jta.setPreferredSize(new Dimension(15, WIDTH));
+        removeAll();
+        JTextArea jta = new JTextArea("Turn " + turn);
+        jta.setPreferredSize(new Dimension(45, HEIGHT));
+        jta.setAlignmentX(SwingConstants.CENTER);
+        jta.setAlignmentY(SwingConstants.CENTER);
         add(jta);
     }
 }

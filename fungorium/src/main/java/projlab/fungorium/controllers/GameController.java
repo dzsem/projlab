@@ -54,7 +54,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		activeType = PlayerType.MYCOLOGIST;
 
-		currentTurn = 0;
+		currentTurn = 1;
 	}
 
 	private PlayerType activeType;
@@ -210,6 +210,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		mainPanel.setDrawables(generator.getDrawables());
 
+		bottomPanel.update(currentTurn);
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
@@ -224,7 +225,6 @@ public class GameController implements GameComponentViewVisitor {
 			action.setEnabled(true);
 		}
 
-		bottomPanel.update(++currentTurn);
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {
@@ -237,6 +237,10 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setBottomPanel(BottomPanel bottomPanel) {
 		this.bottomPanel = bottomPanel;
+	}
+
+	public void updateBottomPanel() {
+		bottomPanel.update(currentTurn++);
 	}
 
 	public List<AbstractAction> getActions() {

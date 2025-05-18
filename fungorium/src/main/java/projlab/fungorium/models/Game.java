@@ -92,7 +92,7 @@ public class Game {
             result.add(tecton);
 
             if (i != 0) { // If not first tecton register previous tecton as neighbour
-                tecton.registerNeighbour(result.get(i-1));
+                tecton.registerNeighbour(result.get(i - 1));
             }
 
             if (i == numOfPlayers * NUM_OF_TECTONS_PER_PLAYER - 1) { // If last tecton resiter first tecton as neighbour
@@ -102,7 +102,7 @@ public class Game {
 
         // Add random neighbours
         for (int i = 0; i < numOfPlayers; i++) {
-            Tecton t1 = result.get(random.nextInt(result.size())); 
+            Tecton t1 = result.get(random.nextInt(result.size()));
             Tecton t2 = result.get(random.nextInt(result.size()));
 
             while (t2 == t1) { // Choose new if tectons are the same
