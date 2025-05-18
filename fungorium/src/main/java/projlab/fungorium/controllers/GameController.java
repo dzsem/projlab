@@ -307,4 +307,8 @@ public class GameController implements GameComponentViewVisitor {
 				+ "Belonging to player: " + mushroomBodyView.getGameObject().getMushroomID()));
 	}
 
+    public void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 }

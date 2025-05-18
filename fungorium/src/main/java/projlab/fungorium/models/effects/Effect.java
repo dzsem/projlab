@@ -7,4 +7,6 @@ import projlab.fungorium.models.Insect;
  */
 public interface Effect {
     void applyEffect(Insect insect);
+
+    String getDescription();
 }
