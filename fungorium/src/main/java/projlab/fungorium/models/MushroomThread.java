@@ -77,6 +77,19 @@ public class MushroomThread extends TurnAware implements PrintableState {
      */
     public List<MushroomBody> getConnectedBodies() {
         List<MushroomBody> result = new ArrayList<>();
+        
+        try {
+            if (tecton.hasBody() && tecton.getBody().getMushroomID() == mushroomID) { // Ha a tektonján van gomba test,
+                                                                                      // akkor
+                // azt felveszi a visszatérítendő listába
+                result.add(tecton.getBody());
+
+                // Ha a gombatest mellett van, akkor automatikus uncut. Softlock elkerülése
+                cutState = CutState.UNCUT;
+            }
+        } catch (Exception e) {
+            Logger.printError(e.getMessage());
+        }
 
         if (cutState == CutState.CUT) { // Ha el van vágva, akkor nem lehet összeköttetve gomba testtel, visszatér az
                                         // üres listával
