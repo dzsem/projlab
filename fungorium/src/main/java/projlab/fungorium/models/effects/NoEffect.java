@@ -18,7 +18,7 @@ public class NoEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "This effect does nothing";
+        return "Effect: This effect does nothing";
     }
 
 }

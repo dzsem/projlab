@@ -21,6 +21,6 @@ public class StunEffect implements Effect, PrintableState {
 
     @Override
     public String getDescription() {
-        return "Insectologist has one less action and can't move this round";
+        return "Effect: Insectologist has one less action and can't move this round";
     }
 }
