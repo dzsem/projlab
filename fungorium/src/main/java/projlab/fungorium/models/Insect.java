@@ -115,17 +115,34 @@ public class Insect extends TurnAware implements PrintableState {
         boolean isNeighbour = tecton.isNeighbour(t);
         boolean isConnected = tecton.verifyConnection(t);
 
+        if (!isNeighbour) {
+            throw new Exception("Selected tecton is not neighbour");
+        }
+
+        if (!isConnected) {
+            throw new Exception("Selected tecton is not connected with threads");
+        }
+
+        if (!canMove) {
+            throw new Exception("Selected insect can't move this round");
+        }
+
+        tecton.unregisterInsect(this);
+        t.registerInsect(this);
+
+        /*
         if (isNeighbour && isConnected && canMove) {
             tecton.unregisterInsect(this);
             t.registerInsect(this);
-
+            
             tecton = t;
         } else {
             throw new Exception(
-                    "moveToTecton failed: isNeighbour=" + isNeighbour +
-                            " isConnected=" + isConnected
-                            + " canMove=" + canMove);
+                "moveToTecton failed: isNeighbour=" + isNeighbour +
+                " isConnected=" + isConnected
+                + " canMove=" + canMove);
         }
+        */
     }
 
     /**
