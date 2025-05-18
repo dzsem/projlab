@@ -27,6 +27,7 @@ public class MoveInsectAction extends AbstractAction {
         try {
             Insect i = insectologist.getSelectedInsect();
             Tecton t = controller.getSelectedTecton();
+
             i.moveToTecton(t);
             
             controller.redraw();

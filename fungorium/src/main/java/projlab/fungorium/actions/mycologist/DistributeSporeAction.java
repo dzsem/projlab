@@ -26,6 +26,7 @@ public class DistributeSporeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         try {
             MushroomBody mb = mycologist.getSelectedBody();
+
             mb.distributeSpores();
 
             setEnabled(false); // Mycologist can distributeSpores only once per round
