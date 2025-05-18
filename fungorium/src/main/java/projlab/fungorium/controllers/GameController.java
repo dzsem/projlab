@@ -21,6 +21,7 @@ import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.*;
 import projlab.fungorium.utilities.ConnectionMap;
 import projlab.fungorium.views.gamecomponents.*;
+import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
 import projlab.fungorium.windowing.game.SidePanel;
 
@@ -53,6 +54,8 @@ public class GameController implements GameComponentViewVisitor {
 		buildMap(insectologists.size() + mycologists.size());
 
 		activeType = PlayerType.MYCOLOGIST;
+
+		currentTurn = 1;
 	}
 
 	private PlayerType activeType;
@@ -79,8 +82,11 @@ public class GameController implements GameComponentViewVisitor {
 
 	private MainPanel mainPanel;
 	private SidePanel sidePanel;
+	private BottomPanel bottomPanel;
 
 	private Random random = new Random();
+
+	private int currentTurn;
 
 	public int getMycologistsSize() {
 		return mycologists.size();
@@ -166,8 +172,7 @@ public class GameController implements GameComponentViewVisitor {
 			}
 		}
 		if (gameView != null) {
-			// sidePanel.add(new JTextArea("Current object selected: " +
-			// gameView.getGameObject().getOutputString()));
+
 			gameView.accept(this);
 		}
 		// throw new UnsupportedOperationException("handleClick not implemented");
@@ -199,6 +204,7 @@ public class GameController implements GameComponentViewVisitor {
 
 		mainPanel.setDrawables(generator.getDrawables());
 
+		bottomPanel.update(currentTurn);
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
@@ -212,6 +218,7 @@ public class GameController implements GameComponentViewVisitor {
 		for (var action : getActions()) {
 			action.setEnabled(true);
 		}
+
 	}
 
 	public void setMainPanel(MainPanel mainPanel) {
@@ -220,6 +227,14 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void setSidePanel(SidePanel sidePanel) {
 		this.sidePanel = sidePanel;
+	}
+
+	public void setBottomPanel(BottomPanel bottomPanel) {
+		this.bottomPanel = bottomPanel;
+	}
+
+	public void updateBottomPanel() {
+		bottomPanel.update(currentTurn++);
 	}
 
 	public List<AbstractAction> getActions() {
