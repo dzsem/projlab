@@ -32,6 +32,10 @@ public class EatInsectAction extends AbstractAction {
 
             controller.getCurrentPlayer().exhaustAction();
 
+            if (!controller.getCurrentPlayer().hasMoreActions()) {
+                setEnabled(false);
+            }
+
             controller.redraw();
         } catch (Exception ex) {
             controller.showError(ex);

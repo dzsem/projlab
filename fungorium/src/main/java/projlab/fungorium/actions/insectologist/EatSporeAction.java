@@ -26,6 +26,7 @@ public class EatSporeAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         if (!controller.getCurrentPlayer().hasMoreActions()) {
             controller.showMessage("Out of actions.");
+            setEnabled(false);
             return;
         }
 
@@ -35,6 +36,10 @@ public class EatSporeAction extends AbstractAction {
             Effect effect = i.eatMushroomSpore();
 
             controller.getCurrentPlayer().exhaustAction();
+
+            if (!controller.getCurrentPlayer().hasMoreActions()) {
+                setEnabled(false);
+            }
 
             controller.showMessage(effect.getDescription());
 
