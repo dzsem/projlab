@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class SidePanel extends JPanel {
     public static final int WIDTH = 250;
@@ -30,5 +31,6 @@ public class SidePanel extends JPanel {
             btn.setPreferredSize(new Dimension(WIDTH, BTN_HEIGHT));
             add(btn);
         }
+        JTextArea jta = new JTextArea("Current round: ");
     }
 }
