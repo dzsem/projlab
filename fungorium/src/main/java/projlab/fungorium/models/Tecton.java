@@ -376,7 +376,9 @@ public class Tecton extends TurnAware implements PrintableState {
      */
     public MushroomThread getThread(int mushroomID) throws Exception {
         for (MushroomThread thread : mushroomThreads) {
-            return thread;
+            if (thread.getMushroomID() == mushroomID) {
+                return thread;
+            }
         }
 
         throw new NoSuchElementException("No thread has this id");
