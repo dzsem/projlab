@@ -98,5 +98,4 @@ public class PassAction extends AbstractAction {
 
         controller.redraw();
     }
-
 }
