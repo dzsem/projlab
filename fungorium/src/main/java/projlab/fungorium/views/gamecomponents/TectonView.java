@@ -16,7 +16,7 @@ public class TectonView extends GameComponentView<Tecton> {
     public TectonView(Tecton gameObject, Point center, Point size) {
         super(gameObject, center, size);
 
-        this.type = Integer.toString(gameObject.getID());
+        this.type = gameObject.getType();
     }
 
     /**

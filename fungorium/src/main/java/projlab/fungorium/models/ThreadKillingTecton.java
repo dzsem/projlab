@@ -77,5 +77,10 @@ public final class ThreadKillingTecton extends Tecton {
         return sb.toString();
     }
 
+    
+    public String getType() {
+        return "Thread Killing Tecton";
+    }
+
     private static double killChance = 0.05;
 }

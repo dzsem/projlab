@@ -45,4 +45,9 @@ public final class KeepAliveTecton extends Tecton {
             this.split();
         }
     }
+
+    
+    public String getType() {
+        return "Keep Alive Tecton";
+    }
 }
