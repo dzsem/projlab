@@ -45,4 +45,9 @@ public final class InfertileTecton extends Tecton {
 
         return sb.toString();
     }
+
+    
+    public String getType() {
+        return "Infertile Tecton";
+    }
 }

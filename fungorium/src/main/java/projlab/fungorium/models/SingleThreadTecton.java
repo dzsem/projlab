@@ -48,4 +48,9 @@ public final class SingleThreadTecton extends Tecton {
 
         return sb.toString();
     }
+
+    
+    public String getType() {
+        return "Single Thread Tecton";
+    }
 }

@@ -61,7 +61,7 @@ public class Tecton extends TurnAware implements PrintableState {
     public final void split() {
         List<Tecton> newNeighbours = new ArrayList<>(List.of(this));
         newNeighbours.addAll(neighbours);
-        Tecton newTect = new Tecton();
+        Tecton newTect = Tecton.generateRandom();
         registerNeighbour(newTect);
 
         for (MushroomThread mushroomThread : mushroomThreads) {
@@ -475,11 +475,36 @@ public class Tecton extends TurnAware implements PrintableState {
         return stateString.toString();
     }
 
+    public String getType() {
+        return "Tecton";
+    }
+
+    public static Tecton generateRandom() {
+        switch (random.nextInt(5)) {
+            case 1:
+                return new ThreadKillingTecton();
+
+            case 2: 
+                return new SingleThreadTecton();
+
+            case 3: 
+                return new KeepAliveTecton();
+
+            case 4: 
+                return new InfertileTecton();
+        
+            default:
+                return new Tecton();
+        }
+    } 
+
     protected MushroomBody mushroomBody;
     protected List<MushroomThread> mushroomThreads;
     protected List<MushroomSpore> mushroomSpores;
     private List<Insect> insects;
     protected List<Tecton> neighbours;
     protected static double splitChance = 0.1f;
+
+    private static Random random = new Random();
 
 }
