@@ -1,5 +1,6 @@
 package projlab.fungorium.models;
 
+import projlab.fungorium.controllers.GameController;
 import projlab.fungorium.interfaces.PrintableState;
 import projlab.fungorium.models.MushroomThread.CutState;
 import projlab.fungorium.models.effects.Effect;
@@ -61,6 +62,7 @@ public class Insect extends TurnAware implements PrintableState {
     private static final int CANCUT_COUNTER_DEFAULT_VALUE = 3;
     private static final int CANMOVE_COUNTER_DEFAULT_VALUE = 2;
 
+    private int sporesEaten;
     /**
      * Létrehoz egy rovart, a megadott tektonon.
      *
@@ -77,6 +79,7 @@ public class Insect extends TurnAware implements PrintableState {
         canCut = true;
         canCutCounter = 0;
         canMoveCounter = 0;
+        sporesEaten = 0;
 
         tecton.registerInsect(this);
 
@@ -166,9 +169,12 @@ public class Insect extends TurnAware implements PrintableState {
     public Effect eatMushroomSpore() throws Exception {
         MushroomSpore spore = tecton.getRandomSpore();
         tecton.removeSpore(spore);
+        sporesEaten++;
         return spore.applyEffect(this);
     }
 
+
+    public int getSporesEaten() {return sporesEaten;}
     /**
      * A rovar értesíti a kontrollert, hogy visszakapja az összes akcióját.
      */
