@@ -8,7 +8,7 @@ javac -d ".\build" .\*.java .\actions\game\*.java .\actions\insectologist\*.java
 
 cd ".\build"
 
-xcopy C:\Users\tamas\Prog\uni\projlab\scripts\..\fungorium\src\main\resources . /E /C /I /Y
+xcopy ..\..\..\..\resources . /E /C /I /Y
 
 jar -cmvf ..\..\..\..\..\..\manifest.txt fungorium-1.0.jar *
 
