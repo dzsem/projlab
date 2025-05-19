@@ -49,8 +49,10 @@ public class PassAction extends AbstractAction {
             int points=0;
 
             for (var mushroomBody : Game.getInstance().getRegistry().getMushroomBodies()) {
-                if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
+                if (mushroomBody.getMushroomID() == controller.getMycologistIdx()) {
                     points++;
+                }
+            }
 
 
             controller.getCurrentPlayer().setPoints(points);

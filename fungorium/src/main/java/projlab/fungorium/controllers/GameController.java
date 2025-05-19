@@ -66,7 +66,7 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
-	private int roundsRemaining = 2;
+	private int roundsRemaining =30;
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
