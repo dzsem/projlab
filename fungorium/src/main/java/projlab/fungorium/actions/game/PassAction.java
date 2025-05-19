@@ -25,40 +25,40 @@ public class PassAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Insectologisthoz tartozó logika
         if (controller.getActiveType() == PlayerType.INSECTOLOGIST) {
+            controller.setInsectologistIdx((controller.getInsectologistIdx() + 1) % controller.getInsectologistsSize()); // Léptetjük a következőre, moduló azért kell h ne legyen out of bounds
+
+            // Pontszámlálás
             int points=0;
             for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()){
                 GameObject gameObject = view.getGameObject();
-                if(gameObject instanceof Insect){
-                    Insect insect = (Insect) gameObject;
-                    if(insect.getInsectologistID()==controller.getInsectologistIdx()){
-                        points+=insect.getSporesEaten();
-                    }
-                }
+                if(gameObject instanceof Insect insect && insect.getInsectologistID()==controller.getInsectologistIdx()){
+                    points+=insect.getSporesEaten();
+                }                
             }
             controller.getCurrentPlayer().setPoints(points);
 
-
-            controller.setInsectologistIdx(controller.getInsectologistIdx() + 1);
-            // ha már a másik csapaton végig ment akkor nem vált
+            // Ha már a másik csapaton végig ment akkor nem vált
             if (controller.getMycologistIdx() != controller.getMycologistsSize()) {
                 controller.setActiveType(PlayerType.MYCOLOGIST);
             }
-        } else {
-            controller.setMycologistIdx(controller.getMycologistIdx() + 1);
+        }
+        // Mycologisthoz tartozó logika
+        else {
+            controller.setMycologistIdx((controller.getMycologistIdx() + 1) % controller.getMycologistsSize()); // Léptetjük a következőre, moduló azért kell h ne legyen out of bounds
 
-            int points=0;
-            for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()){
+            // Pontszámlálás
+            int points = 0;
+            for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()) {
                 GameObject gameObject = view.getGameObject();
-                if(gameObject instanceof MushroomBody){
-                    MushroomBody mushroomBody = (MushroomBody) gameObject;
-                    if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
-                        points++;
-                    }
-                }
+                if (gameObject instanceof MushroomBody mushroomBody && mushroomBody.getMushroomID() == controller.getMycologistIdx()) {
+                    points++;
+                }                
             }
             controller.getCurrentPlayer().setPoints(points);
-            // ha már a másik csapaton végig ment akkor nem vált
+
+            // Ha már a másik csapaton végig ment akkor nem vált
             if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
                 controller.setActiveType(PlayerType.INSECTOLOGIST);
             }

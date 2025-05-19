@@ -1,5 +1,6 @@
 package projlab.fungorium.controllers;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,13 +17,18 @@ import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
-import projlab.fungorium.models.player.*;
-import projlab.fungorium.views.gamecomponents.*;
+import projlab.fungorium.models.player.Insectologist;
+import projlab.fungorium.models.player.Mycologist;
+import projlab.fungorium.models.player.Player;
+import projlab.fungorium.models.player.PlayerType;
+import projlab.fungorium.views.gamecomponents.GameComponentView;
+import projlab.fungorium.views.gamecomponents.InsectView;
+import projlab.fungorium.views.gamecomponents.MushroomBodyView;
+import projlab.fungorium.views.gamecomponents.TectonView;
+import projlab.fungorium.views.gamecomponents.ThreadView;
 import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
 import projlab.fungorium.windowing.game.SidePanel;
-
-import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
 	private static final int GRID_SPACING_PX = 25;
