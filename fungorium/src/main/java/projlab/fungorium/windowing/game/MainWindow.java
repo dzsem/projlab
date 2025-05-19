@@ -33,6 +33,7 @@ public class MainWindow extends JFrame {
         setVisible(true);
         revalidate();
 
+        gameController.setMainWindow(this);
         gameController.setMainPanel(mainPanel);
         gameController.setSidePanel(sidePanel);
         gameController.setBottomPanel(bottomPanel);

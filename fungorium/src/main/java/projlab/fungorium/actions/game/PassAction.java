@@ -45,7 +45,6 @@ public class PassAction extends AbstractAction {
                 controller.setActiveType(PlayerType.MYCOLOGIST);
             }
         } else {
-            controller.setMycologistIdx(controller.getMycologistIdx() + 1);
 
             int points=0;
             for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()){
@@ -58,6 +57,9 @@ public class PassAction extends AbstractAction {
                 }
             }
             controller.getCurrentPlayer().setPoints(points);
+
+            controller.setMycologistIdx(controller.getMycologistIdx() + 1);
+
             // ha már a másik csapaton végig ment akkor nem vált
             if (controller.getInsectologistIdx() != controller.getInsectologistsSize()) {
                 controller.setActiveType(PlayerType.INSECTOLOGIST);

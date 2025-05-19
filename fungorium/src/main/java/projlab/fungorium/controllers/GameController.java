@@ -20,6 +20,7 @@ import projlab.fungorium.models.player.*;
 import projlab.fungorium.views.gamecomponents.*;
 import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
+import projlab.fungorium.windowing.game.MainWindow;
 import projlab.fungorium.windowing.game.SidePanel;
 
 import java.awt.Point;
@@ -65,7 +66,7 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
-	private int roundsRemaining =30;
+	private int roundsRemaining =2;
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
@@ -90,6 +91,8 @@ public class GameController implements GameComponentViewVisitor {
 	private Random random = new Random();
 
 	private int currentTurn;
+
+	private MainWindow mainWindow;
 
 	public int getMycologistsSize() {
 		return mycologists.size();
@@ -260,6 +263,9 @@ public class GameController implements GameComponentViewVisitor {
 		}
 
 	}
+	public void setMainWindow(MainWindow mainWindow) {
+		this.mainWindow = mainWindow;
+	}
 
 	public void setMainPanel(MainPanel mainPanel) {
 		this.mainPanel = mainPanel;
@@ -374,7 +380,8 @@ public class GameController implements GameComponentViewVisitor {
 		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
     }
 	public void endgame(){
-		JOptionPane.showMessageDialog(null, "Game over!\nWinner Mycologist:...\nWinner Insectologist:...", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-		System.exit(0);
+		JOptionPane.showMessageDialog(null, "Game over!\nWinner Mycologist :"+ winnerMycologist.getName()
+				+"\nWinner Insectologist: " +winnerInsectologist.getName(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		mainWindow.dispose();
 	}
 }
