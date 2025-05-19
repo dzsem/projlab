@@ -32,6 +32,7 @@ public class PassAction extends AbstractAction {
             for (var insect : Game.getInstance().getRegistry().getInsects()) {
                 if(insect.getInsectologistID()==controller.getInsectologistIdx()){
                     points+=insect.getSporesEaten();
+
                 }
             }
 
@@ -50,8 +51,7 @@ public class PassAction extends AbstractAction {
             for (var mushroomBody : Game.getInstance().getRegistry().getMushroomBodies()) {
                 if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
                     points++;
-                }
-            }
+
 
             controller.getCurrentPlayer().setPoints(points);
 
