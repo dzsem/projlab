@@ -31,7 +31,7 @@ public class PassAction extends AbstractAction {
                 GameObject gameObject = view.getGameObject();
                 if(gameObject instanceof Insect){
                     Insect insect = (Insect) gameObject;
-                    if(insect.getInsectologistID()==controller.getInsectologistIdx()){
+                    if(insect.getInsectologistID()==controller.getCurrentPlayer().getID()){
                         points+=insect.getSporesEaten();
                     }
                 }
@@ -51,7 +51,7 @@ public class PassAction extends AbstractAction {
                 GameObject gameObject = view.getGameObject();
                 if(gameObject instanceof MushroomBody){
                     MushroomBody mushroomBody = (MushroomBody) gameObject;
-                    if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
+                    if(mushroomBody.getMushroomID()==controller.getCurrentPlayer().getID()){
                         points++;
                     }
                 }
