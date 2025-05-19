@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import projlab.fungorium.controllers.GameController;
+import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
@@ -27,15 +28,14 @@ public class PassAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         if (controller.getActiveType() == PlayerType.INSECTOLOGIST) {
             int points=0;
-            for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()){
-                GameObject gameObject = view.getGameObject();
-                if(gameObject instanceof Insect){
-                    Insect insect = (Insect) gameObject;
-                    if(insect.getInsectologistID()==controller.getCurrentPlayer().getID()){
-                        points+=insect.getSporesEaten();
-                    }
+
+            for (var insect : Game.getInstance().getRegistry().getInsects()) {
+                if(insect.getInsectologistID()==controller.getInsectologistIdx()){
+                    points+=insect.getSporesEaten();
+
                 }
             }
+
             controller.getCurrentPlayer().setPoints(points);
 
 
@@ -47,15 +47,12 @@ public class PassAction extends AbstractAction {
         } else {
 
             int points=0;
-            for (GameComponentView<? extends GameObject> view : controller.getGameComponentViews()){
-                GameObject gameObject = view.getGameObject();
-                if(gameObject instanceof MushroomBody){
-                    MushroomBody mushroomBody = (MushroomBody) gameObject;
-                    if(mushroomBody.getMushroomID()==controller.getCurrentPlayer().getID()){
-                        points++;
-                    }
-                }
-            }
+
+            for (var mushroomBody : Game.getInstance().getRegistry().getMushroomBodies()) {
+                if(mushroomBody.getMushroomID()==controller.getMycologistIdx()){
+                    points++;
+
+
             controller.getCurrentPlayer().setPoints(points);
 
             controller.setMycologistIdx(controller.getMycologistIdx() + 1);
