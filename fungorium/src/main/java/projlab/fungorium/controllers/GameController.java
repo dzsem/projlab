@@ -1,9 +1,8 @@
 package projlab.fungorium.controllers;
 
+import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.swing.AbstractAction;
@@ -18,14 +17,18 @@ import projlab.fungorium.models.Insect;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
 import projlab.fungorium.models.Tecton;
-import projlab.fungorium.models.player.*;
-import projlab.fungorium.utilities.ConnectionMap;
-import projlab.fungorium.views.gamecomponents.*;
+import projlab.fungorium.models.player.Insectologist;
+import projlab.fungorium.models.player.Mycologist;
+import projlab.fungorium.models.player.Player;
+import projlab.fungorium.models.player.PlayerType;
+import projlab.fungorium.views.gamecomponents.GameComponentView;
+import projlab.fungorium.views.gamecomponents.InsectView;
+import projlab.fungorium.views.gamecomponents.MushroomBodyView;
+import projlab.fungorium.views.gamecomponents.TectonView;
+import projlab.fungorium.views.gamecomponents.ThreadView;
 import projlab.fungorium.windowing.game.BottomPanel;
 import projlab.fungorium.windowing.game.MainPanel;
 import projlab.fungorium.windowing.game.SidePanel;
-
-import java.awt.Point;
 
 public class GameController implements GameComponentViewVisitor {
 	private static final int GRID_SPACING_PX = 25;
@@ -68,10 +71,14 @@ public class GameController implements GameComponentViewVisitor {
 	private List<Insectologist> insectologists;
 	private List<Mycologist> mycologists;
 
+	private int roundsRemaining =30;
 	private InsectologistController insectologistController;
 	private MycologistController mycologistController;
 
 	private List<GameComponentView<? extends GameObject>> gameComponentViews;
+
+	private Mycologist winnerMycologist;
+	private Insectologist winnerInsectologist;
 
 	private InsectView selectedInsect;
 	private ThreadView selectedThread;
@@ -106,14 +113,24 @@ public class GameController implements GameComponentViewVisitor {
 	public int getMycologistIdx() { return mycologistIdx; }
 	public InsectologistController getInsectologistController() { return insectologistController; }
 	public MycologistController getMycologistController() { return mycologistController; }
+	public int getRoundsRemaining() { return roundsRemaining; }
 	
 	public Insect getSelectedInsect() { return selectedInsect != null ? selectedInsect.getGameObject() : null; }
 	public MushroomThread getSelectedThread() { return selectedThread != null ? selectedThread.getGameObject() : null; }
 	public MushroomBody getSelectedBody() { return selectedBody != null ? selectedBody.getGameObject() : null; }
 	public Tecton getSelectedTecton() { return selectedTecton != null ? selectedTecton.getGameObject() : null; }
+	public List<GameComponentView<? extends GameObject>> getGameComponentViews() { return gameComponentViews; }
 
 	public List<TectonView> getTectonViews() { return tectonViews; }
 	public PassAction getNextRoundAction() { return nextRoundAction; }
+	public List<Insectologist> getInsectologists() {return insectologists;}
+	public List<Mycologist> getMycologists() {return mycologists;}
+
+	public void setWinnerMycologist(Mycologist winnerMycologist) {this.winnerMycologist = winnerMycologist;}
+	public void setWinnerInsectologist(Insectologist winnerInsectologist) {this.winnerInsectologist = winnerInsectologist;}
+	public void decraseRoundsRemaining() { this.roundsRemaining--; }
+
+
 
 	public void setActiveType(PlayerType type) {
 		if (activeType == type)
@@ -361,6 +378,9 @@ public class GameController implements GameComponentViewVisitor {
 
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
+    }
+	public void endgame(){
+		JOptionPane.showMessageDialog(null, "Game over!\nWinner Mycologist:...\nWinner Insectologist:...", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+		System.exit(0);
 	}
-
 }

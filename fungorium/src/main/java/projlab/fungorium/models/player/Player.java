@@ -6,9 +6,16 @@ public abstract class Player {
     private final String name;
     private int actions;
 
+    private int points;
+
     protected Player(String name) {
         this.name = name;
         refreshActions();
+        this.points = 0;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     public String getName() {
@@ -38,4 +45,8 @@ public abstract class Player {
     }
 
     public abstract int getID();
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 }
