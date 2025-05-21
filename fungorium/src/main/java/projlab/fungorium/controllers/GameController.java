@@ -316,9 +316,6 @@ public class GameController implements GameComponentViewVisitor {
 			new MushroomBody(tecton, mycologist.getID());
 			new MushroomThread(tecton, mycologist.getID());
 
-			var ktecton = new KeepAliveTecton();
-			ktecton.registerNeighbour(tecton);
-
 			tectons.remove(tectonIdx);
 		}
 
