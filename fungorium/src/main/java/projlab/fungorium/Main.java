@@ -9,7 +9,7 @@ import projlab.fungorium.windowing.game.MainWindow;
 import projlab.fungorium.windowing.menu.MenuWindow;
 
 public class Main {
-    private static final boolean isDev = true;
+    private static final boolean isDev = false;
 
     public static void main(String[] args) {
         if (!isDev) {
