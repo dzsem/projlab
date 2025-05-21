@@ -50,11 +50,12 @@ public class MushroomThread extends TurnAware implements PrintableState {
 
         try {
             tecton.addConnection(this);
+            Game.getInstance().getRegistry().registerMushroomThread(this);
         } catch (Exception e) {
-            Logger.printError(e.getMessage());
+            //Logger.printError(e.getMessage());
+            delete();
         }
 
-        Game.getInstance().getRegistry().registerMushroomThread(this);
     }
 
     /**

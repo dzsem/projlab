@@ -15,8 +15,10 @@ import projlab.fungorium.interfaces.GameComponentViewVisitor;
 import projlab.fungorium.models.Game;
 import projlab.fungorium.models.GameObject;
 import projlab.fungorium.models.Insect;
+import projlab.fungorium.models.KeepAliveTecton;
 import projlab.fungorium.models.MushroomBody;
 import projlab.fungorium.models.MushroomThread;
+import projlab.fungorium.models.SingleThreadTecton;
 import projlab.fungorium.models.Tecton;
 import projlab.fungorium.models.player.*;
 import projlab.fungorium.utilities.ConnectionMap;
@@ -313,6 +315,9 @@ public class GameController implements GameComponentViewVisitor {
 
 			new MushroomBody(tecton, mycologist.getID());
 			new MushroomThread(tecton, mycologist.getID());
+
+			var ktecton = new KeepAliveTecton();
+			ktecton.registerNeighbour(tecton);
 
 			tectons.remove(tectonIdx);
 		}
